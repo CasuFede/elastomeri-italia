@@ -1,0 +1,20 @@
+---
+interface Props {
+    eyebrow?: string;
+    title: string;
+    text: string;
+}
+
+const { eyebrow = 'IL PROSSIMO PASSO', title, text } = Astro.props;
+---
+
+<section class="cta-band">
+    <div class="wrap cta-inner">
+        <div>
+            <p class="eyebrow">{eyebrow}</p>
+            <h2>{title}</h2>
+            <p>{text}</p>
+        </div>
+        <a class="button button-light" href="/preventivo">Richiedi un sopralluogo <span aria-hidden="true">↗</span></a>
+    </div>
+</section>

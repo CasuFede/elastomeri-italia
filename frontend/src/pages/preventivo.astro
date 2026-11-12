@@ -1,0 +1,470 @@
+---
+import '../styles/global.css';
+import SiteLayout from '../layouts/SiteLayout.astro';
+---
+
+<SiteLayout title="Richiedi un preventivo gratuito | Poliurea System" description="Raccontaci del tuo intervento in cinque semplici passaggi e richiedi un sopralluogo gratuito." activePath="/preventivo">
+    <div class="quote-page">
+        <div class="quote-header-note"><span class="online-dot"></span> Consulenza gratuita e senza impegno</div>
+
+    <section class="page-content">
+        <section class="intro">
+            <p class="eyebrow">IL TUO PROGETTO, AL SICURO</p>
+            <h1>Un problema di infiltrazioni?<br /><span>Troviamo insieme la soluzione.</span></h1>
+            <p class="intro-copy">Raccontaci di cosa hai bisogno: bastano pochi passaggi per richiedere un sopralluogo gratuito.</p>
+        </section>
+
+        <section class="wizard-card" aria-label="Richiesta preventivo">
+            <div class="wizard-top">
+                <div class="progress-label">
+                    <span id="step-label">Passo 1 di 5</span>
+                    <span class="time-label"><span aria-hidden="true">◷</span> Circa 1 minuto</span>
+                </div>
+                <div class="progress-track" role="progressbar" aria-label="Avanzamento modulo" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1">
+                    <span id="progress-fill"></span>
+                </div>
+            </div>
+
+            <form id="form-preventivo" novalidate>
+                <input type="hidden" name="tipo_immobile" id="tipo_immobile" />
+                <input type="hidden" name="area_intervento" id="area_intervento" />
+                <input type="hidden" name="situazione" id="situazione" />
+                <input type="hidden" name="metratura" id="metratura" />
+
+                <section class="wizard-step is-active" data-step="1" aria-labelledby="step-title-1">
+                    <p class="step-kicker">PARTIAMO DALLE BASI</p>
+                    <h2 id="step-title-1" tabindex="-1">Che tipo di immobile è?</h2>
+                    <p class="step-copy">Così possiamo orientarci sulla soluzione più adatta.</p>
+                    <div class="choice-grid choice-grid-3">
+                        <button class="choice-card" type="button" data-choice="tipo_immobile" data-value="Condominio" aria-pressed="false">
+                            <span class="choice-icon" aria-hidden="true">▥</span><span class="choice-title">Condominio</span>
+                        </button>
+                        <button class="choice-card" type="button" data-choice="tipo_immobile" data-value="Casa indipendente" aria-pressed="false">
+                            <span class="choice-icon" aria-hidden="true">⌂</span><span class="choice-title">Casa indipendente</span>
+                        </button>
+                        <button class="choice-card" type="button" data-choice="tipo_immobile" data-value="Capannone industriale" aria-pressed="false">
+                            <span class="choice-icon" aria-hidden="true">▤</span><span class="choice-title">Capannone industriale</span>
+                        </button>
+                    </div>
+                    <p class="field-error" id="choice-error-1" aria-live="polite"></p>
+                </section>
+
+                <section class="wizard-step" data-step="2" aria-labelledby="step-title-2" hidden>
+                    <p class="step-kicker">DOVE INTERVENIRE</p>
+                    <h2 id="step-title-2" tabindex="-1">Qual è l’area interessata?</h2>
+                    <p class="step-copy">Seleziona la zona che vuoi far controllare.</p>
+                    <div class="choice-grid choice-grid-4">
+                        <button class="choice-card" type="button" data-choice="area_intervento" data-value="Terrazzi / Balconi" aria-pressed="false">
+                            <span class="choice-icon" aria-hidden="true">▱</span><span class="choice-title">Terrazzi<br />e balconi</span>
+                        </button>
+                        <button class="choice-card" type="button" data-choice="area_intervento" data-value="Tetti / Sottotetto" aria-pressed="false">
+                            <span class="choice-icon" aria-hidden="true">⌂</span><span class="choice-title">Tetti<br />e sottotetto</span>
+                        </button>
+                        <button class="choice-card" type="button" data-choice="area_intervento" data-value="Fondazioni / Cantine" aria-pressed="false">
+                            <span class="choice-icon" aria-hidden="true">▦</span><span class="choice-title">Fondazioni<br />e cantine</span>
+                        </button>
+                        <button class="choice-card" type="button" data-choice="area_intervento" data-value="Altro" aria-pressed="false">
+                            <span class="choice-icon" aria-hidden="true">＋</span><span class="choice-title">Altro</span>
+                        </button>
+                    </div>
+                    <p class="field-error" id="choice-error-2" aria-live="polite"></p>
+                </section>
+
+                <section class="wizard-step" data-step="3" aria-labelledby="step-title-3" hidden>
+                    <p class="step-kicker">CAPIAMO LA PRIORITÀ</p>
+                    <h2 id="step-title-3" tabindex="-1">Qual è la situazione attuale?</h2>
+                    <p class="step-copy">Indicaci a che punto sei: ci aiuta a ricontattarti con le giuste informazioni.</p>
+                    <div class="choice-grid choice-grid-3">
+                        <button class="choice-card" type="button" data-choice="situazione" data-value="Infiltrazione attiva (emergenza)" aria-pressed="false">
+                            <span class="choice-icon" aria-hidden="true">⌁</span><span class="choice-title">Infiltrazione attiva</span><span class="choice-caption">Intervento urgente</span>
+                        </button>
+                        <button class="choice-card" type="button" data-choice="situazione" data-value="Manutenzione preventiva" aria-pressed="false">
+                            <span class="choice-icon" aria-hidden="true">⚒</span><span class="choice-title">Manutenzione preventiva</span><span class="choice-caption">Prevenire è meglio</span>
+                        </button>
+                        <button class="choice-card" type="button" data-choice="situazione" data-value="Nuova costruzione" aria-pressed="false">
+                            <span class="choice-icon" aria-hidden="true">＋</span><span class="choice-title">Nuova costruzione</span><span class="choice-caption">Un progetto da iniziare</span>
+                        </button>
+                    </div>
+                    <p class="field-error" id="choice-error-3" aria-live="polite"></p>
+                </section>
+
+                <section class="wizard-step" data-step="4" aria-labelledby="step-title-4" hidden>
+                    <p class="step-kicker">UN’ULTIMA INFORMAZIONE</p>
+                    <h2 id="step-title-4" tabindex="-1">Qual è la superficie da trattare?</h2>
+                    <p class="step-copy">Va bene anche una stima approssimativa.</p>
+                    <div class="choice-grid choice-grid-3 size-grid">
+                        <button class="choice-card size-card" type="button" data-choice="metratura" data-value="&lt; 50 mq" aria-pressed="false">
+                            <span class="choice-title">Meno di 50 m<sup>2</sup></span>
+                        </button>
+                        <button class="choice-card size-card" type="button" data-choice="metratura" data-value="50–150 mq" aria-pressed="false">
+                            <span class="choice-title">Da 50 a 150 m<sup>2</sup></span>
+                        </button>
+                        <button class="choice-card size-card" type="button" data-choice="metratura" data-value="&gt; 150 mq" aria-pressed="false">
+                            <span class="choice-title">Oltre 150 m<sup>2</sup></span>
+                        </button>
+                    </div>
+                    <p class="field-error" id="choice-error-4" aria-live="polite"></p>
+                </section>
+
+                <section class="wizard-step contact-step" data-step="5" aria-labelledby="step-title-5" hidden>
+                    <p class="step-kicker">ULTIMO PASSAGGIO</p>
+                    <h2 id="step-title-5" tabindex="-1">I tuoi contatti</h2>
+                    <p class="step-copy">Come possiamo ricontattarti per organizzare il sopralluogo?</p>
+                    <div class="contact-grid">
+                        <label class="form-field">
+                            <span>Nome e cognome <b>*</b></span>
+                            <input name="nome" autocomplete="name" placeholder="Mario Rossi" required />
+                        </label>
+                        <label class="form-field">
+                            <span>Telefono <b>*</b></span>
+                            <input name="telefono" type="tel" autocomplete="tel" placeholder="333 123 4567" required />
+                        </label>
+                        <label class="form-field">
+                            <span>Email <b>*</b></span>
+                            <input name="email" type="email" autocomplete="email" placeholder="nome@esempio.it" required />
+                        </label>
+                        <label class="form-field">
+                            <span>Comune dell’intervento <b>*</b></span>
+                            <input name="comune" autocomplete="address-level2" placeholder="Es. Milano" required />
+                        </label>
+                        <label class="form-field full-field">
+                            <span>Note <small>(facoltative)</small></span>
+                            <textarea name="messaggio" rows="3" placeholder="Descrivi brevemente la situazione, se vuoi."></textarea>
+                        </label>
+                    </div>
+
+                    <div class="upload-field">
+                        <div class="upload-heading"><span aria-hidden="true">▧</span> Foto del problema <small>(facoltative)</small></div>
+                        <label class="upload-zone" for="foto">
+                            <span class="upload-symbol" aria-hidden="true">↑</span>
+                            <span><strong>Seleziona le foto</strong> oppure trascinale qui</span>
+                            <small>JPG, PNG o WEBP · massimo 5 foto e 10 MB totali</small>
+                            <input id="foto" name="files" type="file" accept="image/jpeg,image/png,image/webp" multiple />
+                        </label>
+                        <p class="upload-list" id="upload-list" aria-live="polite">Nessuna foto selezionata</p>
+                        <p class="field-error" id="upload-error" aria-live="polite"></p>
+                    </div>
+
+                    <label class="privacy-check">
+                        <input type="checkbox" name="consenso" value="true" required />
+                        <span>Ho letto l’<a href="/privacy">informativa privacy</a> e acconsento all’utilizzo dei miei dati per gestire la richiesta e ricontattarmi. <b>*</b></span>
+                    </label>
+                    <p class="form-error" id="form-error" role="alert"></p>
+                </section>
+
+                <div class="wizard-actions">
+                    <button class="back-button" id="back-btn" type="button" hidden>← <span>Indietro</span></button>
+                    <span class="action-spacer"></span>
+                    <button class="next-button" id="next-btn" type="button">Avanti <span aria-hidden="true">→</span></button>
+                    <button class="submit-button" id="submit-btn" type="submit" hidden>Richiedi sopralluogo gratuito <span aria-hidden="true">→</span></button>
+                </div>
+            </form>
+
+            <div class="success-panel" id="success-msg" role="status" hidden>
+                <span class="success-icon" aria-hidden="true">✓</span>
+                <p class="step-kicker">RICHIESTA INVIATA</p>
+                <h2>Grazie per averci contattato!</h2>
+                <p>Abbiamo ricevuto i dettagli. Ti ricontatteremo per organizzare il sopralluogo.</p>
+            </div>
+        </section>
+        <p class="page-footnote"><span aria-hidden="true">✓</span> Sopralluogo gratuito <span>·</span> Nessun impegno</p>
+    </section>
+
+    <script is:inline>
+        const form = document.querySelector('#form-preventivo');
+        const steps = [...document.querySelectorAll('.wizard-step')];
+        const progress = document.querySelector('.progress-track');
+        const progressFill = document.querySelector('#progress-fill');
+        const stepLabel = document.querySelector('#step-label');
+        const backBtn = document.querySelector('#back-btn');
+        const nextBtn = document.querySelector('#next-btn');
+        const submitBtn = document.querySelector('#submit-btn');
+        const fileInput = document.querySelector('#foto');
+        const uploadList = document.querySelector('#upload-list');
+        const uploadError = document.querySelector('#upload-error');
+        const formError = document.querySelector('#form-error');
+        const uploadZone = document.querySelector('.upload-zone');
+        const maxUploadSize = 10 * 1024 * 1024;
+        let currentStep = 1;
+
+        const mostraPasso = (numero) => {
+            currentStep = numero;
+            steps.forEach((step) => {
+                const attivo = Number(step.dataset.step) === numero;
+                step.hidden = !attivo;
+                step.classList.toggle('is-active', attivo);
+            });
+            stepLabel.textContent = `Passo ${numero} di ${steps.length}`;
+            progressFill.style.width = `${numero / steps.length * 100}%`;
+            progress.setAttribute('aria-valuenow', numero);
+            backBtn.hidden = numero === 1;
+            nextBtn.hidden = numero === steps.length;
+            submitBtn.hidden = numero !== steps.length;
+            formError.textContent = '';
+            if (numero > 1) {
+                steps[numero - 1].querySelector('h2').focus();
+            }
+        };
+
+        document.querySelectorAll('[data-choice]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const { choice, value } = button.dataset;
+                document.querySelector(`#${choice}`).value = value;
+                document.querySelectorAll(`[data-choice="${choice}"]`).forEach((option) => {
+                    option.setAttribute('aria-pressed', String(option === button));
+                });
+                document.querySelector(`#choice-error-${currentStep}`).textContent = '';
+            });
+        });
+
+        nextBtn.addEventListener('click', () => {
+            const field = ['tipo_immobile', 'area_intervento', 'situazione', 'metratura'][currentStep - 1];
+            if (!document.querySelector(`#${field}`).value) {
+                document.querySelector(`#choice-error-${currentStep}`).textContent = 'Seleziona un’opzione per continuare.';
+                return;
+            }
+            mostraPasso(currentStep + 1);
+        });
+
+        backBtn.addEventListener('click', () => mostraPasso(currentStep - 1));
+
+        const aggiornaFoto = () => {
+            const files = [...fileInput.files];
+            const totale = files.reduce((somma, file) => somma + file.size, 0);
+            const errore = files.length > 5
+                ? 'Puoi selezionare al massimo 5 foto.'
+                : totale > maxUploadSize
+                    ? 'Le foto superano il limite totale di 10 MB.'
+                    : '';
+            uploadError.textContent = errore;
+            fileInput.setCustomValidity(errore);
+            uploadList.textContent = files.length
+                ? `${files.length} ${files.length === 1 ? 'foto selezionata' : 'foto selezionate'} · ${(totale / 1024 / 1024).toFixed(2)} MB`
+                : 'Nessuna foto selezionata';
+        };
+
+        fileInput.addEventListener('change', aggiornaFoto);
+        for (const evento of ['dragenter', 'dragover']) {
+            uploadZone.addEventListener(evento, (event) => {
+                event.preventDefault();
+                uploadZone.classList.add('is-dragging');
+            });
+        }
+        for (const evento of ['dragleave', 'drop']) {
+            uploadZone.addEventListener(evento, (event) => {
+                event.preventDefault();
+                uploadZone.classList.remove('is-dragging');
+            });
+        }
+        uploadZone.addEventListener('drop', (event) => {
+            if (event.dataTransfer?.files) {
+                fileInput.files = event.dataTransfer.files;
+                aggiornaFoto();
+            }
+        });
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            formError.textContent = '';
+            if (!form.reportValidity()) return;
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Invio in corso…';
+            try {
+                const response = await fetch('/api/preventivo', {
+                    method: 'POST',
+                    body: new FormData(form),
+                });
+                if (!response.ok) {
+                    const result = await response.json().catch(() => ({}));
+                    throw new Error(result.detail || `Errore del server (HTTP ${response.status}).`);
+                }
+                form.hidden = true;
+                document.querySelector('#success-msg').hidden = false;
+            } catch (error) {
+                console.error('Errore durante l’invio della richiesta:', error);
+                formError.textContent = error.message || 'Impossibile inviare la richiesta. Riprova tra poco.';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Richiedi sopralluogo gratuito <span aria-hidden="true">→</span>';
+            }
+        });
+    </script>
+
+    <style>
+        :global(*) { box-sizing: border-box; }
+        :global(body) { margin: 0; }
+        .quote-page {
+            min-height: 100vh;
+            background:
+                radial-gradient(ellipse at 9% 40%, rgba(29, 94, 145, .09), transparent 34rem),
+                #f4f7fa;
+            color: #1d3040;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+        .site-header {
+            height: 74px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 max(5vw, 24px);
+            background: rgba(255,255,255,.88);
+            border-bottom: 1px solid #e8eeeb;
+        }
+        .brand { display: inline-flex; gap: 10px; align-items: center; color: #1d3040; text-decoration: none; font-size: 13px; letter-spacing: .09em; }
+        .brand strong { color: #1d5e91; font-weight: 750; }
+        .header-note { color: #647687; font-size: 13px; }
+        .online-dot { display: inline-block; width: 7px; height: 7px; margin-right: 7px; border-radius: 50%; background: #5da287; }
+        .page-content { width: min(100% - 32px, 760px); margin: 45px auto 28px; }
+        .intro { margin: 0 auto 25px; text-align: center; }
+        .eyebrow, .step-kicker { color: #1d5e91; font-size: 10px; font-weight: 750; letter-spacing: .15em; }
+        .eyebrow { margin: 0 0 12px; }
+        .intro h1 { margin: 0; color: #1d3040; font-size: clamp(26px, 4vw, 36px); letter-spacing: -.045em; line-height: 1.18; }
+        .intro h1 span { color: #174b70; }
+        .intro-copy { margin: 12px auto 0; color: #71808b; font-size: 14px; line-height: 1.6; }
+        .wizard-card { overflow: hidden; border: 1px solid #e5ebe8; border-radius: 18px; background: #fff; box-shadow: 0 20px 55px rgba(29, 59, 83, .09); }
+        .wizard-top { padding: 22px 30px 0; }
+        .progress-label { display: flex; justify-content: space-between; align-items: center; color: #1d5e91; font-size: 12px; font-weight: 700; }
+        .time-label { color: #8a9691; font-size: 11px; font-weight: 500; }
+        .time-label span { margin-right: 3px; }
+        .progress-track { height: 4px; overflow: hidden; margin-top: 11px; border-radius: 5px; background: #e9efec; }
+        .progress-track span { display: block; width: 20%; height: 100%; border-radius: inherit; background: #1d5e91; transition: width .25s ease; }
+        .wizard-step { padding: 26px 30px 10px; }
+        .step-kicker { margin: 0 0 7px; font-size: 9px; }
+        .wizard-step h2, .success-panel h2 { margin: 0; color: #283a35; font-size: 23px; letter-spacing: -.025em; }
+        .step-copy { margin: 7px 0 22px; color: #85908c; font-size: 13px; line-height: 1.5; }
+        .choice-grid { display: grid; gap: 11px; }
+        .choice-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .choice-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .choice-card {
+            min-height: 110px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px;
+            border: 1px solid #e4eae7;
+            border-radius: 11px;
+            background: #fff;
+            color: #354640;
+            cursor: pointer;
+            text-align: left;
+            transition: border-color .16s ease, background .16s ease, transform .16s ease, box-shadow .16s ease;
+        }
+        .choice-card:hover { transform: translateY(-2px); border-color: #8db4d0; box-shadow: 0 8px 18px rgba(29, 94, 145, .08); }
+        .choice-card[aria-pressed="true"] { border-color: #1d5e91; background: #edf4f9; box-shadow: 0 0 0 2px rgba(29,94,145,.13); }
+        .choice-icon { color: #1d5e91; font-size: 22px; line-height: 1; }
+        .choice-title { color: #34443e; font-size: 12px; font-weight: 680; line-height: 1.4; }
+        .choice-caption { margin-top: -6px; color: #88938f; font-size: 10px; }
+        .choice-grid-4 .choice-card { min-height: 115px; padding: 13px; }
+        .choice-grid-4 .choice-title { font-size: 11px; }
+        .size-grid { margin-top: 28px; }
+        .size-card { min-height: 74px; align-items: center; padding: 13px; text-align: center; }
+        .size-card .choice-title { font-size: 14px; }
+        .size-card sup { font-size: 9px; }
+        .field-error { min-height: 16px; margin: 7px 0 0; color: #b84646; font-size: 11px; }
+        .contact-step { padding-bottom: 12px; }
+        .contact-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 13px; }
+        .form-field { display: flex; flex-direction: column; gap: 7px; color: #45554f; font-size: 11px; font-weight: 650; }
+        .form-field b, .privacy-check b { color: #1d5e91; }
+        .form-field small, .upload-heading small { color: #8d9994; font-size: 10px; font-weight: 450; }
+        .form-field input, .form-field textarea {
+            width: 100%;
+            border: 1px solid #e0e7e3;
+            border-radius: 8px;
+            outline: 0;
+            background: #fff;
+            color: #2a3934;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 400;
+            transition: border-color .15s, box-shadow .15s;
+        }
+        .form-field input { height: 42px; padding: 0 12px; }
+        .form-field textarea { min-height: 76px; padding: 11px 12px; resize: vertical; }
+        .form-field input:focus, .form-field textarea:focus { border-color: #5b8db0; box-shadow: 0 0 0 3px rgba(29,94,145,.12); }
+        .form-field input::placeholder, .form-field textarea::placeholder { color: #a4afaa; }
+        .full-field { grid-column: 1 / -1; }
+        .upload-field { margin-top: 20px; }
+        .upload-heading { margin-bottom: 9px; color: #45554f; font-size: 11px; font-weight: 700; }
+        .upload-heading > span { margin-right: 5px; color: #1d5e91; font-size: 15px; }
+        .upload-zone {
+            min-height: 105px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            border: 1px dashed #a9bfd0;
+            border-radius: 9px;
+            background: #f8fafc;
+            color: #647687;
+            cursor: pointer;
+            font-size: 11px;
+            text-align: center;
+            transition: background .15s, border-color .15s;
+        }
+        .upload-zone:hover, .upload-zone.is-dragging { border-color: #1d5e91; background: #edf4f9; }
+        .upload-zone strong { color: #1d5e91; }
+        .upload-zone small { color: #9aa59f; font-size: 9px; }
+        .upload-zone input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; clip-path: inset(50%); }
+        .upload-symbol { width: 25px; height: 25px; display: grid; place-items: center; margin-bottom: 2px; border-radius: 50%; background: #eaf2f8; color: #1d5e91; font-size: 16px; }
+        .upload-list { margin: 6px 0 0; color: #89958f; font-size: 10px; }
+        .privacy-check { display: flex; align-items: flex-start; gap: 9px; margin-top: 17px; color: #687670; cursor: pointer; font-size: 10px; line-height: 1.5; }
+        .privacy-check input { width: 15px; height: 15px; margin: 0; accent-color: #1d5e91; }
+        .form-error { min-height: 16px; margin: 8px 0 0; color: #b84646; font-size: 11px; }
+        .wizard-actions { min-height: 72px; display: flex; align-items: center; gap: 12px; padding: 12px 30px 20px; }
+        .action-spacer { flex: 1; }
+        .back-button, .next-button, .submit-button { min-height: 40px; border: 0; border-radius: 8px; cursor: pointer; font: inherit; font-size: 11px; font-weight: 700; transition: background .15s, transform .15s; }
+        .back-button { padding: 0 10px; background: transparent; color: #78857f; }
+        .back-button:hover { color: #174b70; }
+        .next-button, .submit-button { display: inline-flex; justify-content: center; align-items: center; gap: 13px; padding: 0 18px; background: #1d5e91; color: white; }
+        .next-button:hover, .submit-button:hover { transform: translateY(-1px); background: #174b70; }
+        .submit-button { min-height: 44px; padding: 0 20px; }
+        .submit-button:disabled { cursor: wait; opacity: .7; }
+        .success-panel { padding: 60px 30px; text-align: center; }
+        .success-panel[hidden] { display: none; }
+        .success-icon { width: 46px; height: 46px; display: grid; place-items: center; margin: 0 auto 18px; border-radius: 50%; background: #e7f3ed; color: #4c9278; font-size: 24px; }
+        .success-panel > p:last-child { color: #7d8983; font-size: 13px; }
+        .page-footnote { display: flex; justify-content: center; align-items: center; gap: 9px; margin: 17px 0 0; color: #89958f; font-size: 10px; }
+        .page-footnote span:first-child { color: #5e9c85; font-weight: 800; }
+        .page-footnote span:nth-child(2) { color: #bec8c2; }
+        [hidden] { display: none !important; }
+        @media (max-width: 640px) {
+            .site-header { height: 62px; padding: 0 18px; }
+            .header-note { max-width: 145px; font-size: 10px; text-align: right; }
+            .page-content { width: min(100% - 22px, 480px); margin-top: 30px; }
+            .intro { margin-bottom: 19px; }
+            .intro h1 { font-size: 27px; }
+            .intro-copy { max-width: 360px; font-size: 12px; }
+            .wizard-card { border-radius: 14px; }
+            .wizard-top { padding: 19px 19px 0; }
+            .wizard-step { padding: 23px 19px 7px; }
+            .wizard-step h2, .success-panel h2 { font-size: 20px; }
+            .step-copy { margin-bottom: 17px; font-size: 12px; }
+            .choice-grid { gap: 8px; }
+            .choice-grid-3, .choice-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .choice-card, .choice-grid-4 .choice-card { min-height: 91px; padding: 12px; }
+            .choice-title, .choice-grid-4 .choice-title { font-size: 11px; }
+            .choice-caption { font-size: 9px; }
+            .size-grid { margin-top: 18px; }
+            .size-card { min-height: 65px; }
+            .size-card .choice-title { font-size: 12px; }
+            .contact-grid { gap: 12px 9px; }
+            .form-field { font-size: 10px; }
+            .form-field input { height: 40px; }
+            .form-field input, .form-field textarea { font-size: 11px; }
+            .wizard-actions { min-height: 66px; padding: 10px 19px 17px; }
+            .next-button, .submit-button { padding: 0 13px; font-size: 10px; }
+            .submit-button { gap: 6px; }
+        }
+        @media (max-width: 380px) {
+            .contact-grid { grid-template-columns: 1fr; }
+            .full-field { grid-column: auto; }
+            .intro h1 { font-size: 24px; }
+            .header-note { max-width: 125px; }
+        }
+    </style>
+</div>
+</SiteLayout>

@@ -1,12 +1,11 @@
-version: '3.8'
-
 services:
   frontend:
-    image: node:22-alpine
+    build: ./frontend
     user: node
     working_dir: /app
     volumes:
       - ./frontend:/app
+      - frontend_node_modules_v2:/app/node_modules
     command: npm run dev
     # Esposta internamente a Nginx, non serve esporre la porta 4321 all'host
 
@@ -27,3 +26,6 @@ services:
     depends_on:
       - frontend
       - backend
+
+volumes:
+  frontend_node_modules_v2:

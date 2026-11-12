@@ -7,37 +7,61 @@ import '../styles/global.css';
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Admin - Storico Preventivi</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Gestione preventivi | Poliurea System</title>
 </head>
-<body class="bg-gray-100 p-8 font-sans">
+<body class="admin-body min-h-screen">
 
-    <div class="max-w-6xl mx-auto">
-        <h1 class="text-3xl font-bold mb-8 text-gray-800">Pannello Amministrazione Preventivi</h1>
+    <div id="admin-app" class="admin-shell w-full hidden">
+        <header class="admin-header">
+            <a class="admin-brand" href="/" aria-label="Poliurea System, home">
+                <img src="/logo-poliurea-system.png" alt="Poliurea System" />
+            </a>
+            <div class="admin-header-title">
+                <p>AREA GESTIONE</p>
+                <h1>Gestione preventivi</h1>
+            </div>
+            <span class="admin-secure-label"><span aria-hidden="true"></span> Area riservata</span>
+        </header>
 
-        <!-- SEZIONE LOGIN -->
-        <div id="login-section" class="bg-white p-6 rounded-lg shadow-md max-w-sm mb-8">
-            <h2 class="text-xl font-semibold mb-4">Accesso Richiesto</h2>
-            <input type="text" id="username" placeholder="Username" class="w-full mb-3 p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none" />
-            <input type="password" id="password" placeholder="Password" class="w-full mb-4 p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none" />
-            <button id="login-btn" class="w-full bg-blue-600 text-white font-bold p-2 rounded hover:bg-blue-700 transition">Accedi</button>
-            <p id="error-msg" class="text-red-500 text-sm mt-2 hidden">Credenziali errate o errore di connessione.</p>
-        </div>
+        <p id="dashboard-error" class="hidden mb-5 rounded-md border border-red-800 bg-red-950/50 p-4 text-base text-red-200" role="alert"></p>
+
+        <nav id="admin-tabs" class="mb-5 hidden flex-wrap items-center justify-between gap-3" aria-label="Sezioni amministrazione">
+            <div class="flex flex-wrap gap-2" role="tablist" aria-label="Contenuti">
+                <button id="tab-preventivi" type="button" role="tab" aria-selected="true" aria-controls="table-section" class="rounded-md bg-blue-600 px-4 py-3 text-base font-bold text-white">Preventivi</button>
+                <button id="tab-lavori" type="button" role="tab" aria-selected="false" aria-controls="works-section" class="rounded-md border border-slate-600 px-4 py-3 text-base font-semibold text-slate-200 hover:border-blue-400 hover:text-blue-200">Lavori e immagini</button>
+                <button id="tab-clienti" type="button" role="tab" aria-selected="false" aria-controls="clients-section" class="rounded-md border border-slate-600 px-4 py-3 text-base font-semibold text-slate-200 hover:border-blue-400 hover:text-blue-200">Account clienti</button>
+            </div>
+            <button id="logout-btn" type="button" class="px-3 py-2 text-base font-bold text-red-300 hover:underline">Esci dal pannello</button>
+        </nav>
+
+        <section id="admin-summary" class="admin-summary hidden" aria-label="Riepilogo preventivi">
+            <article><span>Richieste totali</span><strong id="summary-total">0</strong><small>Preventivi ricevuti</small></article>
+            <article><span>Foto e allegati</span><strong id="summary-attachments">0</strong><small>File nelle richieste</small></article>
+            <article><span>Ultima richiesta</span><strong id="summary-latest">Nessuna</strong><small>Data di ricezione</small></article>
+        </section>
 
         <!-- SEZIONE TABELLA (Nascosta di default) -->
-        <div id="table-section" class="bg-white rounded-lg shadow-md overflow-x-auto hidden">
-            <div class="p-4 border-b bg-gray-50 flex justify-between items-center">
-                <span class="font-semibold text-gray-700">Totale richieste: <span id="total-count">0</span></span>
-                <button id="logout-btn" class="text-sm text-red-600 hover:underline font-bold">Esci dal pannello</button>
+        <div id="table-section" class="hidden w-full overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
+            <div class="admin-table-toolbar flex items-center justify-between gap-4 border-b border-slate-200 bg-white p-4 sm:p-5">
+                <div>
+                    <p class="admin-table-kicker">RICHIESTE IN INGRESSO</p>
+                    <span class="text-base font-semibold text-black sm:text-lg">Totale richieste</span>
+                </div>
+                <span id="total-count" class="admin-count">0</span>
             </div>
-            <table class="w-full text-left border-collapse">
+            <table class="w-full min-w-[1560px] border-collapse text-left text-base">
                 <thead>
-                    <tr class="bg-gray-800 text-white">
-                        <th class="p-3">ID</th>
-                        <th class="p-3">Data</th>
-                        <th class="p-3">Nome</th>
-                        <th class="p-3">Contatti</th>
-                        <th class="p-3">Servizio</th>
-                        <th class="p-3">Messaggio</th>
+                    <tr class="bg-black text-white">
+                        <th class="p-4">ID</th>
+                        <th class="p-4">Data</th>
+                        <th class="p-4">Nome</th>
+                        <th class="p-4">Contatti</th>
+                        <th class="p-4">Servizio</th>
+                        <th class="p-4">Messaggio</th>
+                        <th class="p-4">Foto</th>
+                        <th class="p-4">Stato</th>
+                        <th class="p-4">Cosa serve al cliente</th>
                     </tr>
                 </thead>
                 <tbody id="table-body" class="divide-y">
@@ -45,17 +69,107 @@ import '../styles/global.css';
                 </tbody>
             </table>
         </div>
+        <section id="works-section" class="hidden w-full" aria-labelledby="tab-lavori">
+            <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+                <div>
+                    <p class="mb-2 text-sm font-bold uppercase tracking-wider text-blue-300">Contenuti del sito</p>
+                    <h2 class="text-2xl font-bold text-white sm:text-3xl">Lavori e immagini</h2>
+                    <p class="mt-2 max-w-2xl text-base text-slate-300">Pubblica un intervento nella galleria e aggiorna testi o immagini quando vuoi.</p>
+                </div>
+            </div>
+            <form id="work-form" class="mb-8 grid gap-4 rounded-lg border border-slate-700 bg-slate-900 p-5 sm:grid-cols-2 sm:p-6">
+                <label class="grid gap-2 text-sm font-semibold text-slate-200">Titolo
+                    <input name="titolo" required maxlength="160" class="rounded-md border border-slate-600 bg-slate-800 p-3 text-base text-white outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/25" />
+                </label>
+                <label class="grid gap-2 text-sm font-semibold text-slate-200">Località
+                    <input name="localita" maxlength="160" class="rounded-md border border-slate-600 bg-slate-800 p-3 text-base text-white outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/25" />
+                </label>
+                <label class="grid gap-2 text-sm font-semibold text-slate-200 sm:col-span-2">Descrizione
+                    <textarea name="descrizione" maxlength="3000" rows="3" class="rounded-md border border-slate-600 bg-slate-800 p-3 text-base text-white outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/25"></textarea>
+                </label>
+                <label class="grid gap-2 text-sm font-semibold text-slate-200 sm:col-span-2">Immagine (JPG, PNG o WEBP, massimo 10 MB)
+                    <input name="immagine" type="file" accept="image/jpeg,image/png,image/webp" required class="rounded-md border border-slate-600 bg-slate-800 p-3 text-base text-slate-200 file:mr-4 file:rounded file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:font-semibold file:text-white" />
+                </label>
+                <div class="flex flex-wrap items-center gap-4 sm:col-span-2">
+                    <button id="work-submit" type="submit" class="rounded-md bg-blue-600 px-5 py-3 text-base font-bold text-white transition hover:bg-blue-700">Pubblica nella galleria</button>
+                    <p id="work-feedback" class="text-base text-slate-300" role="status" aria-live="polite"></p>
+                </div>
+            </form>
+            <div id="works-list" class="grid gap-4"></div>
+        </section>
+        <section id="clients-section" class="hidden w-full" aria-labelledby="tab-clienti">
+            <div class="mb-6">
+                <p class="mb-2 text-sm font-bold uppercase tracking-wider text-blue-300">Area clienti</p>
+                <h2 class="text-2xl font-bold text-white sm:text-3xl">Crea un account cliente</h2>
+                <p class="mt-2 max-w-3xl text-base text-slate-300">Il cliente vedrà solo le richieste associate alla stessa email. Condividi le credenziali iniziali tramite un canale sicuro.</p>
+            </div>
+            <form id="client-form" class="mb-8 grid gap-4 rounded-lg border border-slate-700 bg-slate-900 p-5 sm:grid-cols-2 sm:p-6">
+                <label class="grid gap-2 text-sm font-semibold text-slate-200">Nome cliente
+                    <input name="nome" required maxlength="160" autocomplete="name" class="rounded-md border border-slate-600 bg-slate-800 p-3 text-base text-white outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/25" />
+                </label>
+                <label class="grid gap-2 text-sm font-semibold text-slate-200">Email usata nel preventivo
+                    <input name="email" type="email" required maxlength="254" autocomplete="email" class="rounded-md border border-slate-600 bg-slate-800 p-3 text-base text-white outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/25" />
+                </label>
+                <label class="grid gap-2 text-sm font-semibold text-slate-200 sm:col-span-2">Password iniziale (almeno 12 caratteri)
+                    <input name="password" type="password" required minlength="12" autocomplete="new-password" class="rounded-md border border-slate-600 bg-slate-800 p-3 text-base text-white outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/25" />
+                </label>
+                <div class="flex flex-wrap items-center gap-4 sm:col-span-2">
+                    <button id="client-submit" type="submit" class="rounded-md bg-blue-600 px-5 py-3 text-base font-bold text-white transition hover:bg-blue-700">Crea account</button>
+                    <p id="client-feedback" class="text-base text-slate-300" role="status" aria-live="polite"></p>
+                </div>
+            </form>
+            <div class="mb-4">
+                <h3 class="text-xl font-bold text-white">Account esistenti</h3>
+            </div>
+            <div id="clients-list" class="grid gap-3"></div>
+        </section>
+        <dialog id="photo-dialog" class="rounded-lg border-0 p-4 shadow-xl backdrop:bg-black/50">
+            <div class="flex items-center justify-between gap-6 pb-3">
+                <h2 class="font-semibold text-gray-800">Foto allegata</h2>
+                <button id="close-photo-btn" type="button" class="text-sm font-bold text-gray-600 hover:text-gray-900">Chiudi</button>
+            </div>
+            <img id="photo-viewer" class="max-h-[75vh] max-w-[85vw] rounded object-contain" alt="Foto allegata al preventivo" />
+        </dialog>
     </div>
 
     <!-- is:inline dice ad Astro di non toccare questo script e passarlo puro al browser -->
     <script is:inline>
-        const loginBtn = document.getElementById('login-btn');
+        const adminApp = document.getElementById('admin-app');
         const logoutBtn = document.getElementById('logout-btn');
-        const loginSection = document.getElementById('login-section');
+        const adminTabs = document.getElementById('admin-tabs');
+        const adminSummary = document.getElementById('admin-summary');
+        const summaryTotal = document.getElementById('summary-total');
+        const summaryAttachments = document.getElementById('summary-attachments');
+        const summaryLatest = document.getElementById('summary-latest');
+        const tabPreventivi = document.getElementById('tab-preventivi');
+        const tabLavori = document.getElementById('tab-lavori');
+        const tabClienti = document.getElementById('tab-clienti');
         const tableSection = document.getElementById('table-section');
-        const errorMsg = document.getElementById('error-msg');
+        const worksSection = document.getElementById('works-section');
+        const clientsSection = document.getElementById('clients-section');
+        const dashboardError = document.getElementById('dashboard-error');
         const tableBody = document.getElementById('table-body');
         const totalCount = document.getElementById('total-count');
+        const photoDialog = document.getElementById('photo-dialog');
+        const photoViewer = document.getElementById('photo-viewer');
+        const workForm = document.getElementById('work-form');
+        const workFeedback = document.getElementById('work-feedback');
+        const worksList = document.getElementById('works-list');
+        const workSubmit = document.getElementById('work-submit');
+        const clientForm = document.getElementById('client-form');
+        const clientSubmit = document.getElementById('client-submit');
+        const clientFeedback = document.getElementById('client-feedback');
+        const clientsList = document.getElementById('clients-list');
+        const sessionKey = 'poliurea-admin-token';
+        let authToken = sessionStorage.getItem(sessionKey) || '';
+
+        if (!authToken) {
+            window.location.replace('/accesso-preventivi');
+        }
+
+        window.addEventListener('pageshow', () => {
+            if (!sessionStorage.getItem(sessionKey)) window.location.replace('/accesso-preventivi');
+        });
 
         const formattaData = (dataIso) => {
             if (!dataIso) return '-';
@@ -74,33 +188,285 @@ import '../styles/global.css';
             return cella;
         };
 
-        loginBtn.addEventListener('click', async () => {
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
+        const mostraFeedbackLavori = (messaggio, errore = false) => {
+            workFeedback.textContent = messaggio;
+            workFeedback.className = errore ? 'text-base text-red-300' : 'text-base text-blue-200';
+        };
 
-            if(!user || !pass) {
-                alert("Inserisci username e password!");
+        const creaCampoLavoro = (etichetta, valore, multilinea = false) => {
+            const contenitore = document.createElement('label');
+            contenitore.className = 'grid gap-2 text-sm font-semibold text-slate-200';
+            contenitore.append(document.createTextNode(etichetta));
+            const campo = document.createElement(multilinea ? 'textarea' : 'input');
+            campo.className = 'w-full rounded-md border border-slate-600 bg-slate-800 p-3 text-base font-normal text-white outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/25';
+            campo.value = valore || '';
+            if (multilinea) {
+                campo.rows = 3;
+                campo.maxLength = 3000;
+            } else {
+                campo.maxLength = etichetta === 'Titolo' ? 160 : 160;
+            }
+            contenitore.appendChild(campo);
+            return { contenitore, campo };
+        };
+
+        const caricaLavori = async () => {
+            try {
+                const risposta = await fetch('/api/lavori');
+                if (!risposta.ok) throw new Error(`HTTP ${risposta.status}`);
+                const risultato = await risposta.json();
+                if (!Array.isArray(risultato.dati)) throw new Error('Formato della risposta non valido.');
+                worksList.replaceChildren();
+                if (!risultato.dati.length) {
+                    const vuoto = document.createElement('p');
+                    vuoto.className = 'rounded-lg border border-slate-700 bg-slate-900 p-5 text-base text-slate-300';
+                    vuoto.textContent = 'La galleria è vuota. Pubblica il primo lavoro dal modulo qui sopra.';
+                    worksList.appendChild(vuoto);
+                    return;
+                }
+
+                risultato.dati.forEach((lavoro) => {
+                    const scheda = document.createElement('article');
+                    scheda.className = 'grid gap-5 rounded-lg border border-slate-700 bg-slate-900 p-4 md:grid-cols-[240px_1fr] md:p-5';
+                    const anteprima = document.createElement('img');
+                    anteprima.className = 'aspect-[4/3] w-full rounded-md bg-slate-800 object-cover';
+                    anteprima.src = lavoro.immagine_url;
+                    anteprima.alt = `Lavoro: ${lavoro.titolo}`;
+                    scheda.appendChild(anteprima);
+
+                    const colonna = document.createElement('div');
+                    colonna.className = 'grid content-start gap-4';
+                    const editor = document.createElement('div');
+                    editor.className = 'grid gap-3 sm:grid-cols-2';
+                    const titolo = creaCampoLavoro('Titolo', lavoro.titolo);
+                    const localita = creaCampoLavoro('Località', lavoro.localita);
+                    const descrizione = creaCampoLavoro('Descrizione', lavoro.descrizione, true);
+                    descrizione.contenitore.classList.add('sm:col-span-2');
+                    editor.append(titolo.contenitore, localita.contenitore, descrizione.contenitore);
+                    colonna.appendChild(editor);
+
+                    const azioni = document.createElement('div');
+                    azioni.className = 'flex flex-wrap items-center gap-3';
+                    const salva = document.createElement('button');
+                    salva.type = 'button';
+                    salva.className = 'rounded-md bg-blue-600 px-4 py-2.5 text-base font-bold text-white hover:bg-blue-700';
+                    salva.textContent = 'Salva modifiche';
+                    salva.addEventListener('click', async () => {
+                        salva.disabled = true;
+                        try {
+                            const risposta = await fetch(`/api/lavori/${lavoro.id}`, {
+                                method: 'PATCH',
+                                headers: {
+                                    'Authorization': `Basic ${authToken}`,
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    titolo: titolo.campo.value,
+                                    localita: localita.campo.value,
+                                    descrizione: descrizione.campo.value,
+                                }),
+                            });
+                            if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
+                            mostraFeedbackLavori('Modifiche salvate.');
+                            await caricaLavori();
+                        } catch (errore) {
+                            mostraFeedbackLavori(`Impossibile salvare: ${errore.message}`, true);
+                        } finally {
+                            salva.disabled = false;
+                        }
+                    });
+                    azioni.appendChild(salva);
+
+                    const sostituisci = document.createElement('label');
+                    sostituisci.className = 'cursor-pointer rounded-md border border-blue-400 px-4 py-2.5 text-base font-semibold text-blue-200 hover:bg-slate-800';
+                    sostituisci.textContent = 'Sostituisci immagine';
+                    const file = document.createElement('input');
+                    file.type = 'file';
+                    file.accept = 'image/jpeg,image/png,image/webp';
+                    file.className = 'sr-only';
+                    file.addEventListener('change', async () => {
+                        if (!file.files.length) return;
+                        const modulo = new FormData();
+                        modulo.append('immagine', file.files[0]);
+                        try {
+                            const risposta = await fetch(`/api/lavori/${lavoro.id}/immagine`, {
+                                method: 'PUT',
+                                headers: { 'Authorization': `Basic ${authToken}` },
+                                body: modulo,
+                            });
+                            if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
+                            mostraFeedbackLavori('Immagine sostituita.');
+                            await caricaLavori();
+                        } catch (errore) {
+                            mostraFeedbackLavori(`Impossibile sostituire l’immagine: ${errore.message}`, true);
+                        }
+                    });
+                    sostituisci.appendChild(file);
+                    azioni.appendChild(sostituisci);
+
+                    const elimina = document.createElement('button');
+                    elimina.type = 'button';
+                    elimina.className = 'rounded-md px-3 py-2.5 text-base font-semibold text-red-300 hover:bg-red-950/50';
+                    elimina.textContent = 'Elimina lavoro';
+                    elimina.addEventListener('click', async () => {
+                        if (!confirm(`Eliminare "${lavoro.titolo}" dalla galleria?`)) return;
+                        try {
+                            const risposta = await fetch(`/api/lavori/${lavoro.id}`, {
+                                method: 'DELETE',
+                                headers: { 'Authorization': `Basic ${authToken}` },
+                            });
+                            if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
+                            mostraFeedbackLavori('Lavoro eliminato.');
+                            await caricaLavori();
+                        } catch (errore) {
+                            mostraFeedbackLavori(`Impossibile eliminare: ${errore.message}`, true);
+                        }
+                    });
+                    azioni.appendChild(elimina);
+                    colonna.appendChild(azioni);
+                    scheda.appendChild(colonna);
+                    worksList.appendChild(scheda);
+                });
+            } catch (errore) {
+                mostraFeedbackLavori(`Impossibile caricare la galleria: ${errore.message}`, true);
+            }
+        };
+
+        const mostraFeedbackClienti = (messaggio, errore = false) => {
+            clientFeedback.textContent = messaggio;
+            clientFeedback.className = errore ? 'text-base text-red-300' : 'text-base text-blue-200';
+        };
+
+        const caricaClienti = async () => {
+            try {
+                const risposta = await fetch('/api/clienti', {
+                    headers: { 'Authorization': `Basic ${authToken}` },
+                });
+                if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
+                const risultato = await risposta.json();
+                if (!Array.isArray(risultato.dati)) throw new Error('Formato della risposta non valido.');
+                clientsList.replaceChildren();
+                if (!risultato.dati.length) {
+                    const vuoto = document.createElement('p');
+                    vuoto.className = 'rounded-md border border-slate-700 bg-slate-900 p-5 text-base text-slate-300';
+                    vuoto.textContent = 'Non ci sono ancora account clienti.';
+                    clientsList.appendChild(vuoto);
+                    return;
+                }
+                risultato.dati.forEach((cliente) => {
+                    const scheda = document.createElement('article');
+                    scheda.className = 'flex flex-wrap items-center justify-between gap-4 rounded-md border border-slate-700 bg-slate-900 p-5';
+                    const informazioni = document.createElement('div');
+                    informazioni.className = 'grid gap-1';
+                    const nome = document.createElement('strong');
+                    nome.className = 'text-lg text-white';
+                    nome.textContent = cliente.nome;
+                    const email = document.createElement('span');
+                    email.className = 'text-base text-slate-300';
+                    email.textContent = cliente.email;
+                    informazioni.append(nome, email);
+                    const richieste = document.createElement('span');
+                    richieste.className = 'rounded bg-slate-800 px-3 py-2 text-sm font-semibold text-blue-200';
+                    richieste.textContent = `${cliente.preventivi} ${cliente.preventivi === 1 ? 'preventivo' : 'preventivi'}`;
+                    scheda.append(informazioni, richieste);
+                    clientsList.appendChild(scheda);
+                });
+            } catch (errore) {
+                mostraFeedbackClienti(`Impossibile caricare gli account: ${errore.message}`, true);
+            }
+        };
+
+        clientForm.addEventListener('submit', async (evento) => {
+            evento.preventDefault();
+            clientSubmit.disabled = true;
+            mostraFeedbackClienti('Creazione account in corso...');
+            const dati = new FormData(clientForm);
+            try {
+                const risposta = await fetch('/api/clienti', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Basic ${authToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        nome: dati.get('nome'),
+                        email: dati.get('email'),
+                        password: dati.get('password'),
+                    }),
+                });
+                if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
+                const cliente = await risposta.json();
+                clientForm.reset();
+                mostraFeedbackClienti(`Account creato per ${cliente.email}.`);
+                await caricaClienti();
+            } catch (errore) {
+                mostraFeedbackClienti(`Impossibile creare l’account: ${errore.message}`, true);
+            } finally {
+                clientSubmit.disabled = false;
+            }
+        });
+
+        workForm.addEventListener('submit', async (evento) => {
+            evento.preventDefault();
+            workSubmit.disabled = true;
+            mostraFeedbackLavori('Caricamento in corso...');
+            try {
+                const risposta = await fetch('/api/lavori', {
+                    method: 'POST',
+                    headers: { 'Authorization': `Basic ${authToken}` },
+                    body: new FormData(workForm),
+                });
+                if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
+                workForm.reset();
+                mostraFeedbackLavori('Lavoro pubblicato nella galleria.');
+                await caricaLavori();
+            } catch (errore) {
+                mostraFeedbackLavori(`Impossibile pubblicare: ${errore.message}`, true);
+            } finally {
+                workSubmit.disabled = false;
+            }
+        });
+
+        const mostraSchedaAdmin = (sezione) => {
+            const mostraLavori = sezione === 'lavori';
+            const mostraClienti = sezione === 'clienti';
+            tableSection.classList.toggle('hidden', mostraLavori || mostraClienti);
+            worksSection.classList.toggle('hidden', !mostraLavori);
+            clientsSection.classList.toggle('hidden', !mostraClienti);
+            tabPreventivi.setAttribute('aria-selected', String(sezione === 'preventivi'));
+            tabLavori.setAttribute('aria-selected', String(mostraLavori));
+            tabClienti.setAttribute('aria-selected', String(mostraClienti));
+            const classeAttiva = 'rounded-md bg-blue-600 px-4 py-3 text-base font-bold text-white';
+            const classeInattiva = 'rounded-md border border-slate-600 px-4 py-3 text-base font-semibold text-slate-200 hover:border-blue-400 hover:text-blue-200';
+            tabPreventivi.className = sezione === 'preventivi' ? classeAttiva : classeInattiva;
+            tabLavori.className = mostraLavori ? classeAttiva : classeInattiva;
+            tabClienti.className = mostraClienti ? classeAttiva : classeInattiva;
+            if (mostraLavori) caricaLavori();
+            if (mostraClienti) caricaClienti();
+        };
+
+        tabPreventivi.addEventListener('click', () => mostraSchedaAdmin('preventivi'));
+        tabLavori.addEventListener('click', () => mostraSchedaAdmin('lavori'));
+        tabClienti.addEventListener('click', () => mostraSchedaAdmin('clienti'));
+
+        const caricaPreventivi = async () => {
+            if (!authToken) {
+                window.location.replace('/accesso-preventivi');
                 return;
             }
-
-            const token = btoa(user + ":" + pass);
-
             try {
                 const response = await fetch('/api/preventivi', {
-                    headers: { 'Authorization': `Basic ${token}` }
+                    headers: { 'Authorization': `Basic ${authToken}` }
                 });
 
                 if (response.status === 401) {
-                    errorMsg.textContent = 'Username o password non corretti.';
-                    errorMsg.classList.remove('hidden');
+                    sessionStorage.removeItem(sessionKey);
+                    window.location.replace('/accesso-preventivi?scaduta');
                     return;
-
                 }
 
                 if (!response.ok) {
-                    errorMsg.textContent = `Errore del server: HTTP ${response.status}.`;
-                    errorMsg.classList.remove('hidden');
-                    return;
+                    throw new Error(`Il server ha risposto con errore HTTP ${response.status}.`);
                 }
 
                 const data = await response.json();
@@ -108,68 +474,177 @@ import '../styles/global.css';
                     throw new Error('Formato della risposta API non valido.');
                 }
                 
-                loginSection.classList.add('hidden');
-                errorMsg.classList.add('hidden');
-                tableSection.classList.remove('hidden');
+                adminApp.classList.remove('hidden');
+                dashboardError.classList.add('hidden');
+                adminTabs.classList.remove('hidden');
+                adminTabs.classList.add('flex');
+                mostraSchedaAdmin('preventivi');
                 
                 totalCount.textContent = data.dati.length;
+                summaryTotal.textContent = data.dati.length;
+                summaryAttachments.textContent = data.dati.reduce((totale, preventivo) => totale + (Array.isArray(preventivo.allegati) ? preventivo.allegati.length : 0), 0);
+                summaryLatest.textContent = data.dati.length ? formattaData(data.dati[0].data_richiesta) : 'Nessuna';
+                adminSummary.classList.remove('hidden');
                 tableBody.innerHTML = ''; 
 
                 if (data.dati.length === 0) {
                     const tr = document.createElement('tr');
-                    const cella = creaCella('Nessun preventivo ricevuto.', 'p-6 text-center text-gray-500');
-                    cella.colSpan = 6;
+                            const cella = creaCella('Nessun preventivo ricevuto.', 'p-6 text-center text-black');
+                            cella.colSpan = 9;
                     tr.appendChild(cella);
                     tableBody.appendChild(tr);
                 } else {
                     data.dati.forEach(prev => {
                         const tr = document.createElement('tr');
-                        tr.className = 'hover:bg-gray-50';
-                        tr.appendChild(creaCella(`#${prev.id}`, 'p-3 font-semibold text-gray-600'));
-                        tr.appendChild(creaCella(formattaData(prev.data_richiesta), 'p-3 whitespace-nowrap text-sm'));
-                        tr.appendChild(creaCella(prev.nome, 'p-3 font-medium'));
+                        tr.className = 'border-b border-slate-100 hover:bg-blue-50/70';
+                        tr.appendChild(creaCella(`#${prev.id}`, 'p-4 font-semibold text-black'));
+                        tr.appendChild(creaCella(formattaData(prev.data_richiesta), 'p-4 whitespace-nowrap'));
+                        tr.appendChild(creaCella(prev.nome, 'p-4 font-medium'));
 
                         const contatti = document.createElement('td');
-                        contatti.className = 'p-3 text-sm';
-                        const email = document.createElement('a');
-                        email.href = `mailto:${prev.email}`;
-                        email.className = 'text-blue-600 hover:underline block';
-                        email.textContent = prev.email ?? '-';
+                        contatti.className = 'p-4';
+                        if (prev.email) {
+                            const email = document.createElement('a');
+                            email.href = `mailto:${prev.email}`;
+                            email.className = 'block text-blue-700 hover:underline';
+                            email.textContent = prev.email;
+                            contatti.appendChild(email);
+                        }
                         const telefono = document.createElement('a');
                         telefono.href = `tel:${prev.telefono}`;
-                        telefono.className = 'text-gray-500 hover:underline';
+                        telefono.className = 'text-black hover:underline';
                         telefono.textContent = prev.telefono ?? '-';
-                        contatti.append(email, telefono);
+                        contatti.appendChild(telefono);
                         tr.appendChild(contatti);
 
                         const servizio = document.createElement('td');
-                        servizio.className = 'p-3';
+                        servizio.className = 'p-4';
                         const badge = document.createElement('span');
-                        badge.className = 'bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold';
+                        badge.className = 'inline-block rounded bg-blue-100 px-3 py-1.5 text-sm font-semibold text-blue-950';
                         badge.textContent = prev.servizio ?? '-';
                         servizio.appendChild(badge);
                         tr.appendChild(servizio);
 
-                        const messaggio = creaCella(prev.messaggio || '-', 'p-3 text-sm text-gray-700 max-w-xs truncate');
+                        const messaggio = creaCella(prev.messaggio || '-', 'max-w-sm whitespace-pre-wrap p-4 text-black');
                         messaggio.title = prev.messaggio || '';
                         tr.appendChild(messaggio);
+
+                        const foto = document.createElement('td');
+                        foto.className = 'p-4';
+                        for (const allegato of prev.allegati || []) {
+                            const apriFoto = document.createElement('button');
+                            apriFoto.type = 'button';
+                            apriFoto.className = 'block text-blue-700 hover:underline';
+                            apriFoto.textContent = allegato.nome;
+                            apriFoto.addEventListener('click', async () => {
+                                try {
+                                    const risposta = await fetch(`/api/preventivi/${prev.id}/allegati/${allegato.id}`, {
+                                        headers: { 'Authorization': `Basic ${authToken}` }
+                                    });
+                                    if (!risposta.ok) throw new Error(`HTTP ${risposta.status}`);
+                                    photoViewer.src = URL.createObjectURL(await risposta.blob());
+                                    photoDialog.showModal();
+                                } catch (error) {
+                                    console.error('Errore durante il caricamento della foto:', error);
+                                    alert('Impossibile aprire la foto allegata.');
+                                }
+                            });
+                            foto.appendChild(apriFoto);
+                        }
+                        if (!foto.childElementCount) foto.textContent = '-';
+                        tr.appendChild(foto);
+
+                        const statoCella = document.createElement('td');
+                        statoCella.className = 'p-4';
+                        const statoSelect = document.createElement('select');
+                        statoSelect.className = 'min-w-44 rounded-md border border-slate-300 bg-white p-2 text-sm text-black focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25';
+                        statoSelect.setAttribute('aria-label', `Stato richiesta ${prev.id}`);
+                        const stati = [
+                            ['ricevuto', 'Ricevuto'],
+                            ['in_valutazione', 'In valutazione'],
+                            ['preventivo_inviato', 'Preventivo inviato'],
+                            ['in_lavorazione', 'In lavorazione'],
+                            ['completato', 'Completato'],
+                            ['annullato', 'Annullato'],
+                        ];
+                        stati.forEach(([valore, etichetta]) => {
+                            const opzione = document.createElement('option');
+                            opzione.value = valore;
+                            opzione.textContent = etichetta;
+                            statoSelect.appendChild(opzione);
+                        });
+                        statoSelect.value = prev.stato || 'ricevuto';
+                        statoCella.appendChild(statoSelect);
+                        tr.appendChild(statoCella);
+
+                        const noteCella = document.createElement('td');
+                        noteCella.className = 'min-w-72 p-4';
+                        const noteInput = document.createElement('textarea');
+                        noteInput.className = 'mb-2 min-h-20 w-full rounded-md border border-slate-300 p-2 text-sm text-black outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25';
+                        noteInput.maxLength = 1200;
+                        noteInput.placeholder = 'Cosa serve al cliente?';
+                        noteInput.setAttribute('aria-label', `Cosa serve al cliente per la richiesta ${prev.id}`);
+                        noteInput.value = prev.note_cliente || '';
+                        const salvaStato = document.createElement('button');
+                        salvaStato.type = 'button';
+                        salvaStato.className = 'rounded-md bg-blue-600 px-3 py-2 text-sm font-bold text-white hover:bg-blue-700';
+                        salvaStato.textContent = 'Salva aggiornamento';
+                        salvaStato.addEventListener('click', async () => {
+                            salvaStato.disabled = true;
+                            try {
+                                const risposta = await fetch(`/api/preventivi/${prev.id}/stato`, {
+                                    method: 'PATCH',
+                                    headers: {
+                                        'Authorization': `Basic ${authToken}`,
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({ stato: statoSelect.value, note_cliente: noteInput.value }),
+                                });
+                                if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
+                                salvaStato.textContent = 'Salvato';
+                                setTimeout(() => { salvaStato.textContent = 'Salva aggiornamento'; }, 1800);
+                            } catch (errore) {
+                                salvaStato.textContent = 'Errore';
+                                dashboardError.textContent = `Aggiornamento non salvato: ${errore.message}`;
+                                dashboardError.classList.remove('hidden');
+                            } finally {
+                                salvaStato.disabled = false;
+                            }
+                        });
+                        noteCella.append(noteInput, salvaStato);
+                        tr.appendChild(noteCella);
                         tableBody.appendChild(tr);
                     });
                 }
 
             } catch (error) {
                 console.error("Errore fetch:", error);
-                errorMsg.textContent = 'Impossibile caricare i preventivi. Riprova tra poco.';
-                errorMsg.classList.remove('hidden');
+                authToken = '';
+                sessionStorage.removeItem(sessionKey);
+                window.location.replace('/accesso-preventivi?scaduta');
             }
-        });
+        };
 
         logoutBtn.addEventListener('click', () => {
             tableSection.classList.add('hidden');
-            loginSection.classList.remove('hidden');
-            document.getElementById('password').value = '';
+            worksSection.classList.add('hidden');
+            adminTabs.classList.add('hidden');
+            adminTabs.classList.remove('flex');
+            adminSummary.classList.add('hidden');
+            authToken = '';
+            sessionStorage.removeItem(sessionKey);
             tableBody.innerHTML = '';
+            worksList.replaceChildren();
+            window.location.replace('/accesso-preventivi');
         });
+
+        document.getElementById('close-photo-btn').addEventListener('click', () => photoDialog.close());
+        photoDialog.addEventListener('close', () => {
+            URL.revokeObjectURL(photoViewer.src);
+            photoViewer.removeAttribute('src');
+        });
+
+        if (authToken) caricaPreventivi();
     </script>
 </body>
 </html>

@@ -1,0 +1,250 @@
+---
+import '../styles/global.css';
+---
+
+<html lang="it">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#05070b" />
+    <title>Area clienti | Poliurea System</title>
+</head>
+<body class="customer-body">
+    <div class="customer-shell">
+        <header class="customer-header">
+            <a href="/" class="customer-brand" aria-label="Poliurea System, home">
+                <img src="/logo-poliurea-system.png" alt="Poliurea System" />
+            </a>
+            <div>
+                <p>POLIUREA SYSTEM</p>
+                <h1>Area clienti</h1>
+            </div>
+            <a class="customer-back" href="/">Torna al sito</a>
+        </header>
+
+        <main>
+            <section id="customer-login" class="customer-login">
+                <div class="customer-intro">
+                    <p class="customer-kicker">IL TUO INTERVENTO, AGGIORNATO</p>
+                    <h2>Segui il tuo<br /><span>preventivo.</span></h2>
+                    <p>Accedi per controllare lo stato delle richieste, leggere le indicazioni e scaricare i tuoi allegati.</p>
+                </div>
+                <div class="customer-login-panel">
+                    <p class="customer-kicker">ACCESSO CLIENTI</p>
+                    <h2>Accedi alla tua area</h2>
+                    <p>Usa l’email associata al preventivo e la password ricevuta.</p>
+                    <form id="customer-login-form" class="customer-form">
+                        <label for="customer-email">Email</label>
+                        <input id="customer-email" type="email" autocomplete="username" required />
+                        <label for="customer-password">Password</label>
+                        <input id="customer-password" type="password" autocomplete="current-password" required />
+                        <button id="customer-login-button" type="submit">Accedi</button>
+                    </form>
+                    <p id="customer-login-error" class="customer-error" role="alert" aria-live="polite" hidden></p>
+                    <a class="customer-admin-link" href="/accesso-preventivi">Accesso amministrazione</a>
+                </div>
+            </section>
+
+            <section id="customer-dashboard" class="customer-dashboard" hidden>
+                <div class="customer-dashboard-heading">
+                    <div>
+                        <p class="customer-kicker">AREA PERSONALE</p>
+                        <h2>Ciao, <span id="customer-name"></span></h2>
+                        <p id="customer-email-label"></p>
+                    </div>
+                    <button id="customer-logout" type="button">Esci</button>
+                </div>
+                <div id="customer-requests" class="customer-requests"></div>
+                <p id="customer-dashboard-error" class="customer-error" role="alert" aria-live="polite" hidden></p>
+            </section>
+        </main>
+    </div>
+
+    <script is:inline>
+        const tokenKey = 'poliurea-client-token';
+        const loginSection = document.getElementById('customer-login');
+        const dashboard = document.getElementById('customer-dashboard');
+        const loginForm = document.getElementById('customer-login-form');
+        const loginButton = document.getElementById('customer-login-button');
+        const loginError = document.getElementById('customer-login-error');
+        const dashboardError = document.getElementById('customer-dashboard-error');
+        const requestsContainer = document.getElementById('customer-requests');
+        const stati = {
+            ricevuto: { label: 'Ricevuto', progress: 15 },
+            in_valutazione: { label: 'In valutazione', progress: 35 },
+            preventivo_inviato: { label: 'Preventivo inviato', progress: 58 },
+            in_lavorazione: { label: 'In lavorazione', progress: 82 },
+            completato: { label: 'Completato', progress: 100 },
+            annullato: { label: 'Annullato', progress: 0 },
+        };
+        let token = sessionStorage.getItem(tokenKey) || '';
+
+        const mostraErroreAccesso = (messaggio) => {
+            loginError.textContent = messaggio;
+            loginError.hidden = false;
+        };
+
+        const creaDettaglio = (etichetta, valore) => {
+            const dettaglio = document.createElement('p');
+            dettaglio.className = 'customer-request-detail';
+            const titolo = document.createElement('strong');
+            titolo.textContent = etichetta;
+            const testo = document.createElement('span');
+            testo.textContent = valore;
+            dettaglio.append(titolo, testo);
+            return dettaglio;
+        };
+
+        const mostraRichieste = (risposta) => {
+            document.getElementById('customer-name').textContent = risposta.cliente.nome;
+            document.getElementById('customer-email-label').textContent = risposta.cliente.email;
+            requestsContainer.replaceChildren();
+            if (!risposta.dati.length) {
+                const vuoto = document.createElement('p');
+                vuoto.className = 'customer-empty';
+                vuoto.textContent = 'Non risultano ancora preventivi associati a questo indirizzo email.';
+                requestsContainer.appendChild(vuoto);
+            }
+
+            risposta.dati.forEach((preventivo) => {
+                const stato = stati[preventivo.stato] || stati.ricevuto;
+                const scheda = document.createElement('article');
+                scheda.className = 'customer-request';
+                const intestazione = document.createElement('div');
+                intestazione.className = 'customer-request-heading';
+                const titolo = document.createElement('div');
+                const riferimento = document.createElement('p');
+                riferimento.className = 'customer-kicker';
+                riferimento.textContent = `RICHIESTA #${preventivo.id}`;
+                const servizio = document.createElement('h3');
+                servizio.textContent = preventivo.servizio || 'Richiesta di preventivo';
+                const data = document.createElement('p');
+                data.className = 'customer-request-date';
+                data.textContent = new Date(preventivo.data_richiesta).toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric' });
+                titolo.append(riferimento, servizio, data);
+                const badge = document.createElement('span');
+                badge.className = `customer-status customer-status-${preventivo.stato}`;
+                badge.textContent = preventivo.stato_label || stato.label;
+                intestazione.append(titolo, badge);
+                scheda.appendChild(intestazione);
+
+                const progresso = document.createElement('div');
+                progresso.className = 'customer-progress';
+                progresso.setAttribute('role', 'progressbar');
+                progresso.setAttribute('aria-valuenow', String(stato.progress));
+                progresso.setAttribute('aria-valuemin', '0');
+                progresso.setAttribute('aria-valuemax', '100');
+                progresso.setAttribute('aria-label', `Avanzamento: ${stato.label}`);
+                const barra = document.createElement('span');
+                barra.style.width = `${stato.progress}%`;
+                progresso.appendChild(barra);
+                scheda.appendChild(progresso);
+
+                if (preventivo.note_cliente) {
+                    const nota = document.createElement('div');
+                    nota.className = 'customer-action-needed';
+                    const etichetta = document.createElement('strong');
+                    etichetta.textContent = 'Cosa serve da te';
+                    const testo = document.createElement('p');
+                    testo.textContent = preventivo.note_cliente;
+                    nota.append(etichetta, testo);
+                    scheda.appendChild(nota);
+                } else {
+                    scheda.appendChild(creaDettaglio('Aggiornamenti', 'Al momento non ci sono informazioni aggiuntive richieste.'));
+                }
+
+                if (preventivo.messaggio) scheda.appendChild(creaDettaglio('Dettagli della richiesta', preventivo.messaggio));
+                if (preventivo.allegati.length) {
+                    const allegati = document.createElement('div');
+                    allegati.className = 'customer-attachments';
+                    const etichetta = document.createElement('strong');
+                    etichetta.textContent = 'I tuoi allegati';
+                    allegati.appendChild(etichetta);
+                    preventivo.allegati.forEach((allegato) => {
+                        const scarica = document.createElement('button');
+                        scarica.type = 'button';
+                        scarica.textContent = allegato.nome;
+                        scarica.addEventListener('click', async () => {
+                            try {
+                                const file = await fetch(`/api/area-clienti/preventivi/${preventivo.id}/allegati/${allegato.id}`, {
+                                    headers: { 'Authorization': `Basic ${token}` },
+                                });
+                                if (!file.ok) throw new Error(`HTTP ${file.status}`);
+                                const url = URL.createObjectURL(await file.blob());
+                                const link = document.createElement('a');
+                                link.href = url;
+                                link.download = allegato.nome;
+                                link.click();
+                                URL.revokeObjectURL(url);
+                            } catch (errore) {
+                                dashboardError.textContent = `Impossibile scaricare l’allegato: ${errore.message}`;
+                                dashboardError.hidden = false;
+                            }
+                        });
+                        allegati.appendChild(scarica);
+                    });
+                    scheda.appendChild(allegati);
+                }
+                requestsContainer.appendChild(scheda);
+            });
+
+            loginSection.hidden = true;
+            dashboard.hidden = false;
+        };
+
+        const caricaAreaCliente = async () => {
+            try {
+                const risposta = await fetch('/api/area-clienti', {
+                    headers: { 'Authorization': `Basic ${token}` },
+                });
+                if (risposta.status === 401) throw new Error('Credenziali non valide o account non attivo.');
+                if (!risposta.ok) throw new Error(`Errore del server (HTTP ${risposta.status}).`);
+                mostraRichieste(await risposta.json());
+            } catch (errore) {
+                token = '';
+                sessionStorage.removeItem(tokenKey);
+                loginSection.hidden = false;
+                dashboard.hidden = true;
+                mostraErroreAccesso(errore.message || 'Impossibile caricare la tua area.');
+            }
+        };
+
+        loginForm.addEventListener('submit', async (evento) => {
+            evento.preventDefault();
+            const email = document.getElementById('customer-email').value.trim().toLowerCase();
+            const password = document.getElementById('customer-password').value;
+            const bytes = new TextEncoder().encode(`${email}:${password}`);
+            token = btoa(Array.from(bytes, (byte) => String.fromCharCode(byte)).join(''));
+            loginButton.disabled = true;
+            loginButton.textContent = 'Verifica accesso...';
+            loginError.hidden = true;
+            try {
+                const risposta = await fetch('/api/area-clienti', {
+                    headers: { 'Authorization': `Basic ${token}` },
+                });
+                if (risposta.status === 401) throw new Error('Email o password non corrette.');
+                if (!risposta.ok) throw new Error(`Errore del server (HTTP ${risposta.status}).`);
+                sessionStorage.setItem(tokenKey, token);
+                mostraRichieste(await risposta.json());
+            } catch (errore) {
+                token = '';
+                mostraErroreAccesso(errore.message || 'Impossibile accedere. Riprova tra poco.');
+            } finally {
+                loginButton.disabled = false;
+                loginButton.textContent = 'Accedi';
+            }
+        });
+
+        document.getElementById('customer-logout').addEventListener('click', () => {
+            token = '';
+            sessionStorage.removeItem(tokenKey);
+            dashboard.hidden = true;
+            loginForm.reset();
+            loginSection.hidden = false;
+        });
+
+        if (token) caricaAreaCliente();
+    </script>
+</body>
+</html>

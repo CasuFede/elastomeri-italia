@@ -1,0 +1,117 @@
+---
+import '../styles/global.css';
+
+interface Props {
+    title: string;
+    description: string;
+    activePath?: string;
+}
+
+const { title, description, activePath = '' } = Astro.props;
+const links = [
+    { href: '/fondazioni', label: 'Fondazioni' },
+    { href: '/metodo', label: 'Metodo' },
+    { href: '/lavori', label: 'Lavori' },
+    { href: '/imprese', label: 'Per imprese' },
+    { href: '/contatti', label: 'Contatti' },
+];
+---
+
+<!doctype html>
+<html lang="it">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#080a0f" />
+        <meta name="description" content={description} />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <title>{title}</title>
+    </head>
+    <body class="site-body">
+        <header class="site-header">
+            <div class="header-inner">
+                <a class="brand" href="/" aria-label="Poliurea System Impermeabilizzazioni, home">
+                    <img src="/logo-poliurea-system.png" alt="Poliurea System - Impermeabilizzazioni" />
+                </a>
+                <nav class="main-nav" aria-label="Navigazione principale">
+                    {links.map(({ href, label }) => (
+                        <a href={href} aria-current={activePath === href ? 'page' : undefined}>{label}</a>
+                    ))}
+                </nav>
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <span></span><span></span>
+                </button>
+                <a class="header-cta" href="/preventivo">Preventivo gratuito <span aria-hidden="true">↗</span></a>
+            </div>
+            <nav class="mobile-menu" id="mobile-menu" aria-label="Navigazione principale" aria-hidden="true" inert>
+                <div class="mobile-menu-links">
+                    {links.map(({ href, label }) => (
+                        <a href={href} aria-current={activePath === href ? 'page' : undefined}>{label}</a>
+                    ))}
+                </div>
+                <a class="mobile-menu-cta" href="/preventivo">Preventivo gratuito <span aria-hidden="true">↗</span></a>
+            </nav>
+        </header>
+        <main>
+            <slot />
+        </main>
+        <footer class="site-footer">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <a class="brand footer-logo" href="/" aria-label="Poliurea System Impermeabilizzazioni, home">
+                        <img src="/logo-poliurea-system.png" alt="Poliurea System - Impermeabilizzazioni" />
+                    </a>
+                    <p>Soluzioni per proteggere gli edifici dall’acqua e dall’umidità.</p>
+                </div>
+                <div class="footer-column">
+                    <h2>Esplora</h2>
+                    <a href="/fondazioni">Fondazioni</a>
+                    <a href="/metodo">Il metodo</a>
+                    <a href="/lavori">Lavori</a>
+                </div>
+                <div class="footer-column">
+                    <h2>Parliamone</h2>
+                    <a href="/imprese">Per imprese</a>
+                    <a href="/contatti">Contatti</a>
+                    <a href="/preventivo">Richiedi un preventivo</a>
+                    <a href="/area-clienti">Area clienti</a>
+                    <a href="/privacy">Informativa privacy</a>
+                    <a href="/accesso-preventivi">Accesso preventivi</a>
+                </div>
+                <div class="footer-contact">
+                    <span class="footer-caption">HAI UN PROBLEMA DI INFILTRAZIONI?</span>
+                    <p>Raccontaci il tuo progetto: il primo passo è un confronto.</p>
+                    <a class="text-link" href="/preventivo">Richiedi un sopralluogo <span aria-hidden="true">→</span></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© {new Date().getFullYear()} Poliurea System</span>
+                <span>Protezione, progettata intorno al tuo edificio.</span>
+            </div>
+        </footer>
+        <script is:inline>
+            const menuToggle = document.getElementById('mobile-menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const chiudiMenu = () => {
+                mobileMenu.inert = true;
+                mobileMenu.setAttribute('aria-hidden', 'true');
+                menuToggle.setAttribute('aria-expanded', 'false');
+                menuToggle.setAttribute('aria-label', 'Apri il menu');
+                document.body.classList.remove('menu-open');
+            };
+
+            menuToggle.addEventListener('click', () => {
+                const aperto = menuToggle.getAttribute('aria-expanded') !== 'true';
+                mobileMenu.inert = !aperto;
+                mobileMenu.setAttribute('aria-hidden', String(!aperto));
+                menuToggle.setAttribute('aria-expanded', String(aperto));
+                menuToggle.setAttribute('aria-label', aperto ? 'Chiudi il menu' : 'Apri il menu');
+                document.body.classList.toggle('menu-open', aperto);
+            });
+            mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', chiudiMenu));
+            document.addEventListener('keydown', (evento) => {
+                if (evento.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') chiudiMenu();
+            });
+        </script>
+    </body>
+</html>

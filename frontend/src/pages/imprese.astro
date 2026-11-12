@@ -1,0 +1,55 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import CallToAction from '../components/CallToAction.astro';
+---
+
+<SiteLayout
+    title="Soluzioni per imprese e professionisti | Poliurea System"
+    description="Un punto di contatto per imprese, amministratori e professionisti che devono valutare interventi su edifici e coperture."
+    activePath="/imprese"
+>
+    <PageIntro
+        eyebrow="PER IMPRESE E PROFESSIONISTI"
+        title="Un interlocutore"
+        highlight="per il tuo progetto."
+        text="Quando un edificio è gestito da più persone, chiarezza e coordinamento contano. Inquadriamo insieme il problema e le informazioni utili per valutare come procedere."
+    />
+
+    <section class="business-intro wrap">
+        <div class="business-statement">
+            <p class="eyebrow">UN CONFRONTO, FATTO BENE</p>
+            <h2>Dal primo sopralluogo<br />alle <span>informazioni operative.</span></h2>
+            <p>Condividiamo gli elementi raccolti e le possibili fasi di approfondimento, così ogni interlocutore può avere un quadro più chiaro della richiesta.</p>
+        </div>
+        <div class="business-visual" aria-hidden="true">
+            <div class="business-grid"></div>
+            <div class="business-building"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <span class="business-tag">EDIFICIO<br />DA VALUTARE</span>
+        </div>
+    </section>
+    <section class="business-audience">
+        <div class="wrap">
+            <div class="section-heading">
+                <div><p class="eyebrow">A CHI CI RIVOLGIAMO</p><h2>Collaboriamo con<br /><span>chi si prende cura degli edifici.</span></h2></div>
+                <p>Ogni figura porta un punto di vista diverso. Condividere le informazioni aiuta a costruire un percorso di valutazione più ordinato.</p>
+            </div>
+            <div class="audience-cards">
+                <article><span>01</span><h3>Amministratori</h3><p>Per raccogliere le segnalazioni e valutare le esigenze delle parti comuni.</p></article>
+                <article><span>02</span><h3>Imprese e property manager</h3><p>Per confrontarsi sulle condizioni dell’immobile e sulle priorità di intervento.</p></article>
+                <article><span>03</span><h3>Tecnici e progettisti</h3><p>Per condividere il contesto tecnico e le informazioni disponibili sul progetto.</p></article>
+            </div>
+        </div>
+    </section>
+    <section class="business-checklist wrap">
+        <p class="eyebrow">COME PREPARARE IL PRIMO CONFRONTO</p>
+        <h2>Le informazioni utili<br /><span>per iniziare.</span></h2>
+        <div class="checklist-grid">
+            <p><span>✓</span> Indirizzo e tipologia dell’immobile</p>
+            <p><span>✓</span> Zona interessata dal problema</p>
+            <p><span>✓</span> Descrizione della situazione osservata</p>
+            <p><span>✓</span> Foto o documentazione disponibile</p>
+        </div>
+    </section>
+    <CallToAction title="Valutiamo insieme il tuo progetto." text="Inviaci le informazioni essenziali e ti ricontatteremo per un primo confronto." />
+</SiteLayout>

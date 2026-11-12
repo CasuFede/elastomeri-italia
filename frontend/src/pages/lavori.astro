@@ -1,0 +1,89 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import CallToAction from '../components/CallToAction.astro';
+---
+
+<SiteLayout
+    title="Lavori e interventi | Poliurea System"
+    description="Una galleria dedicata agli interventi di impermeabilizzazione, in preparazione con le immagini e le informazioni dei lavori."
+    activePath="/lavori"
+>
+    <PageIntro
+        eyebrow="LAVORI E INTERVENTI"
+        title="Ogni intervento"
+        highlight="parte da un’esigenza."
+        text="Una selezione di interventi, superfici trattate e soluzioni adottate, con immagini e informazioni sui lavori realizzati."
+    />
+    <section id="gallery-empty" class="gallery-empty wrap">
+        <div class="gallery-empty-art" aria-hidden="true">
+            <div class="gallery-frame frame-back"></div>
+            <div class="gallery-frame frame-front"><span>EI</span><small>SPAZIO PER I TUOI<br />PROGETTI REALIZZATI</small></div>
+            <span class="gallery-spark spark-one">✳</span><span class="gallery-spark spark-two">✳</span>
+        </div>
+        <div class="gallery-empty-copy">
+            <p class="eyebrow">GALLERIA IN PREPARAZIONE</p>
+            <h2>Qui racconteremo<br /><span>i lavori realizzati.</span></h2>
+            <p>Stiamo raccogliendo le fotografie e i dettagli dei progetti da condividere. Torna a trovarci per scoprire gli interventi, le superfici trattate e le soluzioni adottate.</p>
+            <a class="text-link" href="/contatti">Hai un progetto da raccontare? <span aria-hidden="true">→</span></a>
+        </div>
+    </section>
+    <section id="works-gallery" class="works-gallery wrap hidden" aria-label="Lavori realizzati">
+        <div id="works-grid" class="works-grid"></div>
+    </section>
+    <section class="gallery-guidelines">
+        <div class="wrap gallery-guidelines-inner">
+            <div><span>01</span><p><strong>Il contesto</strong><small>Tipologia dell’edificio e area interessata</small></p></div>
+            <div><span>02</span><p><strong>Il problema</strong><small>La situazione da cui è partito l’intervento</small></p></div>
+            <div><span>03</span><p><strong>Il percorso</strong><small>Le fasi e le soluzioni effettivamente adottate</small></p></div>
+        </div>
+    </section>
+    <CallToAction title="Hai un problema simile?" text="Raccontacelo: ogni valutazione comincia dalle caratteristiche del tuo edificio." />
+    <script is:inline>
+        const caricaGalleria = async () => {
+            try {
+                const risposta = await fetch('/api/lavori');
+                if (!risposta.ok) throw new Error(`HTTP ${risposta.status}`);
+                const { dati } = await risposta.json();
+                if (!Array.isArray(dati) || dati.length === 0) return;
+
+                const griglia = document.getElementById('works-grid');
+                for (const lavoro of dati) {
+                    const scheda = document.createElement('article');
+                    scheda.className = 'work-card';
+                    const immagine = document.createElement('img');
+                    immagine.src = lavoro.immagine_url;
+                    immagine.alt = `Lavoro: ${lavoro.titolo}`;
+                    immagine.loading = 'lazy';
+                    scheda.appendChild(immagine);
+
+                    const contenuto = document.createElement('div');
+                    contenuto.className = 'work-card-content';
+                    if (lavoro.localita) {
+                        const localita = document.createElement('p');
+                        localita.className = 'work-location';
+                        localita.textContent = lavoro.localita;
+                        contenuto.appendChild(localita);
+                    }
+                    const titolo = document.createElement('h2');
+                    titolo.textContent = lavoro.titolo;
+                    contenuto.appendChild(titolo);
+                    if (lavoro.descrizione) {
+                        const descrizione = document.createElement('p');
+                        descrizione.textContent = lavoro.descrizione;
+                        contenuto.appendChild(descrizione);
+                    }
+                    scheda.appendChild(contenuto);
+                    griglia.appendChild(scheda);
+                }
+
+                document.getElementById('gallery-empty').hidden = true;
+                document.getElementById('works-gallery').classList.remove('hidden');
+            } catch (errore) {
+                console.error('Impossibile caricare la galleria lavori:', errore);
+            }
+        };
+
+        caricaGalleria();
+    </script>
+</SiteLayout>

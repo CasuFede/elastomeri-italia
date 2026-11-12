@@ -1,0 +1,98 @@
+---
+import '../styles/global.css';
+---
+
+<html lang="it">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#05070b" />
+    <title>Accesso preventivi | Poliurea System</title>
+</head>
+<body class="admin-body min-h-screen">
+    <div class="admin-shell w-full">
+        <header class="admin-header">
+            <a class="admin-brand" href="/" aria-label="Poliurea System, home">
+                <img src="/logo-poliurea-system.png" alt="Poliurea System" />
+            </a>
+            <div class="admin-header-title">
+                <p>AREA RISERVATA</p>
+                <h1>Accesso preventivi</h1>
+            </div>
+            <a class="admin-secure-label" href="/">Torna al sito</a>
+        </header>
+
+        <main class="admin-login">
+            <div class="admin-login-copy">
+                <p class="admin-kicker">GESTIONE POLIUREA SYSTEM</p>
+                <h2>Preventivi e lavori,<br /><span>in un unico posto.</span></h2>
+                <p>Accedi per consultare le richieste, vedere il riepilogo e gestire lavori e immagini della galleria.</p>
+                <div class="admin-login-features">
+                    <span>Preventivi</span>
+                    <span>Lavori</span>
+                    <span>Immagini</span>
+                </div>
+            </div>
+            <section class="admin-login-panel" aria-labelledby="login-title">
+                <p class="admin-kicker">ACCESSO SICURO</p>
+                <h2 id="login-title">Accedi al tuo account</h2>
+                <p class="admin-login-hint">Inserisci le credenziali amministrative per continuare.</p>
+                <form id="login-form" class="grid gap-4">
+                    <label for="username" class="grid gap-2 text-sm font-semibold text-black">Nome utente</label>
+                    <input type="text" id="username" name="username" autocomplete="username" required class="w-full rounded-md border border-slate-300 p-3 text-base text-black outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25" />
+                    <label for="password" class="grid gap-2 text-sm font-semibold text-black">Password</label>
+                    <input type="password" id="password" name="password" autocomplete="current-password" required class="w-full rounded-md border border-slate-300 p-3 text-base text-black outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25" />
+                    <button id="login-btn" type="submit" class="w-full rounded-md bg-blue-600 p-3 text-base font-bold text-white transition hover:bg-blue-700">Accedi</button>
+                </form>
+                <p id="error-msg" class="mt-3 hidden text-base text-red-700" role="alert" aria-live="polite"></p>
+                <a class="customer-access-link" href="/area-clienti">Sei un cliente? Accedi all’area clienti</a>
+            </section>
+        </main>
+    </div>
+
+    <script is:inline>
+        const loginForm = document.getElementById('login-form');
+        const loginButton = document.getElementById('login-btn');
+        const errorMessage = document.getElementById('error-msg');
+        const sessionKey = 'poliurea-admin-token';
+
+        const mostraErrore = (messaggio) => {
+            errorMessage.textContent = messaggio;
+            errorMessage.classList.remove('hidden');
+        };
+
+        if (new URLSearchParams(window.location.search).has('scaduta')) {
+            mostraErrore('La sessione è scaduta. Accedi di nuovo per continuare.');
+        }
+
+        loginForm.addEventListener('submit', async (evento) => {
+            evento.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const bytes = new TextEncoder().encode(`${username}:${password}`);
+            const token = btoa(Array.from(bytes, (byte) => String.fromCharCode(byte)).join(''));
+            loginButton.disabled = true;
+            loginButton.textContent = 'Verifica accesso...';
+            errorMessage.classList.add('hidden');
+
+            try {
+                const risposta = await fetch('/api/preventivi', {
+                    headers: { 'Authorization': `Basic ${token}` },
+                });
+                if (risposta.status === 401) throw new Error('Nome utente o password non corretti.');
+                if (!risposta.ok) throw new Error(`Errore del server (HTTP ${risposta.status}).`);
+                const dati = await risposta.json();
+                if (!Array.isArray(dati.dati)) throw new Error('Risposta del server non valida.');
+                sessionStorage.setItem(sessionKey, token);
+                window.location.replace('/admin');
+            } catch (errore) {
+                mostraErrore(errore.message || 'Impossibile accedere. Riprova tra poco.');
+            } finally {
+                loginButton.disabled = false;
+                loginButton.textContent = 'Accedi';
+            }
+        });
+    </script>
+</body>
+</html>

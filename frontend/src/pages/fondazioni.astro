@@ -1,0 +1,69 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import CallToAction from '../components/CallToAction.astro';
+---
+
+<SiteLayout
+    title="Fondazioni, terrazzi e coperture | Poliurea System"
+    description="Scopri le principali aree di intervento per infiltrazioni e umidità: fondazioni, cantine, terrazzi, balconi e coperture."
+    activePath="/fondazioni"
+>
+    <PageIntro
+        eyebrow="DOVE INTERVENIAMO"
+        title="Ogni superficie"
+        highlight="ha le sue regole."
+        text="Acqua e umidità possono entrare da punti diversi. Conoscere l’area interessata aiuta a individuare cosa osservare e quali soluzioni valutare."
+    />
+
+    <section class="service-detail-list wrap">
+        <article class="service-detail" id="fondazioni">
+            <div class="detail-number">01</div>
+            <div class="detail-content">
+                <p class="eyebrow">STRUTTURE INTERRATE</p>
+                <h2>Fondazioni e cantine</h2>
+                <p>Aloni, distacchi e pareti umide possono essere segnali da approfondire. La valutazione considera la posizione dell’edificio, il contatto con il terreno e i punti in cui l’acqua può trovare un passaggio.</p>
+                <ul class="check-list">
+                    <li>Pareti controterra</li>
+                    <li>Locali interrati e cantine</li>
+                    <li>Umidità e infiltrazioni</li>
+                </ul>
+            </div>
+            <div class="detail-visual visual-foundation" aria-hidden="true"><div class="wall"></div><div class="ground"></div><div class="water-drop">⌁</div></div>
+        </article>
+        <article class="service-detail detail-reverse" id="terrazzi">
+            <div class="detail-number">02</div>
+            <div class="detail-content">
+                <p class="eyebrow">SUPERFICI ESPOSTE</p>
+                <h2>Terrazzi e balconi</h2>
+                <p>Le infiltrazioni possono dipendere da più elementi, non solo dalla superficie calpestabile. Giunti, scarichi, soglie e raccordi sono tra i punti che possono richiedere un controllo attento.</p>
+                <ul class="check-list">
+                    <li>Terrazzi e balconi</li>
+                    <li>Raccordi e punti di scarico</li>
+                    <li>Verifica del contesto prima dell’intervento</li>
+                </ul>
+            </div>
+            <div class="detail-visual visual-terrace" aria-hidden="true"><div class="terrace-floor"></div><div class="terrace-wall"></div><div class="terrace-plant"></div><div class="water-drop">⌁</div></div>
+        </article>
+        <article class="service-detail" id="coperture">
+            <div class="detail-number">03</div>
+            <div class="detail-content">
+                <p class="eyebrow">TETTI E COPERTURE</p>
+                <h2>Coperture e sottotetti</h2>
+                <p>La pioggia e gli agenti atmosferici sollecitano le coperture nel tempo. La zona interessata, i punti di giunzione e gli elementi di raccolta dell’acqua aiutano a orientare l’analisi.</p>
+                <ul class="check-list">
+                    <li>Tetti e coperture piane</li>
+                    <li>Sottotetti e locali sottostanti</li>
+                    <li>Giunzioni, raccordi e scarichi</li>
+                </ul>
+            </div>
+            <div class="detail-visual visual-roof" aria-hidden="true"><div class="roof-shape"></div><div class="roof-house"></div><div class="water-drop">⌁</div></div>
+        </article>
+    </section>
+
+    <section class="note-strip wrap">
+        <span class="note-icon" aria-hidden="true">i</span>
+        <p>Ogni edificio è diverso. Le informazioni in questa pagina sono orientative: il tipo di intervento si valuta in base alle condizioni specifiche.</p>
+    </section>
+    <CallToAction title="Non sai da dove arriva l’acqua?" text="Descrivici cosa hai notato e in quale zona: ci aiuterà a capire come procedere." />
+</SiteLayout>

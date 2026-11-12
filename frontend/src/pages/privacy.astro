@@ -1,0 +1,45 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+---
+
+<SiteLayout
+    title="Informativa privacy | Poliurea System"
+    description="Informazioni sul trattamento dei dati inviati tramite il modulo di richiesta preventivo."
+>
+    <PageIntro
+        eyebrow="INFORMAZIONI SUI DATI"
+        title="Informativa"
+        highlight="privacy."
+        text="Questa pagina è una bozza da completare con i dati del titolare e le informazioni definitive sul trattamento prima della pubblicazione."
+    />
+    <section class="privacy-content wrap">
+        <div class="privacy-warning"><strong>Da completare prima della pubblicazione.</strong> I campi tra parentesi quadre sono segnaposto, non dati aziendali verificati.</div>
+        <article>
+            <p class="eyebrow">01 / TITOLARE DEL TRATTAMENTO</p>
+            <h2>Chi tratta i dati?</h2>
+            <p>Il titolare del trattamento è <strong>[Inserire ragione sociale e dati del titolare]</strong>, con sede in <strong>[Inserire indirizzo]</strong>. Per richieste relative alla privacy, scrivi a <strong>[Inserire email per la privacy]</strong>.</p>
+        </article>
+        <article>
+            <p class="eyebrow">02 / DATI RACCOLTI</p>
+            <h2>Cosa ci comunichi?</h2>
+            <p>Il modulo può raccogliere nome e cognome, telefono, email, comune dell’intervento, tipo di immobile, area interessata, situazione, superficie stimata, note e fotografie che scegli di allegare. Evita di inviare dati non necessari o immagini che ritraggono persone.</p>
+        </article>
+        <article>
+            <p class="eyebrow">03 / FINALITÀ E BASE GIURIDICA</p>
+            <h2>Perché usiamo i dati?</h2>
+            <p>I dati sono utilizzati per ricevere e gestire la richiesta di informazioni o sopralluogo e per ricontattarti in merito. <strong>[Il titolare deve confermare la base giuridica applicabile e l’eventuale uso dei dati per altre finalità.]</strong></p>
+        </article>
+        <article>
+            <p class="eyebrow">04 / CONSERVAZIONE E DESTINATARI</p>
+            <h2>Dove e per quanto tempo?</h2>
+            <p>Le richieste e gli eventuali allegati sono conservati nei sistemi usati per il funzionamento del servizio. Le notifiche possono essere inoltrate al canale Telegram aziendale configurato. <strong>[Specificare fornitori, eventuali trasferimenti, tempi di conservazione e misure applicate.]</strong></p>
+        </article>
+        <article>
+            <p class="eyebrow">05 / I TUOI DIRITTI</p>
+            <h2>Come esercitare i tuoi diritti?</h2>
+            <p>Puoi chiedere al titolare informazioni sui dati che ti riguardano o esercitare i diritti previsti dalla normativa applicabile, scrivendo a <strong>[Inserire email per la privacy]</strong>. <strong>[Il titolare deve verificare e completare questa informativa, includendo i riferimenti e le informazioni richieste dalla normativa.]</strong></p>
+        </article>
+        <p class="privacy-updated">Ultimo aggiornamento: [Inserire data di aggiornamento]</p>
+    </section>
+</SiteLayout>

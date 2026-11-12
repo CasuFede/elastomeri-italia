@@ -1,0 +1,58 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import PageIntro from '../components/PageIntro.astro';
+import CallToAction from '../components/CallToAction.astro';
+---
+
+<SiteLayout
+    title="Il metodo | Poliurea System"
+    description="Un percorso chiaro per affrontare infiltrazioni e umidità: ascolto, valutazione e proposta dell’intervento."
+    activePath="/metodo"
+>
+    <PageIntro
+        eyebrow="IL NOSTRO APPROCCIO"
+        title="Prima capire."
+        highlight="Poi intervenire."
+        text="Per affrontare un’infiltrazione serve risalire al contesto e ai punti coinvolti. Il percorso parte dalle informazioni, non da soluzioni preconfezionate."
+    />
+
+    <section class="method-roadmap wrap">
+        <div class="roadmap-line" aria-hidden="true"></div>
+        <article class="roadmap-step">
+            <span class="roadmap-number">01</span>
+            <div class="roadmap-body">
+                <p class="eyebrow">ASCOLTO</p>
+                <h2>Partiamo da quello che hai osservato.</h2>
+                <p>Ci racconti il problema, da quanto tempo si presenta e quali zone sono coinvolte. Foto e dettagli aiutano a inquadrare meglio la richiesta.</p>
+            </div>
+            <div class="roadmap-aside"><span aria-hidden="true">↗</span><p>Il tuo punto di partenza</p></div>
+        </article>
+        <article class="roadmap-step">
+            <span class="roadmap-number">02</span>
+            <div class="roadmap-body">
+                <p class="eyebrow">VALUTAZIONE</p>
+                <h2>Consideriamo la superficie e il contesto.</h2>
+                <p>La zona interessata, la tipologia dell’edificio e le condizioni del supporto contribuiscono a definire cosa verificare e quali aspetti approfondire.</p>
+            </div>
+            <div class="roadmap-aside"><span aria-hidden="true">⌕</span><p>Cause e punti critici</p></div>
+        </article>
+        <article class="roadmap-step">
+            <span class="roadmap-number">03</span>
+            <div class="roadmap-body">
+                <p class="eyebrow">PROPOSTA</p>
+                <h2>Condividiamo i possibili passi successivi.</h2>
+                <p>Ricevi indicazioni per proseguire con una valutazione o un sopralluogo. L’intervento viene definito considerando il problema specifico, senza anticipare soluzioni non verificate.</p>
+            </div>
+            <div class="roadmap-aside"><span aria-hidden="true">✓</span><p>Una direzione chiara</p></div>
+        </article>
+    </section>
+
+    <section class="method-principle">
+        <div class="wrap principle-content">
+            <p class="eyebrow">UN PRINCIPIO SEMPLICE</p>
+            <h2>La soluzione giusta<br />inizia dalla <span>domanda giusta.</span></h2>
+            <p>Per questo raccogliamo prima le informazioni essenziali, poi valutiamo come proseguire.</p>
+        </div>
+    </section>
+    <CallToAction title="Iniziamo dalla tua situazione." text="Compila il modulo: ci darai gli elementi per un primo confronto." />
+</SiteLayout>
