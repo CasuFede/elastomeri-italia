@@ -1,0 +1,12 @@
+# Node e Astro
+node_modules/
+dist/
+.astro/
+
+# Python e Backend
+__pycache__/
+backend/.env
+preventivi.db
+
+# File di sistema
+.DS_Store

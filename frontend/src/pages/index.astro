@@ -1,0 +1,64 @@
+---
+// frontend/src/components/FormPreventivo.astro
+// In quest'area (tra i trattini) va il codice lato server di Astro. 
+// Per un form statico, puoi lasciarlo vuoto.
+---
+<html lang="it">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Poliurea System - Richiedi Preventivo</title>
+    <!-- Aggiungi questa riga nel tag head della pagina -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-8">
+
+<!-- 1. Il tuo markup HTML del form (assicurati che gli attributi 'name' corrispondano a quelli attesi da FastAPI) -->
+<form id="form-preventivo" class="flex flex-col gap-4 max-w-md mx-auto">
+  <input type="text" name="nome" placeholder="Il tuo nome" required class="border p-2" />
+  <input type="email" name="email" placeholder="Email" required class="border p-2" />
+  <input type="text" name="telefono" placeholder="Telefono" required class="border p-2" />
+  
+  <select name="servizio" class="border p-2" required>
+    <option value="Tetti">Impermeabilizzazione Tetti</option>
+    <option value="Terrazzi">Terrazzi e Balconi</option>
+    <option value="Fondazioni">Fondazioni</option>
+  </select>
+
+  <textarea name="messaggio" placeholder="Dettagli aggiuntivi" class="border p-2"></textarea>
+  
+  <button type="submit" class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
+    Richiedi Preventivo
+  </button>
+</form>
+</body>
+<script>
+  // Diciamo a TypeScript che questo elemento esiste ed è un Form HTML
+  const form = document.querySelector('#form-preventivo') as HTMLFormElement;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
+
+    try {
+      const response = await fetch('/api/preventivo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      if (result.status === 'success') {
+        alert(result.message); 
+        form.reset();
+      }
+    } catch (error) {
+      console.error('Errore durante l\'invio:', error);
+    }
+  });
+</script>
+</html>

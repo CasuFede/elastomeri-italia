@@ -1,0 +1,127 @@
+---
+// src/pages/admin.astro
+---
+
+<html lang="it">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Admin - Storico Preventivi</title>
+    <!-- Script scommentato per far funzionare le classi Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8 font-sans">
+
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold mb-8 text-gray-800">Pannello Amministrazione Preventivi</h1>
+
+        <!-- SEZIONE LOGIN -->
+        <div id="login-section" class="bg-white p-6 rounded-lg shadow-md max-w-sm mb-8">
+            <h2 class="text-xl font-semibold mb-4">Accesso Richiesto</h2>
+            <input type="text" id="username" placeholder="Username" class="w-full mb-3 p-2 border rounded" />
+            <input type="password" id="password" placeholder="Password" class="w-full mb-4 p-2 border rounded" />
+            <button id="login-btn" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Accedi</button>
+            <p id="error-msg" class="text-red-500 text-sm mt-2 hidden">Credenziali errate, riprova.</p>
+        </div>
+
+        <!-- SEZIONE TABELLA (Nascosta di default) -->
+        <div id="table-section" class="bg-white rounded-lg shadow-md overflow-x-auto hidden">
+            <div class="p-4 border-b bg-gray-50 flex justify-between items-center">
+                <span class="font-semibold text-gray-700">Totale richieste: <span id="total-count">0</span></span>
+                <button id="logout-btn" class="text-sm text-red-600 hover:underline">Esci</button>
+            </div>
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-800 text-white">
+                        <th class="p-3">ID</th>
+                        <th class="p-3">Data</th>
+                        <th class="p-3">Nome</th>
+                        <th class="p-3">Email e Telefono</th>
+                        <th class="p-3">Servizio</th>
+                        <th class="p-3">Messaggio</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body" class="divide-y">
+                    <!-- I dati verranno inseriti qui da JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Il "!" finale dice a TypeScript che l'elemento esiste sicuramente
+        const loginBtn = document.getElementById('login-btn')!;
+        const logoutBtn = document.getElementById('logout-btn')!;
+        const loginSection = document.getElementById('login-section')!;
+        const tableSection = document.getElementById('table-section')!;
+        const errorMsg = document.getElementById('error-msg')!;
+        const tableBody = document.getElementById('table-body')!;
+        const totalCount = document.getElementById('total-count')!;
+
+        // Dichiariamo che dataIso è una stringa
+        const formattaData = (dataIso: string) => {
+            const data = new Date(dataIso);
+            return data.toLocaleString('it-IT', { 
+                day: '2-digit', month: '2-digit', year: 'numeric', 
+                hour: '2-digit', minute: '2-digit' 
+            });
+        };
+
+        loginBtn.addEventListener('click', async () => {
+            const user = (document.getElementById('username') as HTMLInputElement).value;
+            const pass = (document.getElementById('password') as HTMLInputElement).value;
+
+            const token = btoa(`${user}:${pass}`);
+
+            try {
+                const response = await fetch('/api/preventivi', {
+                    headers: {
+                        'Authorization': `Basic ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Non autorizzato');
+                }
+
+                const data = await response.json();
+                
+                loginSection.classList.add('hidden');
+                errorMsg.classList.add('hidden');
+                tableSection.classList.remove('hidden');
+                
+                totalCount.textContent = data.totale_richieste;
+                tableBody.innerHTML = ''; 
+
+                // Usiamo "prev: any" per evitare errori di tipo sui dati del database
+                data.dati.forEach((prev: any) => {
+                    const tr = document.createElement('tr');
+                    tr.className = "hover:bg-gray-50";
+                    tr.innerHTML = `
+                        <td class="p-3 font-semibold text-gray-600">#${prev.id}</td>
+                        <td class="p-3 whitespace-nowrap">${formattaData(prev.data_richiesta)}</td>
+                        <td class="p-3 font-medium">${prev.nome}</td>
+                        <td class="p-3">
+                            <a href="mailto:${prev.email}" class="text-blue-600 hover:underline block">${prev.email}</a>
+                            <a href="tel:${prev.telefono}" class="text-gray-500 text-sm hover:underline">${prev.telefono}</a>
+                        </td>
+                        <td class="p-3"><span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold">${prev.servizio}</span></td>
+                        <td class="p-3 text-sm text-gray-700 max-w-xs truncate" title="${prev.messaggio || ''}">${prev.messaggio || '-'}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+
+            } catch (error) {
+                errorMsg.classList.remove('hidden');
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            tableSection.classList.add('hidden');
+            loginSection.classList.remove('hidden');
+            (document.getElementById('password') as HTMLInputElement).value = '';
+            tableBody.innerHTML = '';
+        });
+    </script>
+</body>
+</html>
