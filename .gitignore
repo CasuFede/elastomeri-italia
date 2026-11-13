@@ -1,13 +1,51 @@
-# Node e Astro
+# --- Ambiente e Secrets ---
+.env
+.env.*
+*.env
+*.vars
+.dev.vars*
+backend/.dev.vars*
+
+# --- Dipendenze e Build ---
 node_modules/
 dist/
 .astro/
-
-# Python e Backend
+.venv*/
+backend/.venv*/
+python_modules/
+backend/python_modules/
+backend/pylock.toml
 __pycache__/
-backend/.env
+*.py[cod]
+*$py.class
+
+# --- Cloudflare Wrangler ---
+.wrangler/
+backend/.wrangler/
+frontend/.wrangler/
+
+# --- Database e Storage Locali ---
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
 preventivi.db
+uploads/
 backend/uploads/
 
-# File di sistema
+# --- Certificati e Chiavi Private ---
+*.pem
+*.key
+*.crt
+*.cert
+*.pfx
+*.p12
+
+# --- Sistema Operativo e Editor ---
 .DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/

@@ -42,7 +42,6 @@ import '../styles/global.css';
                         <button id="customer-login-button" type="submit">Accedi</button>
                     </form>
                     <p id="customer-login-error" class="customer-error" role="alert" aria-live="polite" hidden></p>
-                    <a class="customer-admin-link" href="/accesso-preventivi">Accesso amministrazione</a>
                 </div>
             </section>
 
@@ -62,7 +61,7 @@ import '../styles/global.css';
     </div>
 
     <script is:inline>
-        const tokenKey = 'poliurea-client-token';
+        const sessionKey = 'poliurea-client-logged';
         const loginSection = document.getElementById('customer-login');
         const dashboard = document.getElementById('customer-dashboard');
         const loginForm = document.getElementById('customer-login-form');
@@ -78,7 +77,6 @@ import '../styles/global.css';
             completato: { label: 'Completato', progress: 100 },
             annullato: { label: 'Annullato', progress: 0 },
         };
-        let token = sessionStorage.getItem(tokenKey) || '';
 
         const mostraErroreAccesso = (messaggio) => {
             loginError.textContent = messaggio;
@@ -167,9 +165,7 @@ import '../styles/global.css';
                         scarica.textContent = allegato.nome;
                         scarica.addEventListener('click', async () => {
                             try {
-                                const file = await fetch(`/api/area-clienti/preventivi/${preventivo.id}/allegati/${allegato.id}`, {
-                                    headers: { 'Authorization': `Basic ${token}` },
-                                });
+                                const file = await fetch(`/api/area-clienti/preventivi/${preventivo.id}/allegati/${allegato.id}`);
                                 if (!file.ok) throw new Error(`HTTP ${file.status}`);
                                 const url = URL.createObjectURL(await file.blob());
                                 const link = document.createElement('a');
@@ -195,15 +191,12 @@ import '../styles/global.css';
 
         const caricaAreaCliente = async () => {
             try {
-                const risposta = await fetch('/api/area-clienti', {
-                    headers: { 'Authorization': `Basic ${token}` },
-                });
+                const risposta = await fetch('/api/area-clienti');
                 if (risposta.status === 401) throw new Error('Credenziali non valide o account non attivo.');
                 if (!risposta.ok) throw new Error(`Errore del server (HTTP ${risposta.status}).`);
                 mostraRichieste(await risposta.json());
             } catch (errore) {
-                token = '';
-                sessionStorage.removeItem(tokenKey);
+                sessionStorage.removeItem(sessionKey);
                 loginSection.hidden = false;
                 dashboard.hidden = true;
                 mostraErroreAccesso(errore.message || 'Impossibile caricare la tua area.');
@@ -214,21 +207,24 @@ import '../styles/global.css';
             evento.preventDefault();
             const email = document.getElementById('customer-email').value.trim().toLowerCase();
             const password = document.getElementById('customer-password').value;
-            const bytes = new TextEncoder().encode(`${email}:${password}`);
-            token = btoa(Array.from(bytes, (byte) => String.fromCharCode(byte)).join(''));
             loginButton.disabled = true;
             loginButton.textContent = 'Verifica accesso...';
             loginError.hidden = true;
             try {
-                const risposta = await fetch('/api/area-clienti', {
-                    headers: { 'Authorization': `Basic ${token}` },
+                const risposta = await fetch('/api/auth/cliente/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
                 });
                 if (risposta.status === 401) throw new Error('Email o password non corrette.');
-                if (!risposta.ok) throw new Error(`Errore del server (HTTP ${risposta.status}).`);
-                sessionStorage.setItem(tokenKey, token);
-                mostraRichieste(await risposta.json());
+                if (!risposta.ok) {
+                    const err = await risposta.json().catch(() => ({}));
+                    throw new Error(err.detail || `Errore del server (HTTP ${risposta.status}).`);
+                }
+                sessionStorage.setItem(sessionKey, '1');
+                await caricaAreaCliente();
             } catch (errore) {
-                token = '';
+                sessionStorage.removeItem(sessionKey);
                 mostraErroreAccesso(errore.message || 'Impossibile accedere. Riprova tra poco.');
             } finally {
                 loginButton.disabled = false;
@@ -236,15 +232,17 @@ import '../styles/global.css';
             }
         });
 
-        document.getElementById('customer-logout').addEventListener('click', () => {
-            token = '';
-            sessionStorage.removeItem(tokenKey);
+        document.getElementById('customer-logout').addEventListener('click', async () => {
+            sessionStorage.removeItem(sessionKey);
             dashboard.hidden = true;
             loginForm.reset();
             loginSection.hidden = false;
+            try {
+                await fetch('/api/auth/logout', { method: 'POST' });
+            } catch (_) {}
         });
 
-        if (token) caricaAreaCliente();
+        if (sessionStorage.getItem(sessionKey) === '1') caricaAreaCliente();
     </script>
 </body>
 </html>

@@ -1,0 +1,9 @@
+.venv/
+.venv*/
+.wrangler/
+__pycache__/
+*.py[cod]
+.env
+.dev.vars*
+*.db
+*.sqlite*

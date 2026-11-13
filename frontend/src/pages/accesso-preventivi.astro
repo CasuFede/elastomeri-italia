@@ -8,7 +8,7 @@ import '../styles/global.css';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
     <meta name="theme-color" content="#05070b" />
-    <title>Accesso preventivi | Poliurea System</title>
+    <title>Area riservata | Poliurea System</title>
 </head>
 <body class="admin-body min-h-screen">
     <div class="admin-shell w-full">
@@ -16,24 +16,10 @@ import '../styles/global.css';
             <a class="admin-brand" href="/" aria-label="Poliurea System, home">
                 <img src="/logo-poliurea-system.png" alt="Poliurea System" />
             </a>
-            <div class="admin-header-title">
-                <p>AREA RISERVATA</p>
-                <h1>Accesso preventivi</h1>
-            </div>
             <a class="admin-secure-label" href="/">Torna al sito</a>
         </header>
 
         <main class="admin-login">
-            <div class="admin-login-copy">
-                <p class="admin-kicker">GESTIONE POLIUREA SYSTEM</p>
-                <h2>Preventivi e lavori,<br /><span>in un unico posto.</span></h2>
-                <p>Accedi per consultare le richieste, vedere il riepilogo e gestire lavori e immagini della galleria.</p>
-                <div class="admin-login-features">
-                    <span>Preventivi</span>
-                    <span>Lavori</span>
-                    <span>Immagini</span>
-                </div>
-            </div>
             <section class="admin-login-panel" aria-labelledby="login-title">
                 <p class="admin-kicker">ACCESSO SICURO</p>
                 <h2 id="login-title">Accedi al tuo account</h2>
@@ -46,7 +32,6 @@ import '../styles/global.css';
                     <button id="login-btn" type="submit" class="w-full rounded-md bg-blue-600 p-3 text-base font-bold text-white transition hover:bg-blue-700">Accedi</button>
                 </form>
                 <p id="error-msg" class="mt-3 hidden text-base text-red-700" role="alert" aria-live="polite"></p>
-                <a class="customer-access-link" href="/area-clienti">Sei un cliente? Accedi all’area clienti</a>
             </section>
         </main>
     </div>
@@ -55,7 +40,7 @@ import '../styles/global.css';
         const loginForm = document.getElementById('login-form');
         const loginButton = document.getElementById('login-btn');
         const errorMessage = document.getElementById('error-msg');
-        const sessionKey = 'poliurea-admin-token';
+        const sessionKey = 'poliurea-admin-logged';
 
         const mostraErrore = (messaggio) => {
             errorMessage.textContent = messaggio;
@@ -70,21 +55,22 @@ import '../styles/global.css';
             evento.preventDefault();
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value;
-            const bytes = new TextEncoder().encode(`${username}:${password}`);
-            const token = btoa(Array.from(bytes, (byte) => String.fromCharCode(byte)).join(''));
             loginButton.disabled = true;
             loginButton.textContent = 'Verifica accesso...';
             errorMessage.classList.add('hidden');
 
             try {
-                const risposta = await fetch('/api/preventivi', {
-                    headers: { 'Authorization': `Basic ${token}` },
+                const risposta = await fetch('/api/auth/admin/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password }),
                 });
                 if (risposta.status === 401) throw new Error('Nome utente o password non corretti.');
-                if (!risposta.ok) throw new Error(`Errore del server (HTTP ${risposta.status}).`);
-                const dati = await risposta.json();
-                if (!Array.isArray(dati.dati)) throw new Error('Risposta del server non valida.');
-                sessionStorage.setItem(sessionKey, token);
+                if (!risposta.ok) {
+                    const err = await risposta.json().catch(() => ({}));
+                    throw new Error(err.detail || `Errore del server (HTTP ${risposta.status}).`);
+                }
+                sessionStorage.setItem(sessionKey, '1');
                 window.location.replace('/admin');
             } catch (errore) {
                 mostraErrore(errore.message || 'Impossibile accedere. Riprova tra poco.');

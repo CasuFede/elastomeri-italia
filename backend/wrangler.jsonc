@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "elastomeri-italia-api",
+  "main": "worker.py",
+  "compatibility_date": "2026-11-13",
+  "compatibility_flags": ["python_workers"],
+  "observability": {
+    "enabled": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "preventivi-db",
+      "database_id": "44b77399-822e-489c-b6a9-3bd916ae258d",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "UPLOADS",
+      "bucket_name": "preventivi-uploads"
+    }
+  ]
+}

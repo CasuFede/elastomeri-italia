@@ -160,15 +160,15 @@ import '../styles/global.css';
         const clientSubmit = document.getElementById('client-submit');
         const clientFeedback = document.getElementById('client-feedback');
         const clientsList = document.getElementById('clients-list');
-        const sessionKey = 'poliurea-admin-token';
-        let authToken = sessionStorage.getItem(sessionKey) || '';
+        const sessionKey = 'poliurea-admin-logged';
+        let isLogged = sessionStorage.getItem(sessionKey) === '1';
 
-        if (!authToken) {
+        if (!isLogged) {
             window.location.replace('/accesso-preventivi');
         }
 
         window.addEventListener('pageshow', () => {
-            if (!sessionStorage.getItem(sessionKey)) window.location.replace('/accesso-preventivi');
+            if (sessionStorage.getItem(sessionKey) !== '1') window.location.replace('/accesso-preventivi');
         });
 
         const formattaData = (dataIso) => {
@@ -257,7 +257,6 @@ import '../styles/global.css';
                             const risposta = await fetch(`/api/lavori/${lavoro.id}`, {
                                 method: 'PATCH',
                                 headers: {
-                                    'Authorization': `Basic ${authToken}`,
                                     'Content-Type': 'application/json',
                                 },
                                 body: JSON.stringify({
@@ -291,7 +290,6 @@ import '../styles/global.css';
                         try {
                             const risposta = await fetch(`/api/lavori/${lavoro.id}/immagine`, {
                                 method: 'PUT',
-                                headers: { 'Authorization': `Basic ${authToken}` },
                                 body: modulo,
                             });
                             if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
@@ -313,7 +311,6 @@ import '../styles/global.css';
                         try {
                             const risposta = await fetch(`/api/lavori/${lavoro.id}`, {
                                 method: 'DELETE',
-                                headers: { 'Authorization': `Basic ${authToken}` },
                             });
                             if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
                             mostraFeedbackLavori('Lavoro eliminato.');
@@ -339,9 +336,7 @@ import '../styles/global.css';
 
         const caricaClienti = async () => {
             try {
-                const risposta = await fetch('/api/clienti', {
-                    headers: { 'Authorization': `Basic ${authToken}` },
-                });
+                const risposta = await fetch('/api/clienti');
                 if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
                 const risultato = await risposta.json();
                 if (!Array.isArray(risultato.dati)) throw new Error('Formato della risposta non valido.');
@@ -385,7 +380,6 @@ import '../styles/global.css';
                 const risposta = await fetch('/api/clienti', {
                     method: 'POST',
                     headers: {
-                        'Authorization': `Basic ${authToken}`,
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
@@ -413,7 +407,6 @@ import '../styles/global.css';
             try {
                 const risposta = await fetch('/api/lavori', {
                     method: 'POST',
-                    headers: { 'Authorization': `Basic ${authToken}` },
                     body: new FormData(workForm),
                 });
                 if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
@@ -450,14 +443,12 @@ import '../styles/global.css';
         tabClienti.addEventListener('click', () => mostraSchedaAdmin('clienti'));
 
         const caricaPreventivi = async () => {
-            if (!authToken) {
+            if (!isLogged) {
                 window.location.replace('/accesso-preventivi');
                 return;
             }
             try {
-                const response = await fetch('/api/preventivi', {
-                    headers: { 'Authorization': `Basic ${authToken}` }
-                });
+                const response = await fetch('/api/preventivi');
 
                 if (response.status === 401) {
                     sessionStorage.removeItem(sessionKey);
@@ -511,7 +502,8 @@ import '../styles/global.css';
                             contatti.appendChild(email);
                         }
                         const telefono = document.createElement('a');
-                        telefono.href = `tel:${prev.telefono}`;
+                        const telPulito = (prev.telefono || '').replace(/[^\d+]/g, '');
+                        telefono.href = telPulito ? `tel:${telPulito}` : '#';
                         telefono.className = 'text-black hover:underline';
                         telefono.textContent = prev.telefono ?? '-';
                         contatti.appendChild(telefono);
@@ -538,9 +530,7 @@ import '../styles/global.css';
                             apriFoto.textContent = allegato.nome;
                             apriFoto.addEventListener('click', async () => {
                                 try {
-                                    const risposta = await fetch(`/api/preventivi/${prev.id}/allegati/${allegato.id}`, {
-                                        headers: { 'Authorization': `Basic ${authToken}` }
-                                    });
+                                    const risposta = await fetch(`/api/preventivi/${prev.id}/allegati/${allegato.id}`);
                                     if (!risposta.ok) throw new Error(`HTTP ${risposta.status}`);
                                     photoViewer.src = URL.createObjectURL(await risposta.blob());
                                     photoDialog.showModal();
@@ -595,7 +585,6 @@ import '../styles/global.css';
                                 const risposta = await fetch(`/api/preventivi/${prev.id}/stato`, {
                                     method: 'PATCH',
                                     headers: {
-                                        'Authorization': `Basic ${authToken}`,
                                         'Content-Type': 'application/json',
                                     },
                                     body: JSON.stringify({ stato: statoSelect.value, note_cliente: noteInput.value }),
@@ -619,22 +608,23 @@ import '../styles/global.css';
 
             } catch (error) {
                 console.error("Errore fetch:", error);
-                authToken = '';
                 sessionStorage.removeItem(sessionKey);
                 window.location.replace('/accesso-preventivi?scaduta');
             }
         };
 
-        logoutBtn.addEventListener('click', () => {
+        logoutBtn.addEventListener('click', async () => {
             tableSection.classList.add('hidden');
             worksSection.classList.add('hidden');
             adminTabs.classList.add('hidden');
             adminTabs.classList.remove('flex');
             adminSummary.classList.add('hidden');
-            authToken = '';
             sessionStorage.removeItem(sessionKey);
             tableBody.innerHTML = '';
             worksList.replaceChildren();
+            try {
+                await fetch('/api/auth/logout', { method: 'POST' });
+            } catch (_) {}
             window.location.replace('/accesso-preventivi');
         });
 
@@ -644,7 +634,7 @@ import '../styles/global.css';
             photoViewer.removeAttribute('src');
         });
 
-        if (authToken) caricaPreventivi();
+        if (isLogged) caricaPreventivi();
     </script>
 </body>
 </html>

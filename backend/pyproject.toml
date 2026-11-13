@@ -1,0 +1,16 @@
+[project]
+name = "elastomeri-italia-api"
+version = "0.1.0"
+description = "FastAPI backend deployed as a Cloudflare Python Worker"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi",
+    "pydantic[email]",
+    "python-multipart",
+]
+
+[dependency-groups]
+dev = [
+    "workers-py",
+    "workers-runtime-sdk",
+]

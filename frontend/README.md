@@ -41,3 +41,22 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## Cloudflare Workers
+
+The site uses `@astrojs/cloudflare` with server output. From this directory:
+
+```sh
+npm install
+npx wrangler login
+npm run deploy
+```
+
+The frontend and API are separate Workers. The frontend has an `API` service
+binding to `elastomeri-italia-api`; its middleware forwards `/api/*` directly
+to the backend, which strips the `/api` prefix. Attach the custom domain to the
+frontend Worker; no separate public API route is needed.
+
+The apex domain `poliureasystem.it` is configured as a Worker custom domain.
+The Cloudflare zone must be active, which requires delegating the domain to
+the nameservers shown in the Cloudflare dashboard at the registrar.

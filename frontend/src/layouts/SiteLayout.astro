@@ -41,13 +41,20 @@ const links = [
                 <button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-menu">
                     <span></span><span></span>
                 </button>
-                <a class="header-cta" href="/preventivo">Preventivo gratuito <span aria-hidden="true">↗</span></a>
+                <div class="header-actions">
+                    <a class="header-login" href="/area-clienti" aria-label="Accedi all’area clienti">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" /></svg>
+                        <span>Area clienti</span>
+                    </a>
+                    <a class="header-cta" href="/preventivo">Preventivo gratuito <span aria-hidden="true">↗</span></a>
+                </div>
             </div>
             <nav class="mobile-menu" id="mobile-menu" aria-label="Navigazione principale" aria-hidden="true" inert>
                 <div class="mobile-menu-links">
                     {links.map(({ href, label }) => (
                         <a href={href} aria-current={activePath === href ? 'page' : undefined}>{label}</a>
                     ))}
+                    <a class="mobile-customer-login" href="/area-clienti">Accedi all’area clienti <span aria-hidden="true">↗</span></a>
                 </div>
                 <a class="mobile-menu-cta" href="/preventivo">Preventivo gratuito <span aria-hidden="true">↗</span></a>
             </nav>
@@ -55,6 +62,48 @@ const links = [
         <main>
             <slot />
         </main>
+        <aside class="chat-widget" id="chat-widget">
+            <section class="chat-panel" id="chat-panel" aria-label="Chat con il Castoro" aria-hidden="true" inert hidden>
+                <header class="chat-header">
+                    <div class="chat-avatar">
+                        <img class="chat-header-mascot" src="/mascotte-castoro.webp" alt="" />
+                        <span class="chat-online-dot" aria-hidden="true"></span>
+                    </div>
+                    <div class="chat-header-copy">
+                        <span class="chat-header-kicker">ASSISTENTE</span>
+                        <strong>Il Castoro</strong>
+                        <span><i aria-hidden="true"></i> Pronto ad aiutarti</span>
+                    </div>
+                    <button class="chat-new" id="chat-new" type="button" aria-label="Inizia una nuova conversazione" title="Nuova conversazione">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+                    </button>
+                    <button class="chat-close" id="chat-close" type="button" aria-label="Chiudi la chat">×</button>
+                </header>
+                <div class="chat-messages" id="chat-messages" aria-live="polite" aria-relevant="additions text">
+                    <div class="chat-message chat-message-assistant chat-welcome" id="chat-welcome">
+                        <span class="chat-welcome-icon" aria-hidden="true">✦</span>
+                        <span class="chat-message-author">Il Castoro</span>
+                        Ciao! Sono qui per aiutarti con la poliurea e le impermeabilizzazioni. Scegli un argomento per iniziare.
+                    </div>
+                </div>
+                <div class="chat-choice-footer">
+                    <p class="chat-choice-prompt" id="chat-choice-prompt">
+                        <span>Scegli un argomento</span>
+                        <span class="chat-choice-hint" aria-hidden="true">GUIDATA</span>
+                    </p>
+                    <div class="chat-suggestions" id="chat-suggestions"></div>
+                </div>
+                <p class="chat-disclaimer">Informazioni tratte dal manuale tecnico · <a href="/preventivo">Richiedi un sopralluogo</a></p>
+            </section>
+            <button class="chat-launcher" id="chat-launcher" type="button" aria-label="Apri la chat con il Castoro" aria-expanded="false" aria-controls="chat-panel">
+                <img src="/mascotte-castoro.webp" alt="" />
+                <span class="chat-launcher-label">Chiedi al Castoro</span>
+                <span class="chat-launcher-icon" aria-hidden="true">
+                    <svg class="chat-launcher-open-icon" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+                    <svg class="chat-launcher-close-icon" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></svg>
+                </span>
+            </button>
+        </aside>
         <footer class="site-footer">
             <div class="footer-main">
                 <div class="footer-brand">
@@ -111,6 +160,222 @@ const links = [
             mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', chiudiMenu));
             document.addEventListener('keydown', (evento) => {
                 if (evento.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') chiudiMenu();
+            });
+
+            const chatPanel = document.getElementById('chat-panel');
+            const chatLauncher = document.getElementById('chat-launcher');
+            const chatClose = document.getElementById('chat-close');
+            const chatMessages = document.getElementById('chat-messages');
+            const chatSuggestions = document.getElementById('chat-suggestions');
+            const chatChoicePrompt = document.getElementById('chat-choice-prompt');
+            const chatNew = document.getElementById('chat-new');
+            const cronologiaChat = [];
+            let richiestaInCorso = false;
+            const argomentiChat = [
+                {
+                    label: 'Cos’è la poliurea?',
+                    question: 'Cos’è la poliurea e da quali componenti è composta?',
+                    followups: [
+                        { label: 'Poliurea pura o ibrida?', question: 'Qual è la differenza tra poliurea pura e ibrida?' },
+                        { label: 'Aromatica o alifatica?', question: 'Qual è la differenza tra poliurea aromatica e alifatica?' },
+                    ],
+                },
+                {
+                    label: 'Tipi di poliurea',
+                    question: 'Quali sono le differenze tra poliurea pura, ibrida, aromatica e alifatica?',
+                    followups: [
+                        { label: 'Poliurea pura e ibrida', question: 'Qual è la differenza tra poliurea pura e ibrida?' },
+                        { label: 'Aromatica e alifatica', question: 'Qual è la differenza tra poliurea aromatica e alifatica?' },
+                    ],
+                },
+                {
+                    label: 'Prestazioni e resistenza',
+                    question: 'Quali sono le prestazioni meccaniche e la resistenza della poliurea?',
+                    followups: [
+                        { label: 'Resistenza ai raggi UV', question: 'Come si comporta la poliurea aromatica ai raggi UV?' },
+                        { label: 'Resistenza chimica', question: 'Qual è la resistenza chimica della poliurea?' },
+                    ],
+                },
+                {
+                    label: 'Applicazione e posa',
+                    question: 'Come si applica la poliurea e quanto tempo richiede la posa?',
+                    followups: [
+                        { label: 'Preparazione del supporto', question: 'Come si prepara il calcestruzzo prima dell’applicazione della poliurea?' },
+                        { label: 'Primer e umidità', question: 'Quali sono le indicazioni su primer e umidità del supporto?' },
+                    ],
+                },
+                {
+                    label: 'Superfici e preparazione',
+                    question: 'Su quali superfici si può applicare la poliurea e come si prepara il supporto?',
+                    followups: [
+                        { label: 'Calcestruzzo', question: 'Come si prepara il calcestruzzo prima dell’applicazione della poliurea?' },
+                        { label: 'Metallo', question: 'Come si prepara il metallo prima dell’applicazione della poliurea?' },
+                    ],
+                },
+                {
+                    label: 'Dove si può usare',
+                    question: 'Dove si può applicare la poliurea? Quali sono i principali impieghi?',
+                    followups: [
+                        { label: 'Terrazze e coperture', question: 'Si può applicare la poliurea su terrazze e coperture?' },
+                        { label: 'Piscine e serbatoi', question: 'Si può usare la poliurea per piscine e serbatoi?' },
+                    ],
+                },
+                {
+                    label: 'Vantaggi e limiti',
+                    question: 'Quali sono i vantaggi e i limiti della poliurea rispetto alla guaina bituminosa?',
+                    followups: [
+                        { label: 'Poliurea o guaina?', question: 'La poliurea è sempre meglio della guaina bituminosa?' },
+                        { label: 'Esposizione al sole', question: 'La poliurea resiste ai raggi UV e al sole?' },
+                    ],
+                },
+                {
+                    label: 'Sicurezza e protezioni',
+                    question: 'Quali precauzioni e dispositivi di protezione servono durante l’applicazione della poliurea?',
+                    followups: [
+                        { label: 'Protezione dagli isocianati', question: 'Quali protezioni servono contro l’overspray di isocianati?' },
+                        { label: 'Applicazione professionale', question: 'La poliurea si può applicare con il fai-da-te?' },
+                    ],
+                },
+                {
+                    label: 'Costi e preventivo',
+                    question: 'Quanto costa un intervento in poliurea e da cosa dipende il preventivo?',
+                    followups: [
+                        { label: 'Richiedi un sopralluogo', href: '/preventivo' },
+                    ],
+                },
+            ];
+
+            const mostraChat = (aperta) => {
+                const focusDentroChat = chatPanel.contains(document.activeElement);
+                chatPanel.inert = !aperta;
+                chatPanel.setAttribute('aria-hidden', String(!aperta));
+                chatPanel.hidden = !aperta;
+                chatLauncher.setAttribute('aria-expanded', String(aperta));
+                chatLauncher.setAttribute('aria-label', aperta ? 'Chiudi la chat con il Castoro' : 'Apri la chat con il Castoro');
+                chatLauncher.classList.toggle('is-open', aperta);
+                chatWidget.classList.toggle('is-open', aperta);
+                chatLauncher.querySelector('.chat-launcher-label').textContent = aperta ? 'Chiudi la chat' : 'Chiedi al Castoro';
+                if (aperta) chatSuggestions.querySelector('button')?.focus();
+                else if (focusDentroChat) chatLauncher.focus();
+            };
+
+            const aggiungiMessaggio = (testo, ruolo, classe = '') => {
+                const messaggio = document.createElement('div');
+                messaggio.className = `chat-message chat-message-${ruolo}${classe ? ` ${classe}` : ''}`;
+                messaggio.textContent = testo;
+                if (ruolo === 'assistant') {
+                    const autore = document.createElement('span');
+                    autore.className = 'chat-message-author';
+                    autore.textContent = 'Il Castoro';
+                    messaggio.prepend(autore);
+                }
+                chatMessages.append(messaggio);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                return messaggio;
+            };
+
+            const mostraOpzioni = (opzioni = argomentiChat, titolo = 'Scegli un argomento') => {
+                chatChoicePrompt.textContent = titolo;
+                chatSuggestions.replaceChildren();
+                for (const opzione of opzioni) {
+                    const pulsante = document.createElement('button');
+                    pulsante.type = 'button';
+                    pulsante.className = 'chat-option';
+                    pulsante.textContent = opzione.label;
+                    if (opzione.href) {
+                        pulsante.dataset.chatHref = opzione.href;
+                    } else {
+                        pulsante.dataset.chatQuestion = opzione.question;
+                    }
+                    chatSuggestions.append(pulsante);
+                }
+                if (opzioni !== argomentiChat) {
+                    const altro = document.createElement('button');
+                    altro.type = 'button';
+                    altro.className = 'chat-option chat-option-secondary';
+                    altro.dataset.chatAction = 'topics';
+                    altro.textContent = '← Altri argomenti';
+                    chatSuggestions.append(altro);
+                }
+            };
+
+            const inviaMessaggio = async (domanda, etichetta, argomento) => {
+                if (!domanda || richiestaInCorso) return;
+
+                const opzioni = argomento?.followups || [];
+                mostraOpzioni([], 'Sto preparando la risposta…');
+                chatSuggestions.querySelectorAll('button').forEach((pulsante) => { pulsante.disabled = true; });
+                aggiungiMessaggio(etichetta, 'user');
+                const messaggioAttesa = aggiungiMessaggio('Sto preparando una risposta…', 'assistant chat-message-pending');
+                richiestaInCorso = true;
+                chatNew.disabled = true;
+
+                const messaggi = [...cronologiaChat, { role: 'user', content: domanda }].slice(-12);
+                try {
+                    const risposta = await fetch('/api/chat', {
+                        method: 'POST',
+                        headers: { 'content-type': 'application/json' },
+                        body: JSON.stringify({ messages: messaggi }),
+                    });
+                    const risultato = await risposta.json().catch(() => ({}));
+                    if (!risposta.ok) {
+                        throw new Error(risultato.detail || 'Non riesco a rispondere in questo momento. Riprova tra poco.');
+                    }
+                    if (typeof risultato.answer !== 'string' || !risultato.answer.trim()) {
+                        throw new Error('Ho ricevuto una risposta non valida. Riprova tra poco.');
+                    }
+                    messaggioAttesa.textContent = risultato.answer;
+                    cronologiaChat.push({ role: 'user', content: domanda }, { role: 'model', content: risultato.answer });
+                    if (cronologiaChat.length > 10) cronologiaChat.splice(0, cronologiaChat.length - 10);
+                    mostraOpzioni(opzioni, opzioni.length ? 'Puoi approfondire' : 'Vuoi chiedere altro?');
+                } catch (errore) {
+                    messaggioAttesa.textContent = errore instanceof Error ? errore.message : 'Si è verificato un errore. Riprova tra poco.';
+                    messaggioAttesa.classList.add('chat-message-error');
+                    mostraOpzioni(
+                        [{ label: 'Riprova', question: domanda }, ...argomentiChat],
+                        'Scegli un’opzione per continuare',
+                    );
+                } finally {
+                    richiestaInCorso = false;
+                    chatNew.disabled = false;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            };
+
+            chatNew.addEventListener('click', () => {
+                if (richiestaInCorso) return;
+                cronologiaChat.length = 0;
+                chatMessages.querySelectorAll('.chat-message:not(#chat-welcome)').forEach((messaggio) => messaggio.remove());
+                mostraOpzioni();
+                chatMessages.scrollTop = 0;
+                chatSuggestions.querySelector('button')?.focus();
+            });
+            chatLauncher.addEventListener('click', () => {
+                const aperta = chatLauncher.getAttribute('aria-expanded') !== 'true';
+                mostraChat(aperta);
+            });
+            chatClose.addEventListener('click', () => mostraChat(false));
+            chatSuggestions.addEventListener('click', (evento) => {
+                const pulsante = evento.target.closest('button');
+                if (!(pulsante instanceof HTMLButtonElement) || richiestaInCorso) return;
+                if (pulsante.dataset.chatHref) {
+                    window.location.href = pulsante.dataset.chatHref;
+                    return;
+                }
+                if (pulsante.dataset.chatAction === 'topics') {
+                    mostraOpzioni();
+                    chatSuggestions.querySelector('button')?.focus();
+                    return;
+                }
+                const domanda = pulsante.dataset.chatQuestion;
+                if (!domanda) return;
+                const argomento = argomentiChat.find((voce) => voce.question === domanda)
+                    || argomentiChat.find((voce) => voce.followups.some((approfondimento) => approfondimento.question === domanda));
+                inviaMessaggio(domanda, pulsante.textContent || domanda, argomento);
+            });
+            mostraOpzioni();
+            document.addEventListener('keydown', (evento) => {
+                if (evento.key === 'Escape' && chatLauncher.getAttribute('aria-expanded') === 'true') mostraChat(false);
             });
         </script>
     </body>

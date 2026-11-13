@@ -113,23 +113,23 @@ import SiteLayout from '../layouts/SiteLayout.astro';
                     <div class="contact-grid">
                         <label class="form-field">
                             <span>Nome e cognome <b>*</b></span>
-                            <input name="nome" autocomplete="name" placeholder="Mario Rossi" required />
+                            <input name="nome" autocomplete="name" placeholder="Mario Rossi" minlength="2" maxlength="120" required />
                         </label>
                         <label class="form-field">
                             <span>Telefono <b>*</b></span>
-                            <input name="telefono" type="tel" autocomplete="tel" placeholder="333 123 4567" required />
+                            <input name="telefono" type="tel" autocomplete="tel" placeholder="333 123 4567" minlength="6" maxlength="25" pattern="^\+?[0-9\s\-\.\(\)]{6,25}$" required />
                         </label>
                         <label class="form-field">
                             <span>Email <b>*</b></span>
-                            <input name="email" type="email" autocomplete="email" placeholder="nome@esempio.it" required />
+                            <input name="email" type="email" autocomplete="email" placeholder="nome@esempio.it" maxlength="254" required />
                         </label>
                         <label class="form-field">
                             <span>Comune dell’intervento <b>*</b></span>
-                            <input name="comune" autocomplete="address-level2" placeholder="Es. Milano" required />
+                            <input name="comune" autocomplete="address-level2" placeholder="Es. Milano" minlength="2" maxlength="100" required />
                         </label>
                         <label class="form-field full-field">
                             <span>Note <small>(facoltative)</small></span>
-                            <textarea name="messaggio" rows="3" placeholder="Descrivi brevemente la situazione, se vuoi."></textarea>
+                            <textarea name="messaggio" rows="3" maxlength="2000" placeholder="Descrivi brevemente la situazione, se vuoi."></textarea>
                         </label>
                     </div>
 

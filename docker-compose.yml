@@ -5,17 +5,17 @@ services:
     working_dir: /app
     volumes:
       - ./frontend:/app
-      - frontend_node_modules_v2:/app/node_modules
+      - frontend_node_modules_v4:/app/node_modules
     command: npm run dev
     # Esposta internamente a Nginx, non serve esporre la porta 4321 all'host
 
   backend:
     build: ./backend
+    user: node
+    working_dir: /app
     volumes:
       - ./backend:/app
-    env_file:
-      - ./backend/.env
-    # Esposta internamente a Nginx, non serve esporre la porta 8000 all'host
+    # Esposta internamente a Nginx da Pywrangler sulla porta 8000
 
   proxy:
     image: nginx:alpine
@@ -28,4 +28,4 @@ services:
       - backend
 
 volumes:
-  frontend_node_modules_v2:
+  frontend_node_modules_v4:

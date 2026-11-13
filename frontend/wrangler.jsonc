@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "elastomeri-italia-frontend",
+  "compatibility_date": "2026-11-13",
+  "workers_dev": true,
+  "services": [
+    {
+      "binding": "API",
+      "service": "elastomeri-italia-api"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "poliureasystem.it",
+      "custom_domain": true
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}
