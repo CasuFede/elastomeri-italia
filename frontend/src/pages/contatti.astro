@@ -22,13 +22,31 @@ import PageIntro from '../components/PageIntro.astro';
             <a class="button button-primary inline-flex items-center gap-3 rounded-xl bg-sky-500 hover:bg-sky-400 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition-colors duration-300 hover:shadow-sky-500/40 hover:-translate-y-0.5" href="/preventivo">Compila il modulo <span aria-hidden="true">↗</span></a>
             <div class="contact-assurance mt-8 flex items-center gap-2.5 text-xs font-semibold text-zinc-400"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold">✓</span> Consulenza gratuita e senza impegno</div>
         </div>
-        <aside class="contact-details rounded-2xl border border-zinc-800 bg-zinc-900/60 p-8 sm:p-10 shadow-xl backdrop-blur-sm transition-colors duration-300 hover:border-zinc-700">
+        <aside class="contact-details rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 sm:p-10 shadow-xl backdrop-blur-sm transition-colors duration-300 hover:border-zinc-700">
             <p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">RECAPITI AZIENDALI</p>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-4">Completa i contatti<br />prima della pubblicazione.</h2>
-            <p class="text-zinc-400 text-sm leading-relaxed mb-6">Non abbiamo trovato recapiti pubblici nel progetto. Inserisci i riferimenti ufficiali per permettere ai visitatori di contattarti direttamente.</p>
-            <div class="contact-placeholder flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-4 mb-3 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90"><span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 border border-sky-500/25 text-sky-400 text-lg">☎</span><p class="text-sm"><small class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">TELEFONO</small><strong class="text-white font-semibold">[Inserire numero aziendale]</strong></p></div>
-            <div class="contact-placeholder flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-4 mb-3 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90"><span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 border border-sky-500/25 text-sky-400 text-lg">✉</span><p class="text-sm"><small class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">EMAIL</small><strong class="text-white font-semibold">[Inserire email aziendale]</strong></p></div>
-            <div class="contact-placeholder flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-4 mb-3 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90"><span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 border border-sky-500/25 text-sky-400 text-lg">⌖</span><p class="text-sm"><small class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">SEDE / AREA SERVITA</small><strong class="text-white font-semibold">[Inserire sede o area geografica]</strong></p></div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-4">I canali diretti<br />per il tuo intervento.</h2>
+            <p class="text-zinc-400 text-sm leading-relaxed mb-6">Siamo operativi per sopralluoghi tecnici e consulenze su misura. Per una risposta rapida e una presa in carico ordinata, compila il modulo o contattaci ai recapiti dedicati.</p>
+            <div class="contact-placeholder flex items-start sm:items-center gap-3.5 sm:gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-3.5 sm:p-4 mb-3 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90">
+                <span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 border border-sky-500/25 text-sky-400 text-lg">☎</span>
+                <div class="min-w-0 flex-1 text-sm">
+                    <small class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">TELEFONO DIRETTO</small>
+                    <a href="tel:+390282956740" class="text-white font-semibold hover:text-sky-400 transition-colors break-words">+39 02 8295 6740</a>
+                </div>
+            </div>
+            <div class="contact-placeholder flex items-start sm:items-center gap-3.5 sm:gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-3.5 sm:p-4 mb-3 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90">
+                <span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 border border-sky-500/25 text-sky-400 text-lg">✉</span>
+                <div class="min-w-0 flex-1 text-sm">
+                    <small class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">EMAIL INFORMAZIONI</small>
+                    <a href="mailto:info@poliureasystem.it" class="text-white font-semibold hover:text-sky-400 transition-colors break-words">info@poliureasystem.it</a>
+                </div>
+            </div>
+            <div class="contact-placeholder flex items-start sm:items-center gap-3.5 sm:gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-3.5 sm:p-4 mb-3 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90">
+                <span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 border border-sky-500/25 text-sky-400 text-lg">⌖</span>
+                <div class="min-w-0 flex-1 text-sm">
+                    <small class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">SEDE OPERATIVA / AREA SERVITA</small>
+                    <strong class="text-white font-semibold block break-words">Milano e interventi in tutta Italia</strong>
+                </div>
+            </div>
         </aside>
     </section>
     <section class="contact-bottom py-14 bg-zinc-950 border-y border-zinc-800">

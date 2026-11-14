@@ -160,8 +160,34 @@ def get_services(request: Request) -> CloudflareServices:
         ) from exc
 
 
+def is_secure_request(request: Request, environment: Any = None) -> bool:
+    # Se specificato esplicitamente nei secrets o variabili d'ambiente
+    cookie_secure_env = os.environ.get("COOKIE_SECURE", "")
+    if environment:
+        cookie_secure_env = get_secret(environment, "COOKIE_SECURE") or cookie_secure_env
+    if cookie_secure_env.lower() in ("true", "1", "yes"):
+        return True
+    if cookie_secure_env.lower() in ("false", "0", "no"):
+        return False
+
+    if request.url.scheme == "https":
+        return True
+    if request.headers.get("x-forwarded-proto", "").lower() == "https":
+        return True
+    if request.headers.get("x-forwarded-ssl", "").lower() == "on":
+        return True
+    cf_visitor = request.headers.get("cf-visitor")
+    if cf_visitor and '"scheme":"https"' in cf_visitor.replace(" ", ""):
+        return True
+    return False
+
+
 @app.middleware("http")
 async def remove_api_prefix(request: Request, call_next: Any) -> Response:
+    is_head = request.method == "HEAD"
+    if is_head:
+        request.scope["method"] = "GET"
+
     path = request.scope["path"]
     if path == "/api":
         request.scope["path"] = "/"
@@ -170,9 +196,33 @@ async def remove_api_prefix(request: Request, call_next: Any) -> Response:
         api_path = path[4:]
         request.scope["path"] = api_path
         request.scope["raw_path"] = api_path.encode("utf-8")
+
+    # Protezione CSRF: blocca richieste cross-site che sfruttano cookie di sessione
+    if request.method in ("POST", "PUT", "PATCH", "DELETE"):
+        sec_fetch_site = request.headers.get("sec-fetch-site")
+        if sec_fetch_site == "cross-site":
+            has_auth_cookie = bool(
+                request.cookies.get("poliurea_admin_session")
+                or request.cookies.get("poliurea_client_session")
+            )
+            if has_auth_cookie:
+                return Response(
+                    content=json.dumps({"detail": "Richiesta cross-site non consentita."}),
+                    status_code=403,
+                    media_type="application/json",
+                )
+
     response: Response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"
+
+    if is_head:
+        return Response(
+            content=b"",
+            status_code=response.status_code,
+            headers=dict(response.headers),
+            media_type=response.media_type,
+        )
     return response
 
 
@@ -473,7 +523,12 @@ async def verifica_cliente(
 ) -> dict[str, Any]:
     store = D1Store(services.database)
     environment = get_environment(request)
-    admin_pass = get_secret(environment, "ADMIN_PASSWORD") or "secret_fallback"
+    admin_pass = get_secret(environment, "ADMIN_PASSWORD")
+    if not admin_pass:
+        raise HTTPException(
+            status_code=503,
+            detail="Configurare ADMIN_PASSWORD come secret del Worker.",
+        )
 
     # 1. Verifica tramite Cookie HttpOnly (browser)
     cookie_token = request.cookies.get("poliurea_client_session")
@@ -579,10 +634,7 @@ async def login_admin(
 
     rate_limiter.reset("admin_login", ip)
     token = crea_token_sessione("admin", admin_user, admin_pass)
-    is_secure = (
-        request.url.scheme == "https"
-        or request.headers.get("x-forwarded-proto") == "https"
-    )
+    is_secure = is_secure_request(request, environment)
     response.set_cookie(
         key="poliurea_admin_session",
         value=token,
@@ -625,14 +677,16 @@ async def login_cliente(
 
     rate_limiter.reset("cliente_login", ip)
     environment = get_environment(request)
-    admin_pass = get_secret(environment, "ADMIN_PASSWORD") or "secret_fallback"
+    admin_pass = get_secret(environment, "ADMIN_PASSWORD")
+    if not admin_pass:
+        raise HTTPException(
+            status_code=503,
+            detail="Configurare ADMIN_PASSWORD come secret del Worker.",
+        )
     secret_cliente = f"{admin_pass}:{cliente['password_hash']}"
     token = crea_token_sessione("cliente", str(cliente["id"]), secret_cliente)
 
-    is_secure = (
-        request.url.scheme == "https"
-        or request.headers.get("x-forwarded-proto") == "https"
-    )
+    is_secure = is_secure_request(request, environment)
     response.set_cookie(
         key="poliurea_client_session",
         value=token,

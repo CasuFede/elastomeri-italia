@@ -14,7 +14,10 @@ import '../styles/global.css';
     <div class="customer-shell w-full max-w-5xl mx-auto px-4 sm:px-6">
         <header class="customer-header flex items-center justify-between py-6 border-b border-zinc-800 mb-10">
             <a href="/" class="customer-brand inline-flex items-center" aria-label="Poliurea System, home">
-                <img src="/logo-poliurea-system.png" alt="Poliurea System" class="h-10 w-auto" />
+                <picture>
+                    <source srcset="/logo-poliurea-system.webp" type="image/webp" />
+                    <img src="/logo-poliurea-system.png" alt="Poliurea System" class="h-10 w-auto" width="180" height="40" />
+                </picture>
             </a>
             <div>
                 <p class="text-[11px] font-bold uppercase tracking-wider text-sky-400">POLIUREA SYSTEM</p>
@@ -192,14 +195,18 @@ import '../styles/global.css';
         const caricaAreaCliente = async () => {
             try {
                 const risposta = await fetch('/api/area-clienti');
-                if (risposta.status === 401) throw new Error('Credenziali non valide o account non attivo.');
+                if (risposta.status === 401) {
+                    sessionStorage.removeItem(sessionKey);
+                    loginSection.hidden = false;
+                    dashboard.hidden = true;
+                    mostraErroreAccesso('Credenziali non valide o sessione scaduta.');
+                    return;
+                }
                 if (!risposta.ok) throw new Error(`Errore del server (HTTP ${risposta.status}).`);
                 mostraRichieste(await risposta.json());
             } catch (errore) {
-                sessionStorage.removeItem(sessionKey);
-                loginSection.hidden = false;
-                dashboard.hidden = true;
-                mostraErroreAccesso(errore.message || 'Impossibile caricare la tua area.');
+                dashboardError.textContent = errore.message || 'Impossibile caricare i tuoi dati. Verifica la connessione.';
+                dashboardError.hidden = false;
             }
         };
 

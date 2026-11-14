@@ -618,12 +618,12 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             .choice-card { min-height: 95px; padding: 12px; }
             .size-grid { margin-top: 18px; }
             .size-card { min-height: 70px; }
-            .contact-grid { gap: 12px; }
+            .contact-grid { grid-template-columns: 1fr; gap: 14px; }
+            .full-field { grid-column: auto; }
             .wizard-actions { min-height: 70px; padding: 12px 20px 20px; }
         }
         @media (max-width: 380px) {
-            .contact-grid { grid-template-columns: 1fr; }
-            .full-field { grid-column: auto; }
+            .choice-grid-3, .choice-grid-4 { grid-template-columns: 1fr; }
             .intro h1 { font-size: 22px; }
         }
     </style>

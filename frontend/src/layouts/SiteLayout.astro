@@ -31,7 +31,10 @@ const links = [
         <header class="site-header sticky top-0 z-40 border-b border-zinc-800 bg-black/85 backdrop-blur-xl">
             <div class="header-inner">
                 <a class="brand" href="/" aria-label="Poliurea System Impermeabilizzazioni, home">
-                    <img src="/logo-poliurea-system.png" alt="Poliurea System - Impermeabilizzazioni" />
+                    <picture>
+                        <source srcset="/logo-poliurea-system.webp" type="image/webp" />
+                        <img src="/logo-poliurea-system.png" alt="Poliurea System - Impermeabilizzazioni" width="200" height="38" />
+                    </picture>
                 </a>
                 <nav class="main-nav" aria-label="Navigazione principale">
                     {links.map(({ href, label }) => (
@@ -66,7 +69,7 @@ const links = [
             <section class="chat-panel w-[calc(100vw-2rem)] right-4 max-w-[420px] max-h-[calc(100dvh-5rem)] overflow-hidden flex flex-col rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl" id="chat-panel" aria-label="Chat con il Castoro" aria-hidden="true" inert hidden>
                 <header class="chat-header">
                     <div class="chat-avatar">
-                        <img class="chat-header-mascot" src="/mascotte-castoro.webp" alt="" />
+                        <img class="chat-header-mascot" src="/mascotte-castoro.webp" alt="" width="52" height="52" />
                         <span class="chat-online-dot" aria-hidden="true"></span>
                     </div>
                     <div class="chat-header-copy">
@@ -96,7 +99,7 @@ const links = [
                 <p class="chat-disclaimer">Informazioni tratte dal manuale tecnico · <a href="/preventivo">Richiedi un sopralluogo</a></p>
             </section>
             <button class="chat-launcher" id="chat-launcher" type="button" aria-label="Apri la chat con il Castoro" aria-expanded="false" aria-controls="chat-panel">
-                <img src="/mascotte-castoro.webp" alt="" />
+                <img src="/mascotte-castoro.webp" alt="" width="40" height="40" />
                 <span class="chat-launcher-label">Chiedi al Castoro</span>
                 <span class="chat-launcher-icon" aria-hidden="true">
                     <svg class="chat-launcher-open-icon" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
@@ -108,7 +111,10 @@ const links = [
             <div class="footer-main">
                 <div class="footer-brand">
                     <a class="brand footer-logo" href="/" aria-label="Poliurea System Impermeabilizzazioni, home">
-                        <img src="/logo-poliurea-system.png" alt="Poliurea System - Impermeabilizzazioni" />
+                        <picture>
+                            <source srcset="/logo-poliurea-system.webp" type="image/webp" />
+                            <img src="/logo-poliurea-system.png" alt="Poliurea System - Impermeabilizzazioni" width="200" height="38" />
+                        </picture>
                     </a>
                     <p>Soluzioni per proteggere gli edifici dall’acqua e dall’umidità.</p>
                 </div>
@@ -262,13 +268,16 @@ const links = [
             const aggiungiMessaggio = (testo, ruolo, classe = '') => {
                 const messaggio = document.createElement('div');
                 messaggio.className = `chat-message chat-message-${ruolo} text-white font-medium${classe ? ` ${classe}` : ''}`;
-                messaggio.textContent = testo;
-                if (ruolo === 'assistant') {
+                if (ruolo.includes('assistant')) {
                     const autore = document.createElement('span');
                     autore.className = 'chat-message-author text-sky-400 font-bold';
                     autore.textContent = 'Il Castoro';
-                    messaggio.prepend(autore);
+                    messaggio.append(autore);
                 }
+                const corpoTesto = document.createElement('span');
+                corpoTesto.className = 'chat-message-text';
+                corpoTesto.textContent = testo;
+                messaggio.append(corpoTesto);
                 chatMessages.append(messaggio);
                 chatMessages.scrollTop = chatMessages.scrollHeight;
                 return messaggio;
@@ -324,12 +333,20 @@ const links = [
                     if (typeof risultato.answer !== 'string' || !risultato.answer.trim()) {
                         throw new Error('Ho ricevuto una risposta non valida. Riprova tra poco.');
                     }
-                    messaggioAttesa.textContent = risultato.answer;
+                    const corpo = messaggioAttesa.querySelector('.chat-message-text');
+                    if (corpo) corpo.textContent = risultato.answer;
+                    else messaggioAttesa.textContent = risultato.answer;
+                    messaggioAttesa.classList.remove('chat-message-pending');
+
                     cronologiaChat.push({ role: 'user', content: domanda }, { role: 'model', content: risultato.answer });
                     if (cronologiaChat.length > 10) cronologiaChat.splice(0, cronologiaChat.length - 10);
                     mostraOpzioni(opzioni, opzioni.length ? 'Puoi approfondire' : 'Vuoi chiedere altro?');
                 } catch (errore) {
-                    messaggioAttesa.textContent = errore instanceof Error ? errore.message : 'Si è verificato un errore. Riprova tra poco.';
+                    const corpo = messaggioAttesa.querySelector('.chat-message-text');
+                    const errTxt = errore instanceof Error ? errore.message : 'Si è verificato un errore. Riprova tra poco.';
+                    if (corpo) corpo.textContent = errTxt;
+                    else messaggioAttesa.textContent = errTxt;
+                    messaggioAttesa.classList.remove('chat-message-pending');
                     messaggioAttesa.classList.add('chat-message-error');
                     mostraOpzioni(
                         [{ label: 'Riprova', question: domanda }, ...argomentiChat],
