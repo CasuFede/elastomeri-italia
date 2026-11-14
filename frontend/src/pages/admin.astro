@@ -10,49 +10,49 @@ import '../styles/global.css';
     <meta name="robots" content="noindex, nofollow" />
     <title>Gestione preventivi | Poliurea System</title>
 </head>
-<body class="admin-body min-h-screen">
+<body class="admin-body min-h-screen bg-black text-zinc-200">
 
-    <div id="admin-app" class="admin-shell w-full hidden">
-        <header class="admin-header">
-            <a class="admin-brand" href="/" aria-label="Poliurea System, home">
-                <img src="/logo-poliurea-system.png" alt="Poliurea System" />
+    <div id="admin-app" class="admin-shell w-full max-w-7xl mx-auto px-4 sm:px-6 hidden">
+        <header class="admin-header flex items-center justify-between py-6 border-b border-zinc-800 mb-8">
+            <a class="admin-brand inline-flex items-center" href="/" aria-label="Poliurea System, home">
+                <img src="/logo-poliurea-system.png" alt="Poliurea System" class="h-10 w-auto" />
             </a>
             <div class="admin-header-title">
-                <p>AREA GESTIONE</p>
-                <h1>Gestione preventivi</h1>
+                <p class="text-[11px] font-bold uppercase tracking-wider text-sky-400">AREA GESTIONE</p>
+                <h1 class="text-xl sm:text-2xl font-bold text-white">Gestione preventivi</h1>
             </div>
-            <span class="admin-secure-label"><span aria-hidden="true"></span> Area riservata</span>
+            <span class="admin-secure-label border border-zinc-800 bg-zinc-900 text-zinc-400 px-3 py-1.5 rounded-lg text-xs font-semibold"><span aria-hidden="true"></span> Area riservata</span>
         </header>
 
-        <p id="dashboard-error" class="hidden mb-5 rounded-md border border-red-800 bg-red-950/50 p-4 text-base text-red-200" role="alert"></p>
+        <p id="dashboard-error" class="hidden mb-5 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-400" role="alert"></p>
 
-        <nav id="admin-tabs" class="mb-5 hidden flex-wrap items-center justify-between gap-3" aria-label="Sezioni amministrazione">
+        <nav id="admin-tabs" class="mb-8 hidden flex-wrap items-center justify-between gap-3" aria-label="Sezioni amministrazione">
             <div class="flex flex-wrap gap-2" role="tablist" aria-label="Contenuti">
-                <button id="tab-preventivi" type="button" role="tab" aria-selected="true" aria-controls="table-section" class="rounded-md bg-blue-600 px-4 py-3 text-base font-bold text-white">Preventivi</button>
-                <button id="tab-lavori" type="button" role="tab" aria-selected="false" aria-controls="works-section" class="rounded-md border border-slate-600 px-4 py-3 text-base font-semibold text-slate-200 hover:border-blue-400 hover:text-blue-200">Lavori e immagini</button>
-                <button id="tab-clienti" type="button" role="tab" aria-selected="false" aria-controls="clients-section" class="rounded-md border border-slate-600 px-4 py-3 text-base font-semibold text-slate-200 hover:border-blue-400 hover:text-blue-200">Account clienti</button>
+                <button id="tab-preventivi" type="button" role="tab" aria-selected="true" aria-controls="table-section" class="rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-sky-500/20">Preventivi</button>
+                <button id="tab-lavori" type="button" role="tab" aria-selected="false" aria-controls="works-section" class="rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-300 hover:border-zinc-700 hover:text-white">Lavori e immagini</button>
+                <button id="tab-clienti" type="button" role="tab" aria-selected="false" aria-controls="clients-section" class="rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-300 hover:border-zinc-700 hover:text-white">Account clienti</button>
             </div>
-            <button id="logout-btn" type="button" class="px-3 py-2 text-base font-bold text-red-300 hover:underline">Esci dal pannello</button>
+            <button id="logout-btn" type="button" class="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-2.5 text-sm font-bold text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition">Esci dal pannello</button>
         </nav>
 
-        <section id="admin-summary" class="admin-summary hidden" aria-label="Riepilogo preventivi">
-            <article><span>Richieste totali</span><strong id="summary-total">0</strong><small>Preventivi ricevuti</small></article>
-            <article><span>Foto e allegati</span><strong id="summary-attachments">0</strong><small>File nelle richieste</small></article>
-            <article><span>Ultima richiesta</span><strong id="summary-latest">Nessuna</strong><small>Data di ricezione</small></article>
+        <section id="admin-summary" class="admin-summary hidden grid gap-4 sm:grid-cols-3 mb-8" aria-label="Riepilogo preventivi">
+            <article class="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-xl relative overflow-hidden border-l-4 border-l-sky-500"><span class="text-xs font-semibold text-zinc-400">Richieste totali</span><strong id="summary-total" class="block text-3xl font-extrabold text-white mt-1">0</strong><small class="text-xs text-zinc-500 mt-1 block">Preventivi ricevuti</small></article>
+            <article class="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-xl relative overflow-hidden border-l-4 border-l-sky-500"><span class="text-xs font-semibold text-zinc-400">Foto e allegati</span><strong id="summary-attachments" class="block text-3xl font-extrabold text-white mt-1">0</strong><small class="text-xs text-zinc-500 mt-1 block">File nelle richieste</small></article>
+            <article class="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-xl relative overflow-hidden border-l-4 border-l-sky-500"><span class="text-xs font-semibold text-zinc-400">Ultima richiesta</span><strong id="summary-latest" class="block text-2xl font-extrabold text-white mt-1">Nessuna</strong><small class="text-xs text-zinc-500 mt-1 block">Data di ricezione</small></article>
         </section>
 
         <!-- SEZIONE TABELLA (Nascosta di default) -->
-        <div id="table-section" class="hidden w-full overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
-            <div class="admin-table-toolbar flex items-center justify-between gap-4 border-b border-slate-200 bg-white p-4 sm:p-5">
+        <div id="table-section" class="hidden w-full overflow-x-auto rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl">
+            <div class="admin-table-toolbar flex items-center justify-between gap-4 border-b border-zinc-800 bg-zinc-900/80 p-5">
                 <div>
-                    <p class="admin-table-kicker">RICHIESTE IN INGRESSO</p>
-                    <span class="text-base font-semibold text-black sm:text-lg">Totale richieste</span>
+                    <p class="admin-table-kicker text-xs font-bold uppercase tracking-wider text-sky-400 mb-1">RICHIESTE IN INGRESSO</p>
+                    <span class="text-base font-bold text-white sm:text-lg">Totale richieste</span>
                 </div>
-                <span id="total-count" class="admin-count">0</span>
+                <span id="total-count" class="admin-count rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1 font-mono text-sm font-bold text-sky-400">0</span>
             </div>
-            <table class="w-full min-w-[1560px] border-collapse text-left text-base">
+            <table class="w-full min-w-[1560px] border-collapse text-left text-sm">
                 <thead>
-                    <tr class="bg-black text-white">
+                    <tr class="bg-zinc-950 text-zinc-400 border-b border-zinc-800 text-xs uppercase tracking-wider">
                         <th class="p-4">ID</th>
                         <th class="p-4">Data</th>
                         <th class="p-4">Nome</th>
@@ -64,7 +64,7 @@ import '../styles/global.css';
                         <th class="p-4">Cosa serve al cliente</th>
                     </tr>
                 </thead>
-                <tbody id="table-body" class="divide-y">
+                <tbody id="table-body" class="divide-y divide-zinc-800 text-zinc-300">
                     <!-- I dati verranno inseriti qui -->
                 </tbody>
             </table>
@@ -72,63 +72,63 @@ import '../styles/global.css';
         <section id="works-section" class="hidden w-full" aria-labelledby="tab-lavori">
             <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
                 <div>
-                    <p class="mb-2 text-sm font-bold uppercase tracking-wider text-blue-300">Contenuti del sito</p>
+                    <p class="mb-2 text-xs font-bold uppercase tracking-wider text-sky-400">Contenuti del sito</p>
                     <h2 class="text-2xl font-bold text-white sm:text-3xl">Lavori e immagini</h2>
-                    <p class="mt-2 max-w-2xl text-base text-slate-300">Pubblica un intervento nella galleria e aggiorna testi o immagini quando vuoi.</p>
+                    <p class="mt-2 max-w-2xl text-sm text-zinc-400">Pubblica un intervento nella galleria e aggiorna testi o immagini quando vuoi.</p>
                 </div>
             </div>
-            <form id="work-form" class="mb-8 grid gap-4 rounded-lg border border-slate-700 bg-slate-900 p-5 sm:grid-cols-2 sm:p-6">
-                <label class="grid gap-2 text-sm font-semibold text-slate-200">Titolo
-                    <input name="titolo" required maxlength="160" class="rounded-md border border-slate-600 bg-slate-800 p-3 text-base text-white outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/25" />
+            <form id="work-form" class="mb-8 grid gap-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-6 sm:grid-cols-2 shadow-xl">
+                <label class="grid gap-2 text-xs font-semibold text-zinc-300">Titolo
+                    <input name="titolo" required maxlength="160" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
                 </label>
-                <label class="grid gap-2 text-sm font-semibold text-slate-200">Località
-                    <input name="localita" maxlength="160" class="rounded-md border border-slate-600 bg-slate-800 p-3 text-base text-white outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/25" />
+                <label class="grid gap-2 text-xs font-semibold text-zinc-300">Località
+                    <input name="localita" maxlength="160" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
                 </label>
-                <label class="grid gap-2 text-sm font-semibold text-slate-200 sm:col-span-2">Descrizione
-                    <textarea name="descrizione" maxlength="3000" rows="3" class="rounded-md border border-slate-600 bg-slate-800 p-3 text-base text-white outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/25"></textarea>
+                <label class="grid gap-2 text-xs font-semibold text-zinc-300 sm:col-span-2">Descrizione
+                    <textarea name="descrizione" maxlength="3000" rows="3" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20"></textarea>
                 </label>
-                <label class="grid gap-2 text-sm font-semibold text-slate-200 sm:col-span-2">Immagine (JPG, PNG o WEBP, massimo 10 MB)
-                    <input name="immagine" type="file" accept="image/jpeg,image/png,image/webp" required class="rounded-md border border-slate-600 bg-slate-800 p-3 text-base text-slate-200 file:mr-4 file:rounded file:border-0 file:bg-blue-600 file:px-4 file:py-2 file:font-semibold file:text-white" />
+                <label class="grid gap-2 text-xs font-semibold text-zinc-300 sm:col-span-2">Immagine (JPG, PNG o WEBP, massimo 10 MB)
+                    <input name="immagine" type="file" accept="image/jpeg,image/png,image/webp" required class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-zinc-300 file:mr-4 file:rounded-lg file:border-0 file:bg-sky-500 file:px-4 file:py-2 file:text-xs file:font-bold file:text-white file:cursor-pointer hover:file:bg-sky-400" />
                 </label>
-                <div class="flex flex-wrap items-center gap-4 sm:col-span-2">
-                    <button id="work-submit" type="submit" class="rounded-md bg-blue-600 px-5 py-3 text-base font-bold text-white transition hover:bg-blue-700">Pubblica nella galleria</button>
-                    <p id="work-feedback" class="text-base text-slate-300" role="status" aria-live="polite"></p>
+                <div class="flex flex-wrap items-center gap-4 sm:col-span-2 pt-2">
+                    <button id="work-submit" type="submit" class="rounded-xl bg-sky-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition hover:bg-sky-400 hover:-translate-y-0.5">Pubblica nella galleria</button>
+                    <p id="work-feedback" class="text-sm text-zinc-300" role="status" aria-live="polite"></p>
                 </div>
             </form>
             <div id="works-list" class="grid gap-4"></div>
         </section>
         <section id="clients-section" class="hidden w-full" aria-labelledby="tab-clienti">
             <div class="mb-6">
-                <p class="mb-2 text-sm font-bold uppercase tracking-wider text-blue-300">Area clienti</p>
+                <p class="mb-2 text-xs font-bold uppercase tracking-wider text-sky-400">Area clienti</p>
                 <h2 class="text-2xl font-bold text-white sm:text-3xl">Crea un account cliente</h2>
-                <p class="mt-2 max-w-3xl text-base text-slate-300">Il cliente vedrà solo le richieste associate alla stessa email. Condividi le credenziali iniziali tramite un canale sicuro.</p>
+                <p class="mt-2 max-w-3xl text-sm text-zinc-400">Il cliente vedrà solo le richieste associate alla stessa email. Condividi le credenziali iniziali tramite un canale sicuro.</p>
             </div>
-            <form id="client-form" class="mb-8 grid gap-4 rounded-lg border border-slate-700 bg-slate-900 p-5 sm:grid-cols-2 sm:p-6">
-                <label class="grid gap-2 text-sm font-semibold text-slate-200">Nome cliente
-                    <input name="nome" required maxlength="160" autocomplete="name" class="rounded-md border border-slate-600 bg-slate-800 p-3 text-base text-white outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/25" />
+            <form id="client-form" class="mb-8 grid gap-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-6 sm:grid-cols-2 shadow-xl">
+                <label class="grid gap-2 text-xs font-semibold text-zinc-300">Nome cliente
+                    <input name="nome" required maxlength="160" autocomplete="name" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
                 </label>
-                <label class="grid gap-2 text-sm font-semibold text-slate-200">Email usata nel preventivo
-                    <input name="email" type="email" required maxlength="254" autocomplete="email" class="rounded-md border border-slate-600 bg-slate-800 p-3 text-base text-white outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/25" />
+                <label class="grid gap-2 text-xs font-semibold text-zinc-300">Email usata nel preventivo
+                    <input name="email" type="email" required maxlength="254" autocomplete="email" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
                 </label>
-                <label class="grid gap-2 text-sm font-semibold text-slate-200 sm:col-span-2">Password iniziale (almeno 12 caratteri)
-                    <input name="password" type="password" required minlength="12" autocomplete="new-password" class="rounded-md border border-slate-600 bg-slate-800 p-3 text-base text-white outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/25" />
+                <label class="grid gap-2 text-xs font-semibold text-zinc-300 sm:col-span-2">Password iniziale (almeno 12 caratteri)
+                    <input name="password" type="password" required minlength="12" autocomplete="new-password" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
                 </label>
-                <div class="flex flex-wrap items-center gap-4 sm:col-span-2">
-                    <button id="client-submit" type="submit" class="rounded-md bg-blue-600 px-5 py-3 text-base font-bold text-white transition hover:bg-blue-700">Crea account</button>
-                    <p id="client-feedback" class="text-base text-slate-300" role="status" aria-live="polite"></p>
+                <div class="flex flex-wrap items-center gap-4 sm:col-span-2 pt-2">
+                    <button id="client-submit" type="submit" class="rounded-xl bg-sky-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition hover:bg-sky-400 hover:-translate-y-0.5">Crea account</button>
+                    <p id="client-feedback" class="text-sm text-zinc-300" role="status" aria-live="polite"></p>
                 </div>
             </form>
             <div class="mb-4">
-                <h3 class="text-xl font-bold text-white">Account esistenti</h3>
+                <h3 class="text-lg font-bold text-white">Account esistenti</h3>
             </div>
             <div id="clients-list" class="grid gap-3"></div>
         </section>
-        <dialog id="photo-dialog" class="rounded-lg border-0 p-4 shadow-xl backdrop:bg-black/50">
-            <div class="flex items-center justify-between gap-6 pb-3">
-                <h2 class="font-semibold text-gray-800">Foto allegata</h2>
-                <button id="close-photo-btn" type="button" class="text-sm font-bold text-gray-600 hover:text-gray-900">Chiudi</button>
+        <dialog id="photo-dialog" class="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-2xl backdrop:bg-black/80">
+            <div class="flex items-center justify-between gap-6 pb-4 border-b border-zinc-800 mb-4">
+                <h2 class="font-bold text-white text-base">Foto allegata</h2>
+                <button id="close-photo-btn" type="button" class="text-xs font-bold text-zinc-400 hover:text-white px-2.5 py-1 rounded-lg bg-zinc-800 border border-zinc-700">Chiudi</button>
             </div>
-            <img id="photo-viewer" class="max-h-[75vh] max-w-[85vw] rounded object-contain" alt="Foto allegata al preventivo" />
+            <img id="photo-viewer" class="max-h-[75vh] max-w-[85vw] rounded-xl object-contain border border-zinc-800" alt="Foto allegata al preventivo" />
         </dialog>
     </div>
 
@@ -190,15 +190,15 @@ import '../styles/global.css';
 
         const mostraFeedbackLavori = (messaggio, errore = false) => {
             workFeedback.textContent = messaggio;
-            workFeedback.className = errore ? 'text-base text-red-300' : 'text-base text-blue-200';
+            workFeedback.className = errore ? 'text-xs text-red-400' : 'text-xs text-sky-400';
         };
 
         const creaCampoLavoro = (etichetta, valore, multilinea = false) => {
             const contenitore = document.createElement('label');
-            contenitore.className = 'grid gap-2 text-sm font-semibold text-slate-200';
+            contenitore.className = 'grid gap-2 text-xs font-semibold text-zinc-300';
             contenitore.append(document.createTextNode(etichetta));
             const campo = document.createElement(multilinea ? 'textarea' : 'input');
-            campo.className = 'w-full rounded-md border border-slate-600 bg-slate-800 p-3 text-base font-normal text-white outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/25';
+            campo.className = 'w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm font-normal text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20';
             campo.value = valore || '';
             if (multilinea) {
                 campo.rows = 3;
@@ -219,7 +219,7 @@ import '../styles/global.css';
                 worksList.replaceChildren();
                 if (!risultato.dati.length) {
                     const vuoto = document.createElement('p');
-                    vuoto.className = 'rounded-lg border border-slate-700 bg-slate-900 p-5 text-base text-slate-300';
+                    vuoto.className = 'rounded-xl border border-zinc-800 bg-zinc-900 p-5 text-sm text-zinc-400';
                     vuoto.textContent = 'La galleria è vuota. Pubblica il primo lavoro dal modulo qui sopra.';
                     worksList.appendChild(vuoto);
                     return;
@@ -227,9 +227,9 @@ import '../styles/global.css';
 
                 risultato.dati.forEach((lavoro) => {
                     const scheda = document.createElement('article');
-                    scheda.className = 'grid gap-5 rounded-lg border border-slate-700 bg-slate-900 p-4 md:grid-cols-[240px_1fr] md:p-5';
+                    scheda.className = 'grid gap-5 rounded-2xl border border-zinc-800 bg-zinc-900 p-5 shadow-xl md:grid-cols-[240px_1fr]';
                     const anteprima = document.createElement('img');
-                    anteprima.className = 'aspect-[4/3] w-full rounded-md bg-slate-800 object-cover';
+                    anteprima.className = 'aspect-[4/3] w-full rounded-xl bg-zinc-950 object-cover border border-zinc-800';
                     anteprima.src = lavoro.immagine_url;
                     anteprima.alt = `Lavoro: ${lavoro.titolo}`;
                     scheda.appendChild(anteprima);
@@ -249,7 +249,7 @@ import '../styles/global.css';
                     azioni.className = 'flex flex-wrap items-center gap-3';
                     const salva = document.createElement('button');
                     salva.type = 'button';
-                    salva.className = 'rounded-md bg-blue-600 px-4 py-2.5 text-base font-bold text-white hover:bg-blue-700';
+                    salva.className = 'rounded-xl bg-sky-500 px-4 py-2 text-xs font-bold text-white shadow-md shadow-sky-500/20 transition hover:bg-sky-400';
                     salva.textContent = 'Salva modifiche';
                     salva.addEventListener('click', async () => {
                         salva.disabled = true;
@@ -277,7 +277,7 @@ import '../styles/global.css';
                     azioni.appendChild(salva);
 
                     const sostituisci = document.createElement('label');
-                    sostituisci.className = 'cursor-pointer rounded-md border border-blue-400 px-4 py-2.5 text-base font-semibold text-blue-200 hover:bg-slate-800';
+                    sostituisci.className = 'cursor-pointer rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-2 text-xs font-semibold text-zinc-200 hover:border-sky-500 hover:text-white transition';
                     sostituisci.textContent = 'Sostituisci immagine';
                     const file = document.createElement('input');
                     file.type = 'file';
@@ -304,7 +304,7 @@ import '../styles/global.css';
 
                     const elimina = document.createElement('button');
                     elimina.type = 'button';
-                    elimina.className = 'rounded-md px-3 py-2.5 text-base font-semibold text-red-300 hover:bg-red-950/50';
+                    elimina.className = 'rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-2 text-xs font-semibold text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition';
                     elimina.textContent = 'Elimina lavoro';
                     elimina.addEventListener('click', async () => {
                         if (!confirm(`Eliminare "${lavoro.titolo}" dalla galleria?`)) return;
@@ -331,7 +331,7 @@ import '../styles/global.css';
 
         const mostraFeedbackClienti = (messaggio, errore = false) => {
             clientFeedback.textContent = messaggio;
-            clientFeedback.className = errore ? 'text-base text-red-300' : 'text-base text-blue-200';
+            clientFeedback.className = errore ? 'text-xs text-red-400' : 'text-xs text-sky-400';
         };
 
         const caricaClienti = async () => {
@@ -343,25 +343,25 @@ import '../styles/global.css';
                 clientsList.replaceChildren();
                 if (!risultato.dati.length) {
                     const vuoto = document.createElement('p');
-                    vuoto.className = 'rounded-md border border-slate-700 bg-slate-900 p-5 text-base text-slate-300';
+                    vuoto.className = 'rounded-xl border border-zinc-800 bg-zinc-900 p-5 text-sm text-zinc-400';
                     vuoto.textContent = 'Non ci sono ancora account clienti.';
                     clientsList.appendChild(vuoto);
                     return;
                 }
                 risultato.dati.forEach((cliente) => {
                     const scheda = document.createElement('article');
-                    scheda.className = 'flex flex-wrap items-center justify-between gap-4 rounded-md border border-slate-700 bg-slate-900 p-5';
+                    scheda.className = 'flex flex-wrap items-center justify-between gap-4 rounded-xl border border-zinc-800 bg-zinc-900 p-5 shadow-lg';
                     const informazioni = document.createElement('div');
                     informazioni.className = 'grid gap-1';
                     const nome = document.createElement('strong');
-                    nome.className = 'text-lg text-white';
+                    nome.className = 'text-base font-bold text-white';
                     nome.textContent = cliente.nome;
                     const email = document.createElement('span');
-                    email.className = 'text-base text-slate-300';
+                    email.className = 'text-xs text-zinc-400 font-mono';
                     email.textContent = cliente.email;
                     informazioni.append(nome, email);
                     const richieste = document.createElement('span');
-                    richieste.className = 'rounded bg-slate-800 px-3 py-2 text-sm font-semibold text-blue-200';
+                    richieste.className = 'rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono font-bold text-sky-400';
                     richieste.textContent = `${cliente.preventivi} ${cliente.preventivi === 1 ? 'preventivo' : 'preventivi'}`;
                     scheda.append(informazioni, richieste);
                     clientsList.appendChild(scheda);
@@ -429,8 +429,8 @@ import '../styles/global.css';
             tabPreventivi.setAttribute('aria-selected', String(sezione === 'preventivi'));
             tabLavori.setAttribute('aria-selected', String(mostraLavori));
             tabClienti.setAttribute('aria-selected', String(mostraClienti));
-            const classeAttiva = 'rounded-md bg-blue-600 px-4 py-3 text-base font-bold text-white';
-            const classeInattiva = 'rounded-md border border-slate-600 px-4 py-3 text-base font-semibold text-slate-200 hover:border-blue-400 hover:text-blue-200';
+            const classeAttiva = 'rounded-xl bg-sky-500 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-sky-500/20';
+            const classeInattiva = 'rounded-xl border border-zinc-800 bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-zinc-300 hover:border-zinc-700 hover:text-white transition';
             tabPreventivi.className = sezione === 'preventivi' ? classeAttiva : classeInattiva;
             tabLavori.className = mostraLavori ? classeAttiva : classeInattiva;
             tabClienti.className = mostraClienti ? classeAttiva : classeInattiva;
@@ -480,31 +480,31 @@ import '../styles/global.css';
 
                 if (data.dati.length === 0) {
                     const tr = document.createElement('tr');
-                            const cella = creaCella('Nessun preventivo ricevuto.', 'p-6 text-center text-black');
-                            cella.colSpan = 9;
+                    const cella = creaCella('Nessun preventivo ricevuto.', 'p-6 text-center text-zinc-400');
+                    cella.colSpan = 9;
                     tr.appendChild(cella);
                     tableBody.appendChild(tr);
                 } else {
                     data.dati.forEach(prev => {
                         const tr = document.createElement('tr');
-                        tr.className = 'border-b border-slate-100 hover:bg-blue-50/70';
-                        tr.appendChild(creaCella(`#${prev.id}`, 'p-4 font-semibold text-black'));
-                        tr.appendChild(creaCella(formattaData(prev.data_richiesta), 'p-4 whitespace-nowrap'));
-                        tr.appendChild(creaCella(prev.nome, 'p-4 font-medium'));
+                        tr.className = 'border-b border-zinc-800/80 hover:bg-zinc-800/30 transition-colors';
+                        tr.appendChild(creaCella(`#${prev.id}`, 'p-4 font-mono font-bold text-sky-400'));
+                        tr.appendChild(creaCella(formattaData(prev.data_richiesta), 'p-4 whitespace-nowrap text-xs text-zinc-400'));
+                        tr.appendChild(creaCella(prev.nome, 'p-4 font-semibold text-white'));
 
                         const contatti = document.createElement('td');
                         contatti.className = 'p-4';
                         if (prev.email) {
                             const email = document.createElement('a');
                             email.href = `mailto:${prev.email}`;
-                            email.className = 'block text-blue-700 hover:underline';
+                            email.className = 'block text-sky-400 hover:text-sky-300 text-xs font-medium';
                             email.textContent = prev.email;
                             contatti.appendChild(email);
                         }
                         const telefono = document.createElement('a');
                         const telPulito = (prev.telefono || '').replace(/[^\d+]/g, '');
                         telefono.href = telPulito ? `tel:${telPulito}` : '#';
-                        telefono.className = 'text-black hover:underline';
+                        telefono.className = 'text-zinc-300 hover:text-sky-400 text-xs font-medium';
                         telefono.textContent = prev.telefono ?? '-';
                         contatti.appendChild(telefono);
                         tr.appendChild(contatti);
@@ -512,12 +512,12 @@ import '../styles/global.css';
                         const servizio = document.createElement('td');
                         servizio.className = 'p-4';
                         const badge = document.createElement('span');
-                        badge.className = 'inline-block rounded bg-blue-100 px-3 py-1.5 text-sm font-semibold text-blue-950';
+                        badge.className = 'inline-block rounded-md border border-sky-500/25 bg-sky-500/10 px-2.5 py-1 text-xs font-bold text-sky-400';
                         badge.textContent = prev.servizio ?? '-';
                         servizio.appendChild(badge);
                         tr.appendChild(servizio);
 
-                        const messaggio = creaCella(prev.messaggio || '-', 'max-w-sm whitespace-pre-wrap p-4 text-black');
+                        const messaggio = creaCella(prev.messaggio || '-', 'max-w-xs whitespace-pre-wrap p-4 text-xs text-zinc-300');
                         messaggio.title = prev.messaggio || '';
                         tr.appendChild(messaggio);
 
@@ -526,7 +526,7 @@ import '../styles/global.css';
                         for (const allegato of prev.allegati || []) {
                             const apriFoto = document.createElement('button');
                             apriFoto.type = 'button';
-                            apriFoto.className = 'block text-blue-700 hover:underline';
+                            apriFoto.className = 'block text-sky-400 hover:text-sky-300 text-xs font-medium underline';
                             apriFoto.textContent = allegato.nome;
                             apriFoto.addEventListener('click', async () => {
                                 try {
@@ -547,7 +547,7 @@ import '../styles/global.css';
                         const statoCella = document.createElement('td');
                         statoCella.className = 'p-4';
                         const statoSelect = document.createElement('select');
-                        statoSelect.className = 'min-w-44 rounded-md border border-slate-300 bg-white p-2 text-sm text-black focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25';
+                        statoSelect.className = 'min-w-44 rounded-xl border border-zinc-700 bg-zinc-950 p-2.5 text-xs text-white outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20';
                         statoSelect.setAttribute('aria-label', `Stato richiesta ${prev.id}`);
                         const stati = [
                             ['ricevuto', 'Ricevuto'],
@@ -570,14 +570,14 @@ import '../styles/global.css';
                         const noteCella = document.createElement('td');
                         noteCella.className = 'min-w-72 p-4';
                         const noteInput = document.createElement('textarea');
-                        noteInput.className = 'mb-2 min-h-20 w-full rounded-md border border-slate-300 p-2 text-sm text-black outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/25';
+                        noteInput.className = 'mb-2 min-h-20 w-full rounded-xl border border-zinc-700 bg-zinc-950 p-2.5 text-xs text-white placeholder-zinc-500 outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20';
                         noteInput.maxLength = 1200;
                         noteInput.placeholder = 'Cosa serve al cliente?';
                         noteInput.setAttribute('aria-label', `Cosa serve al cliente per la richiesta ${prev.id}`);
                         noteInput.value = prev.note_cliente || '';
                         const salvaStato = document.createElement('button');
                         salvaStato.type = 'button';
-                        salvaStato.className = 'rounded-md bg-blue-600 px-3 py-2 text-sm font-bold text-white hover:bg-blue-700';
+                        salvaStato.className = 'rounded-lg bg-sky-500 px-3 py-1.5 text-xs font-bold text-white shadow-md shadow-sky-500/20 hover:bg-sky-400 transition';
                         salvaStato.textContent = 'Salva aggiornamento';
                         salvaStato.addEventListener('click', async () => {
                             salvaStato.disabled = true;

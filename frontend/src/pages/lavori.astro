@@ -15,27 +15,27 @@ import CallToAction from '../components/CallToAction.astro';
         highlight="parte da un’esigenza."
         text="Una selezione di interventi, superfici trattate e soluzioni adottate, con immagini e informazioni sui lavori realizzati."
     />
-    <section id="gallery-empty" class="gallery-empty wrap">
-        <div class="gallery-empty-art" aria-hidden="true">
+    <section id="gallery-empty" class="gallery-empty wrap my-12 grid gap-8 lg:grid-cols-[1fr_1.4fr] items-center rounded-3xl border border-zinc-800 bg-zinc-900 p-8 sm:p-12 shadow-2xl transition-colors duration-300 hover:border-zinc-700">
+        <div class="gallery-empty-art rounded-2xl border border-zinc-800 bg-zinc-950 p-8 flex items-center justify-center min-h-[220px] relative overflow-hidden" aria-hidden="true">
             <div class="gallery-frame frame-back"></div>
-            <div class="gallery-frame frame-front"><span>EI</span><small>SPAZIO PER I TUOI<br />PROGETTI REALIZZATI</small></div>
-            <span class="gallery-spark spark-one">✳</span><span class="gallery-spark spark-two">✳</span>
+            <div class="gallery-frame frame-front border border-sky-500/30 bg-sky-500/10 text-sky-400"><span>EI</span><small class="text-zinc-300">SPAZIO PER I TUOI<br />PROGETTI REALIZZATI</small></div>
+            <span class="gallery-spark spark-one text-sky-400">✳</span><span class="gallery-spark spark-two text-sky-400">✳</span>
         </div>
         <div class="gallery-empty-copy">
-            <p class="eyebrow">GALLERIA IN PREPARAZIONE</p>
-            <h2>Qui racconteremo<br /><span>i lavori realizzati.</span></h2>
-            <p>Stiamo raccogliendo le fotografie e i dettagli dei progetti da condividere. Torna a trovarci per scoprire gli interventi, le superfici trattate e le soluzioni adottate.</p>
-            <a class="text-link" href="/contatti">Hai un progetto da raccontare? <span aria-hidden="true">→</span></a>
+            <p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">GALLERIA IN PREPARAZIONE</p>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-4">Qui racconteremo<br /><span class="text-sky-400">i lavori realizzati.</span></h2>
+            <p class="text-zinc-400 text-base leading-relaxed mb-6">Stiamo raccogliendo le fotografie e i dettagli dei progetti da condividere. Torna a trovarci per scoprire gli interventi, le superfici trattate e le soluzioni adottate.</p>
+            <a class="text-link inline-flex items-center gap-2 text-sm font-bold text-sky-400 hover:text-sky-300 transition-colors" href="/contatti">Hai un progetto da raccontare? <span aria-hidden="true">→</span></a>
         </div>
     </section>
-    <section id="works-gallery" class="works-gallery wrap hidden" aria-label="Lavori realizzati">
-        <div id="works-grid" class="works-grid"></div>
+    <section id="works-gallery" class="works-gallery wrap my-12 hidden" aria-label="Lavori realizzati">
+        <div id="works-grid" class="works-grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
     </section>
-    <section class="gallery-guidelines">
-        <div class="wrap gallery-guidelines-inner">
-            <div><span>01</span><p><strong>Il contesto</strong><small>Tipologia dell’edificio e area interessata</small></p></div>
-            <div><span>02</span><p><strong>Il problema</strong><small>La situazione da cui è partito l’intervento</small></p></div>
-            <div><span>03</span><p><strong>Il percorso</strong><small>Le fasi e le soluzioni effettivamente adottate</small></p></div>
+    <section class="gallery-guidelines py-14 bg-zinc-950 border-y border-zinc-800">
+        <div class="wrap gallery-guidelines-inner grid gap-6 md:grid-cols-3">
+            <div class="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-lg shadow-black/40 flex items-start gap-4 transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-800/80"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-500/15 border border-sky-500/30 text-sky-400 font-mono text-sm font-bold">01</span><p class="text-sm"><strong class="block text-white font-bold mb-1">Il contesto</strong><small class="text-zinc-400 text-xs">Tipologia dell’edificio e area interessata</small></p></div>
+            <div class="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-lg shadow-black/40 flex items-start gap-4 transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-800/80"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-500/15 border border-sky-500/30 text-sky-400 font-mono text-sm font-bold">02</span><p class="text-sm"><strong class="block text-white font-bold mb-1">Il problema</strong><small class="text-zinc-400 text-xs">La situazione da cui è partito l’intervento</small></p></div>
+            <div class="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-lg shadow-black/40 flex items-start gap-4 transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-800/80"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-500/15 border border-sky-500/30 text-sky-400 font-mono text-sm font-bold">03</span><p class="text-sm"><strong class="block text-white font-bold mb-1">Il percorso</strong><small class="text-zinc-400 text-xs">Le fasi e le soluzioni effettivamente adottate</small></p></div>
         </div>
     </section>
     <CallToAction title="Hai un problema simile?" text="Raccontacelo: ogni valutazione comincia dalle caratteristiche del tuo edificio." />
@@ -50,26 +50,29 @@ import CallToAction from '../components/CallToAction.astro';
                 const griglia = document.getElementById('works-grid');
                 for (const lavoro of dati) {
                     const scheda = document.createElement('article');
-                    scheda.className = 'work-card';
+                    scheda.className = 'work-card group rounded-2xl border border-zinc-800 bg-zinc-900 overflow-hidden shadow-xl hover:border-zinc-700 hover:bg-zinc-800/80 hover:-translate-y-1 transition-colors duration-300';
                     const immagine = document.createElement('img');
                     immagine.src = lavoro.immagine_url;
                     immagine.alt = `Lavoro: ${lavoro.titolo}`;
                     immagine.loading = 'lazy';
+                    immagine.className = 'w-full aspect-[4/3] object-cover bg-zinc-800';
                     scheda.appendChild(immagine);
 
                     const contenuto = document.createElement('div');
-                    contenuto.className = 'work-card-content';
+                    contenuto.className = 'work-card-content p-6';
                     if (lavoro.localita) {
                         const localita = document.createElement('p');
-                        localita.className = 'work-location';
+                        localita.className = 'work-location text-xs font-bold uppercase tracking-wider text-sky-400 mb-2';
                         localita.textContent = lavoro.localita;
                         contenuto.appendChild(localita);
                     }
                     const titolo = document.createElement('h2');
+                    titolo.className = 'text-xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors';
                     titolo.textContent = lavoro.titolo;
                     contenuto.appendChild(titolo);
                     if (lavoro.descrizione) {
                         const descrizione = document.createElement('p');
+                        descrizione.className = 'text-sm text-zinc-400 line-clamp-3';
                         descrizione.textContent = lavoro.descrizione;
                         contenuto.appendChild(descrizione);
                     }

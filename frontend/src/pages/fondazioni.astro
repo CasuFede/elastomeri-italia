@@ -16,54 +16,119 @@ import CallToAction from '../components/CallToAction.astro';
         text="Acqua e umidità possono entrare da punti diversi. Conoscere l’area interessata aiuta a individuare cosa osservare e quali soluzioni valutare."
     />
 
-    <section class="service-detail-list wrap">
-        <article class="service-detail" id="fondazioni">
-            <div class="detail-number">01</div>
+    <section class="service-detail-list wrap my-10 space-y-10">
+        <!-- 01: Fondazioni -->
+        <article class="service-detail-card rounded-3xl border border-zinc-800 bg-zinc-900 p-6 sm:p-10 shadow-2xl transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-850/60 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center" id="fondazioni">
             <div class="detail-content">
-                <p class="eyebrow">STRUTTURE INTERRATE</p>
-                <h2>Fondazioni e cantine</h2>
-                <p>Aloni, distacchi e pareti umide possono essere segnali da approfondire. La valutazione considera la posizione dell’edificio, il contatto con il terreno e i punti in cui l’acqua può trovare un passaggio.</p>
-                <ul class="check-list">
-                    <li>Pareti controterra</li>
-                    <li>Locali interrati e cantine</li>
-                    <li>Umidità e infiltrazioni</li>
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-sm font-extrabold text-sky-400 border border-sky-500/25 bg-sky-500/10 px-3 py-1 rounded-md">01</span>
+                    <span class="font-mono text-xs font-bold uppercase tracking-wider text-sky-400">STRUTTURE INTERRATE</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-4">Fondazioni e platee</h2>
+                <p class="text-sm sm:text-base leading-relaxed text-zinc-400 mb-6">Pareti controterra, platee in calcestruzzo e giunti strutturali sono costantemente esposti alla pressione dell'acqua e all'umidità del terreno. La poliurea pura a caldo crea una barriera monolitica continua senza giunzioni né saldature, garantendo tenuta idraulica permanente ed elasticità superiore al 400% contro assestamenti e microfessurazioni.</p>
+                <ul class="check-list space-y-2.5">
+                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Pareti controterra e platee di fondazione monolitiche</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Resistenza continua alla spinta idrostatica costante</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Aderenza chimica al calcestruzzo senza rischi di distacco</li>
                 </ul>
             </div>
-            <div class="detail-visual visual-foundation" aria-hidden="true"><div class="wall"></div><div class="ground"></div><div class="water-drop">⌁</div></div>
+            <div class="detail-media relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 p-2 shadow-2xl transition-all duration-300 hover:border-zinc-700">
+                <img
+                    src="/images/fondazioni-impermeabilizzazione.svg"
+                    alt="Schema tecnico impermeabilizzazione continua per fondazioni e platee in poliurea"
+                    class="aspect-video w-full rounded-lg object-cover"
+                    width="800"
+                    height="450"
+                    loading="lazy"
+                />
+            </div>
         </article>
-        <article class="service-detail detail-reverse" id="terrazzi">
-            <div class="detail-number">02</div>
-            <div class="detail-content">
-                <p class="eyebrow">SUPERFICI ESPOSTE</p>
-                <h2>Terrazzi e balconi</h2>
-                <p>Le infiltrazioni possono dipendere da più elementi, non solo dalla superficie calpestabile. Giunti, scarichi, soglie e raccordi sono tra i punti che possono richiedere un controllo attento.</p>
-                <ul class="check-list">
-                    <li>Terrazzi e balconi</li>
-                    <li>Raccordi e punti di scarico</li>
-                    <li>Verifica del contesto prima dell’intervento</li>
+
+        <!-- 02: Cantine -->
+        <article class="service-detail-card rounded-3xl border border-zinc-800 bg-zinc-900 p-6 sm:p-10 shadow-2xl transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-850/60 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center" id="cantine">
+            <div class="detail-media relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 p-2 shadow-2xl transition-all duration-300 hover:border-zinc-700 order-2 lg:order-1">
+                <img
+                    src="/images/cantine-impermeabilizzazione.svg"
+                    alt="Risanamento impermeabile cantine e locali interrati contro umidità di risalita"
+                    class="aspect-video w-full rounded-lg object-cover"
+                    width="800"
+                    height="450"
+                    loading="lazy"
+                />
+            </div>
+            <div class="detail-content order-1 lg:order-2">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-sm font-extrabold text-sky-400 border border-sky-500/25 bg-sky-500/10 px-3 py-1 rounded-md">02</span>
+                    <span class="font-mono text-xs font-bold uppercase tracking-wider text-sky-400">LOCALI INTERRATI</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-4">Cantine e locali sotterranei</h2>
+                <p class="text-sm sm:text-base leading-relaxed text-zinc-400 mb-6">Muri umidi, efflorescenze saline, intonaci scrostati e odore di muffa indicano infiltrazioni per capillarità o falda temporanea. L'intervento di impermeabilizzazione e risanamento sigilla murature e pavimentazioni contro la controspinta idrica, restituendo ambienti asciutti, salubri e subito riutilizzabili per cantine, garage e magazzini.</p>
+                <ul class="check-list space-y-2.5">
+                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Stop a risalita capillare, muffe e muri ammalorati</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Trattamento controspinta e risanamento profondo</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Locali asciutti e pienamente agibili già in giornata</li>
                 </ul>
             </div>
-            <div class="detail-visual visual-terrace" aria-hidden="true"><div class="terrace-floor"></div><div class="terrace-wall"></div><div class="terrace-plant"></div><div class="water-drop">⌁</div></div>
         </article>
-        <article class="service-detail" id="coperture">
-            <div class="detail-number">03</div>
+
+        <!-- 03: Terrazzi -->
+        <article class="service-detail-card rounded-3xl border border-zinc-800 bg-zinc-900 p-6 sm:p-10 shadow-2xl transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-850/60 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center" id="terrazzi">
             <div class="detail-content">
-                <p class="eyebrow">TETTI E COPERTURE</p>
-                <h2>Coperture e sottotetti</h2>
-                <p>La pioggia e gli agenti atmosferici sollecitano le coperture nel tempo. La zona interessata, i punti di giunzione e gli elementi di raccolta dell’acqua aiutano a orientare l’analisi.</p>
-                <ul class="check-list">
-                    <li>Tetti e coperture piane</li>
-                    <li>Sottotetti e locali sottostanti</li>
-                    <li>Giunzioni, raccordi e scarichi</li>
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-sm font-extrabold text-sky-400 border border-sky-500/25 bg-sky-500/10 px-3 py-1 rounded-md">03</span>
+                    <span class="font-mono text-xs font-bold uppercase tracking-wider text-sky-400">SUPERFICI ESPOSTE</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-4">Terrazzi e balconi</h2>
+                <p class="text-sm sm:text-base leading-relaxed text-zinc-400 mb-6">Le infiltrazioni su terrazzi e balconi danneggiano le solette e i soffitti sottostanti. Con la poliurea pura a spruzzo interveniamo direttamente sulla pavimentazione esistente senza demolizioni, creando una membrana continua, elastica e subito calpestabile che sigilla soglie, giunti e scarichi pluviali.</p>
+                <ul class="check-list space-y-2.5">
+                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Applicazione rapida senza rimozione o demolizione piastrelle</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Sigillatura monolitica continua di scarichi, soglie e giunti</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Finitura antiscivolo calpestabile e resistente ai raggi UV</li>
                 </ul>
             </div>
-            <div class="detail-visual visual-roof" aria-hidden="true"><div class="roof-shape"></div><div class="roof-house"></div><div class="water-drop">⌁</div></div>
+            <div class="detail-media relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 p-2 shadow-2xl transition-all duration-300 hover:border-zinc-700">
+                <img
+                    src="/images/terrazzi-impermeabilizzazione.svg"
+                    alt="Impermeabilizzazione continua senza demolizioni per terrazzi e balconi con poliurea"
+                    class="aspect-video w-full rounded-lg object-cover"
+                    width="800"
+                    height="450"
+                    loading="lazy"
+                />
+            </div>
+        </article>
+
+        <!-- 04: Coperture -->
+        <article class="service-detail-card rounded-3xl border border-zinc-800 bg-zinc-900 p-6 sm:p-10 shadow-2xl transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-850/60 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center" id="coperture">
+            <div class="detail-media relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 p-2 shadow-2xl transition-all duration-300 hover:border-zinc-700 order-2 lg:order-1">
+                <img
+                    src="/images/coperture-impermeabilizzazione.svg"
+                    alt="Impermeabilizzazione tetti industriali, coperture piane e sottotetti con poliurea a caldo"
+                    class="aspect-video w-full rounded-lg object-cover"
+                    width="800"
+                    height="450"
+                    loading="lazy"
+                />
+            </div>
+            <div class="detail-content order-1 lg:order-2">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="font-mono text-sm font-extrabold text-sky-400 border border-sky-500/25 bg-sky-500/10 px-3 py-1 rounded-md">04</span>
+                    <span class="font-mono text-xs font-bold uppercase tracking-wider text-sky-400">TETTI E COPERTURE</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-4">Coperture e sottotetti</h2>
+                <p class="text-sm sm:text-base leading-relaxed text-zinc-400 mb-6">La pioggia battente, gli sbalzi termici e la grandine mettono a dura prova manti bituminosi e tetti piani. La poliurea a caldo elimina ogni rischio di infiltrazione creando un manto continuo senza giunzioni, conformandosi perfettamente a lucernari, camini e canali di gronda con certificazione di durata superiore a 25 anni.</p>
+                <ul class="check-list space-y-2.5">
+                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Manto continuo privo di giunti o fiamme libere in opera</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Raccordi millimetrici su camini, lucernari e impianti tecnici</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Massima resistenza a grandine, gelo e ristagni prolungati</li>
+                </ul>
+            </div>
         </article>
     </section>
 
-    <section class="note-strip wrap">
-        <span class="note-icon" aria-hidden="true">i</span>
-        <p>Ogni edificio è diverso. Le informazioni in questa pagina sono orientative: il tipo di intervento si valuta in base alle condizioni specifiche.</p>
+    <section class="note-strip wrap my-8 flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-6 transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90">
+        <span class="note-icon grid h-8 w-8 place-items-center rounded-lg border border-sky-500/25 bg-sky-500/10 text-sm font-bold text-sky-400" aria-hidden="true">i</span>
+        <p class="text-sm text-zinc-400">Ogni edificio è diverso. Le informazioni in questa pagina sono orientative: il tipo di intervento si valuta in base alle condizioni specifiche.</p>
     </section>
     <CallToAction title="Non sai da dove arriva l’acqua?" text="Descrivici cosa hai notato e in quale zona: ci aiuterà a capire come procedere." />
 </SiteLayout>

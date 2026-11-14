@@ -22,13 +22,13 @@ const links = [
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#080a0f" />
+        <meta name="theme-color" content="#000000" />
         <meta name="description" content={description} />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <title>{title}</title>
     </head>
-    <body class="site-body">
-        <header class="site-header">
+    <body class="site-body bg-black text-zinc-200 antialiased selection:bg-sky-500 selection:text-white">
+        <header class="site-header sticky top-0 z-40 border-b border-zinc-800 bg-black/85 backdrop-blur-xl">
             <div class="header-inner">
                 <a class="brand" href="/" aria-label="Poliurea System Impermeabilizzazioni, home">
                     <img src="/logo-poliurea-system.png" alt="Poliurea System - Impermeabilizzazioni" />
@@ -38,15 +38,15 @@ const links = [
                         <a href={href} aria-current={activePath === href ? 'page' : undefined}>{label}</a>
                     ))}
                 </nav>
-                <button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-menu">
+                <button class="mobile-menu-toggle border border-zinc-800 bg-zinc-900 transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-800" id="mobile-menu-toggle" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-menu">
                     <span></span><span></span>
                 </button>
                 <div class="header-actions">
-                    <a class="header-login" href="/area-clienti" aria-label="Accedi all’area clienti">
+                    <a class="header-login inline-flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs font-bold text-zinc-200 shadow-sm transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-800 hover:text-sky-400 hover:-translate-y-0.5" href="/area-clienti" aria-label="Accedi all’area clienti">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" /></svg>
                         <span>Area clienti</span>
                     </a>
-                    <a class="header-cta" href="/preventivo">Preventivo gratuito <span aria-hidden="true">↗</span></a>
+                    <a class="header-cta inline-flex items-center gap-2.5 rounded-lg bg-sky-500 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition-colors duration-300 hover:bg-sky-400 hover:shadow-sky-500/40 hover:-translate-y-0.5" href="/preventivo">Preventivo gratuito <span aria-hidden="true">↗</span></a>
                 </div>
             </div>
             <nav class="mobile-menu" id="mobile-menu" aria-label="Navigazione principale" aria-hidden="true" inert>
@@ -62,8 +62,8 @@ const links = [
         <main>
             <slot />
         </main>
-        <aside class="chat-widget" id="chat-widget">
-            <section class="chat-panel" id="chat-panel" aria-label="Chat con il Castoro" aria-hidden="true" inert hidden>
+        <aside class="chat-widget fixed z-50 right-4 md:right-6 bottom-4 md:bottom-6 max-w-[calc(100vw-2rem)]" id="chat-widget">
+            <section class="chat-panel w-[calc(100vw-2rem)] right-4 max-w-[420px] max-h-[calc(100dvh-5rem)] overflow-hidden flex flex-col rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl" id="chat-panel" aria-label="Chat con il Castoro" aria-hidden="true" inert hidden>
                 <header class="chat-header">
                     <div class="chat-avatar">
                         <img class="chat-header-mascot" src="/mascotte-castoro.webp" alt="" />
@@ -80,7 +80,7 @@ const links = [
                     <button class="chat-close" id="chat-close" type="button" aria-label="Chiudi la chat">×</button>
                 </header>
                 <div class="chat-messages" id="chat-messages" aria-live="polite" aria-relevant="additions text">
-                    <div class="chat-message chat-message-assistant chat-welcome" id="chat-welcome">
+                    <div class="chat-message chat-message-assistant chat-welcome text-white font-medium" id="chat-welcome">
                         <span class="chat-welcome-icon" aria-hidden="true">✦</span>
                         <span class="chat-message-author">Il Castoro</span>
                         Ciao! Sono qui per aiutarti con la poliurea e le impermeabilizzazioni. Scegli un argomento per iniziare.
@@ -104,7 +104,7 @@ const links = [
                 </span>
             </button>
         </aside>
-        <footer class="site-footer">
+        <footer class="site-footer bg-zinc-950 border-t border-zinc-800">
             <div class="footer-main">
                 <div class="footer-brand">
                     <a class="brand footer-logo" href="/" aria-label="Poliurea System Impermeabilizzazioni, home">
@@ -133,7 +133,7 @@ const links = [
                     <a class="text-link" href="/preventivo">Richiedi un sopralluogo <span aria-hidden="true">→</span></a>
                 </div>
             </div>
-            <div class="footer-bottom">
+            <div class="footer-bottom border-t border-zinc-800/80 text-zinc-500 text-xs">
                 <span>© {new Date().getFullYear()} Poliurea System</span>
                 <span>Protezione, progettata intorno al tuo edificio.</span>
             </div>
@@ -261,11 +261,11 @@ const links = [
 
             const aggiungiMessaggio = (testo, ruolo, classe = '') => {
                 const messaggio = document.createElement('div');
-                messaggio.className = `chat-message chat-message-${ruolo}${classe ? ` ${classe}` : ''}`;
+                messaggio.className = `chat-message chat-message-${ruolo} text-white font-medium${classe ? ` ${classe}` : ''}`;
                 messaggio.textContent = testo;
                 if (ruolo === 'assistant') {
                     const autore = document.createElement('span');
-                    autore.className = 'chat-message-author';
+                    autore.className = 'chat-message-author text-sky-400 font-bold';
                     autore.textContent = 'Il Castoro';
                     messaggio.prepend(autore);
                 }
@@ -357,7 +357,17 @@ const links = [
             chatClose.addEventListener('click', () => mostraChat(false));
             chatSuggestions.addEventListener('click', (evento) => {
                 const pulsante = evento.target.closest('button');
-                if (!(pulsante instanceof HTMLButtonElement) || richiestaInCorso) return;
+                if (!(pulsante instanceof HTMLButtonElement) || pulsante.disabled || richiestaInCorso) return;
+
+                // Bottoni monouso: disabilita subito il set di suggerimenti per impedire click multipli
+                pulsante.disabled = true;
+                pulsante.classList.add('opacity-40', 'cursor-not-allowed', 'pointer-events-none');
+                chatSuggestions.querySelectorAll('button').forEach((b) => {
+                    b.disabled = true;
+                    b.style.pointerEvents = 'none';
+                    b.style.opacity = '0.4';
+                });
+
                 if (pulsante.dataset.chatHref) {
                     window.location.href = pulsante.dataset.chatHref;
                     return;
@@ -377,6 +387,60 @@ const links = [
             document.addEventListener('keydown', (evento) => {
                 if (evento.key === 'Escape' && chatLauncher.getAttribute('aria-expanded') === 'true') mostraChat(false);
             });
+
+            // Micro-interazione: Fade-in morbido allo scroll con Intersection Observer
+            if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.documentElement.classList.add('js-reveal-ready');
+                const observerOpzioni = {
+                    root: null,
+                    rootMargin: '0px 0px -40px 0px',
+                    threshold: 0.08,
+                };
+                const revealObserver = new IntersectionObserver((entries, obs) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-revealed');
+                            obs.unobserve(entry.target);
+                        }
+                    });
+                }, observerOpzioni);
+
+                const setupScrollReveal = () => {
+                    const selettori = [
+                        '.scroll-reveal',
+                        '.service-card',
+                        '.bento-grid > article',
+                        '.audience-list > div',
+                        '.method-steps > div',
+                        '.home-checklist li',
+                        '.faq-list > details',
+                        '.cta-inner',
+                        '.service-detail',
+                        '.roadmap-step',
+                        '.audience-cards > article',
+                        '.gallery-guidelines-inner > div',
+                        '.contact-panel',
+                        '.contact-details',
+                        '.page-intro',
+                        '.method-illustration',
+                        '.hero-visual',
+                        '.business-statement',
+                        '.business-checklist',
+                        '.gallery-empty'
+                    ].join(', ');
+
+                    document.querySelectorAll(selettori).forEach((elemento) => {
+                        elemento.classList.add('scroll-reveal');
+                        revealObserver.observe(elemento);
+                    });
+                };
+
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', setupScrollReveal);
+                } else {
+                    setupScrollReveal();
+                }
+            }
         </script>
     </body>
 </html>

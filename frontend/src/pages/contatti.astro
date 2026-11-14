@@ -14,27 +14,27 @@ import PageIntro from '../components/PageIntro.astro';
         highlight="cosa succede."
         text="Una macchia sul soffitto, un muro umido o una copertura da verificare? Inviaci una richiesta: ci aiuterà a capire come ricontattarti."
     />
-    <section class="contact-page wrap">
-        <div class="contact-panel">
-            <p class="eyebrow">IL MODO PIÙ SEMPLICE PER INIZIARE</p>
-            <h2>Descrivici il tuo<br /><span>problema.</span></h2>
-            <p>Il modulo guidato raccoglie le informazioni essenziali, ti permette di aggiungere foto e invia la richiesta al nostro team.</p>
-            <a class="button button-primary" href="/preventivo">Compila il modulo <span aria-hidden="true">↗</span></a>
-            <div class="contact-assurance"><span>✓</span> Consulenza gratuita e senza impegno</div>
+    <section class="contact-page wrap my-12 grid gap-8 lg:grid-cols-[1.2fr_1fr] items-start">
+        <div class="contact-panel rounded-2xl border border-zinc-800 bg-zinc-900 p-8 sm:p-10 shadow-2xl relative overflow-hidden transition-colors duration-300 hover:border-zinc-700">
+            <p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">IL MODO PIÙ SEMPLICE PER INIZIARE</p>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-4">Descrivici il tuo<br /><span class="text-sky-400">problema.</span></h2>
+            <p class="text-zinc-400 text-base leading-relaxed mb-8">Il modulo guidato raccoglie le informazioni essenziali, ti permette di aggiungere foto e invia la richiesta al nostro team.</p>
+            <a class="button button-primary inline-flex items-center gap-3 rounded-xl bg-sky-500 hover:bg-sky-400 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition-colors duration-300 hover:shadow-sky-500/40 hover:-translate-y-0.5" href="/preventivo">Compila il modulo <span aria-hidden="true">↗</span></a>
+            <div class="contact-assurance mt-8 flex items-center gap-2.5 text-xs font-semibold text-zinc-400"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold">✓</span> Consulenza gratuita e senza impegno</div>
         </div>
-        <aside class="contact-details">
-            <p class="eyebrow">RECAPITI AZIENDALI</p>
-            <h2>Completa i contatti<br />prima della pubblicazione.</h2>
-            <p>Non abbiamo trovato recapiti pubblici nel progetto. Inserisci i riferimenti ufficiali per permettere ai visitatori di contattarti direttamente.</p>
-            <div class="contact-placeholder"><span aria-hidden="true">☎</span><p><small>TELEFONO</small><strong>[Inserire numero aziendale]</strong></p></div>
-            <div class="contact-placeholder"><span aria-hidden="true">✉</span><p><small>EMAIL</small><strong>[Inserire email aziendale]</strong></p></div>
-            <div class="contact-placeholder"><span aria-hidden="true">⌖</span><p><small>SEDE / AREA SERVITA</small><strong>[Inserire sede o area geografica]</strong></p></div>
+        <aside class="contact-details rounded-2xl border border-zinc-800 bg-zinc-900/60 p-8 sm:p-10 shadow-xl backdrop-blur-sm transition-colors duration-300 hover:border-zinc-700">
+            <p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">RECAPITI AZIENDALI</p>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-4">Completa i contatti<br />prima della pubblicazione.</h2>
+            <p class="text-zinc-400 text-sm leading-relaxed mb-6">Non abbiamo trovato recapiti pubblici nel progetto. Inserisci i riferimenti ufficiali per permettere ai visitatori di contattarti direttamente.</p>
+            <div class="contact-placeholder flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-4 mb-3 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90"><span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 border border-sky-500/25 text-sky-400 text-lg">☎</span><p class="text-sm"><small class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">TELEFONO</small><strong class="text-white font-semibold">[Inserire numero aziendale]</strong></p></div>
+            <div class="contact-placeholder flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-4 mb-3 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90"><span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 border border-sky-500/25 text-sky-400 text-lg">✉</span><p class="text-sm"><small class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">EMAIL</small><strong class="text-white font-semibold">[Inserire email aziendale]</strong></p></div>
+            <div class="contact-placeholder flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-4 mb-3 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90"><span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 border border-sky-500/25 text-sky-400 text-lg">⌖</span><p class="text-sm"><small class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">SEDE / AREA SERVITA</small><strong class="text-white font-semibold">[Inserire sede o area geografica]</strong></p></div>
         </aside>
     </section>
-    <section class="contact-bottom">
-        <div class="wrap contact-bottom-inner">
-            <div><p class="eyebrow">HAI GIÀ RACCOLTO I DETTAGLI?</p><h2>Il sopralluogo si prepara<br />con le <span>informazioni giuste.</span></h2></div>
-            <a class="text-link" href="/metodo">Scopri il metodo <span aria-hidden="true">→</span></a>
+    <section class="contact-bottom py-14 bg-zinc-950 border-y border-zinc-800">
+        <div class="wrap contact-bottom-inner flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+            <div><p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-1">HAI GIÀ RACCOLTO I DETTAGLI?</p><h2 class="text-xl sm:text-2xl font-bold text-white">Il sopralluogo si prepara<br />con le <span class="text-sky-400">informazioni giuste.</span></h2></div>
+            <a class="text-link inline-flex items-center gap-2 text-sm font-bold text-sky-400 hover:text-sky-300 transition-colors" href="/metodo">Scopri il metodo <span aria-hidden="true">→</span></a>
         </div>
     </section>
 </SiteLayout>

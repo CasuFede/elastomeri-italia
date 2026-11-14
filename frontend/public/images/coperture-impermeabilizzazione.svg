@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450" fill="none">
+    <defs>
+        <linearGradient id="copertureBg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#18181b" />
+            <stop offset="100%" stop-color="#09090b" />
+        </linearGradient>
+        <linearGradient id="copertureConcrete" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#27272a" />
+            <stop offset="100%" stop-color="#3f3f46" />
+        </linearGradient>
+        <linearGradient id="coperturePoly" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#38bdf8" />
+            <stop offset="100%" stop-color="#0284c7" />
+        </linearGradient>
+        <pattern id="copertureGrid" width="30" height="30" patternUnits="userSpaceOnUse">
+            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#27272a" stroke-width="0.8" stroke-opacity="0.4" />
+        </pattern>
+        <filter id="copertureGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="7" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+    </defs>
+
+    <!-- Canvas Background -->
+    <rect width="800" height="450" fill="url(#copertureBg)" />
+    <rect width="800" height="450" fill="url(#copertureGrid)" />
+
+    <!-- Struttura Sezione Tetto / Sottotetto -->
+    <!-- Muro maestro sinistro -->
+    <rect x="70" y="240" width="110" height="170" fill="url(#copertureConcrete)" stroke="#52525b" stroke-width="1.5" />
+    
+    <!-- Solaio sottotetto / Pavimento mansarda -->
+    <rect x="180" y="350" width="460" height="40" fill="url(#copertureConcrete)" stroke="#52525b" stroke-width="1.5" />
+    <text x="320" y="375" fill="#71717a" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Locale Sottotetto / Isolamento</text>
+
+    <!-- Muro maestro destro -->
+    <rect x="640" y="240" width="100" height="170" fill="url(#copertureConcrete)" stroke="#52525b" stroke-width="1.5" />
+
+    <!-- Falda / Copertura piana inclinata -->
+    <path d="M 40 250 L 400 130 L 760 250 L 730 280 L 400 170 L 70 280 Z" fill="url(#copertureConcrete)" stroke="#52525b" stroke-width="1.5" />
+
+    <!-- Camino / Punto critico corpo emergente sul tetto -->
+    <rect x="470" y="100" width="60" height="85" fill="#18181b" stroke="#52525b" stroke-width="1.5" />
+    <path d="M 460 95 L 540 95 L 530 100 L 470 100 Z" fill="#3f3f46" stroke="#71717a" stroke-width="1" />
+    <text x="475" y="150" fill="#71717a" font-family="system-ui, sans-serif" font-size="10">Camino</text>
+
+    <!-- Grondaie perimetrali -->
+    <!-- Grondaia sinistra -->
+    <path d="M 30 255 Q 30 285 55 285 L 60 285" fill="none" stroke="#38bdf8" stroke-width="2" />
+    <line x1="42" y1="285" x2="42" y2="400" stroke="#0284c7" stroke-width="2" stroke-dasharray="4 3" />
+    <!-- Grondaia destra -->
+    <path d="M 770 255 Q 770 285 745 285 L 740 285" fill="none" stroke="#38bdf8" stroke-width="2" />
+    <line x1="758" y1="285" x2="758" y2="400" stroke="#0284c7" stroke-width="2" stroke-dasharray="4 3" />
+
+    <!-- Membrana continua in Poliurea Pura (Evidenziata in Cyan/Blu con Glow) -->
+    <!-- Sigillatura completa dal canale di grondaia sx, su per la falda, raccordo risvolto camino, colmo tetto, falda dx fino a grondaia dx -->
+    <path d="M 35 260 L 50 250 L 400 126 L 470 150 L 470 120 L 472 120 L 472 151 L 530 171 L 530 135 L 532 135 L 532 172 L 750 250 L 765 260" 
+          fill="none" stroke="url(#coperturePoly)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" filter="url(#copertureGlow)" />
+    <path d="M 35 260 L 50 250 L 400 126 L 470 150 L 470 120 L 472 120 L 472 151 L 530 171 L 530 135 L 532 135 L 532 172 L 750 250 L 765 260" 
+          fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
+
+    <!-- Frecce di deflusso acque meteoriche -->
+    <g stroke="#38bdf8" stroke-width="1.5" opacity="0.8">
+        <path d="M 350 120 L 250 155" stroke-dasharray="5 3" />
+        <path d="M 220 165 L 120 200" stroke-dasharray="5 3" />
+        <path d="M 560 165 L 660 200" stroke-dasharray="5 3" />
+    </g>
+
+    <!-- Simboli agenti atmosferici (Pioggia e Raggi UV / Sole) -->
+    <g stroke="#0284c7" stroke-width="1.5" opacity="0.6">
+        <line x1="160" y1="80" x2="150" y2="110" />
+        <line x1="240" y1="60" x2="230" y2="90" />
+        <line x1="620" y1="70" x2="610" y2="100" />
+        <line x1="680" y1="90" x2="670" y2="120" />
+    </g>
+
+    <!-- Header Box Scheda Tecnica -->
+    <g transform="translate(40, 25)">
+        <rect width="330" height="85" rx="12" fill="#09090b" fill-opacity="0.95" stroke="#3f3f46" stroke-width="1" />
+        <rect x="14" y="14" width="8" height="8" rx="2" fill="#38bdf8" />
+        <text x="30" y="22" fill="#38bdf8" font-family="monospace" font-size="11" font-weight="bold" letter-spacing="1">COPERTURE E SOTTOTETTI</text>
+        <text x="14" y="48" fill="#ffffff" font-family="system-ui, sans-serif" font-size="15" font-weight="bold">Manto Monolitico Senza Giunti</text>
+        <text x="14" y="68" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="12">Resistenza a ristagni, grandine e dilatazioni termiche</text>
+    </g>
+
+    <!-- Badge Prestazioni e Durabilità -->
+    <g transform="translate(520, 25)">
+        <rect width="240" height="74" rx="10" fill="#09090b" fill-opacity="0.9" stroke="#27272a" stroke-width="1" />
+        <text x="16" y="24" fill="#38bdf8" font-family="monospace" font-size="10" font-weight="bold">CERTIFICAZIONE ETAG 005 - W3</text>
+        <text x="16" y="46" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="600">Durata attesa oltre 25 anni</text>
+        <text x="16" y="62" fill="#71717a" font-family="system-ui, sans-serif" font-size="11">Raccordi continui su camini e lucernari</text>
+    </g>
+</svg>

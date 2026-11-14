@@ -16,39 +16,51 @@ import CallToAction from '../components/CallToAction.astro';
         text="Quando un edificio è gestito da più persone, chiarezza e coordinamento contano. Inquadriamo insieme il problema e le informazioni utili per valutare come procedere."
     />
 
-    <section class="business-intro wrap">
-        <div class="business-statement">
-            <p class="eyebrow">UN CONFRONTO, FATTO BENE</p>
-            <h2>Dal primo sopralluogo<br />alle <span>informazioni operative.</span></h2>
-            <p>Condividiamo gli elementi raccolti e le possibili fasi di approfondimento, così ogni interlocutore può avere un quadro più chiaro della richiesta.</p>
+    <section class="business-intro wrap my-12 grid gap-8 lg:grid-cols-[1.4fr_1fr] items-center">
+        <div class="business-statement rounded-2xl border border-zinc-800 bg-zinc-900 p-8 sm:p-10 shadow-2xl relative overflow-hidden transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-850/60">
+            <p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">UN CONFRONTO, FATTO BENE</p>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug mb-4">Dal primo sopralluogo<br />alle <span class="text-sky-400">informazioni operative.</span></h2>
+            <p class="text-zinc-400 text-base leading-relaxed">Condividiamo gli elementi raccolti e le possibili fasi di approfondimento, così ogni interlocutore può avere un quadro più chiaro della richiesta.</p>
         </div>
-        <div class="business-visual" aria-hidden="true">
+        <div class="business-visual rounded-2xl border border-zinc-800 bg-zinc-950 p-8 shadow-xl flex flex-col items-center justify-center relative overflow-hidden min-h-[220px]" aria-hidden="true">
             <div class="business-grid"></div>
             <div class="business-building"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-            <span class="business-tag">EDIFICIO<br />DA VALUTARE</span>
+            <span class="business-tag border border-sky-500/30 bg-sky-500/10 text-sky-400 font-mono text-xs font-bold px-3 py-1.5 rounded-md">EDIFICIO<br />DA VALUTARE</span>
         </div>
     </section>
-    <section class="business-audience">
+    <section class="business-audience py-16 bg-zinc-950 border-y border-zinc-800">
         <div class="wrap">
-            <div class="section-heading">
-                <div><p class="eyebrow">A CHI CI RIVOLGIAMO</p><h2>Collaboriamo con<br /><span>chi si prende cura degli edifici.</span></h2></div>
-                <p>Ogni figura porta un punto di vista diverso. Condividere le informazioni aiuta a costruire un percorso di valutazione più ordinato.</p>
+            <div class="section-heading mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div><p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">A CHI CI RIVOLGIAMO</p><h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">Collaboriamo con<br /><span class="text-sky-400">chi si prende cura degli edifici.</span></h2></div>
+                <p class="text-zinc-400 text-base max-w-xl">Ogni figura porta un punto di vista diverso. Condividere le informazioni aiuta a costruire un percorso di valutazione più ordinato.</p>
             </div>
-            <div class="audience-cards">
-                <article><span>01</span><h3>Amministratori</h3><p>Per raccogliere le segnalazioni e valutare le esigenze delle parti comuni.</p></article>
-                <article><span>02</span><h3>Imprese e property manager</h3><p>Per confrontarsi sulle condizioni dell’immobile e sulle priorità di intervento.</p></article>
-                <article><span>03</span><h3>Tecnici e progettisti</h3><p>Per condividere il contesto tecnico e le informazioni disponibili sul progetto.</p></article>
+            <div class="audience-cards grid gap-6 md:grid-cols-3">
+                <article class="rounded-2xl border border-zinc-800 bg-zinc-900 p-7 shadow-lg shadow-black/40 hover:border-zinc-700 hover:bg-zinc-800/80 hover:-translate-y-1 transition-colors duration-300">
+                    <span class="text-xs font-mono font-bold text-sky-400 border border-sky-500/25 bg-sky-500/10 px-2.5 py-1 rounded-md inline-block mb-4">01</span>
+                    <h3 class="text-lg font-bold text-white mb-2">Amministratori</h3>
+                    <p class="text-sm text-zinc-400 leading-relaxed">Per raccogliere le segnalazioni e valutare le esigenze delle parti comuni.</p>
+                </article>
+                <article class="rounded-2xl border border-zinc-800 bg-zinc-900 p-7 shadow-lg shadow-black/40 hover:border-zinc-700 hover:bg-zinc-800/80 hover:-translate-y-1 transition-colors duration-300">
+                    <span class="text-xs font-mono font-bold text-sky-400 border border-sky-500/25 bg-sky-500/10 px-2.5 py-1 rounded-md inline-block mb-4">02</span>
+                    <h3 class="text-lg font-bold text-white mb-2">Imprese e property manager</h3>
+                    <p class="text-sm text-zinc-400 leading-relaxed">Per confrontarsi sulle condizioni dell’immobile e sulle priorità di intervento.</p>
+                </article>
+                <article class="rounded-2xl border border-zinc-800 bg-zinc-900 p-7 shadow-lg shadow-black/40 hover:border-zinc-700 hover:bg-zinc-800/80 hover:-translate-y-1 transition-colors duration-300">
+                    <span class="text-xs font-mono font-bold text-sky-400 border border-sky-500/25 bg-sky-500/10 px-2.5 py-1 rounded-md inline-block mb-4">03</span>
+                    <h3 class="text-lg font-bold text-white mb-2">Tecnici e progettisti</h3>
+                    <p class="text-sm text-zinc-400 leading-relaxed">Per condividere il contesto tecnico e le informazioni disponibili sul progetto.</p>
+                </article>
             </div>
         </div>
     </section>
-    <section class="business-checklist wrap">
-        <p class="eyebrow">COME PREPARARE IL PRIMO CONFRONTO</p>
-        <h2>Le informazioni utili<br /><span>per iniziare.</span></h2>
-        <div class="checklist-grid">
-            <p><span>✓</span> Indirizzo e tipologia dell’immobile</p>
-            <p><span>✓</span> Zona interessata dal problema</p>
-            <p><span>✓</span> Descrizione della situazione osservata</p>
-            <p><span>✓</span> Foto o documentazione disponibile</p>
+    <section class="business-checklist wrap my-16 rounded-3xl border border-zinc-800 bg-zinc-900 p-8 sm:p-12 shadow-2xl transition-colors duration-300 hover:border-zinc-700">
+        <p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">COME PREPARARE IL PRIMO CONFRONTO</p>
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-8">Le informazioni utili<br /><span class="text-sky-400">per iniziare.</span></h2>
+        <div class="checklist-grid grid gap-4 sm:grid-cols-2">
+            <p class="flex items-center gap-3 rounded-xl border border-zinc-800/80 bg-zinc-950/70 p-4 text-sm font-medium text-zinc-300 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90"><span class="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-500/15 border border-sky-500/30 text-sky-400 font-bold shrink-0">✓</span> Indirizzo e tipologia dell’immobile</p>
+            <p class="flex items-center gap-3 rounded-xl border border-zinc-800/80 bg-zinc-950/70 p-4 text-sm font-medium text-zinc-300 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90"><span class="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-500/15 border border-sky-500/30 text-sky-400 font-bold shrink-0">✓</span> Zona interessata dal problema</p>
+            <p class="flex items-center gap-3 rounded-xl border border-zinc-800/80 bg-zinc-950/70 p-4 text-sm font-medium text-zinc-300 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90"><span class="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-500/15 border border-sky-500/30 text-sky-400 font-bold shrink-0">✓</span> Descrizione della situazione osservata</p>
+            <p class="flex items-center gap-3 rounded-xl border border-zinc-800/80 bg-zinc-950/70 p-4 text-sm font-medium text-zinc-300 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90"><span class="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-500/15 border border-sky-500/30 text-sky-400 font-bold shrink-0">✓</span> Foto o documentazione disponibile</p>
         </div>
     </section>
     <CallToAction title="Valutiamo insieme il tuo progetto." text="Inviaci le informazioni essenziali e ti ricontatteremo per un primo confronto." />
