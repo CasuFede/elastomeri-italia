@@ -331,19 +331,34 @@ async def invia_notifica_telegram(
     }
 
     try:
-        from js import fetch
+        try:
+            from pyodide.http import pyfetch
 
-        response = await fetch(
-            url,
-            {
-                "method": "POST",
-                "headers": {"content-type": "application/json"},
-                "body": json.dumps(payload),
-            },
-        )
-        if not response.ok:
-            print(f"Errore durante l'invio a Telegram: HTTP {response.status}")
-    except Exception as exc:
+            response = await pyfetch(
+                url,
+                method="POST",
+                headers={"content-type": "application/json"},
+                body=json.dumps(payload),
+            )
+            if not response.ok:
+                print(f"Errore durante l'invio a Telegram: HTTP {response.status}")
+        except ImportError:
+            from js import Object, fetch
+            from pyodide.ffi import to_js
+
+            headers_js = to_js({"content-type": "application/json"}, dict_converter=Object.fromEntries)
+            options = to_js(
+                {
+                    "method": "POST",
+                    "headers": headers_js,
+                    "body": json.dumps(payload),
+                },
+                dict_converter=Object.fromEntries,
+            )
+            response = await fetch(url, options)
+            if not response.ok:
+                print(f"Errore durante l'invio a Telegram: HTTP {response.status}")
+    except BaseException as exc:
         print(f"Errore durante l'invio a Telegram: {exc}")
 
 
