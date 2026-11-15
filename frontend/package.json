@@ -16,10 +16,12 @@
     "@astrojs/cloudflare": "^14.4.7",
     "@tailwindcss/vite": "^4.3.5",
     "astro": "^7.4.11",
-    "tailwindcss": "^4.3.5"
+    "tailwindcss": "^4.3.5",
+    "three": "^0.187.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@types/three": "^0.187.0",
     "typescript": "^6.0.3",
     "wrangler": "^4.161.0"
   }

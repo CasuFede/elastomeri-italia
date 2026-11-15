@@ -98,12 +98,29 @@ const links = [
                 </div>
                 <p class="chat-disclaimer">Informazioni tratte dal manuale tecnico · <a href="/preventivo">Richiedi un sopralluogo</a></p>
             </section>
-            <button class="chat-launcher" id="chat-launcher" type="button" aria-label="Apri la chat con il Castoro" aria-expanded="false" aria-controls="chat-panel">
-                <img src="/mascotte-castoro.webp" alt="" width="40" height="40" />
-                <span class="chat-launcher-label">Chiedi al Castoro</span>
-                <span class="chat-launcher-icon" aria-hidden="true">
-                    <svg class="chat-launcher-open-icon" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
-                    <svg class="chat-launcher-close-icon" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></svg>
+            <button
+                class="chat-launcher group flex items-center gap-2.5 md:gap-3 p-1.5 md:px-4 md:py-2.5 rounded-full bg-zinc-900/80 hover:bg-zinc-800/90 backdrop-blur-md border border-zinc-700/50 hover:border-zinc-500 shadow-2xl shadow-black/80 hover:shadow-sky-500/10 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer pointer-events-auto"
+                id="chat-launcher"
+                type="button"
+                aria-label="Apri la chat con il Castoro"
+                aria-expanded="false"
+                aria-controls="chat-panel"
+            >
+                <div class="relative shrink-0 flex items-center justify-center">
+                    <img
+                        src="/mascotte-castoro.webp"
+                        alt=""
+                        class="w-10 h-10 md:w-8 md:h-8 rounded-full object-cover ring-2 ring-zinc-700/60 group-hover:ring-sky-500/50 transition-colors"
+                        width="40"
+                        height="40"
+                    />
+                    <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-zinc-900" aria-hidden="true"></span>
+                </div>
+                <span class="chat-launcher-label hidden md:block text-sm font-medium text-white whitespace-nowrap">Chiedi al Castoro</span>
+                <span class="hidden md:flex items-center justify-center w-6 h-6 rounded-full bg-sky-500/10 border border-sky-500/25 text-sky-400 shrink-0 group-hover:bg-sky-500/20 group-hover:border-sky-500/40 transition-colors" aria-hidden="true">
+                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                    </svg>
                 </span>
             </button>
         </aside>
@@ -260,7 +277,8 @@ const links = [
                 chatLauncher.setAttribute('aria-label', aperta ? 'Chiudi la chat con il Castoro' : 'Apri la chat con il Castoro');
                 chatLauncher.classList.toggle('is-open', aperta);
                 chatWidget.classList.toggle('is-open', aperta);
-                chatLauncher.querySelector('.chat-launcher-label').textContent = aperta ? 'Chiudi la chat' : 'Chiedi al Castoro';
+                const label = chatLauncher.querySelector('.chat-launcher-label');
+                if (label) label.textContent = aperta ? 'Chiudi la chat' : 'Chiedi al Castoro';
                 if (aperta) chatSuggestions.querySelector('button')?.focus();
                 else if (focusDentroChat) chatLauncher.focus();
             };
@@ -440,7 +458,6 @@ const links = [
                         '.contact-details',
                         '.page-intro',
                         '.method-illustration',
-                        '.hero-visual',
                         '.business-statement',
                         '.business-checklist',
                         '.gallery-empty'

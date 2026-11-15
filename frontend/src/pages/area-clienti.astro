@@ -11,29 +11,31 @@ import '../styles/global.css';
     <title>Area clienti | Poliurea System</title>
 </head>
 <body class="customer-body min-h-screen bg-black text-zinc-200">
-    <div class="customer-shell w-full max-w-5xl mx-auto px-4 sm:px-6">
-        <header class="customer-header flex items-center justify-between py-6 border-b border-zinc-800 mb-10">
+    <div class="customer-shell w-full min-h-screen">
+        <header class="customer-header w-full px-4 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between py-6 border-b border-zinc-800 mb-10 gap-4">
             <a href="/" class="customer-brand inline-flex items-center" aria-label="Poliurea System, home">
                 <picture>
                     <source srcset="/logo-poliurea-system.webp" type="image/webp" />
                     <img src="/logo-poliurea-system.png" alt="Poliurea System" class="h-10 w-auto" width="180" height="40" />
                 </picture>
             </a>
-            <div>
-                <p class="text-[11px] font-bold uppercase tracking-wider text-sky-400">POLIUREA SYSTEM</p>
-                <h1 class="text-xl font-bold text-white">Area clienti</h1>
+            <div class="flex flex-row items-center gap-4">
+                <div>
+                    <p class="text-[11px] font-bold uppercase tracking-wider text-sky-400">POLIUREA SYSTEM</p>
+                    <h1 class="text-xl font-bold text-white">Area clienti</h1>
+                </div>
+                <a class="customer-back text-xs font-semibold text-zinc-400 hover:text-sky-400 border border-zinc-800 bg-zinc-900 px-3 py-1.5 rounded-lg transition" href="/">Torna al sito</a>
             </div>
-            <a class="customer-back text-xs font-semibold text-zinc-400 hover:text-sky-400 border border-zinc-800 bg-zinc-900 px-3 py-1.5 rounded-lg transition" href="/">Torna al sito</a>
         </header>
 
-        <main>
-            <section id="customer-login" class="customer-login my-8 grid gap-8 md:grid-cols-2 items-center">
-                <div class="customer-intro">
+        <main class="w-full">
+            <section id="customer-login" class="w-full max-w-7xl px-4 mx-auto my-12 flex flex-col items-center">
+                <div class="customer-intro text-center mb-8 max-w-2xl">
                     <p class="customer-kicker text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">IL TUO INTERVENTO, AGGIORNATO</p>
-                    <h2 class="text-3xl font-extrabold text-white tracking-tight leading-tight mb-4">Segui il tuo<br /><span class="text-sky-400">preventivo.</span></h2>
+                    <h2 class="text-3xl font-extrabold text-white tracking-tight leading-tight mb-4">Segui il tuo preventivo.</h2>
                     <p class="text-zinc-400 text-base leading-relaxed">Accedi per controllare lo stato delle richieste, leggere le indicazioni e scaricare i tuoi allegati.</p>
                 </div>
-                <div class="customer-login-panel rounded-2xl border border-zinc-800 bg-zinc-900 p-8 sm:p-10 shadow-2xl shadow-black/80">
+                <div class="customer-login-panel w-full max-w-xl mx-auto rounded-2xl border border-zinc-800 bg-zinc-900 p-6 sm:p-10 shadow-2xl shadow-black/80">
                     <p class="customer-kicker text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">ACCESSO CLIENTI</p>
                     <h2 class="text-2xl font-extrabold text-white tracking-tight mb-2">Accedi alla tua area</h2>
                     <p class="text-zinc-400 text-sm mb-6">Usa l’email associata al preventivo e la password ricevuta.</p>
@@ -48,7 +50,7 @@ import '../styles/global.css';
                 </div>
             </section>
 
-            <section id="customer-dashboard" class="customer-dashboard my-8" hidden>
+            <section id="customer-dashboard" class="customer-dashboard w-full px-4 md:px-12 max-w-7xl mx-auto my-8" hidden>
                 <div class="customer-dashboard-heading flex items-center justify-between pb-6 border-b border-zinc-800 mb-8">
                     <div>
                         <p class="customer-kicker text-xs font-bold uppercase tracking-wider text-sky-400 mb-1">AREA PERSONALE</p>
