@@ -98,7 +98,7 @@ const links = [
                     <a class="text-link" href="/preventivo">Richiedi un sopralluogo <span aria-hidden="true">→</span></a>
                 </div>
             </div>
-            <div class="footer-bottom border-t border-zinc-800/80 text-zinc-500 text-xs">
+            <div class="footer-bottom border-t border-zinc-800/80 text-zinc-500 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pr-20 md:pr-48">
                 <span>© {new Date().getFullYear()} Poliurea System</span>
                 <span>Protezione, progettata intorno al tuo edificio.</span>
             </div>
@@ -132,8 +132,8 @@ const links = [
                 document.documentElement.classList.add('js-reveal-ready');
                 const observerOpzioni = {
                     root: null,
-                    rootMargin: '0px 0px -40px 0px',
-                    threshold: 0.08,
+                    rootMargin: '50px 0px 50px 0px',
+                    threshold: 0.01,
                 };
                 const revealObserver = new IntersectionObserver((entries, obs) => {
                     entries.forEach((entry) => {
@@ -148,8 +148,10 @@ const links = [
                     const selettori = [
                         '.scroll-reveal',
                         '.service-card',
+                        '.polyurea-section article',
                         '.bento-grid > article',
                         '.audience-list > div',
+                        '.audience-list > a',
                         '.method-steps > div',
                         '.home-checklist li',
                         '.faq-list > details',
