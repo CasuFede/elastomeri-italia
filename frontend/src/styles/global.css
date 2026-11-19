@@ -2144,11 +2144,6 @@ input:-webkit-autofill:active {
 }
 
 /* Privacy */
-.privacy-content {
-    max-width: 860px;
-    padding-bottom: 75px;
-}
-
 .privacy-warning {
     margin-bottom: 24px;
     padding: 16px 20px;
@@ -2158,21 +2153,6 @@ input:-webkit-autofill:active {
     color: #fde68a;
     font-size: 13px;
     line-height: 1.6;
-}
-
-.privacy-content article {
-    padding: 24px 0;
-    border-bottom: 1px solid var(--border-subtle);
-}
-
-.privacy-content article h2 {
-    margin: 0 0 10px;
-    font-size: 20px;
-}
-
-.privacy-content article p {
-    font-size: 14px;
-    line-height: 1.75;
 }
 
 /* --- Responsive Helpers --- */
