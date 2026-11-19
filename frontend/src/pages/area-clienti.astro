@@ -11,8 +11,8 @@ import '../styles/global.css';
     <title>Area clienti | Poliurea System</title>
 </head>
 <body class="customer-body min-h-screen bg-black text-zinc-200">
-    <div class="customer-shell w-full min-h-screen">
-        <header class="customer-header w-full px-4 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between py-6 border-b border-zinc-800 mb-10 gap-4">
+    <div class="customer-shell w-full max-w-none min-h-screen">
+        <header class="customer-header w-full px-4 sm:px-8 lg:px-12 flex flex-col md:flex-row items-center justify-between py-6 border-b border-zinc-800 mb-8 gap-4">
             <a href="/" class="customer-brand inline-flex items-center" aria-label="Poliurea System, home">
                 <picture>
                     <source srcset="/logo-poliurea-system.webp" type="image/webp" />
@@ -20,11 +20,11 @@ import '../styles/global.css';
                 </picture>
             </a>
             <div class="flex flex-row items-center gap-4">
-                <div>
+                <div class="text-right sm:text-left">
                     <p class="text-[11px] font-bold uppercase tracking-wider text-sky-400">POLIUREA SYSTEM</p>
                     <h1 class="text-xl font-bold text-white">Area clienti</h1>
                 </div>
-                <a class="customer-back text-xs font-semibold text-zinc-400 hover:text-sky-400 border border-zinc-800 bg-zinc-900 px-3 py-1.5 rounded-lg transition" href="/">Torna al sito</a>
+                <a class="customer-back text-xs font-semibold text-zinc-400 hover:text-sky-400 border border-zinc-800 bg-zinc-900 px-3.5 py-2 rounded-xl transition hover:border-zinc-700" href="/">Torna al sito</a>
             </div>
         </header>
 
@@ -36,33 +36,182 @@ import '../styles/global.css';
                     <p class="text-zinc-400 text-base leading-relaxed">Accedi per controllare lo stato delle richieste, leggere le indicazioni e scaricare i tuoi allegati.</p>
                 </div>
                 <div class="customer-login-panel w-full max-w-xl mx-auto rounded-2xl border border-zinc-800 bg-zinc-900 p-6 sm:p-10 shadow-2xl shadow-black/80">
-                    <p class="customer-kicker text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">ACCESSO CLIENTI</p>
-                    <h2 class="text-2xl font-extrabold text-white tracking-tight mb-2">Accedi alla tua area</h2>
-                    <p class="text-zinc-400 text-sm mb-6">Usa l’email associata al preventivo e la password ricevuta.</p>
-                    <form id="customer-login-form" class="customer-form grid gap-4">
-                        <label for="customer-email" class="grid gap-2 text-xs font-semibold text-zinc-300">Email</label>
-                        <input id="customer-email" type="email" autocomplete="username" required class="w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
-                        <label for="customer-password" class="grid gap-2 text-xs font-semibold text-zinc-300">Password</label>
-                        <input id="customer-password" type="password" autocomplete="current-password" required class="w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
-                        <button id="customer-login-button" type="submit" class="w-full rounded-xl bg-sky-500 p-3.5 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition hover:bg-sky-400 hover:-translate-y-0.5 mt-2">Accedi</button>
-                    </form>
-                    <p id="customer-login-error" class="customer-error mt-4 rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-xs font-medium text-red-400" role="alert" aria-live="polite" hidden></p>
+                    <!-- Vista Accesso Standard -->
+                    <div id="login-box-normal">
+                        <p class="customer-kicker text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">ACCESSO CLIENTI</p>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight mb-2">Accedi alla tua area</h2>
+                        <p class="text-zinc-400 text-sm mb-6">Usa l’email associata al preventivo e la password ricevuta.</p>
+                        <form id="customer-login-form" class="space-y-4">
+                            <div>
+                                <label for="customer-email" class="block text-xs font-semibold text-zinc-300 mb-1.5">Email</label>
+                                <input id="customer-email" type="email" autocomplete="username" required placeholder="mario.rossi@example.com" class="w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
+                            </div>
+                            
+                            <div>
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <label for="customer-password" class="text-xs font-semibold text-zinc-300">Password</label>
+                                    <button id="btn-show-lost-password" type="button" class="text-xs text-sky-400 hover:text-sky-300 font-medium transition cursor-pointer hover:underline" style="background: transparent !important; border: 0 !important; padding: 0 !important; margin: 0 !important; box-shadow: none !important; width: auto !important; min-height: 0 !important; color: #38bdf8 !important; text-decoration: none; cursor: pointer; display: inline-block !important;">Password dimenticata?</button>
+                                </div>
+                                <div class="relative">
+                                    <input id="customer-password" type="password" autocomplete="current-password" required placeholder="••••••••••••" class="w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3 pr-11 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
+                                    <button type="button" id="toggle-customer-password" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-zinc-400 hover:text-zinc-200 transition cursor-pointer bg-transparent border-0 outline-none flex items-center justify-center" title="Mostra password" aria-label="Mostra password"></button>
+                                </div>
+                            </div>
+                            
+                            <button id="customer-login-button" type="submit" class="w-full rounded-xl bg-sky-500 p-3.5 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition hover:bg-sky-400 hover:-translate-y-0.5 mt-2 cursor-pointer">Accedi</button>
+                        </form>
+                        <p id="customer-login-error" class="customer-error mt-4 rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-xs font-medium text-red-400" role="alert" aria-live="polite" hidden></p>
+                    </div>
+
+                    <!-- Vista Recupero Password (Lost Password) -->
+                    <div id="login-box-lost" class="hidden">
+                        <p class="customer-kicker text-xs font-bold uppercase tracking-wider text-amber-400 mb-2">ASSISTENZA CREDENZIALI</p>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight mb-2">Recupera la password</h2>
+                        <p class="text-zinc-400 text-sm mb-6 leading-relaxed">Inserisci l’email con cui hai richiesto il preventivo. Ti invieremo subito una nuova password provvisoria via email. Al prossimo accesso ti verrà richiesto di crearne una nuova definitiva (operazione consentita max 1 volta al giorno).</p>
+                        <form id="customer-lost-form" class="space-y-4">
+                            <div>
+                                <label for="lost-email" class="block text-xs font-semibold text-zinc-300 mb-1.5">La tua Email registrata</label>
+                                <input id="lost-email" type="email" autocomplete="email" required placeholder="mario.rossi@example.com" class="w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
+                            </div>
+                            <button id="lost-submit-button" type="submit" class="w-full rounded-xl bg-sky-500 p-3.5 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition hover:bg-sky-400 hover:-translate-y-0.5 mt-2 cursor-pointer">Invia nuova password provvisoria</button>
+                        </form>
+                        <p id="lost-feedback" class="mt-4 rounded-lg p-3 text-xs font-medium" role="alert" aria-live="polite" hidden></p>
+                        <div class="mt-6 pt-4 border-t border-zinc-800 text-center">
+                            <button id="btn-back-to-login" type="button" class="text-xs text-zinc-400 hover:text-white transition cursor-pointer inline-flex items-center gap-1.5 font-semibold">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                                <span>Torna alla schermata di accesso</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            <section id="customer-dashboard" class="customer-dashboard w-full px-4 md:px-12 max-w-7xl mx-auto my-8" hidden>
-                <div class="customer-dashboard-heading flex items-center justify-between pb-6 border-b border-zinc-800 mb-8">
+            <section id="customer-dashboard" class="customer-dashboard w-full px-4 sm:px-8 lg:px-12 pb-14" hidden>
+                <div class="customer-dashboard-heading flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-zinc-800 mb-8 gap-4">
                     <div>
                         <p class="customer-kicker text-xs font-bold uppercase tracking-wider text-sky-400 mb-1">AREA PERSONALE</p>
-                        <h2 class="text-2xl font-extrabold text-white">Ciao, <span id="customer-name" class="text-sky-400"></span></h2>
-                        <p id="customer-email-label" class="text-xs text-zinc-400"></p>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Ciao, <span id="customer-name" class="text-sky-400"></span></h2>
+                        <p id="customer-email-label" class="text-xs text-zinc-400 font-mono mt-0.5"></p>
                     </div>
-                    <button id="customer-logout" type="button" class="rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-2 text-xs font-semibold text-zinc-300 hover:border-red-500/40 hover:text-red-400 transition">Esci</button>
+                    <div class="flex items-center gap-2.5 self-start sm:self-auto">
+                        <button id="customer-refresh-btn" type="button" class="rounded-xl border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs font-semibold text-zinc-300 hover:border-zinc-700 hover:text-white transition cursor-pointer inline-flex items-center gap-1.5" title="Aggiorna dati e stato richieste">
+                            <svg class="w-3.5 h-3.5 text-sky-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                            <span>Aggiorna</span>
+                        </button>
+                        <button id="customer-logout" type="button" class="rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-2 text-xs font-semibold text-zinc-300 hover:border-zinc-700 hover:text-white transition cursor-pointer">Esci dall'area</button>
+                    </div>
                 </div>
-                <div id="customer-requests" class="customer-requests grid gap-6"></div>
+
+                <!-- Riepilogo Statistiche Dashboard -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                    <div class="rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5 shadow-lg">
+                        <p class="text-xs font-semibold text-zinc-400 mb-1">Preventivi associati</p>
+                        <p id="stat-preventivi-totali" class="text-2xl sm:text-3xl font-extrabold text-white">0</p>
+                        <p class="text-[11px] text-zinc-500 mt-1">Richieste collegate al tuo account</p>
+                    </div>
+                    <div class="rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5 shadow-lg">
+                        <p class="text-xs font-semibold text-zinc-400 mb-1">Ultimo stato</p>
+                        <p id="stat-ultimo-stato" class="text-xl sm:text-2xl font-extrabold text-sky-400">-</p>
+                        <p class="text-[11px] text-zinc-500 mt-1">Stato della richiesta più recente</p>
+                    </div>
+                    <div class="rounded-2xl border border-zinc-800 bg-zinc-900/90 p-5 shadow-lg">
+                        <p class="text-xs font-semibold text-zinc-400 mb-1">Allegati disponibili</p>
+                        <p id="stat-allegati-totali" class="text-2xl sm:text-3xl font-extrabold text-white">0</p>
+                        <p class="text-[11px] text-zinc-500 mt-1">Documenti e foto scaricabili</p>
+                    </div>
+                </div>
+
+                <div class="mb-5">
+                    <p class="text-xs font-bold uppercase tracking-wider text-sky-400">I TUOI INTERVENTI</p>
+                    <h3 class="text-xl font-extrabold text-white">Panoramica preventivi e richieste</h3>
+                </div>
+
+                <div id="customer-requests" class="customer-requests grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6 w-full"></div>
                 <p id="customer-dashboard-error" class="customer-error mt-4 rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-xs font-medium text-red-400" role="alert" aria-live="polite" hidden></p>
             </section>
         </main>
+
+        <!-- Modale Visualizzazione Foto Grande Area Clienti -->
+        <dialog id="customer-photo-dialog" class="m-auto rounded-3xl border border-zinc-800 bg-zinc-900/98 backdrop-blur-xl p-5 sm:p-7 shadow-2xl backdrop:bg-black/85 max-w-4xl w-[94vw]">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-zinc-800">
+                <div class="min-w-0 pr-4">
+                    <p id="customer-photo-subtitle" class="text-[11px] font-bold uppercase tracking-wider text-sky-400 mb-0.5">FOTO ALLEGATA ALL'INTERVENTO</p>
+                    <h2 id="customer-photo-title" class="font-bold text-white text-sm sm:text-base truncate">Foto allegata</h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="customer-download-photo-btn" type="button" class="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-sky-500 hover:bg-sky-400 px-3.5 py-2 rounded-xl shadow-md shadow-sky-500/20 transition cursor-pointer">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        <span>Scarica foto</span>
+                    </button>
+                    <button id="customer-close-photo-btn" type="button" class="text-xs font-bold text-zinc-300 hover:text-white px-3 py-2 rounded-xl bg-zinc-800 border border-zinc-700 hover:border-zinc-600 transition cursor-pointer">Chiudi</button>
+                </div>
+            </div>
+            <div id="customer-photo-loading" class="hidden py-16 text-center text-zinc-400 text-xs font-medium">Caricamento foto in corso...</div>
+            <div class="flex items-center justify-center p-2 bg-black/60 rounded-2xl border border-zinc-800/80">
+                <img id="customer-photo-viewer" class="max-h-[72vh] w-auto max-w-full rounded-xl object-contain shadow-2xl" alt="Foto allegata alla richiesta" />
+            </div>
+        </dialog>
+
+        <!-- Modale Obbligatoria Primo Accesso: Cambio Password -->
+        <dialog id="first-access-dialog" class="m-auto rounded-3xl border border-amber-500/40 bg-zinc-900/98 backdrop-blur-xl p-6 sm:p-8 shadow-2xl backdrop:bg-black/90 max-w-lg w-[92vw]">
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-400 mx-auto flex items-center justify-center mb-3">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                </div>
+                <p class="text-[11px] font-bold uppercase tracking-wider text-amber-400 mb-1">PRIMO ACCESSO SICURO</p>
+                <h2 class="text-xl sm:text-2xl font-extrabold text-white">Imposta la tua nuova password</h2>
+                <p class="text-xs text-zinc-400 mt-2 leading-relaxed">Per la massima sicurezza dei tuoi dati, sostituisci la password temporanea ricevuta via email con una nuova password definitiva a tua scelta.</p>
+            </div>
+
+            <form id="first-access-form" class="space-y-4">
+                <div>
+                    <label for="first-access-password" class="block text-xs font-semibold text-zinc-300 mb-1.5">Nuova password</label>
+                    <div class="relative">
+                        <input id="first-access-password" type="password" required minlength="8" placeholder="Almeno 8 caratteri con maiuscola e numero" autocomplete="new-password" class="w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3 pr-11 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
+                        <button type="button" id="toggle-first-pwd" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-zinc-400 hover:text-zinc-200 transition cursor-pointer bg-transparent border-0 outline-none flex items-center justify-center" title="Mostra password" aria-label="Mostra password"></button>
+                    </div>
+                </div>
+                <div>
+                    <label for="first-access-confirm" class="block text-xs font-semibold text-zinc-300 mb-1.5">Conferma nuova password</label>
+                    <div class="relative">
+                        <input id="first-access-confirm" type="password" required minlength="8" placeholder="Ripeti la nuova password" autocomplete="new-password" class="w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3 pr-11 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
+                        <button type="button" id="toggle-first-confirm" class="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-zinc-400 hover:text-zinc-200 transition cursor-pointer bg-transparent border-0 outline-none flex items-center justify-center" title="Mostra password" aria-label="Mostra password"></button>
+                    </div>
+                </div>
+
+                <!-- Requisiti Dinamici con transizione Rosso -> Verde -->
+                <div class="rounded-xl border border-zinc-800 bg-zinc-950/70 p-3.5 text-xs space-y-2">
+                    <p class="font-semibold text-zinc-300 text-[11px] uppercase tracking-wider mb-2">Requisiti di sicurezza password:</p>
+                    <div id="req-len" class="flex items-center gap-2 text-red-400 transition-colors duration-200">
+                        <span class="req-icon flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-current/15 text-[11px] font-bold">✕</span>
+                        <span>Almeno 8 caratteri</span>
+                    </div>
+                    <div id="req-upper" class="flex items-center gap-2 text-red-400 transition-colors duration-200">
+                        <span class="req-icon flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-current/15 text-[11px] font-bold">✕</span>
+                        <span>Almeno una lettera maiuscola (A-Z)</span>
+                    </div>
+                    <div id="req-lower" class="flex items-center gap-2 text-red-400 transition-colors duration-200">
+                        <span class="req-icon flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-current/15 text-[11px] font-bold">✕</span>
+                        <span>Almeno una lettera minuscola (a-z)</span>
+                    </div>
+                    <div id="req-num" class="flex items-center gap-2 text-red-400 transition-colors duration-200">
+                        <span class="req-icon flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-current/15 text-[11px] font-bold">✕</span>
+                        <span>Almeno un numero (0-9)</span>
+                    </div>
+                    <div id="req-match" class="flex items-center gap-2 text-red-400 transition-colors duration-200">
+                        <span class="req-icon flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-current/15 text-[11px] font-bold">✕</span>
+                        <span>Le due password inserite coincidono</span>
+                    </div>
+                </div>
+
+                <p id="first-access-error" class="rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-xs font-medium text-red-400" role="alert" hidden></p>
+                <p id="first-access-success" class="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-3 text-xs font-medium text-emerald-400" role="status" hidden></p>
+
+                <button id="first-access-submit" type="submit" class="w-full rounded-xl bg-sky-500 p-3.5 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition hover:bg-sky-400 hover:-translate-y-0.5 mt-2 cursor-pointer">
+                    Salva nuova password e continua
+                </button>
+            </form>
+        </dialog>
     </div>
 
     <script is:inline>
@@ -74,6 +223,98 @@ import '../styles/global.css';
         const loginError = document.getElementById('customer-login-error');
         const dashboardError = document.getElementById('customer-dashboard-error');
         const requestsContainer = document.getElementById('customer-requests');
+        const photoDialog = document.getElementById('customer-photo-dialog');
+        const photoViewer = document.getElementById('customer-photo-viewer');
+        const photoSubtitle = document.getElementById('customer-photo-subtitle');
+        const photoTitle = document.getElementById('customer-photo-title');
+        const photoLoading = document.getElementById('customer-photo-loading');
+        const downloadPhotoBtn = document.getElementById('customer-download-photo-btn');
+        let activePhotoData = null;
+
+        const firstAccessDialog = document.getElementById('first-access-dialog');
+        const firstAccessForm = document.getElementById('first-access-form');
+        const firstAccessPwd = document.getElementById('first-access-password');
+        const firstAccessConfirm = document.getElementById('first-access-confirm');
+        const firstAccessSubmit = document.getElementById('first-access-submit');
+        const firstAccessError = document.getElementById('first-access-error');
+        const firstAccessSuccess = document.getElementById('first-access-success');
+
+        const scaricaAllegatoCliente = async (prevId, allegatoId, nomeOriginale) => {
+            try {
+                const risposta = await fetch(`/api/area-clienti/preventivi/${prevId}/allegati/${allegatoId}`);
+                if (!risposta.ok) throw new Error(`HTTP ${risposta.status}`);
+                const blob = await risposta.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = nomeOriginale || `foto-richiesta-${prevId}.jpg`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+            } catch (err) {
+                console.error('Errore durante il download:', err);
+                alert('Impossibile scaricare la foto.');
+            }
+        };
+
+        const apriFotoGrandeCliente = async (prevId, allegatoId, nomeOriginale, servizio) => {
+            activePhotoData = { prevId, allegatoId, nome: nomeOriginale };
+            if (photoSubtitle) photoSubtitle.textContent = `RICHIESTA #${prevId} · ${servizio || 'INTERVENTO'}`;
+            if (photoTitle) photoTitle.textContent = nomeOriginale || 'Foto allegata';
+            if (photoViewer) photoViewer.classList.add('hidden');
+            if (photoLoading) {
+                photoLoading.textContent = 'Caricamento foto in corso...';
+                photoLoading.classList.remove('hidden');
+            }
+            if (photoDialog) photoDialog.showModal();
+
+            try {
+                const risposta = await fetch(`/api/area-clienti/preventivi/${prevId}/allegati/${allegatoId}`);
+                if (!risposta.ok) throw new Error(`HTTP ${risposta.status}`);
+                const blob = await risposta.blob();
+                if (photoViewer.src && photoViewer.src.startsWith('blob:')) {
+                    URL.revokeObjectURL(photoViewer.src);
+                }
+                photoViewer.src = URL.createObjectURL(blob);
+                photoViewer.onload = () => {
+                    if (photoLoading) photoLoading.classList.add('hidden');
+                    photoViewer.classList.remove('hidden');
+                };
+            } catch (err) {
+                if (photoLoading) photoLoading.textContent = 'Errore nel caricamento della foto.';
+            }
+        };
+
+        document.getElementById('customer-close-photo-btn')?.addEventListener('click', () => {
+            photoDialog?.close();
+            if (photoViewer?.src && photoViewer.src.startsWith('blob:')) {
+                URL.revokeObjectURL(photoViewer.src);
+                photoViewer.src = '';
+            }
+        });
+
+        photoDialog?.addEventListener('click', (e) => {
+            const rect = photoDialog.getBoundingClientRect();
+            if (
+                e.clientX < rect.left ||
+                e.clientX > rect.right ||
+                e.clientY < rect.top ||
+                e.clientY > rect.bottom
+            ) {
+                photoDialog.close();
+                if (photoViewer?.src && photoViewer.src.startsWith('blob:')) {
+                    URL.revokeObjectURL(photoViewer.src);
+                    photoViewer.src = '';
+                }
+            }
+        });
+
+        downloadPhotoBtn?.addEventListener('click', () => {
+            if (activePhotoData) {
+                scaricaAllegatoCliente(activePhotoData.prevId, activePhotoData.allegatoId, activePhotoData.nome);
+            }
+        });
         const stati = {
             ricevuto: { label: 'Ricevuto', progress: 15 },
             in_valutazione: { label: 'In valutazione', progress: 35 },
@@ -88,106 +329,233 @@ import '../styles/global.css';
             loginError.hidden = false;
         };
 
-        const creaDettaglio = (etichetta, valore) => {
-            const dettaglio = document.createElement('p');
-            dettaglio.className = 'customer-request-detail';
-            const titolo = document.createElement('strong');
-            titolo.textContent = etichetta;
-            const testo = document.createElement('span');
-            testo.textContent = valore;
-            dettaglio.append(titolo, testo);
-            return dettaglio;
-        };
-
         const mostraRichieste = (risposta) => {
             document.getElementById('customer-name').textContent = risposta.cliente.nome;
             document.getElementById('customer-email-label').textContent = risposta.cliente.email;
+            
+            // Aggiorna statistiche riassuntive
+            const totalPreventivi = risposta.dati.length;
+            const totalAllegati = risposta.dati.reduce((tot, p) => tot + (p.allegati ? p.allegati.length : 0), 0);
+            const primoStato = totalPreventivi > 0 ? (stati[risposta.dati[0].stato]?.label || risposta.dati[0].stato_label || risposta.dati[0].stato) : '-';
+
+            const statPrevEl = document.getElementById('stat-preventivi-totali');
+            const statStatoEl = document.getElementById('stat-ultimo-stato');
+            const statAllegatiEl = document.getElementById('stat-allegati-totali');
+            if (statPrevEl) statPrevEl.textContent = totalPreventivi;
+            if (statStatoEl) statStatoEl.textContent = primoStato;
+            if (statAllegatiEl) statAllegatiEl.textContent = totalAllegati;
+
+            // Se è il primo accesso, apri la modale obbligatoria di cambio password
+            if (risposta.cliente && risposta.cliente.primo_accesso) {
+                validateFirstAccessPassword();
+                firstAccessDialog?.showModal();
+            }
+
             requestsContainer.replaceChildren();
             if (!risposta.dati.length) {
-                const vuoto = document.createElement('p');
-                vuoto.className = 'customer-empty';
-                vuoto.textContent = 'Non risultano ancora preventivi associati a questo indirizzo email.';
+                const vuoto = document.createElement('div');
+                vuoto.className = 'col-span-full rounded-2xl border border-zinc-800 bg-zinc-900/60 p-10 text-center text-zinc-400';
+                vuoto.innerHTML = `
+                    <svg class="w-10 h-10 text-zinc-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <p class="font-medium text-white text-base mb-1">Nessun preventivo associato</p>
+                    <p class="text-xs text-zinc-400">Non risultano ancora preventivi associati a questo indirizzo email.</p>
+                `;
                 requestsContainer.appendChild(vuoto);
             }
 
+            const badgeStyles = {
+                ricevuto: 'bg-sky-500/15 border-sky-500/30 text-sky-400',
+                in_valutazione: 'bg-amber-500/15 border-amber-500/30 text-amber-400',
+                preventivo_inviato: 'bg-indigo-500/15 border-indigo-500/30 text-indigo-400',
+                in_lavorazione: 'bg-cyan-500/15 border-cyan-500/30 text-cyan-400',
+                completato: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-400',
+                annullato: 'bg-zinc-800 border-zinc-700 text-zinc-400',
+            };
+
             risposta.dati.forEach((preventivo) => {
                 const stato = stati[preventivo.stato] || stati.ricevuto;
-                const scheda = document.createElement('article');
-                scheda.className = 'customer-request';
-                const intestazione = document.createElement('div');
-                intestazione.className = 'customer-request-heading';
-                const titolo = document.createElement('div');
-                const riferimento = document.createElement('p');
-                riferimento.className = 'customer-kicker';
-                riferimento.textContent = `RICHIESTA #${preventivo.id}`;
-                const servizio = document.createElement('h3');
-                servizio.textContent = preventivo.servizio || 'Richiesta di preventivo';
-                const data = document.createElement('p');
-                data.className = 'customer-request-date';
-                data.textContent = new Date(preventivo.data_richiesta).toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric' });
-                titolo.append(riferimento, servizio, data);
+                const card = document.createElement('article');
+                card.className = 'rounded-2xl border border-zinc-800 bg-zinc-900/90 p-6 sm:p-7 shadow-xl hover:border-zinc-700 transition flex flex-col justify-between gap-5 relative overflow-hidden';
+
+                // 1. Intestazione Card: Kicker + Titolo + Data + Badge Stato
+                const topHeader = document.createElement('div');
+                topHeader.className = 'flex flex-wrap items-start justify-between gap-4 pb-4 border-b border-zinc-800/80';
+                
+                const titleBlock = document.createElement('div');
+                titleBlock.className = 'min-w-0 flex-1';
+                
+                const kicker = document.createElement('p');
+                kicker.className = 'text-[11px] font-bold uppercase tracking-wider text-sky-400 mb-1';
+                kicker.textContent = `RICHIESTA #${preventivo.id}`;
+                
+                const serviceTitle = document.createElement('h3');
+                serviceTitle.className = 'text-lg sm:text-xl font-bold text-white leading-snug';
+                serviceTitle.textContent = preventivo.servizio || 'Richiesta di intervento';
+                
+                const reqDate = document.createElement('p');
+                reqDate.className = 'text-xs text-zinc-400 mt-1 flex items-center gap-1.5';
+                const formattedDate = new Date(preventivo.data_richiesta).toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric' });
+                reqDate.innerHTML = `<svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> <span>${formattedDate}</span>`;
+                
+                titleBlock.append(kicker, serviceTitle, reqDate);
+
                 const badge = document.createElement('span');
-                badge.className = `customer-status customer-status-${preventivo.stato}`;
+                badge.className = `rounded-lg border px-3 py-1 text-xs font-bold shrink-0 shadow-sm ${badgeStyles[preventivo.stato] || badgeStyles.ricevuto}`;
                 badge.textContent = preventivo.stato_label || stato.label;
-                intestazione.append(titolo, badge);
-                scheda.appendChild(intestazione);
 
-                const progresso = document.createElement('div');
-                progresso.className = 'customer-progress';
-                progresso.setAttribute('role', 'progressbar');
-                progresso.setAttribute('aria-valuenow', String(stato.progress));
-                progresso.setAttribute('aria-valuemin', '0');
-                progresso.setAttribute('aria-valuemax', '100');
-                progresso.setAttribute('aria-label', `Avanzamento: ${stato.label}`);
-                const barra = document.createElement('span');
-                barra.style.width = `${stato.progress}%`;
-                progresso.appendChild(barra);
-                scheda.appendChild(progresso);
+                topHeader.append(titleBlock, badge);
+                card.appendChild(topHeader);
 
+                // 2. Barra di Avanzamento
+                const progressBox = document.createElement('div');
+                progressBox.className = 'w-full';
+                const progressLabelRow = document.createElement('div');
+                progressLabelRow.className = 'flex justify-between text-xs font-medium text-zinc-400 mb-1.5';
+                progressLabelRow.innerHTML = `<span>Avanzamento: <strong class="text-white font-semibold">${stato.label}</strong></span><span>${stato.progress}%</span>`;
+                
+                const progressBar = document.createElement('div');
+                progressBar.className = 'h-2 w-full rounded-full bg-zinc-950 border border-zinc-800 overflow-hidden';
+                const progressFill = document.createElement('div');
+                progressFill.className = 'h-full bg-gradient-to-r from-sky-600 to-sky-400 rounded-full transition-all duration-500 shadow-sm shadow-sky-500/50';
+                progressFill.style.width = `${stato.progress}%`;
+                progressBar.appendChild(progressFill);
+                progressBox.append(progressLabelRow, progressBar);
+                card.appendChild(progressBox);
+
+                // 3. Sezione Aggiornamenti / Cosa serve da te
                 if (preventivo.note_cliente) {
-                    const nota = document.createElement('div');
-                    nota.className = 'customer-action-needed';
-                    const etichetta = document.createElement('strong');
-                    etichetta.textContent = 'Cosa serve da te';
-                    const testo = document.createElement('p');
-                    testo.textContent = preventivo.note_cliente;
-                    nota.append(etichetta, testo);
-                    scheda.appendChild(nota);
+                    const noteBox = document.createElement('div');
+                    noteBox.className = 'rounded-xl border border-sky-500/30 bg-sky-950/20 p-4 text-xs space-y-1.5';
+                    
+                    const noteHeader = document.createElement('div');
+                    noteHeader.className = 'flex items-center gap-2 text-sky-400 font-bold uppercase tracking-wider text-[11px]';
+                    noteHeader.innerHTML = `
+                        <svg class="w-4 h-4 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>Cosa serve da te / Istruzioni</span>
+                    `;
+                    
+                    const noteText = document.createElement('p');
+                    noteText.className = 'text-zinc-200 whitespace-pre-wrap leading-relaxed pl-6';
+                    noteText.textContent = preventivo.note_cliente;
+
+                    noteBox.append(noteHeader, noteText);
+                    card.appendChild(noteBox);
                 } else {
-                    scheda.appendChild(creaDettaglio('Aggiornamenti', 'Al momento non ci sono informazioni aggiuntive richieste.'));
+                    const emptyNote = document.createElement('div');
+                    emptyNote.className = 'rounded-xl border border-zinc-800/80 bg-zinc-950/40 p-3.5 text-xs text-zinc-400 flex items-center gap-2';
+                    emptyNote.innerHTML = `
+                        <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        <span>Nessun documento o chiarimento aggiuntivo richiesto al momento.</span>
+                    `;
+                    card.appendChild(emptyNote);
                 }
 
-                if (preventivo.messaggio) scheda.appendChild(creaDettaglio('Dettagli della richiesta', preventivo.messaggio));
-                if (preventivo.allegati.length) {
-                    const allegati = document.createElement('div');
-                    allegati.className = 'customer-attachments';
-                    const etichetta = document.createElement('strong');
-                    etichetta.textContent = 'I tuoi allegati';
-                    allegati.appendChild(etichetta);
+                // 4. Dettagli della Richiesta
+                if (preventivo.messaggio) {
+                    const detailsBox = document.createElement('div');
+                    detailsBox.className = 'rounded-xl border border-zinc-800/70 bg-zinc-950/40 p-4 text-xs space-y-1.5';
+                    const detailsLabel = document.createElement('p');
+                    detailsLabel.className = 'text-[11px] font-bold uppercase tracking-wider text-zinc-400';
+                    detailsLabel.textContent = 'Dettagli dell’intervento';
+                    const detailsContent = document.createElement('div');
+                    detailsContent.className = 'text-zinc-300 whitespace-pre-wrap leading-relaxed';
+                    detailsContent.textContent = preventivo.messaggio;
+                    detailsBox.append(detailsLabel, detailsContent);
+                    card.appendChild(detailsBox);
+                }
+
+                // 5. Foto e Allegati caricati con anteprima visuale
+                if (preventivo.allegati && preventivo.allegati.length) {
+                    const allegatiBox = document.createElement('div');
+                    allegatiBox.className = 'pt-3 border-t border-zinc-800/80 space-y-2.5';
+                    
+                    const allegatiHeader = document.createElement('div');
+                    allegatiHeader.className = 'flex items-center justify-between text-xs';
+                    
+                    const allegatiTitle = document.createElement('p');
+                    allegatiTitle.className = 'text-[11px] font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1.5';
+                    allegatiTitle.innerHTML = `
+                        <svg class="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <span>Foto allegate all'intervento (${preventivo.allegati.length})</span>
+                    `;
+
+                    const allegatiHint = document.createElement('span');
+                    allegatiHint.className = 'text-[11px] text-zinc-500 hidden sm:inline';
+                    allegatiHint.textContent = 'Clicca per ingrandire';
+
+                    allegatiHeader.append(allegatiTitle, allegatiHint);
+                    
+                    const allegatiGrid = document.createElement('div');
+                    allegatiGrid.className = 'grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1';
+
                     preventivo.allegati.forEach((allegato) => {
-                        const scarica = document.createElement('button');
-                        scarica.type = 'button';
-                        scarica.textContent = allegato.nome;
-                        scarica.addEventListener('click', async () => {
-                            try {
-                                const file = await fetch(`/api/area-clienti/preventivi/${preventivo.id}/allegati/${allegato.id}`);
-                                if (!file.ok) throw new Error(`HTTP ${file.status}`);
-                                const url = URL.createObjectURL(await file.blob());
-                                const link = document.createElement('a');
-                                link.href = url;
-                                link.download = allegato.nome;
-                                link.click();
-                                URL.revokeObjectURL(url);
-                            } catch (errore) {
-                                dashboardError.textContent = `Impossibile scaricare l’allegato: ${errore.message}`;
-                                dashboardError.hidden = false;
+                        const thumbCard = document.createElement('div');
+                        thumbCard.className = 'group relative rounded-xl border border-zinc-800 bg-zinc-950 overflow-hidden hover:border-sky-500/50 transition-all duration-200 shadow-md flex flex-col';
+
+                        // Area Immagine con Aspect Ratio e Zoom Hover
+                        const imgWrap = document.createElement('div');
+                        imgWrap.className = 'relative w-full aspect-[4/3] overflow-hidden bg-zinc-900 cursor-pointer';
+                        imgWrap.setAttribute('role', 'button');
+                        imgWrap.setAttribute('tabindex', '0');
+                        imgWrap.setAttribute('aria-label', `Ingrandisci foto ${allegato.nome}`);
+                        
+                        const img = document.createElement('img');
+                        img.src = `/api/area-clienti/preventivi/${preventivo.id}/allegati/${allegato.id}`;
+                        img.alt = allegato.nome;
+                        img.className = 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-300';
+                        img.loading = 'lazy';
+
+                        // Overlay con lente di ingrandimento on hover
+                        const zoomOverlay = document.createElement('div');
+                        zoomOverlay.className = 'absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white transition duration-200';
+                        zoomOverlay.innerHTML = `
+                            <span class="rounded-full bg-black/70 p-2 text-sky-400 border border-sky-400/30 shadow-lg">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>
+                            </span>
+                        `;
+                        imgWrap.append(img, zoomOverlay);
+                        imgWrap.addEventListener('click', () => {
+                            apriFotoGrandeCliente(preventivo.id, allegato.id, allegato.nome, preventivo.servizio);
+                        });
+                        imgWrap.addEventListener('keydown', (e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                apriFotoGrandeCliente(preventivo.id, allegato.id, allegato.nome, preventivo.servizio);
                             }
                         });
-                        allegati.appendChild(scarica);
+
+                        // Didascalia e pulsante di download sotto l'immagine
+                        const footer = document.createElement('div');
+                        footer.className = 'p-2 flex items-center justify-between gap-1.5 border-t border-zinc-800/80 bg-zinc-900/70';
+                        
+                        const nomeLabel = document.createElement('span');
+                        nomeLabel.className = 'text-[11px] text-zinc-300 truncate font-medium';
+                        nomeLabel.title = allegato.nome;
+                        nomeLabel.textContent = allegato.nome;
+
+                        const downloadBtn = document.createElement('button');
+                        downloadBtn.type = 'button';
+                        downloadBtn.className = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-sky-500 hover:text-white text-zinc-300 text-[10px] font-semibold transition shrink-0 cursor-pointer border border-zinc-700/80 shadow-sm';
+                        downloadBtn.title = `Scarica ${allegato.nome}`;
+                        downloadBtn.innerHTML = `
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            <span class="hidden sm:inline">Scarica</span>
+                        `;
+                        downloadBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            scaricaAllegatoCliente(preventivo.id, allegato.id, allegato.nome);
+                        });
+
+                        footer.append(nomeLabel, downloadBtn);
+                        thumbCard.append(imgWrap, footer);
+                        allegatiGrid.appendChild(thumbCard);
                     });
-                    scheda.appendChild(allegati);
+
+                    allegatiBox.append(allegatiHeader, allegatiGrid);
+                    card.appendChild(allegatiBox);
                 }
-                requestsContainer.appendChild(scheda);
+
+                requestsContainer.appendChild(card);
             });
 
             loginSection.hidden = true;
@@ -249,6 +617,201 @@ import '../styles/global.css';
             try {
                 await fetch('/api/auth/logout', { method: 'POST' });
             } catch (_) {}
+        });
+
+        // Pulsante di ricarica manuale rapida per aggiornare lo stato
+        document.getElementById('customer-refresh-btn')?.addEventListener('click', async () => {
+            const btn = document.getElementById('customer-refresh-btn');
+            const svg = btn?.querySelector('svg');
+            if (btn) btn.classList.add('opacity-70', 'pointer-events-none');
+            if (svg) svg.classList.add('animate-spin');
+            try {
+                await caricaAreaCliente();
+            } finally {
+                setTimeout(() => {
+                    if (btn) btn.classList.remove('opacity-70', 'pointer-events-none');
+                    if (svg) svg.classList.remove('animate-spin');
+                }, 300);
+            }
+        });
+
+        // Auto-aggiornamento immediato al cambio di scheda/finestra del browser
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible' && sessionStorage.getItem(sessionKey) === '1') {
+                caricaAreaCliente();
+            }
+        });
+
+        // Gestione Recupero Password (Lost Password)
+        const loginBoxNormal = document.getElementById('login-box-normal');
+        const loginBoxLost = document.getElementById('login-box-lost');
+        const btnShowLost = document.getElementById('btn-show-lost-password');
+        const btnBackToLogin = document.getElementById('btn-back-to-login');
+        const lostForm = document.getElementById('customer-lost-form');
+        const lostEmail = document.getElementById('lost-email');
+        const lostSubmit = document.getElementById('lost-submit-button');
+        const lostFeedback = document.getElementById('lost-feedback');
+
+        btnShowLost?.addEventListener('click', () => {
+            loginBoxNormal.classList.add('hidden');
+            loginBoxLost.classList.remove('hidden');
+            loginError.hidden = true;
+            lostFeedback.hidden = true;
+            const currentEmail = document.getElementById('customer-email').value.trim();
+            if (currentEmail) {
+                lostEmail.value = currentEmail;
+            }
+            lostEmail.focus();
+        });
+
+        btnBackToLogin?.addEventListener('click', () => {
+            loginBoxLost.classList.add('hidden');
+            loginBoxNormal.classList.remove('hidden');
+            lostFeedback.hidden = true;
+        });
+
+        lostForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = lostEmail.value.trim().toLowerCase();
+            lostSubmit.disabled = true;
+            lostSubmit.textContent = 'Invio nuova password in corso...';
+            lostFeedback.hidden = true;
+            try {
+                const res = await fetch('/api/auth/cliente/lost-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email }),
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) throw new Error(data.detail || `Errore del server (HTTP ${res.status})`);
+
+                lostFeedback.className = 'mt-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-3.5 text-xs font-medium text-emerald-400 leading-relaxed';
+                lostFeedback.textContent = data.message || 'Richiesta di recupero inviata con successo.';
+                lostFeedback.hidden = false;
+                lostForm.reset();
+            } catch (err) {
+                lostFeedback.className = 'mt-4 rounded-xl border border-red-500/30 bg-red-500/10 p-3.5 text-xs font-medium text-red-400 leading-relaxed';
+                lostFeedback.textContent = err.message || 'Impossibile inviare la richiesta. Riprova tra poco.';
+                lostFeedback.hidden = false;
+            } finally {
+                lostSubmit.disabled = false;
+                lostSubmit.textContent = 'Invia nuova password provvisoria';
+            }
+        });
+
+        // Helper Toggle Visibilità Password con Icona Occhio
+        const eyeOpenSvg = `<svg class="w-4 h-4 text-zinc-400 hover:text-zinc-200 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>`;
+        const eyeOffSvg = `<svg class="w-4 h-4 text-zinc-400 hover:text-zinc-200 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" /></svg>`;
+
+        const setupPasswordToggle = (inputId, buttonId) => {
+            const input = document.getElementById(inputId);
+            const button = document.getElementById(buttonId);
+            if (!input || !button) return;
+
+            button.innerHTML = eyeOpenSvg;
+
+            button.addEventListener('click', () => {
+                const isPassword = input.type === 'password';
+                input.type = isPassword ? 'text' : 'password';
+                button.innerHTML = isPassword ? eyeOffSvg : eyeOpenSvg;
+                const newTitle = isPassword ? 'Nascondi password' : 'Mostra password';
+                button.setAttribute('aria-label', newTitle);
+                button.setAttribute('title', newTitle);
+            });
+        };
+
+        setupPasswordToggle('customer-password', 'toggle-customer-password');
+        setupPasswordToggle('first-access-password', 'toggle-first-pwd');
+        setupPasswordToggle('first-access-confirm', 'toggle-first-confirm');
+
+        // Validazione Live Requisiti Password Primo Accesso (Rosso -> Verde)
+        function updateRequirement(el, valid) {
+            if (!el) return;
+            const icon = el.querySelector('.req-icon');
+            if (valid) {
+                el.classList.remove('text-red-400');
+                el.classList.add('text-emerald-400');
+                if (icon) icon.textContent = '✓';
+            } else {
+                el.classList.remove('text-emerald-400');
+                el.classList.add('text-red-400');
+                if (icon) icon.textContent = '✕';
+            }
+        }
+
+        function validateFirstAccessPassword() {
+            const pwd = firstAccessPwd ? firstAccessPwd.value : '';
+            const confirm = firstAccessConfirm ? firstAccessConfirm.value : '';
+
+            updateRequirement(document.getElementById('req-len'), pwd.length >= 8);
+            updateRequirement(document.getElementById('req-upper'), /[A-Z]/.test(pwd));
+            updateRequirement(document.getElementById('req-lower'), /[a-z]/.test(pwd));
+            updateRequirement(document.getElementById('req-num'), /[0-9]/.test(pwd));
+            updateRequirement(document.getElementById('req-match'), confirm.length > 0 && pwd === confirm);
+        }
+
+        firstAccessPwd?.addEventListener('input', validateFirstAccessPassword);
+        firstAccessConfirm?.addEventListener('input', validateFirstAccessPassword);
+        validateFirstAccessPassword();
+
+        // Gestione Cambio Password al Primo Accesso
+        firstAccessDialog?.addEventListener('cancel', (e) => {
+            // Impedisce la chiusura con ESC finché non si cambia la password temporanea
+            e.preventDefault();
+        });
+
+        firstAccessForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            firstAccessError.hidden = true;
+            firstAccessSuccess.hidden = true;
+
+            const pwd = firstAccessPwd.value.trim();
+            const confirm = firstAccessConfirm.value.trim();
+
+            if (pwd !== confirm) {
+                firstAccessError.textContent = 'Le due password inserite non coincidono.';
+                firstAccessError.hidden = false;
+                firstAccessConfirm.focus();
+                return;
+            }
+
+            const haMaiuscola = /[A-Z]/.test(pwd);
+            const haMinuscola = /[a-z]/.test(pwd);
+            const haNumero = /[0-9]/.test(pwd);
+            if (pwd.length < 8 || !haMaiuscola || !haMinuscola || !haNumero) {
+                firstAccessError.textContent = 'La password non rispetta i requisiti di sicurezza (minimo 8 caratteri, maiuscola, minuscola e numero).';
+                firstAccessError.hidden = false;
+                firstAccessPwd.focus();
+                return;
+            }
+
+            firstAccessSubmit.disabled = true;
+            firstAccessSubmit.textContent = 'Salvataggio nuova password...';
+
+            try {
+                const res = await fetch('/api/area-clienti/cambia-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: pwd }),
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) throw new Error(data.detail || `Errore del server (HTTP ${res.status})`);
+
+                firstAccessSuccess.textContent = 'Password aggiornata con successo! Accesso alla dashboard in corso...';
+                firstAccessSuccess.hidden = false;
+
+                setTimeout(() => {
+                    firstAccessDialog.close();
+                    firstAccessForm.reset();
+                    validateFirstAccessPassword();
+                }, 1000);
+            } catch (err) {
+                firstAccessError.textContent = err.message || 'Impossibile aggiornare la password.';
+                firstAccessError.hidden = false;
+            } finally {
+                firstAccessSubmit.disabled = false;
+                firstAccessSubmit.textContent = 'Salva nuova password e continua';
+            }
         });
 
         if (sessionStorage.getItem(sessionKey) === '1') caricaAreaCliente();

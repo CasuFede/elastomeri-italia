@@ -2,6 +2,14 @@ import { env } from 'cloudflare:workers';
 import { defineMiddleware } from 'astro:middleware';
 
 export const onRequest = defineMiddleware(async ({ request, url }, next) => {
+  // Protezione SSR preventiva per rotte riservate
+  if (url.pathname === '/admin' || url.pathname.startsWith('/admin/')) {
+    const cookieHeader = request.headers.get('cookie') || '';
+    if (!cookieHeader.includes('poliurea_admin_session=')) {
+      return Response.redirect(new URL('/accesso-preventivi', url).toString(), 302);
+    }
+  }
+
   let response: Response;
 
   if (url.pathname === '/api' || url.pathname.startsWith('/api/')) {

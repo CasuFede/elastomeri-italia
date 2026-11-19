@@ -104,19 +104,25 @@ p:not(.eyebrow) {
 
 /* --- Elementi Interattivi Base: Bottoni & Link --- */
 .button {
-    min-height: 44px;
+    min-height: 46px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    padding: 0 20px;
+    padding: 0 22px;
     border: 1px solid transparent;
-    border-radius: 8px;
-    font-size: 13px;
+    border-radius: 12px;
+    font-size: 14px;
     font-weight: 700;
     text-decoration: none;
     cursor: pointer;
     transition: background .16s ease, border-color .16s ease, color .16s ease, transform .16s ease, box-shadow .16s ease;
+}
+
+.button:focus-visible,
+.text-link:focus-visible {
+    outline: 2px solid var(--accent-bright);
+    outline-offset: 2px;
 }
 
 .button-primary {
@@ -1895,7 +1901,7 @@ p:not(.eyebrow) {
 /* --- Area Clienti & Admin (Tridimensionalità Zinc-900 su Canvas Nero) --- */
 .admin-body {
     min-height: 100vh;
-    padding: clamp(16px, 3vw, 40px);
+    padding: 0;
     background: #000000;
     color: #f4f4f5;
 }
@@ -1907,11 +1913,12 @@ p:not(.eyebrow) {
     color: #f4f4f5;
 }
 
-.customer-shell,
+.customer-shell {
+    width: 100%;
+}
+
 .admin-shell {
     width: 100%;
-    max-width: 1400px;
-    margin-inline: auto;
 }
 
 .customer-header,
@@ -1939,8 +1946,7 @@ p:not(.eyebrow) {
     letter-spacing: .12em;
 }
 
-.customer-back,
-.admin-secure-label {
+.customer-back {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -1956,8 +1962,7 @@ p:not(.eyebrow) {
     transition: all .16s ease;
 }
 
-.customer-back:hover,
-.admin-secure-label:hover {
+.customer-back:hover {
     border-color: var(--accent-bright);
     color: var(--accent-bright);
 }
@@ -1983,81 +1988,17 @@ p:not(.eyebrow) {
     margin-left: 0;
 }
 
-.admin-login-panel {
-    max-width: 520px;
-    padding: 36px;
-}
-
-.customer-login-panel,
-.admin-login-panel {
-    width: 100%;
-    border: 1px solid var(--border-subtle);
-    border-radius: 18px;
-    background: var(--bg-surface);
-    color: #ffffff;
-    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-}
-
-.customer-login-panel h2,
-.admin-login-panel h2 {
-    margin: 0;
-    font-size: 1.7rem;
-    font-weight: 700;
-}
-
-.customer-login-panel > p:not(.customer-kicker),
-.admin-login-hint {
-    margin: 8px 0 24px;
-    color: var(--text-muted);
-    font-size: .95rem;
-}
-
-.customer-form input,
-.admin-login-panel input {
-    width: 100%;
-    min-height: 48px;
-    padding: 12px 14px;
-    border: 1px solid var(--border-subtle);
-    border-radius: 8px;
-    background: #09090b;
-    color: #ffffff;
-    outline: none;
-    transition: border-color .15s ease, box-shadow .15s ease;
-}
-
-.customer-form input:focus,
-.admin-login-panel input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.25);
-}
-
-.customer-form label {
-    margin-top: 6px;
-    color: #e4e4e7;
-    font-size: .9rem;
-    font-weight: 600;
-}
-
-.customer-form button,
-.admin-login-panel button {
-    width: 100%;
-    min-height: 48px;
-    margin-top: 14px;
-    border: 0;
-    border-radius: 8px;
-    background: var(--accent);
-    color: #ffffff;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);
-    transition: background .16s ease, transform .16s ease;
-}
-
-.customer-form button:hover,
-.admin-login-panel button:hover {
-    background: var(--accent-hover);
-    transform: translateY(-1px);
+/* Browser Autofill styling for dark theme */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #09090b inset !important;
+    box-shadow: 0 0 0 1000px #09090b inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #ffffff !important;
+    color-scheme: dark !important;
+    transition: background-color 5000s ease-in-out 0s;
 }
 
 /* Admin Summary Cards 3D */
@@ -2104,14 +2045,34 @@ p:not(.eyebrow) {
 /* Admin Table Section 3D */
 #table-section {
     border: 1px solid var(--border-subtle);
-    border-radius: 14px;
+    border-radius: 16px;
     background: var(--bg-surface);
     box-shadow: 0 20px 50px -15px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    overflow: hidden;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #3f3f46 #09090b;
+}
+
+#table-section::-webkit-scrollbar {
+    height: 8px;
+}
+
+#table-section::-webkit-scrollbar-track {
+    background: #09090b;
+    border-radius: 0 0 16px 16px;
+}
+
+#table-section::-webkit-scrollbar-thumb {
+    background: #3f3f46;
+    border-radius: 4px;
+}
+
+#table-section::-webkit-scrollbar-thumb:hover {
+    background: #0284c7;
 }
 
 .admin-table-toolbar {
-    min-height: 76px;
+    min-height: 70px;
     border-bottom: 1px solid var(--border-subtle);
     background: var(--bg-section);
     padding: 16px 24px;
@@ -2128,33 +2089,6 @@ p:not(.eyebrow) {
     color: var(--accent-bright);
     font-size: 1.1rem;
     font-weight: 800;
-}
-
-#table-section table {
-    width: 100%;
-}
-
-#table-section th {
-    background: #09090b;
-    color: #ffffff;
-    border-bottom: 1px solid var(--border-subtle);
-    padding: 14px 18px;
-    font-size: .9rem;
-}
-
-#table-section tbody td {
-    padding: 14px 18px;
-    border-bottom: 1px solid rgba(39, 39, 42, 0.6);
-    color: #e4e4e7;
-    font-size: .95rem;
-}
-
-#table-section tbody tr:hover {
-    background: rgba(39, 39, 42, 0.5);
-}
-
-#table-section tbody a {
-    color: var(--accent-bright);
 }
 
 /* Customer Request Cards 3D */

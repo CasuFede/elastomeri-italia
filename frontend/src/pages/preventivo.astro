@@ -3,15 +3,15 @@ import '../styles/global.css';
 import SiteLayout from '../layouts/SiteLayout.astro';
 ---
 
-<SiteLayout title="Richiedi un preventivo gratuito | Poliurea System" description="Raccontaci del tuo intervento in cinque semplici passaggi e richiedi un sopralluogo gratuito." activePath="/preventivo">
+<SiteLayout title="Richiedi Sopralluogo e Preventivo Gratuito | Poliurea System" description="Richiedi un sopralluogo diagnostico senza impegno. Risposta garantita entro 24 ore per la tua impermeabilizzazione definitiva in poliurea pura." activePath="/preventivo">
     <div class="quote-page">
-        <div class="quote-header-note"><span class="online-dot"></span> Consulenza gratuita e senza impegno</div>
+        <div class="quote-header-note"><span class="online-dot"></span> Sopralluogo diagnostico gratuito e senza impegno · Risposta entro 24h</div>
 
     <section class="page-content">
         <section class="intro">
-            <p class="eyebrow">IL TUO PROGETTO, AL SICURO</p>
-            <h1>Un problema di infiltrazioni?<br /><span>Troviamo insieme la soluzione.</span></h1>
-            <p class="intro-copy">Raccontaci di cosa hai bisogno: bastano pochi passaggi per richiedere un sopralluogo gratuito.</p>
+            <p class="eyebrow">SOPRALLUOGO DIAGNOSTICO GRATUITO</p>
+            <h1>Blocca le infiltrazioni.<br /><span>Richiedi la diagnosi in loco.</span></h1>
+            <p class="intro-copy">Bastano 60 secondi: descrivici il tuo immobile per ricevere una prima valutazione tecnica e concordare il sopralluogo gratuito senza alcun vincolo.</p>
         </section>
 
         <section class="wizard-card" aria-label="Richiesta preventivo">
@@ -32,9 +32,9 @@ import SiteLayout from '../layouts/SiteLayout.astro';
                 <input type="hidden" name="metratura" id="metratura" />
 
                 <section class="wizard-step is-active" data-step="1" aria-labelledby="step-title-1">
-                    <p class="step-kicker">PARTIAMO DALLE BASI</p>
-                    <h2 id="step-title-1" tabindex="-1">Che tipo di immobile è?</h2>
-                    <p class="step-copy">Così possiamo orientarci sulla soluzione più adatta.</p>
+                    <p class="step-kicker">PASSO 01 / DESTINAZIONE</p>
+                    <h2 id="step-title-1" tabindex="-1">Che tipo di immobile dobbiamo proteggere?</h2>
+                    <p class="step-copy">Seleziona la tipologia per inquadrare il contesto strutturale e logistico.</p>
                     <div class="choice-grid choice-grid-3">
                         <button class="choice-card" type="button" data-choice="tipo_immobile" data-value="Condominio" aria-pressed="false">
                             <span class="choice-icon" aria-hidden="true">▥</span><span class="choice-title">Condominio</span>
@@ -50,9 +50,9 @@ import SiteLayout from '../layouts/SiteLayout.astro';
                 </section>
 
                 <section class="wizard-step" data-step="2" aria-labelledby="step-title-2" hidden>
-                    <p class="step-kicker">DOVE INTERVENIRE</p>
-                    <h2 id="step-title-2" tabindex="-1">Qual è l’area interessata?</h2>
-                    <p class="step-copy">Seleziona la zona che vuoi far controllare.</p>
+                    <p class="step-kicker">PASSO 02 / AREA CRITICA</p>
+                    <h2 id="step-title-2" tabindex="-1">Qual è la superficie interessata?</h2>
+                    <p class="step-copy">Indica l'area da cui si originano o si manifestano le infiltrazioni.</p>
                     <div class="choice-grid choice-grid-4">
                         <button class="choice-card" type="button" data-choice="area_intervento" data-value="Terrazzi / Balconi" aria-pressed="false">
                             <span class="choice-icon" aria-hidden="true">▱</span><span class="choice-title">Terrazzi<br />e balconi</span>
@@ -71,9 +71,9 @@ import SiteLayout from '../layouts/SiteLayout.astro';
                 </section>
 
                 <section class="wizard-step" data-step="3" aria-labelledby="step-title-3" hidden>
-                    <p class="step-kicker">CAPIAMO LA PRIORITÀ</p>
+                    <p class="step-kicker">PASSO 03 / URGENZA & STATO</p>
                     <h2 id="step-title-3" tabindex="-1">Qual è la situazione attuale?</h2>
-                    <p class="step-copy">Indicaci a che punto sei: ci aiuta a ricontattarti con le giuste informazioni.</p>
+                    <p class="step-copy">Ci permette di dare massima priorità alle infiltrazioni in corso con gocciolamenti attivi.</p>
                     <div class="choice-grid choice-grid-3">
                         <button class="choice-card" type="button" data-choice="situazione" data-value="Infiltrazione attiva (emergenza)" aria-pressed="false">
                             <span class="choice-icon" aria-hidden="true">⌁</span><span class="choice-title">Infiltrazione attiva</span><span class="choice-caption">Intervento urgente</span>
@@ -89,9 +89,9 @@ import SiteLayout from '../layouts/SiteLayout.astro';
                 </section>
 
                 <section class="wizard-step" data-step="4" aria-labelledby="step-title-4" hidden>
-                    <p class="step-kicker">UN’ULTIMA INFORMAZIONE</p>
-                    <h2 id="step-title-4" tabindex="-1">Qual è la superficie da trattare?</h2>
-                    <p class="step-copy">Va bene anche una stima approssimativa.</p>
+                    <p class="step-kicker">PASSO 04 / METRATURA</p>
+                    <h2 id="step-title-4" tabindex="-1">Qual è l'estensione indicativa dell'area?</h2>
+                    <p class="step-copy">Anche una stima approssimativa è utile per orientare le unità di spruzzatura.</p>
                     <div class="choice-grid choice-grid-3 size-grid">
                         <button class="choice-card size-card" type="button" data-choice="metratura" data-value="&lt; 50 mq" aria-pressed="false">
                             <span class="choice-title">Meno di 50 m<sup>2</sup></span>
@@ -107,25 +107,27 @@ import SiteLayout from '../layouts/SiteLayout.astro';
                 </section>
 
                 <section class="wizard-step contact-step" data-step="5" aria-labelledby="step-title-5" hidden>
-                    <p class="step-kicker">ULTIMO PASSAGGIO</p>
-                    <h2 id="step-title-5" tabindex="-1">I tuoi contatti</h2>
-                    <p class="step-copy">Come possiamo ricontattarti per organizzare il sopralluogo?</p>
+                    <p class="step-kicker">PASSO 05 / RECAPITI</p>
+                    <h2 id="step-title-5" tabindex="-1">Dove e a chi possiamo inviare il riscontro?</h2>
+                    <p class="step-copy">Ti ricontatteremo entro 24 ore per concordare giorno e ora del sopralluogo gratuito.</p>
                     <div class="contact-grid">
                         <label class="form-field">
                             <span>Nome e cognome <b>*</b></span>
-                            <input name="nome" autocomplete="name" placeholder="Mario Rossi" minlength="2" maxlength="120" required />
+                            <input id="nome" name="nome" autocomplete="name" placeholder="Mario Rossi" minlength="2" maxlength="120" required />
                         </label>
                         <label class="form-field">
                             <span>Telefono <b>*</b></span>
-                            <input name="telefono" type="tel" autocomplete="tel" placeholder="333 123 4567" minlength="6" maxlength="25" pattern="^\+?[0-9\s\-\.\(\)]{6,25}$" required />
+                            <input id="telefono" name="telefono" type="tel" autocomplete="tel" placeholder="+39 333 123 4567" required />
+                            <span class="field-error-msg" id="telefono-error" aria-live="polite"></span>
                         </label>
                         <label class="form-field">
                             <span>Email <b>*</b></span>
-                            <input name="email" type="email" autocomplete="email" placeholder="nome@esempio.it" maxlength="254" required />
+                            <input id="email" name="email" type="email" autocomplete="email" placeholder="nome@esempio.it" maxlength="254" required />
+                            <span class="field-error-msg" id="email-error" aria-live="polite"></span>
                         </label>
                         <label class="form-field">
                             <span>Comune dell’intervento <b>*</b></span>
-                            <input name="comune" autocomplete="address-level2" placeholder="Es. Milano" minlength="2" maxlength="100" required />
+                            <input id="comune" name="comune" autocomplete="address-level2" placeholder="Es. Milano" minlength="2" maxlength="100" required />
                         </label>
                         <label class="form-field full-field">
                             <span>Note <small>(facoltative)</small></span>
@@ -141,6 +143,7 @@ import SiteLayout from '../layouts/SiteLayout.astro';
                             <small>JPG, PNG o WEBP · massimo 5 foto e 10 MB totali</small>
                             <input id="foto" name="files" type="file" accept="image/jpeg,image/png,image/webp" multiple />
                         </label>
+                        <div id="preview-grid" class="preview-grid" aria-live="polite"></div>
                         <p class="upload-list" id="upload-list" aria-live="polite">Nessuna foto selezionata</p>
                         <p class="field-error" id="upload-error" aria-live="polite"></p>
                     </div>
@@ -162,12 +165,70 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 
             <div class="success-panel" id="success-msg" role="status" hidden>
                 <span class="success-icon" aria-hidden="true">✓</span>
-                <p class="step-kicker">RICHIESTA INVIATA</p>
+                <p class="step-kicker">RICHIESTA INVIATA CON SUCCESSO</p>
                 <h2>Grazie per averci contattato!</h2>
-                <p>Abbiamo ricevuto i dettagli. Ti ricontatteremo per organizzare il sopralluogo.</p>
+                <div class="success-email-notice">
+                    <svg class="email-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <span>Ti abbiamo inviato un'email di riepilogo da <strong class="email-highlight">info@poliureasystem.it</strong> con il riepilogo completo e i prossimi passaggi.</span>
+                </div>
+                
+                <div class="success-steps-roadmap">
+                    <p class="roadmap-heading">I PROSSIMI PASSI:</p>
+                    <div class="roadmap-item">
+                        <span class="step-num-badge">1</span>
+                        <div class="roadmap-text">
+                            <strong>Chiamata telefonica preliminare</strong>
+                            <p>Un nostro tecnico qualificato ti contatterà telefonicamente per analizzare le specifiche tecniche e verificare la disponibilità.</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <span class="step-num-badge">2</span>
+                        <div class="roadmap-text">
+                            <strong>Sopralluogo e visita di persona</strong>
+                            <p>Pianificheremo una visita di persona direttamente in cantiere per valutare il supporto e raccogliere le misurazioni esatte.</p>
+                        </div>
+                    </div>
+                    <div class="roadmap-item">
+                        <span class="step-num-badge">3</span>
+                        <div class="roadmap-text">
+                            <strong>Preventivo e credenziali Area Clienti</strong>
+                            <p>Se tutto va bene a seguito del sopralluogo, riceverai la nostra proposta economica e ti invieremo via email le credenziali personali per accedere alla tua Area Clienti.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-actions">
+                    <a href="/" class="success-home-link">
+                        <span>Torna alla home del sito</span> →
+                    </a>
+                </div>
             </div>
         </section>
-        <p class="page-footnote"><span aria-hidden="true">✓</span> Sopralluogo gratuito <span>·</span> Nessun impegno</p>
+
+        <!-- TRUST & GUARANTEE PILLARS -->
+        <div class="quote-trust-grid mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto w-full">
+            <div class="flex flex-col items-center text-center p-4 rounded-xl border border-zinc-800 bg-zinc-900/60 shadow-lg">
+                <span class="text-xl mb-1.5" aria-hidden="true">⚡</span>
+                <strong class="text-xs sm:text-sm font-bold text-white mb-0.5">Risposta entro 24h</strong>
+                <p class="text-[11px] text-zinc-400">Contatto diretto da un tecnico qualificato</p>
+            </div>
+            <div class="flex flex-col items-center text-center p-4 rounded-xl border border-zinc-800 bg-zinc-900/60 shadow-lg">
+                <span class="text-xl mb-1.5" aria-hidden="true">🔍</span>
+                <strong class="text-xs sm:text-sm font-bold text-white mb-0.5">Diagnosi in loco</strong>
+                <p class="text-[11px] text-zinc-400">Sopralluogo gratuito e senza alcun vincolo</p>
+            </div>
+            <div class="flex flex-col items-center text-center p-4 rounded-xl border border-zinc-800 bg-zinc-900/60 shadow-lg">
+                <span class="text-xl mb-1.5" aria-hidden="true">🛡️</span>
+                <strong class="text-xs sm:text-sm font-bold text-white mb-0.5">Costi trasparenti</strong>
+                <p class="text-[11px] text-zinc-400">Preventivo chiaro a prezzo bloccato</p>
+            </div>
+            <div class="flex flex-col items-center text-center p-4 rounded-xl border border-zinc-800 bg-zinc-900/60 shadow-lg">
+                <span class="text-xl mb-1.5" aria-hidden="true">🔒</span>
+                <strong class="text-xs sm:text-sm font-bold text-white mb-0.5">Privacy al 100%</strong>
+                <p class="text-[11px] text-zinc-400">Dati protetti conformi al GDPR</p>
+            </div>
+        </div>
+        <p class="page-footnote mt-6"><span aria-hidden="true">✓</span> Sopralluogo diagnostico gratuito <span>·</span> Nessun impegno <span>·</span> Consulenza qualificata</p>
     </section>
 
     <script is:inline>
@@ -180,13 +241,117 @@ import SiteLayout from '../layouts/SiteLayout.astro';
         const nextBtn = document.querySelector('#next-btn');
         const submitBtn = document.querySelector('#submit-btn');
         const fileInput = document.querySelector('#foto');
+        const previewGrid = document.querySelector('#preview-grid');
         const uploadList = document.querySelector('#upload-list');
         const uploadError = document.querySelector('#upload-error');
         const formError = document.querySelector('#form-error');
         const uploadZone = document.querySelector('.upload-zone');
+        const emailInput = document.querySelector('#email');
+        const emailError = document.querySelector('#email-error');
+        const telefonoInput = document.querySelector('#telefono');
+        const telefonoError = document.querySelector('#telefono-error');
+
         const maxUploadSize = 10 * 1024 * 1024;
         let currentStep = 1;
+        let selectedFiles = [];
 
+        // Validazione Real-Time Email
+        const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const validaEmail = (mostraErroreVuoto = false) => {
+            const val = (emailInput.value || '').trim();
+            if (!val) {
+                if (mostraErroreVuoto) {
+                    emailInput.classList.add('is-invalid');
+                    emailInput.classList.remove('is-valid');
+                    emailError.textContent = 'Inserisci il tuo indirizzo email.';
+                    return false;
+                }
+                emailInput.classList.remove('is-invalid', 'is-valid');
+                emailError.textContent = '';
+                return false;
+            }
+            if (!EMAIL_REGEX.test(val)) {
+                emailInput.classList.add('is-invalid');
+                emailInput.classList.remove('is-valid');
+                emailError.textContent = 'Formato email non valido (es. nome@dominio.it).';
+                return false;
+            }
+            emailInput.classList.remove('is-invalid');
+            emailInput.classList.add('is-valid');
+            emailError.textContent = '';
+            return true;
+        };
+
+        // Formattazione Maschera e Validazione Real-Time Telefono
+        const formattaTelefono = (val) => {
+            let cifre = (val || '').replace(/\D/g, '');
+            if (cifre.startsWith('39')) {
+                cifre = cifre.slice(2);
+            }
+            cifre = cifre.slice(0, 10);
+            if (!cifre) return '+39 ';
+            if (cifre.length <= 3) {
+                return `+39 ${cifre}`;
+            }
+            if (cifre.length <= 6) {
+                return `+39 ${cifre.slice(0, 3)} ${cifre.slice(3)}`;
+            }
+            return `+39 ${cifre.slice(0, 3)} ${cifre.slice(3, 6)} ${cifre.slice(6)}`;
+        };
+
+        const validaTelefono = (mostraErroreVuoto = false) => {
+            const val = (telefonoInput.value || '').trim();
+            const cifre = val.replace(/\D/g, '').replace(/^39/, '');
+            if (!cifre) {
+                if (mostraErroreVuoto) {
+                    telefonoInput.classList.add('is-invalid');
+                    telefonoInput.classList.remove('is-valid');
+                    telefonoError.textContent = 'Inserisci un recapito telefonico.';
+                    return false;
+                }
+                telefonoInput.classList.remove('is-invalid', 'is-valid');
+                telefonoError.textContent = '';
+                return false;
+            }
+            if (cifre.length < 9) {
+                telefonoInput.classList.add('is-invalid');
+                telefonoInput.classList.remove('is-valid');
+                telefonoError.textContent = 'Numero troppo corto (richieste almeno 9-10 cifre).';
+                return false;
+            }
+            telefonoInput.classList.remove('is-invalid');
+            telefonoInput.classList.add('is-valid');
+            telefonoError.textContent = '';
+            return true;
+        };
+
+        telefonoInput.addEventListener('focus', () => {
+            if (!telefonoInput.value.trim()) {
+                telefonoInput.value = '+39 ';
+            }
+        });
+
+        telefonoInput.addEventListener('input', () => {
+            telefonoInput.value = formattaTelefono(telefonoInput.value);
+            validaTelefono(false);
+        });
+
+        telefonoInput.addEventListener('blur', () => {
+            if (telefonoInput.value.trim() === '+39' || telefonoInput.value.trim() === '+39 ') {
+                telefonoInput.value = '';
+            }
+            validaTelefono(true);
+        });
+
+        emailInput.addEventListener('input', () => {
+            validaEmail(false);
+        });
+
+        emailInput.addEventListener('blur', () => {
+            validaEmail(true);
+        });
+
+        // Gestione Step Wizard
         const mostraPasso = (numero) => {
             currentStep = numero;
             steps.forEach((step) => {
@@ -228,22 +393,116 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 
         backBtn.addEventListener('click', () => mostraPasso(currentStep - 1));
 
-        const aggiornaFoto = () => {
-            const files = [...fileInput.files];
-            const totale = files.reduce((somma, file) => somma + file.size, 0);
-            const errore = files.length > 5
+        // Gestione Upload con Anteprima Miniature e Rimozione Singola
+        const syncFileInput = () => {
+            try {
+                const dt = new DataTransfer();
+                selectedFiles.forEach((file) => dt.items.add(file));
+                fileInput.files = dt.files;
+            } catch (e) {
+                console.warn('DataTransfer non disponibile:', e);
+            }
+        };
+
+        const renderPreviews = () => {
+            previewGrid.innerHTML = '';
+            const totale = selectedFiles.reduce((somma, file) => somma + file.size, 0);
+
+            selectedFiles.forEach((file, index) => {
+                const card = document.createElement('div');
+                card.className = 'preview-card';
+
+                const thumbWrap = document.createElement('div');
+                thumbWrap.className = 'preview-thumb-wrap';
+
+                const img = document.createElement('img');
+                img.alt = file.name;
+                const objectUrl = URL.createObjectURL(file);
+                img.src = objectUrl;
+
+                const removeBtn = document.createElement('button');
+                removeBtn.type = 'button';
+                removeBtn.className = 'preview-remove-btn';
+                removeBtn.innerHTML = '&times;';
+                removeBtn.title = `Rimuovi ${file.name}`;
+                removeBtn.setAttribute('aria-label', `Rimuovi foto ${file.name}`);
+                removeBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    URL.revokeObjectURL(objectUrl);
+                    selectedFiles.splice(index, 1);
+                    syncFileInput();
+                    renderPreviews();
+                });
+
+                thumbWrap.appendChild(img);
+                thumbWrap.appendChild(removeBtn);
+
+                const details = document.createElement('div');
+                details.className = 'preview-details';
+
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'preview-filename';
+                nameSpan.textContent = file.name;
+                nameSpan.title = file.name;
+
+                const sizeSpan = document.createElement('span');
+                sizeSpan.className = 'preview-filesize';
+                sizeSpan.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+
+                details.appendChild(nameSpan);
+                details.appendChild(sizeSpan);
+
+                card.appendChild(thumbWrap);
+                card.appendChild(details);
+                previewGrid.appendChild(card);
+            });
+
+            const errore = selectedFiles.length > 5
                 ? 'Puoi selezionare al massimo 5 foto.'
                 : totale > maxUploadSize
                     ? 'Le foto superano il limite totale di 10 MB.'
                     : '';
             uploadError.textContent = errore;
             fileInput.setCustomValidity(errore);
-            uploadList.textContent = files.length
-                ? `${files.length} ${files.length === 1 ? 'foto selezionata' : 'foto selezionate'} · ${(totale / 1024 / 1024).toFixed(2)} MB`
+
+            uploadList.textContent = selectedFiles.length
+                ? `${selectedFiles.length} ${selectedFiles.length === 1 ? 'foto selezionata' : 'foto selezionate'} · ${(totale / 1024 / 1024).toFixed(2)} MB`
                 : 'Nessuna foto selezionata';
         };
 
-        fileInput.addEventListener('change', aggiornaFoto);
+        const aggiungiFile = (nuoviFile) => {
+            const validi = [...nuoviFile].filter((file) => {
+                return ['image/jpeg', 'image/png', 'image/webp'].includes(file.type);
+            });
+            if (validi.length < nuoviFile.length) {
+                uploadError.textContent = 'Alcuni file sono stati esclusi: sono consentite solo immagini JPG, PNG o WEBP.';
+            }
+
+            validi.forEach((file) => {
+                const giaPresente = selectedFiles.some(
+                    (f) => f.name === file.name && f.size === file.size
+                );
+                if (!giaPresente && selectedFiles.length < 5) {
+                    selectedFiles.push(file);
+                }
+            });
+
+            if (selectedFiles.length >= 5 && validi.length > 0) {
+                if (selectedFiles.length + (nuoviFile.length - validi.length) > 5) {
+                    uploadError.textContent = 'Puoi selezionare al massimo 5 foto.';
+                }
+            }
+            syncFileInput();
+            renderPreviews();
+        };
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files) {
+                aggiungiFile(fileInput.files);
+            }
+        });
+
         for (const evento of ['dragenter', 'dragover']) {
             uploadZone.addEventListener(evento, (event) => {
                 event.preventDefault();
@@ -257,23 +516,39 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             });
         }
         uploadZone.addEventListener('drop', (event) => {
+            event.preventDefault();
+            uploadZone.classList.remove('is-dragging');
             if (event.dataTransfer?.files) {
-                fileInput.files = event.dataTransfer.files;
-                aggiornaFoto();
+                aggiungiFile(event.dataTransfer.files);
             }
         });
 
+        // Invio Form con Validazioni Frontend
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
             formError.textContent = '';
+
+            const emailOk = validaEmail(true);
+            const telOk = validaTelefono(true);
+            if (!emailOk || !telOk) {
+                formError.textContent = 'Compila correttamente i campi evidenziati prima di inviare.';
+                if (!emailOk) emailInput.focus();
+                else if (!telOk) telefonoInput.focus();
+                return;
+            }
+
             if (!form.reportValidity()) return;
 
             submitBtn.disabled = true;
             submitBtn.textContent = 'Invio in corso…';
             try {
+                const formData = new FormData(form);
+                formData.delete('files');
+                selectedFiles.forEach((file) => formData.append('files', file));
+
                 const response = await fetch('/api/preventivo', {
                     method: 'POST',
-                    body: new FormData(form),
+                    body: formData,
                 });
                 if (!response.ok) {
                     const result = await response.json().catch(() => ({}));
@@ -486,6 +761,21 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             border-color: #0284c7;
             box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.25);
         }
+        .form-field input.is-invalid {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25) !important;
+        }
+        .form-field input.is-valid {
+            border-color: #10b981 !important;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
+        }
+        .field-error-msg {
+            min-height: 16px;
+            margin-top: 4px;
+            color: #f87171;
+            font-size: 11px;
+            font-weight: 500;
+        }
         .form-field input::placeholder, .form-field textarea::placeholder { color: #71717a; }
         .full-field { grid-column: 1 / -1; }
         .upload-field { margin-top: 24px; }
@@ -526,6 +816,82 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             border: 1px solid rgba(56, 189, 248, 0.3);
             color: #38bdf8;
             font-size: 16px;
+        }
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .preview-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #27272a;
+            border-radius: 12px;
+            background: #121215;
+            overflow: hidden;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .preview-card:hover {
+            border-color: #38bdf8;
+            transform: translateY(-2px);
+        }
+        .preview-thumb-wrap {
+            position: relative;
+            width: 100%;
+            height: 85px;
+            background: #09090b;
+            overflow: hidden;
+        }
+        .preview-thumb-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .preview-remove-btn {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .preview-remove-btn:hover {
+            background: #ef4444;
+            border-color: #ef4444;
+            color: #ffffff;
+        }
+        .preview-details {
+            padding: 8px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            background: #18181b;
+        }
+        .preview-filename {
+            color: #e4e4e7;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .preview-filesize {
+            color: #71717a;
+            font-size: 10px;
         }
         .upload-list { margin: 8px 0 0; color: #a1a1aa; font-size: 11px; }
         .privacy-check {
@@ -580,21 +946,114 @@ import SiteLayout from '../layouts/SiteLayout.astro';
         }
         .submit-button { min-height: 46px; padding: 0 24px; }
         .submit-button:disabled { cursor: wait; opacity: 0.7; }
-        .success-panel { padding: 60px 30px; text-align: center; }
+        .success-panel { padding: 48px 24px; text-align: center; }
         .success-panel[hidden] { display: none; }
         .success-icon {
             width: 52px;
             height: 52px;
             display: grid;
             place-items: center;
-            margin: 0 auto 20px;
+            margin: 0 auto 16px;
             border-radius: 50%;
             background: rgba(2, 132, 199, 0.15);
             border: 1px solid rgba(56, 189, 248, 0.3);
             color: #38bdf8;
             font-size: 26px;
         }
-        .success-panel > p:last-child { color: #a1a1aa; font-size: 14px; }
+        .success-email-notice {
+            margin: 16px auto 0;
+            padding: 12px 18px;
+            border-radius: 12px;
+            background: rgba(2, 132, 199, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            color: #d4d4d8;
+            font-size: 13px;
+            line-height: 1.5;
+            max-width: 540px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: left;
+        }
+        .email-icon {
+            width: 18px;
+            height: 18px;
+            color: #38bdf8;
+            flex-shrink: 0;
+        }
+        .email-highlight {
+            color: #38bdf8;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        }
+        .success-steps-roadmap {
+            margin: 28px auto 0;
+            padding: 24px 20px 0;
+            border-top: 1px solid #27272a;
+            max-width: 540px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .roadmap-heading {
+            margin: 0 0 4px;
+            font-size: 11px;
+            font-weight: 750;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #38bdf8;
+        }
+        .roadmap-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .step-num-badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid #38bdf8;
+            color: #38bdf8;
+            font-size: 11px;
+            font-weight: 800;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .roadmap-text strong {
+            display: block;
+            font-size: 13px;
+            color: #ffffff;
+            margin-bottom: 2px;
+        }
+        .roadmap-text p {
+            margin: 0;
+            font-size: 12px;
+            color: #a1a1aa;
+            line-height: 1.5;
+        }
+        .success-actions {
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid #27272a;
+            text-align: center;
+        }
+        .success-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #a1a1aa;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+        .success-home-link:hover {
+            color: #38bdf8;
+        }
         .page-footnote {
             display: flex;
             justify-content: center;

@@ -18,6 +18,8 @@ backend/pylock.toml
 __pycache__/
 *.py[cod]
 *$py.class
+.pytest_cache/
+backend/.pytest_cache/
 
 # --- Cloudflare Wrangler ---
 .wrangler/

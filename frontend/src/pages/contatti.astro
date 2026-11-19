@@ -4,55 +4,76 @@ import PageIntro from '../components/PageIntro.astro';
 ---
 
 <SiteLayout
-    title="Contatti | Poliurea System"
-    description="Contatta Poliurea System per informazioni su infiltrazioni, impermeabilizzazioni e per richiedere un sopralluogo."
+    title="Contatti e Assistenza Infiltrazioni | Poliurea System"
+    description="Contatta il team di Poliurea System: telefono diretto +39 328 234 3190, email info@poliureasystem.it o modulo guidato per richiedere un sopralluogo gratuito in Liguria e regioni limitrofe."
     activePath="/contatti"
 >
     <PageIntro
-        eyebrow="CONTATTI"
-        title="Raccontaci"
-        highlight="cosa succede."
-        text="Una macchia sul soffitto, un muro umido o una copertura da verificare? Inviaci una richiesta: ci aiuterà a capire come ricontattarti."
+        eyebrow="CONTATTI DIRETTI & SUPPORTO"
+        title="Infiltrazioni in corso?"
+        highlight="Parla con un tecnico."
+        text="Che si tratti di un'infiltrazione attiva da bloccare con urgenza o di un preventivo per ristrutturare un terrazzo senza demolizioni, siamo a tua disposizione per un riscontro rapido e professionale."
     />
+
     <section class="contact-page wrap my-12 grid gap-8 lg:grid-cols-[1.2fr_1fr] items-center">
+        <!-- Colonna Sinistra: Modulo Guidato -->
         <div class="contact-panel rounded-2xl border border-zinc-800 bg-zinc-900 p-8 sm:p-10 shadow-2xl relative overflow-hidden transition-colors duration-300 hover:border-zinc-700">
-            <p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">IL MODO PIÙ SEMPLICE PER INIZIARE</p>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-4">Descrivici il tuo<br /><span class="text-sky-400">problema.</span></h2>
-            <p class="text-zinc-400 text-base leading-relaxed mb-8">Il modulo guidato raccoglie le informazioni essenziali, ti permette di aggiungere foto e invia la richiesta al nostro team.</p>
-            <a class="button button-primary inline-flex items-center justify-center gap-3 rounded-xl bg-sky-500 hover:bg-sky-400 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition-colors duration-300 hover:shadow-sky-500/40 hover:-translate-y-0.5 w-full" href="/preventivo">Compila il modulo <span aria-hidden="true">↗</span></a>
-            <div class="contact-assurance mt-8 flex items-center gap-2.5 text-xs font-semibold text-zinc-400"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold">✓</span> Consulenza gratuita e senza impegno</div>
+            <p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">MODULO GUIDATO IN 1 MINUTO</p>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-4">Richiedi il sopralluogo<br /><span class="text-sky-400">diagnostico gratuito.</span></h2>
+            <p class="text-zinc-300 text-sm sm:text-base leading-relaxed mb-8">Il modo più rapido e preciso per iniziare. Il modulo guidato raccoglie le informazioni essenziali, ti permette di allegare foto del problema e inoltra la richiesta al nostro ufficio tecnico per una presa in carico immediata.</p>
+            <a class="button button-primary inline-flex items-center justify-center gap-3 rounded-xl bg-sky-500 hover:bg-sky-400 px-6 py-3.5 text-sm sm:text-base font-bold text-white shadow-lg shadow-sky-500/25 transition-all duration-300 hover:shadow-sky-500/40 hover:-translate-y-0.5 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300" href="/preventivo">
+                Avvia la richiesta guidata <span aria-hidden="true" class="text-base font-bold">↗</span>
+            </a>
+            <div class="contact-assurance mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-semibold text-zinc-300">
+                <span class="inline-flex items-center gap-1.5"><span class="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold">✓</span> Sopralluogo diagnostico senza impegno</span>
+                <span class="inline-flex items-center gap-1.5"><span class="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold">✓</span> Risposta garantita entro 24 ore</span>
+            </div>
         </div>
+
+        <!-- Colonna Destra: Recapiti Diretti -->
         <aside class="contact-details rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 sm:p-10 shadow-xl backdrop-blur-sm transition-colors duration-300 hover:border-zinc-700">
-            <p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">RECAPITI AZIENDALI</p>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-4">I canali diretti<br />per il tuo intervento.</h2>
-            <p class="text-zinc-400 text-sm leading-relaxed mb-6">Siamo operativi per sopralluoghi tecnici e consulenze su misura. Per una risposta rapida e una presa in carico ordinata, compila il modulo o contattaci ai recapiti dedicati.</p>
-            <div class="contact-placeholder flex items-start sm:items-center gap-3.5 sm:gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-3.5 sm:p-4 mb-3 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90">
-                <span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 border border-sky-500/25 text-sky-400 text-lg">☎</span>
-                <div class="min-w-0 flex-1 text-sm">
-                    <small class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">TELEFONO DIRETTO</small>
-                    <a href="tel:+390282956740" class="text-white font-semibold hover:text-sky-400 transition-colors break-words">+39 02 8295 6740</a>
+            <p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">CANALI DIRETTI AZIENDALI</p>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-4">Contattaci direttamente<br />per urgenze e chiarimenti.</h2>
+            <p class="text-zinc-300 text-sm leading-relaxed mb-6">Siamo operativi per sopralluoghi tecnici in Liguria e regioni limitrofe. Per un contatto telefonico immediato o per l'invio di capitolati e documentazione:</p>
+            
+            <div class="space-y-3">
+                <div class="contact-placeholder flex items-start sm:items-center gap-3.5 sm:gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-3.5 sm:p-4 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90">
+                    <span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 border border-sky-500/25 text-sky-400 text-lg">☎</span>
+                    <div class="min-w-0 flex-1 text-sm">
+                        <small class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">TELEFONO DIRETTO</small>
+                        <a href="tel:+393282343190" class="text-white font-semibold hover:text-sky-400 transition-colors break-words">+39 328 234 3190</a>
+                    </div>
                 </div>
-            </div>
-            <div class="contact-placeholder flex items-start sm:items-center gap-3.5 sm:gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-3.5 sm:p-4 mb-3 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90">
-                <span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 border border-sky-500/25 text-sky-400 text-lg">✉</span>
-                <div class="min-w-0 flex-1 text-sm">
-                    <small class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">EMAIL INFORMAZIONI</small>
-                    <a href="mailto:info@poliureasystem.it" class="text-white font-semibold hover:text-sky-400 transition-colors break-words">info@poliureasystem.it</a>
+                
+                <div class="contact-placeholder flex items-start sm:items-center gap-3.5 sm:gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-3.5 sm:p-4 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90">
+                    <span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 border border-sky-500/25 text-sky-400 text-lg">✉</span>
+                    <div class="min-w-0 flex-1 text-sm">
+                        <small class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">EMAIL INFORMAZIONI & CAPITOLATI</small>
+                        <a href="mailto:info@poliureasystem.it" class="text-white font-semibold hover:text-sky-400 transition-colors break-words">info@poliureasystem.it</a>
+                    </div>
                 </div>
-            </div>
-            <div class="contact-placeholder flex items-start sm:items-center gap-3.5 sm:gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-3.5 sm:p-4 mb-3 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90">
-                <span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 border border-sky-500/25 text-sky-400 text-lg">⌖</span>
-                <div class="min-w-0 flex-1 text-sm">
-                    <small class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">SEDE OPERATIVA / AREA SERVITA</small>
-                    <strong class="text-white font-semibold block break-words">Milano e interventi in tutta Italia</strong>
+
+                <div class="contact-placeholder flex items-start sm:items-center gap-3.5 sm:gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-3.5 sm:p-4 shadow-inner transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90">
+                    <span aria-hidden="true" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-500/10 border border-sky-500/25 text-sky-400 text-lg">⌖</span>
+                    <div class="min-w-0 flex-1 text-sm">
+                        <small class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">SEDE OPERATIVA & RAGGIO D'INTERVENTO</small>
+                        <strong class="text-white font-semibold block break-words">Genova / Liguria e regioni limitrofe</strong>
+                    </div>
                 </div>
             </div>
         </aside>
     </section>
+
+    <!-- BANNER METODO -->
     <section class="contact-bottom py-14 bg-zinc-950 border-y border-zinc-800">
         <div class="wrap contact-bottom-inner flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-            <div><p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-1">HAI GIÀ RACCOLTO I DETTAGLI?</p><h2 class="text-xl sm:text-2xl font-bold text-white">Il sopralluogo si prepara<br />con le <span class="text-sky-400">informazioni giuste.</span></h2></div>
-            <a class="text-link inline-flex items-center gap-2 text-sm font-bold text-sky-400 hover:text-sky-300 transition-colors" href="/metodo">Scopri il metodo <span aria-hidden="true">→</span></a>
+            <div>
+                <p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-1">VUOI CAPIRE COME OPERIAMO?</p>
+                <h2 class="text-xl sm:text-2xl font-bold text-white">Il nostro protocollo in 3 fasi:<br />dalla <span class="text-sky-400">diagnosi al collaudo idraulico.</span></h2>
+            </div>
+            <a class="text-link inline-flex items-center gap-2 text-sm font-bold text-sky-400 hover:text-sky-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded p-1" href="/metodo">
+                Scopri il metodo <span aria-hidden="true">→</span>
+            </a>
         </div>
     </section>
 </SiteLayout>

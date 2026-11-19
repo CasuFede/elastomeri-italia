@@ -17,7 +17,7 @@ CREATE INDEX IF NOT EXISTS idx_preventivi_email
 
 CREATE TABLE IF NOT EXISTS allegati (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    preventivo_id INTEGER NOT NULL REFERENCES preventivi(id),
+    preventivo_id INTEGER NOT NULL REFERENCES preventivi(id) ON DELETE CASCADE,
     nome_file TEXT NOT NULL,
     nome_originale TEXT NOT NULL,
     tipo_mime TEXT NOT NULL

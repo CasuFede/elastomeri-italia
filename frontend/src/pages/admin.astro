@@ -1,6 +1,11 @@
 ---
 import '../styles/global.css';
 // frontend/src/pages/admin.astro
+
+const adminCookie = Astro.cookies.get('poliurea_admin_session')?.value;
+if (!adminCookie) {
+  return Astro.redirect('/accesso-preventivi', 302);
+}
 ---
 
 <html lang="it">
@@ -12,22 +17,27 @@ import '../styles/global.css';
 </head>
 <body class="admin-body min-h-screen bg-black text-zinc-200">
 
-    <div id="admin-app" class="admin-shell w-full max-w-7xl mx-auto px-4 sm:px-6 hidden">
+    <div id="admin-app" class="admin-shell w-full max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 pb-12 hidden">
         <header class="admin-header flex flex-col sm:flex-row sm:items-center justify-between gap-4 py-6 border-b border-zinc-800 mb-8">
-            <div class="flex items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
                 <a class="admin-brand inline-flex items-center" href="/" aria-label="Poliurea System, home">
                     <picture>
                         <source srcset="/logo-poliurea-system.webp" type="image/webp" />
                         <img src="/logo-poliurea-system.png" alt="Poliurea System" class="h-10 w-auto" width="180" height="40" />
                     </picture>
                 </a>
-                <span class="sm:hidden admin-secure-label border border-zinc-800 bg-zinc-900 text-zinc-400 px-3 py-1.5 rounded-lg text-xs font-semibold">Area riservata</span>
+                <div class="hidden sm:block h-6 w-px bg-zinc-800"></div>
+                <div class="admin-header-title">
+                    <p class="text-[11px] font-bold uppercase tracking-wider text-sky-400">AREA GESTIONE</p>
+                    <h1 class="text-xl sm:text-2xl font-bold text-white">Gestione preventivi</h1>
+                </div>
             </div>
-            <div class="admin-header-title">
-                <p class="text-[11px] font-bold uppercase tracking-wider text-sky-400">AREA GESTIONE</p>
-                <h1 class="text-xl sm:text-2xl font-bold text-white">Gestione preventivi</h1>
+            <div class="flex items-center gap-3">
+                <span class="inline-flex items-center gap-1.5 border border-zinc-800 bg-zinc-900 text-zinc-300 px-3.5 py-1.5 rounded-xl text-xs font-semibold shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Area riservata
+                </span>
             </div>
-            <span class="hidden sm:inline-flex admin-secure-label border border-zinc-800 bg-zinc-900 text-zinc-400 px-3 py-1.5 rounded-lg text-xs font-semibold">Area riservata</span>
         </header>
 
         <p id="dashboard-error" class="hidden mb-5 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-400" role="alert"></p>
@@ -56,21 +66,22 @@ import '../styles/global.css';
                 </div>
                 <span id="total-count" class="admin-count rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1 font-mono text-sm font-bold text-sky-400">0</span>
             </div>
-            <table class="w-full min-w-[1560px] border-collapse text-left text-sm">
+            <table class="w-full border-separate border-spacing-0 text-left text-sm">
                 <thead>
-                    <tr class="bg-zinc-950 text-zinc-400 border-b border-zinc-800 text-xs uppercase tracking-wider">
-                        <th class="p-4">ID</th>
-                        <th class="p-4">Data</th>
-                        <th class="p-4">Nome</th>
-                        <th class="p-4">Contatti</th>
-                        <th class="p-4">Servizio</th>
-                        <th class="p-4">Messaggio</th>
-                        <th class="p-4">Foto</th>
-                        <th class="p-4">Stato</th>
-                        <th class="p-4">Cosa serve al cliente</th>
+                    <tr class="bg-zinc-950 text-zinc-400 text-[11px] uppercase tracking-wider font-semibold">
+                        <th class="p-3 w-12 min-w-[48px] font-mono text-center border-b border-zinc-800">ID</th>
+                        <th class="p-3 w-20 min-w-[80px] border-b border-zinc-800">Data</th>
+                        <th class="p-3 w-28 min-w-[100px] border-b border-zinc-800">Nome</th>
+                        <th class="p-3 w-40 min-w-[140px] border-b border-zinc-800">Contatti</th>
+                        <th class="p-3 w-32 min-w-[110px] border-b border-zinc-800">Servizio</th>
+                        <th class="p-3 min-w-[160px] max-w-[200px] border-b border-zinc-800">Messaggio</th>
+                        <th class="p-3 w-20 min-w-[80px] border-b border-zinc-800">Foto</th>
+                        <th class="p-3 w-28 min-w-[115px] border-b border-zinc-800">Stato</th>
+                        <th class="p-3 min-w-[160px] max-w-[200px] border-b border-zinc-800">Cosa serve al cliente</th>
+                        <th class="p-3 w-20 min-w-[76px] text-center border-b border-zinc-800">Azioni</th>
                     </tr>
                 </thead>
-                <tbody id="table-body" class="divide-y divide-zinc-800 text-zinc-300">
+                <tbody id="table-body" class="text-zinc-300">
                     <!-- I dati verranno inseriti qui -->
                 </tbody>
             </table>
@@ -116,11 +127,38 @@ import '../styles/global.css';
                 <label class="grid gap-2 text-xs font-semibold text-zinc-300">Email usata nel preventivo
                     <input name="email" type="email" required maxlength="254" autocomplete="email" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
                 </label>
-                <label class="grid gap-2 text-xs font-semibold text-zinc-300 sm:col-span-2">Password iniziale (almeno 12 caratteri)
-                    <input name="password" type="password" required minlength="12" autocomplete="new-password" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
-                </label>
+                <div class="grid gap-2 sm:col-span-2">
+                    <div class="flex items-center justify-between">
+                        <label for="admin-client-password" class="text-xs font-semibold text-zinc-300">
+                            Password iniziale temporanea (generata automaticamente)
+                        </label>
+                        <span class="text-[11px] text-amber-400 font-medium flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                            Randomica sicura
+                        </span>
+                    </div>
+                    <div class="relative flex items-center">
+                        <input id="admin-client-password" name="password" type="text" required minlength="12" autocomplete="new-password" class="w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3 pr-44 text-sm font-mono text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
+                        <div class="absolute right-2 flex items-center gap-1.5">
+                            <button type="button" id="btn-toggle-client-pwd-vis" class="p-1.5 text-zinc-400 hover:text-zinc-200 transition cursor-pointer" title="Mostra / Nascondi password" aria-label="Mostra o nascondi password">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                            </button>
+                            <button type="button" id="btn-copy-client-pwd" class="rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white px-2.5 py-1 text-xs font-medium transition cursor-pointer flex items-center gap-1 shadow-sm" title="Copia password negli appunti">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                                <span id="copy-pwd-label">Copia</span>
+                            </button>
+                            <button type="button" id="btn-generate-client-pwd" class="rounded-lg bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/30 text-sky-400 px-2.5 py-1 text-xs font-semibold transition cursor-pointer flex items-center gap-1 shadow-sm" title="Genera un'altra password casuale">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                                <span>Rigenera</span>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-zinc-400">
+                        La password temporanea viene generata in modo randomico sicuro. Verrà recapitata via email al cliente e al suo primo accesso gli verrà chiesto di sostituirla.
+                    </p>
+                </div>
                 <div class="flex flex-wrap items-center gap-4 sm:col-span-2 pt-2">
-                    <button id="client-submit" type="submit" class="rounded-xl bg-sky-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition hover:bg-sky-400 hover:-translate-y-0.5">Crea account</button>
+                    <button id="client-submit" type="submit" class="rounded-xl bg-sky-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition hover:bg-sky-400 hover:-translate-y-0.5 cursor-pointer">Crea account</button>
                     <p id="client-feedback" class="text-sm text-zinc-300" role="status" aria-live="polite"></p>
                 </div>
             </form>
@@ -129,13 +167,120 @@ import '../styles/global.css';
             </div>
             <div id="clients-list" class="grid gap-3"></div>
         </section>
-        <dialog id="photo-dialog" class="m-auto rounded-2xl border border-zinc-800 bg-zinc-900 p-4 sm:p-6 shadow-2xl backdrop:bg-black/80 max-w-[calc(100vw-2rem)] sm:max-w-3xl max-h-[90vh] overflow-y-auto">
-            <div class="flex items-center justify-between gap-4 pb-3 sm:pb-4 border-b border-zinc-800 mb-4 sticky top-0 bg-zinc-900 z-10">
-                <h2 class="font-bold text-white text-sm sm:text-base">Foto allegata</h2>
-                <button id="close-photo-btn" type="button" class="text-xs font-bold text-zinc-400 hover:text-white px-2.5 py-1 rounded-lg bg-zinc-800 border border-zinc-700 transition">Chiudi</button>
+        <dialog id="photo-dialog" class="m-auto rounded-2xl border border-zinc-800 bg-zinc-900 p-4 sm:p-6 shadow-2xl backdrop:bg-black/85 max-w-[calc(100vw-2rem)] sm:max-w-4xl max-h-[92vh] overflow-y-auto">
+            <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-zinc-800 mb-4 sticky top-0 bg-zinc-900/95 backdrop-blur z-10">
+                <div class="min-w-0 pr-2">
+                    <p id="photo-subtitle" class="text-[11px] font-bold uppercase tracking-wider text-sky-400 mb-0.5">ALLEGATO RICHIESTA</p>
+                    <h2 id="photo-title" class="font-bold text-white text-sm sm:text-base truncate">Foto allegata</h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="download-photo-btn" type="button" class="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-sky-500 hover:bg-sky-400 px-3.5 py-2 rounded-xl shadow-md shadow-sky-500/20 transition cursor-pointer">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        <span>Scarica foto</span>
+                    </button>
+                    <button id="close-photo-btn" type="button" class="text-xs font-bold text-zinc-300 hover:text-white px-3 py-2 rounded-xl bg-zinc-800 border border-zinc-700 hover:border-zinc-600 transition cursor-pointer">Chiudi</button>
+                </div>
             </div>
-            <div class="flex items-center justify-center">
-                <img id="photo-viewer" class="max-h-[70vh] w-auto max-w-full rounded-xl object-contain border border-zinc-800" alt="Foto allegata al preventivo" />
+            <div id="photo-loading" class="hidden py-16 text-center text-zinc-400 text-xs font-medium">Caricamento foto in alta definizione...</div>
+            <div class="flex items-center justify-center p-2 bg-black/50 rounded-xl border border-zinc-800/80">
+                <img id="photo-viewer" class="max-h-[72vh] w-auto max-w-full rounded-lg object-contain shadow-2xl" alt="Foto allegata al preventivo" />
+            </div>
+        </dialog>
+
+        <!-- Modale Editor Fullscreen: Cosa serve al cliente -->
+        <dialog id="notes-dialog" class="m-auto rounded-3xl border border-zinc-800 bg-zinc-900/98 backdrop-blur-xl p-6 sm:p-8 shadow-2xl backdrop:bg-black/85 w-[96vw] max-w-5xl h-[88vh] max-h-[880px] open:flex flex-col justify-between">
+            <!-- Header -->
+            <div class="flex items-start justify-between gap-4 pb-4 border-b border-zinc-800 shrink-0">
+                <div>
+                    <p id="notes-kicker" class="text-xs font-bold uppercase tracking-wider text-sky-400">AGGIORNAMENTO RICHIESTA</p>
+                    <h2 class="text-xl sm:text-2xl font-bold text-white mt-0.5">Cosa serve al cliente</h2>
+                    <p class="text-xs text-zinc-400 mt-1">Scrivi qui le indicazioni e i documenti necessari che il cliente visualizzerà nella sua area riservata.</p>
+                </div>
+                <button id="close-notes-btn" type="button" class="text-xs font-bold text-zinc-300 hover:text-white px-3.5 py-2 rounded-xl bg-zinc-800 border border-zinc-700 hover:border-zinc-600 transition cursor-pointer">
+                    ✕ Chiudi
+                </button>
+            </div>
+
+            <!-- Body: Context + Fullscreen Textarea -->
+            <div class="my-4 flex-1 flex flex-col gap-3 min-h-0">
+                <div id="notes-context" class="rounded-xl border border-zinc-800/80 bg-zinc-950/70 p-3 text-xs text-zinc-400 flex flex-wrap items-center justify-between gap-2 shrink-0">
+                    <span id="notes-context-service" class="font-medium text-sky-400"></span>
+                    <span id="notes-context-date" class="text-zinc-500"></span>
+                </div>
+                <div class="relative flex-1 min-h-[260px] flex flex-col">
+                    <textarea id="notes-fullscreen-input" maxlength="1200" placeholder="Descrivi chiaramente cosa serve per procedere (es. foto aggiuntive, planimetrie, conferma orari sopralluogo)..." class="w-full flex-1 rounded-2xl border border-zinc-700 bg-zinc-950 p-4 text-sm sm:text-base text-white placeholder-zinc-500 outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/25 resize-none font-sans leading-relaxed"></textarea>
+                    <div class="flex justify-between items-center pt-2 text-[11px] font-mono text-zinc-500">
+                        <span class="text-zinc-400">Premi <kbd class="px-1.5 py-0.5 rounded bg-zinc-800 border border-zinc-700 text-zinc-300 text-[10px]">Ctrl</kbd> + <kbd class="px-1.5 py-0.5 rounded bg-zinc-800 border border-zinc-700 text-zinc-300 text-[10px]">Invio</kbd> per salvare rapidamente</span>
+                        <span id="notes-char-count">0 / 1200</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer: Save & Done Button -->
+            <div class="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-zinc-800 shrink-0">
+                <div class="flex flex-wrap items-center gap-3">
+                    <label class="inline-flex items-center gap-2 text-xs font-medium text-zinc-300 cursor-pointer select-none">
+                        <input id="notes-send-email-check" type="checkbox" checked class="w-4 h-4 rounded border-zinc-700 bg-zinc-950 text-sky-500 focus:ring-sky-500/20 cursor-pointer" />
+                        <span class="flex items-center gap-1.5 text-zinc-200">
+                            <svg class="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            Invia email di notifica al cliente
+                        </span>
+                    </label>
+                    <p id="notes-feedback" class="text-xs text-sky-400 font-medium"></p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button id="cancel-notes-btn" type="button" class="px-4 py-2.5 rounded-xl border border-zinc-800 bg-zinc-900 text-xs font-semibold text-zinc-300 hover:text-white transition cursor-pointer">
+                        Annulla
+                    </button>
+                    <button id="save-notes-btn" type="button" class="inline-flex items-center gap-2 rounded-xl bg-sky-500 px-6 py-2.5 text-xs font-bold text-white shadow-lg shadow-sky-500/25 hover:bg-sky-400 transition cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        Salva e invia chiarimenti
+                    </button>
+                </div>
+            </div>
+        </dialog>
+
+        <!-- Modale di Conferma Eliminazione con Doppia Conferma -->
+        <dialog id="delete-confirm-dialog" class="m-auto rounded-3xl border border-red-500/30 bg-zinc-950 p-6 sm:p-8 shadow-2xl backdrop:bg-black/85 w-[92vw] max-w-lg">
+            <div class="flex items-start gap-4">
+                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-500/10 border border-red-500/25 text-red-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs font-bold uppercase tracking-wider text-red-400">CONFERMA ELIMINAZIONE</p>
+                    <h3 id="delete-dialog-title" class="text-lg font-bold text-white mt-0.5">Sei sicuro di voler eliminare?</h3>
+                    <p id="delete-dialog-desc" class="text-xs text-zinc-400 mt-1 leading-relaxed"></p>
+                </div>
+            </div>
+
+            <div class="mt-5 rounded-2xl border border-zinc-800 bg-zinc-900/80 p-4 space-y-2">
+                <div class="flex items-center justify-between text-xs">
+                    <span class="text-zinc-400">Elemento selezionato:</span>
+                    <strong id="delete-dialog-target" class="text-white font-mono truncate max-w-[260px]"></strong>
+                </div>
+                <div id="delete-dialog-details" class="text-xs text-zinc-400 border-t border-zinc-800/80 pt-2 break-words"></div>
+            </div>
+
+            <!-- Box Doppia Conferma Obbligatoria -->
+            <div class="mt-5">
+                <label class="flex items-start gap-3 p-3.5 rounded-xl border border-red-500/30 bg-red-950/20 hover:bg-red-950/30 transition cursor-pointer select-none">
+                    <input id="delete-confirm-checkbox" type="checkbox" class="w-4 h-4 mt-0.5 rounded border-zinc-700 bg-zinc-900 text-red-500 focus:ring-red-500/20 cursor-pointer" />
+                    <span class="text-xs font-semibold text-red-200 leading-snug">
+                        Confermo l'eliminazione definitiva. Ho compreso che l'operazione è irreversibile e non potrà essere annullata.
+                    </span>
+                </label>
+            </div>
+
+            <p id="delete-dialog-feedback" class="mt-3 text-xs text-red-400 hidden"></p>
+
+            <div class="mt-6 flex items-center justify-end gap-3 pt-4 border-t border-zinc-800">
+                <button id="delete-cancel-btn" type="button" class="px-4 py-2.5 rounded-xl border border-zinc-800 bg-zinc-900 text-xs font-semibold text-zinc-300 hover:text-white transition cursor-pointer">
+                    Annulla
+                </button>
+                <button id="delete-execute-btn" type="button" disabled class="inline-flex items-center gap-2 rounded-xl bg-red-600/40 text-zinc-400 px-5 py-2.5 text-xs font-bold transition cursor-not-allowed">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    <span>Elimina definitivamente</span>
+                </button>
             </div>
         </dialog>
     </div>
@@ -160,6 +305,229 @@ import '../styles/global.css';
         const totalCount = document.getElementById('total-count');
         const photoDialog = document.getElementById('photo-dialog');
         const photoViewer = document.getElementById('photo-viewer');
+        const photoSubtitle = document.getElementById('photo-subtitle');
+        const photoTitle = document.getElementById('photo-title');
+        const photoLoading = document.getElementById('photo-loading');
+        const downloadPhotoBtn = document.getElementById('download-photo-btn');
+        let activePhotoData = null;
+
+        const scaricaAllegato = async (prevId, allegatoId, nomeOriginale) => {
+            try {
+                const risposta = await fetch(`/api/preventivi/${prevId}/allegati/${allegatoId}`);
+                if (!risposta.ok) throw new Error(`HTTP ${risposta.status}`);
+                const blob = await risposta.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = nomeOriginale || `preventivo-${prevId}-allegato-${allegatoId}.jpg`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+            } catch (err) {
+                console.error('Errore durante il download:', err);
+                alert('Impossibile scaricare la foto.');
+            }
+        };
+
+        const apriFotoGrande = async (prevId, allegatoId, nomeOriginale, nomeCliente) => {
+            activePhotoData = { prevId, allegatoId, nome: nomeOriginale };
+            if (photoSubtitle) photoSubtitle.textContent = `RICHIESTA #${prevId} · ${nomeCliente || 'CLIENTE'}`;
+            if (photoTitle) photoTitle.textContent = nomeOriginale || 'Foto allegata';
+            photoViewer.classList.add('hidden');
+            if (photoLoading) photoLoading.classList.remove('hidden');
+            photoDialog.showModal();
+
+            try {
+                const risposta = await fetch(`/api/preventivi/${prevId}/allegati/${allegatoId}`);
+                if (!risposta.ok) throw new Error(`HTTP ${risposta.status}`);
+                const blob = await risposta.blob();
+                if (photoViewer.src && photoViewer.src.startsWith('blob:')) {
+                    URL.revokeObjectURL(photoViewer.src);
+                }
+                photoViewer.src = URL.createObjectURL(blob);
+                photoViewer.classList.remove('hidden');
+            } catch (error) {
+                console.error('Errore durante il caricamento della foto:', error);
+                alert('Impossibile aprire la foto allegata.');
+                photoDialog.close();
+            } finally {
+                if (photoLoading) photoLoading.classList.add('hidden');
+            }
+        };
+
+        const notesDialog = document.getElementById('notes-dialog');
+        const notesKicker = document.getElementById('notes-kicker');
+        const notesContextService = document.getElementById('notes-context-service');
+        const notesContextDate = document.getElementById('notes-context-date');
+        const notesFullscreenInput = document.getElementById('notes-fullscreen-input');
+        const notesCharCount = document.getElementById('notes-char-count');
+        const notesFeedback = document.getElementById('notes-feedback');
+        const saveNotesBtn = document.getElementById('save-notes-btn');
+        const cancelNotesBtn = document.getElementById('cancel-notes-btn');
+        const closeNotesBtn = document.getElementById('close-notes-btn');
+
+        let activeNotesContext = null;
+
+        const aggiornaConteggioNote = () => {
+            const len = (notesFullscreenInput.value || '').length;
+            notesCharCount.textContent = `${len} / 1200`;
+            if (len >= 1150) {
+                notesCharCount.className = 'text-red-400 font-bold';
+            } else {
+                notesCharCount.className = 'text-zinc-500 font-mono';
+            }
+        };
+
+        notesFullscreenInput.addEventListener('input', aggiornaConteggioNote);
+
+        const notesSendEmailCheck = document.getElementById('notes-send-email-check');
+
+        const apriEditorNote = (prev, noteInput, statoSelect, salvaStatoBtn) => {
+            activeNotesContext = { prev, noteInput, statoSelect, salvaStatoBtn };
+            notesKicker.textContent = `RICHIESTA #${prev.id} · ${prev.nome ? prev.nome.toUpperCase() : 'CLIENTE'}`;
+            notesContextService.textContent = `Servizio: ${prev.servizio || 'Non specificato'}`;
+            notesContextDate.textContent = `Ricevuto: ${formattaData(prev.data_richiesta)}`;
+            notesFullscreenInput.value = noteInput.value || '';
+            notesFeedback.textContent = '';
+            if (notesSendEmailCheck) notesSendEmailCheck.checked = true;
+            aggiornaConteggioNote();
+            notesDialog.showModal();
+            setTimeout(() => {
+                notesFullscreenInput.focus();
+                notesFullscreenInput.selectionStart = notesFullscreenInput.selectionEnd = notesFullscreenInput.value.length;
+            }, 60);
+        };
+
+        const salvaNoteFullscreen = async () => {
+            if (!activeNotesContext) return;
+            const { prev, noteInput, statoSelect, salvaStatoBtn } = activeNotesContext;
+            const nuovoTesto = notesFullscreenInput.value.trim();
+            const sendEmail = notesSendEmailCheck ? notesSendEmailCheck.checked : true;
+
+            saveNotesBtn.disabled = true;
+            notesFeedback.textContent = 'Salvataggio in corso...';
+            try {
+                const risposta = await fetch(`/api/preventivi/${prev.id}/stato`, {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        stato: statoSelect.value,
+                        note_cliente: nuovoTesto,
+                        invia_email: sendEmail && !!nuovoTesto,
+                    }),
+                });
+                if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
+                const data = await risposta.json();
+                
+                noteInput.value = nuovoTesto;
+                prev.note_cliente = nuovoTesto;
+                prev.stato = statoSelect.value;
+                if (data.email_inviata) {
+                    salvaStatoBtn.textContent = 'Salvato & Email inviata!';
+                    salvaStatoBtn.className = 'rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white shadow-md shadow-emerald-500/20 transition cursor-pointer';
+                    notesFeedback.textContent = 'Chiarimenti salvati ed email inviata con successo al cliente!';
+                } else {
+                    salvaStatoBtn.textContent = 'Salvato';
+                    salvaStatoBtn.className = 'rounded-lg bg-sky-500 px-3 py-1.5 text-xs font-bold text-white shadow-md shadow-sky-500/20 hover:bg-sky-400 transition cursor-pointer';
+                    notesFeedback.textContent = 'Modifiche salvate con successo.';
+                }
+                setTimeout(() => {
+                    salvaStatoBtn.textContent = 'Salva aggiornamento';
+                    salvaStatoBtn.className = 'rounded-lg bg-sky-500 px-3 py-1.5 text-xs font-bold text-white shadow-md shadow-sky-500/20 hover:bg-sky-400 transition cursor-pointer';
+                }, 2500);
+
+                setTimeout(() => {
+                    notesDialog.close();
+                    activeNotesContext = null;
+                }, 900);
+            } catch (err) {
+                notesFeedback.textContent = `Errore durante il salvataggio: ${err.message}`;
+            } finally {
+                saveNotesBtn.disabled = false;
+            }
+        };
+
+        saveNotesBtn.addEventListener('click', salvaNoteFullscreen);
+        cancelNotesBtn.addEventListener('click', () => notesDialog.close());
+        closeNotesBtn.addEventListener('click', () => notesDialog.close());
+        notesDialog.addEventListener('click', (evento) => {
+            if (evento.target === notesDialog) notesDialog.close();
+        });
+        notesFullscreenInput.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                salvaNoteFullscreen();
+            }
+        });
+
+        // Gestione Modale Eliminazione con Doppia Conferma
+        const deleteDialog = document.getElementById('delete-confirm-dialog');
+        const deleteDialogTitle = document.getElementById('delete-dialog-title');
+        const deleteDialogDesc = document.getElementById('delete-dialog-desc');
+        const deleteDialogTarget = document.getElementById('delete-dialog-target');
+        const deleteDialogDetails = document.getElementById('delete-dialog-details');
+        const deleteConfirmCheckbox = document.getElementById('delete-confirm-checkbox');
+        const deleteExecuteBtn = document.getElementById('delete-execute-btn');
+        const deleteCancelBtn = document.getElementById('delete-cancel-btn');
+        const deleteDialogFeedback = document.getElementById('delete-dialog-feedback');
+
+        let pendingDeleteAction = null;
+
+        const apriConfermaEliminazione = ({ tipo, id, titolo, target, dettagli, onConfirm }) => {
+            pendingDeleteAction = onConfirm;
+            deleteDialogTitle.textContent = titolo || 'Conferma eliminazione';
+            deleteDialogDesc.textContent = tipo === 'preventivo' 
+                ? 'Questa operazione eliminerà definitivamente la richiesta di preventivo e tutti gli allegati e foto caricati.' 
+                : 'Questa operazione eliminerà definitivamente l\'account cliente. L\'utente non potrà più effettuare l\'accesso all\'Area Clienti.';
+            deleteDialogTarget.textContent = target || `#${id}`;
+            deleteDialogDetails.textContent = dettagli || '';
+            deleteConfirmCheckbox.checked = false;
+            deleteExecuteBtn.disabled = true;
+            deleteExecuteBtn.className = 'inline-flex items-center gap-2 rounded-xl bg-red-600/40 text-zinc-400 px-5 py-2.5 text-xs font-bold transition cursor-not-allowed';
+            deleteDialogFeedback.classList.add('hidden');
+            deleteDialogFeedback.textContent = '';
+            deleteDialog.showModal();
+        };
+
+        deleteConfirmCheckbox?.addEventListener('change', () => {
+            const isChecked = deleteConfirmCheckbox.checked;
+            deleteExecuteBtn.disabled = !isChecked;
+            if (isChecked) {
+                deleteExecuteBtn.className = 'inline-flex items-center gap-2 rounded-xl bg-red-600 hover:bg-red-500 text-white shadow-lg shadow-red-600/25 px-5 py-2.5 text-xs font-bold transition cursor-pointer';
+            } else {
+                deleteExecuteBtn.className = 'inline-flex items-center gap-2 rounded-xl bg-red-600/40 text-zinc-400 px-5 py-2.5 text-xs font-bold transition cursor-not-allowed';
+            }
+        });
+
+        deleteCancelBtn?.addEventListener('click', () => {
+            deleteDialog.close();
+            pendingDeleteAction = null;
+        });
+
+        deleteDialog?.addEventListener('click', (e) => {
+            if (e.target === deleteDialog) {
+                deleteDialog.close();
+                pendingDeleteAction = null;
+            }
+        });
+
+        deleteExecuteBtn?.addEventListener('click', async () => {
+            if (!pendingDeleteAction || !deleteConfirmCheckbox.checked) return;
+            deleteExecuteBtn.disabled = true;
+            deleteExecuteBtn.textContent = 'Eliminazione in corso...';
+            try {
+                await pendingDeleteAction();
+                deleteDialog.close();
+                pendingDeleteAction = null;
+            } catch (err) {
+                deleteDialogFeedback.textContent = `Errore durante l'eliminazione: ${err.message}`;
+                deleteDialogFeedback.classList.remove('hidden');
+            } finally {
+                deleteExecuteBtn.disabled = false;
+                deleteExecuteBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg><span>Elimina definitivamente</span>';
+            }
+        });
         const workForm = document.getElementById('work-form');
         const workFeedback = document.getElementById('work-feedback');
         const worksList = document.getElementById('works-list');
@@ -168,6 +536,77 @@ import '../styles/global.css';
         const clientSubmit = document.getElementById('client-submit');
         const clientFeedback = document.getElementById('client-feedback');
         const clientsList = document.getElementById('clients-list');
+        const clientPwdInput = document.getElementById('admin-client-password');
+        const btnGenPwd = document.getElementById('btn-generate-client-pwd');
+        const btnCopyPwd = document.getElementById('btn-copy-client-pwd');
+        const copyPwdLabel = document.getElementById('copy-pwd-label');
+        const btnTogglePwdVis = document.getElementById('btn-toggle-client-pwd-vis');
+
+        function generaPasswordRandom(lunghezza = 14) {
+            const maiuscole = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+            const minuscole = 'abcdefghijkmnopqrstuvwxyz';
+            const numeri = '23456789';
+            const simboli = '!@#$%*-_';
+            const tutti = maiuscole + minuscole + numeri + simboli;
+
+            const array = new Uint32Array(lunghezza);
+            crypto.getRandomValues(array);
+
+            const pwd = [
+                maiuscole[array[0] % maiuscole.length],
+                minuscole[array[1] % minuscole.length],
+                numeri[array[2] % numeri.length],
+                simboli[array[3] % simboli.length],
+            ];
+
+            for (let i = 4; i < lunghezza; i++) {
+                pwd.push(tutti[array[i] % tutti.length]);
+            }
+
+            for (let i = pwd.length - 1; i > 0; i--) {
+                const j = array[i] % (i + 1);
+                [pwd[i], pwd[j]] = [pwd[j], pwd[i]];
+            }
+
+            return pwd.join('');
+        }
+
+        const impostaNuovaPasswordRandom = () => {
+            if (clientPwdInput) {
+                clientPwdInput.value = generaPasswordRandom(14);
+            }
+        };
+
+        btnGenPwd?.addEventListener('click', () => {
+            impostaNuovaPasswordRandom();
+            clientPwdInput?.focus();
+        });
+
+        btnCopyPwd?.addEventListener('click', async () => {
+            if (!clientPwdInput?.value) return;
+            try {
+                await navigator.clipboard.writeText(clientPwdInput.value);
+                if (copyPwdLabel) copyPwdLabel.textContent = 'Copiata!';
+                setTimeout(() => {
+                    if (copyPwdLabel) copyPwdLabel.textContent = 'Copia';
+                }, 2000);
+            } catch (_) {
+                clientPwdInput.select();
+            }
+        });
+
+        btnTogglePwdVis?.addEventListener('click', () => {
+            if (!clientPwdInput) return;
+            const isPassword = clientPwdInput.type === 'password';
+            clientPwdInput.type = isPassword ? 'text' : 'password';
+            btnTogglePwdVis.innerHTML = isPassword
+                ? '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>'
+                : '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" /></svg>';
+            btnTogglePwdVis.setAttribute('title', isPassword ? 'Mostra password' : 'Nascondi password');
+        });
+
+        // Inizializza subito con una password randomica all'avvio
+        impostaNuovaPasswordRandom();
         const sessionKey = 'poliurea-admin-logged';
         let isLogged = sessionStorage.getItem(sessionKey) === '1';
 
@@ -187,6 +626,15 @@ import '../styles/global.css';
                 day: '2-digit', month: '2-digit', year: 'numeric', 
                 hour: '2-digit', minute: '2-digit' 
             });
+        };
+
+        const formattaDataHtml = (dataIso) => {
+            if (!dataIso) return '<span class="text-zinc-500">-</span>';
+            const data = new Date(dataIso);
+            if (Number.isNaN(data.getTime())) return '<span class="text-zinc-500">-</span>';
+            const dataStr = data.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: '2-digit' });
+            const oraStr = data.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+            return `<span class="block font-semibold text-zinc-200 text-xs">${dataStr}</span><span class="text-zinc-400 text-[11px] font-mono">${oraStr}</span>`;
         };
 
         const creaCella = (contenuto, className = '') => {
@@ -368,10 +816,66 @@ import '../styles/global.css';
                     email.className = 'text-xs text-zinc-400 font-mono';
                     email.textContent = cliente.email;
                     informazioni.append(nome, email);
+                    const azioni = document.createElement('div');
+                    azioni.className = 'flex items-center gap-3';
+
                     const richieste = document.createElement('span');
                     richieste.className = 'rounded-lg border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono font-bold text-sky-400';
                     richieste.textContent = `${cliente.preventivi} ${cliente.preventivi === 1 ? 'preventivo' : 'preventivi'}`;
-                    scheda.append(informazioni, richieste);
+
+                    const btnReset = document.createElement('button');
+                    btnReset.type = 'button';
+                    btnReset.className = 'rounded-lg border border-zinc-700 bg-zinc-800 hover:border-amber-500/50 hover:bg-amber-500/10 hover:text-amber-400 text-zinc-300 text-xs px-3 py-1.5 font-semibold transition cursor-pointer flex items-center gap-1.5';
+                    btnReset.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg><span>Reimposta password</span>';
+                    btnReset.addEventListener('click', async () => {
+                        const passRandom = generaPasswordRandom(14);
+                        const nuovaPass = prompt(`Inserisci la nuova password per ${cliente.email} (minimo 12 caratteri, pre-compilata casuale):`, passRandom);
+                        if (!nuovaPass) return;
+                        if (nuovaPass.length < 12) {
+                            alert('La password deve contenere almeno 12 caratteri.');
+                            return;
+                        }
+                        try {
+                            btnReset.disabled = true;
+                            btnReset.textContent = 'Aggiornamento...';
+                            const res = await fetch(`/api/clienti/${cliente.id}/password`, {
+                                method: 'PATCH',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ password: nuovaPass }),
+                            });
+                            if (!res.ok) throw new Error((await res.json()).detail || `HTTP ${res.status}`);
+                            alert(`Password aggiornata per ${cliente.email}! Comunicala al cliente.`);
+                        } catch (e) {
+                            alert(`Errore: ${e.message}`);
+                        } finally {
+                            btnReset.disabled = false;
+                            btnReset.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg><span>Reimposta password</span>';
+                        }
+                    });
+
+                    const btnEliminaCliente = document.createElement('button');
+                    btnEliminaCliente.type = 'button';
+                    btnEliminaCliente.className = 'rounded-lg border border-red-500/20 bg-red-500/10 hover:border-red-500/40 hover:bg-red-500/20 text-red-400 text-xs px-3 py-1.5 font-semibold transition cursor-pointer flex items-center gap-1.5 shadow-sm';
+                    btnEliminaCliente.title = `Elimina account ${cliente.email}`;
+                    btnEliminaCliente.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg><span>Elimina</span>';
+                    btnEliminaCliente.addEventListener('click', () => {
+                        apriConfermaEliminazione({
+                            tipo: 'cliente',
+                            id: cliente.id,
+                            titolo: 'Elimina Account Cliente',
+                            target: cliente.email,
+                            dettagli: `Cliente: ${cliente.nome} · Richieste preventivo collegate: ${cliente.preventivi}`,
+                            onConfirm: async () => {
+                                const res = await fetch(`/api/clienti/${cliente.id}`, { method: 'DELETE' });
+                                if (!res.ok) throw new Error((await res.json()).detail || `HTTP ${res.status}`);
+                                mostraFeedbackClienti(`Account ${cliente.email} eliminato.`);
+                                await caricaClienti();
+                            }
+                        });
+                    });
+
+                    azioni.append(richieste, btnReset, btnEliminaCliente);
+                    scheda.append(informazioni, azioni);
                     clientsList.appendChild(scheda);
                 });
             } catch (errore) {
@@ -399,7 +903,8 @@ import '../styles/global.css';
                 if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
                 const cliente = await risposta.json();
                 clientForm.reset();
-                mostraFeedbackClienti(`Account creato per ${cliente.email}.`);
+                impostaNuovaPasswordRandom();
+                mostraFeedbackClienti(`Account creato per ${cliente.email}. Credenziali inviate via email.`);
                 await caricaClienti();
             } catch (errore) {
                 mostraFeedbackClienti(`Impossibile creare l’account: ${errore.message}`, true);
@@ -489,73 +994,129 @@ import '../styles/global.css';
                 if (data.dati.length === 0) {
                     const tr = document.createElement('tr');
                     const cella = creaCella('Nessun preventivo ricevuto.', 'p-6 text-center text-zinc-400');
-                    cella.colSpan = 9;
+                    cella.colSpan = 10;
                     tr.appendChild(cella);
                     tableBody.appendChild(tr);
                 } else {
                     data.dati.forEach(prev => {
                         const tr = document.createElement('tr');
-                        tr.className = 'border-b border-zinc-800/80 hover:bg-zinc-800/30 transition-colors';
-                        tr.appendChild(creaCella(`#${prev.id}`, 'p-4 font-mono font-bold text-sky-400'));
-                        tr.appendChild(creaCella(formattaData(prev.data_richiesta), 'p-4 whitespace-nowrap text-xs text-zinc-400'));
-                        tr.appendChild(creaCella(prev.nome, 'p-4 font-semibold text-white'));
+                        tr.className = 'group hover:bg-zinc-800/25 transition-colors';
+                        
+                        // 1. ID
+                        tr.appendChild(creaCella(`#${prev.id}`, 'p-3 w-12 min-w-[48px] font-mono font-bold text-sky-400 text-center align-top text-xs border-b border-zinc-800/80'));
+                        
+                        // 2. Data
+                        const dataCell = document.createElement('td');
+                        dataCell.className = 'p-3 w-20 min-w-[80px] text-xs align-top whitespace-nowrap border-b border-zinc-800/80';
+                        dataCell.innerHTML = formattaDataHtml(prev.data_richiesta);
+                        tr.appendChild(dataCell);
+                        
+                        // 3. Nome
+                        tr.appendChild(creaCella(prev.nome, 'p-3 w-28 min-w-[100px] font-semibold text-white align-top break-words leading-snug text-xs border-b border-zinc-800/80'));
 
+                        // 4. Contatti
                         const contatti = document.createElement('td');
-                        contatti.className = 'p-4';
+                        contatti.className = 'p-3 w-40 min-w-[140px] align-top text-xs border-b border-zinc-800/80';
+                        const contattiWrap = document.createElement('div');
+                        contattiWrap.className = 'flex flex-col gap-1';
                         if (prev.email) {
                             const email = document.createElement('a');
                             email.href = `mailto:${prev.email}`;
-                            email.className = 'block text-sky-400 hover:text-sky-300 text-xs font-medium';
+                            email.className = 'block text-sky-400 hover:text-sky-300 text-xs font-medium truncate max-w-[135px] leading-tight';
                             email.textContent = prev.email;
-                            contatti.appendChild(email);
+                            email.title = prev.email;
+                            contattiWrap.appendChild(email);
                         }
                         const telefono = document.createElement('a');
                         const telPulito = (prev.telefono || '').replace(/[^\d+]/g, '');
                         telefono.href = telPulito ? `tel:${telPulito}` : '#';
-                        telefono.className = 'text-zinc-300 hover:text-sky-400 text-xs font-medium';
+                        telefono.className = 'inline-block text-zinc-300 hover:text-sky-400 text-xs font-medium whitespace-nowrap';
                         telefono.textContent = prev.telefono ?? '-';
-                        contatti.appendChild(telefono);
+                        contattiWrap.appendChild(telefono);
+                        contatti.appendChild(contattiWrap);
                         tr.appendChild(contatti);
 
+                        // 5. Servizio
                         const servizio = document.createElement('td');
-                        servizio.className = 'p-4';
+                        servizio.className = 'p-3 w-32 min-w-[110px] align-top border-b border-zinc-800/80';
                         const badge = document.createElement('span');
-                        badge.className = 'inline-block rounded-md border border-sky-500/25 bg-sky-500/10 px-2.5 py-1 text-xs font-bold text-sky-400';
+                        badge.className = 'inline-block rounded-lg border border-sky-500/25 bg-sky-500/10 px-2 py-1 text-[11px] font-bold text-sky-400 leading-tight';
                         badge.textContent = prev.servizio ?? '-';
                         servizio.appendChild(badge);
                         tr.appendChild(servizio);
 
-                        const messaggio = creaCella(prev.messaggio || '-', 'max-w-xs whitespace-pre-wrap p-4 text-xs text-zinc-300');
-                        messaggio.title = prev.messaggio || '';
+                        // 6. Messaggio / Dettagli richiesta
+                        const messaggio = document.createElement('td');
+                        messaggio.className = 'p-3 min-w-[160px] max-w-[200px] align-top border-b border-zinc-800/80';
+                        const msgBox = document.createElement('div');
+                        msgBox.className = 'rounded-xl border border-zinc-800/80 bg-zinc-950/60 p-2 text-xs text-zinc-300 whitespace-pre-wrap leading-relaxed shadow-inner max-h-24 overflow-y-auto';
+                        msgBox.textContent = prev.messaggio || 'Nessuna specifica o nota aggiuntiva.';
+                        msgBox.title = prev.messaggio || '';
+                        messaggio.appendChild(msgBox);
                         tr.appendChild(messaggio);
 
+                        // 7. Foto
                         const foto = document.createElement('td');
-                        foto.className = 'p-4';
-                        for (const allegato of prev.allegati || []) {
-                            const apriFoto = document.createElement('button');
-                            apriFoto.type = 'button';
-                            apriFoto.className = 'block text-sky-400 hover:text-sky-300 text-xs font-medium underline';
-                            apriFoto.textContent = allegato.nome;
-                            apriFoto.addEventListener('click', async () => {
-                                try {
-                                    const risposta = await fetch(`/api/preventivi/${prev.id}/allegati/${allegato.id}`);
-                                    if (!risposta.ok) throw new Error(`HTTP ${risposta.status}`);
-                                    photoViewer.src = URL.createObjectURL(await risposta.blob());
-                                    photoDialog.showModal();
-                                } catch (error) {
-                                    console.error('Errore durante il caricamento della foto:', error);
-                                    alert('Impossibile aprire la foto allegata.');
-                                }
+                        foto.className = 'p-3 w-20 min-w-[80px] align-top border-b border-zinc-800/80';
+                        const allegati = Array.isArray(prev.allegati) ? prev.allegati : [];
+                        if (allegati.length === 0) {
+                            foto.className = 'p-3 w-20 min-w-[80px] align-top text-xs text-zinc-500 italic border-b border-zinc-800/80';
+                            foto.textContent = 'Nessuna foto';
+                        } else {
+                            const container = document.createElement('div');
+                            container.className = 'flex flex-wrap items-center gap-1.5';
+
+                            allegati.forEach((allegato) => {
+                                const card = document.createElement('div');
+                                card.className = 'group/thumb relative inline-block';
+
+                                // Pulsante Miniatura (36x36 compatta)
+                                const btnThumb = document.createElement('button');
+                                btnThumb.type = 'button';
+                                btnThumb.className = 'block w-9 h-9 rounded-lg overflow-hidden border border-zinc-700 hover:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400 bg-zinc-950 transition-all shadow-md cursor-pointer relative';
+                                btnThumb.title = `Clicca per ingrandire: ${allegato.nome}`;
+                                btnThumb.setAttribute('aria-label', `Ingrandisci foto ${allegato.nome}`);
+
+                                const img = document.createElement('img');
+                                img.src = `/api/preventivi/${prev.id}/allegati/${allegato.id}`;
+                                img.alt = allegato.nome;
+                                img.className = 'w-full h-full object-cover group-hover/thumb:scale-110 transition duration-200';
+                                img.loading = 'lazy';
+
+                                // Indicatore lente di ingrandimento on hover
+                                const zoomBadge = document.createElement('span');
+                                zoomBadge.className = 'absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 flex items-center justify-center text-white text-xs transition duration-150';
+                                zoomBadge.innerHTML = '<svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path></svg>';
+
+                                btnThumb.append(img, zoomBadge);
+                                btnThumb.addEventListener('click', () => {
+                                    apriFotoGrande(prev.id, allegato.id, allegato.nome, prev.nome);
+                                });
+
+                                // Pulsante Scarica rapido (angolo in basso a destra)
+                                const btnDownload = document.createElement('button');
+                                btnDownload.type = 'button';
+                                btnDownload.className = 'absolute -bottom-1 -right-1 bg-zinc-900 border border-zinc-700 hover:border-sky-400 hover:bg-sky-500 hover:text-white text-zinc-300 w-3.5 h-3.5 rounded flex items-center justify-center text-[8px] transition shadow cursor-pointer';
+                                btnDownload.title = `Scarica ${allegato.nome}`;
+                                btnDownload.setAttribute('aria-label', `Scarica foto ${allegato.nome}`);
+                                btnDownload.innerHTML = '<svg class="w-2 h-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>';
+                                btnDownload.addEventListener('click', (e) => {
+                                    e.stopPropagation();
+                                    scaricaAllegato(prev.id, allegato.id, allegato.nome);
+                                });
+
+                                card.append(btnThumb, btnDownload);
+                                container.appendChild(card);
                             });
-                            foto.appendChild(apriFoto);
+                            foto.appendChild(container);
                         }
-                        if (!foto.childElementCount) foto.textContent = '-';
                         tr.appendChild(foto);
 
+                        // 8. Stato
                         const statoCella = document.createElement('td');
-                        statoCella.className = 'p-4';
+                        statoCella.className = 'p-3 w-28 min-w-[115px] align-top border-b border-zinc-800/80';
                         const statoSelect = document.createElement('select');
-                        statoSelect.className = 'min-w-44 rounded-xl border border-zinc-700 bg-zinc-950 p-2.5 text-xs text-white outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20';
+                        statoSelect.className = 'w-full rounded-xl border border-zinc-700 bg-zinc-950 p-2 text-xs text-white outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 cursor-pointer transition';
                         statoSelect.setAttribute('aria-label', `Stato richiesta ${prev.id}`);
                         const stati = [
                             ['ricevuto', 'Ricevuto'],
@@ -572,34 +1133,136 @@ import '../styles/global.css';
                             statoSelect.appendChild(opzione);
                         });
                         statoSelect.value = prev.stato || 'ricevuto';
-                        statoCella.appendChild(statoSelect);
+
+                        const statoFeedback = document.createElement('div');
+                        statoFeedback.className = 'text-[10px] text-zinc-500 mt-1.5 transition-all duration-200 hidden font-semibold flex items-center gap-1';
+
+                        statoCella.append(statoSelect, statoFeedback);
                         tr.appendChild(statoCella);
 
+                        // 9. Cosa serve al cliente
                         const noteCella = document.createElement('td');
-                        noteCella.className = 'min-w-72 p-4';
+                        noteCella.className = 'p-3 min-w-[160px] max-w-[200px] align-top border-b border-zinc-800/80';
+
+                        const noteBoxWrap = document.createElement('div');
+                        noteBoxWrap.className = 'relative group/note mb-2';
+
                         const noteInput = document.createElement('textarea');
-                        noteInput.className = 'mb-2 min-h-20 w-full rounded-xl border border-zinc-700 bg-zinc-950 p-2.5 text-xs text-white placeholder-zinc-500 outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20';
+                        noteInput.className = 'min-h-14 w-full rounded-xl border border-zinc-700 bg-zinc-950 p-2 pr-7 text-xs text-white placeholder-zinc-500 outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 resize-y cursor-pointer transition hover:border-sky-500/60 leading-snug';
                         noteInput.maxLength = 1200;
-                        noteInput.placeholder = 'Cosa serve al cliente?';
+                        noteInput.placeholder = 'Clicca per scrivere a schermo intero...';
                         noteInput.setAttribute('aria-label', `Cosa serve al cliente per la richiesta ${prev.id}`);
+                        noteInput.title = 'Clicca per scrivere a schermo intero';
                         noteInput.value = prev.note_cliente || '';
-                        const salvaStato = document.createElement('button');
-                        salvaStato.type = 'button';
-                        salvaStato.className = 'rounded-lg bg-sky-500 px-3 py-1.5 text-xs font-bold text-white shadow-md shadow-sky-500/20 hover:bg-sky-400 transition';
-                        salvaStato.textContent = 'Salva aggiornamento';
-                        salvaStato.addEventListener('click', async () => {
-                            salvaStato.disabled = true;
+
+                        // Auto-salvataggio immediato al cambio del dropdown Stato
+                        let statoFeedbackTimer = null;
+                        statoSelect.addEventListener('change', async () => {
+                            const nuovoStato = statoSelect.value;
+                            const vecchioStato = prev.stato || 'ricevuto';
+                            if (nuovoStato === vecchioStato) return;
+
+                            clearTimeout(statoFeedbackTimer);
+                            statoSelect.disabled = true;
+                            statoSelect.classList.remove('border-emerald-500', 'border-red-500', 'border-zinc-700');
+                            statoSelect.classList.add('border-amber-400');
+
+                            statoFeedback.className = 'text-[10px] text-amber-400 mt-1.5 transition-all duration-200 flex items-center gap-1 font-semibold';
+                            statoFeedback.innerHTML = '<span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span><span>Salvataggio...</span>';
+
                             try {
                                 const risposta = await fetch(`/api/preventivi/${prev.id}/stato`, {
                                     method: 'PATCH',
                                     headers: {
                                         'Content-Type': 'application/json',
                                     },
-                                    body: JSON.stringify({ stato: statoSelect.value, note_cliente: noteInput.value }),
+                                    body: JSON.stringify({
+                                        stato: nuovoStato,
+                                        note_cliente: noteInput.value,
+                                        invia_email: false,
+                                    }),
+                                });
+                                if (!risposta.ok) {
+                                    const errData = await risposta.json().catch(() => ({}));
+                                    throw new Error(errData.detail || `HTTP ${risposta.status}`);
+                                }
+                                prev.stato = nuovoStato;
+                                statoSelect.classList.remove('border-amber-400', 'border-zinc-700');
+                                statoSelect.classList.add('border-emerald-500');
+                                statoFeedback.className = 'text-[10px] text-emerald-400 mt-1.5 transition-all duration-200 flex items-center gap-1 font-semibold';
+                                statoFeedback.innerHTML = '<span>✓</span><span>Stato salvato!</span>';
+
+                                statoFeedbackTimer = setTimeout(() => {
+                                    statoSelect.classList.remove('border-emerald-500');
+                                    statoSelect.classList.add('border-zinc-700');
+                                    statoFeedback.className = 'text-[10px] text-zinc-500 mt-1.5 transition-all duration-200 hidden font-semibold flex items-center gap-1';
+                                    statoFeedback.innerHTML = '';
+                                }, 2500);
+                            } catch (errore) {
+                                statoSelect.value = vecchioStato;
+                                statoSelect.classList.remove('border-amber-400');
+                                statoSelect.classList.add('border-red-500');
+                                statoFeedback.className = 'text-[10px] text-red-400 mt-1.5 transition-all duration-200 flex items-center gap-1 font-semibold';
+                                statoFeedback.textContent = `Errore: ${errore.message}`;
+                            } finally {
+                                statoSelect.disabled = false;
+                            }
+                        });
+
+                        // Icona espansione a tutto schermo nell'angolo della textarea
+                        const expandIconBtn = document.createElement('button');
+                        expandIconBtn.type = 'button';
+                        expandIconBtn.className = 'absolute top-1.5 right-1.5 p-1 text-zinc-400 hover:text-sky-400 hover:bg-zinc-800 rounded-md transition cursor-pointer';
+                        expandIconBtn.title = 'Scrivi a schermo intero';
+                        expandIconBtn.setAttribute('aria-label', 'Espandi a tutto schermo');
+                        expandIconBtn.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>';
+
+                        // Al click sulla textarea o sul pulsantino, apri l'editor fullscreen
+                        noteInput.addEventListener('click', () => {
+                            apriEditorNote(prev, noteInput, statoSelect, salvaStato);
+                        });
+                        expandIconBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            apriEditorNote(prev, noteInput, statoSelect, salvaStato);
+                        });
+
+                        noteBoxWrap.append(noteInput, expandIconBtn);
+
+                        const salvaStato = document.createElement('button');
+                        salvaStato.type = 'button';
+                        salvaStato.className = 'w-full rounded-lg bg-sky-500 px-2.5 py-1.5 text-xs font-bold text-white shadow-md shadow-sky-500/20 hover:bg-sky-400 transition cursor-pointer text-center';
+                        salvaStato.textContent = 'Salva aggiornamento';
+                        salvaStato.addEventListener('click', async () => {
+                            salvaStato.disabled = true;
+                            const nuovoTesto = noteInput.value.trim();
+                            const noteModificate = nuovoTesto !== (prev.note_cliente || '').trim();
+                            try {
+                                const risposta = await fetch(`/api/preventivi/${prev.id}/stato`, {
+                                    method: 'PATCH',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({
+                                        stato: statoSelect.value,
+                                        note_cliente: noteInput.value,
+                                        invia_email: noteModificate && !!nuovoTesto,
+                                    }),
                                 });
                                 if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
-                                salvaStato.textContent = 'Salvato';
-                                setTimeout(() => { salvaStato.textContent = 'Salva aggiornamento'; }, 1800);
+                                const data = await risposta.json();
+                                prev.note_cliente = noteInput.value;
+                                prev.stato = statoSelect.value;
+                                if (data.email_inviata) {
+                                    salvaStato.textContent = 'Salvato & Email inviata!';
+                                    salvaStato.className = 'w-full rounded-lg bg-emerald-600 px-2.5 py-1.5 text-xs font-bold text-white shadow-md shadow-emerald-500/20 transition cursor-pointer text-center';
+                                } else {
+                                    salvaStato.textContent = 'Salvato';
+                                    salvaStato.className = 'w-full rounded-lg bg-sky-500 px-2.5 py-1.5 text-xs font-bold text-white shadow-md shadow-sky-500/20 hover:bg-sky-400 transition cursor-pointer text-center';
+                                }
+                                setTimeout(() => {
+                                    salvaStato.textContent = 'Salva aggiornamento';
+                                    salvaStato.className = 'w-full rounded-lg bg-sky-500 px-2.5 py-1.5 text-xs font-bold text-white shadow-md shadow-sky-500/20 hover:bg-sky-400 transition cursor-pointer text-center';
+                                }, 2500);
                             } catch (errore) {
                                 salvaStato.textContent = 'Errore';
                                 dashboardError.textContent = `Aggiornamento non salvato: ${errore.message}`;
@@ -608,8 +1271,38 @@ import '../styles/global.css';
                                 salvaStato.disabled = false;
                             }
                         });
-                        noteCella.append(noteInput, salvaStato);
+                        noteCella.append(noteBoxWrap, salvaStato);
                         tr.appendChild(noteCella);
+
+                        // 10. Azioni (Elimina pulito, centrato e spazioso senza sovrapposizioni)
+                        const azioniCella = document.createElement('td');
+                        azioniCella.className = 'p-3 w-20 min-w-[76px] text-center align-top border-b border-zinc-800/80';
+
+                        const btnEliminaPrev = document.createElement('button');
+                        btnEliminaPrev.type = 'button';
+                        btnEliminaPrev.className = 'inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg border border-red-500/25 bg-red-500/10 hover:bg-red-500/25 hover:border-red-500/50 text-red-400 text-xs font-semibold transition cursor-pointer shadow-sm';
+                        btnEliminaPrev.title = `Elimina richiesta #${prev.id}`;
+                        btnEliminaPrev.setAttribute('aria-label', `Elimina richiesta #${prev.id}`);
+                        btnEliminaPrev.innerHTML = '<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg><span>Elimina</span>';
+
+                        btnEliminaPrev.addEventListener('click', () => {
+                            const fotoCount = Array.isArray(prev.allegati) ? prev.allegati.length : 0;
+                            apriConfermaEliminazione({
+                                tipo: 'preventivo',
+                                id: prev.id,
+                                titolo: `Elimina Richiesta #${prev.id}`,
+                                target: `#${prev.id} · ${prev.nome}`,
+                                dettagli: `Email: ${prev.email} · Servizio: ${prev.servizio || '-'}${fotoCount ? ` · ${fotoCount} file/foto correlati` : ''}`,
+                                onConfirm: async () => {
+                                    const res = await fetch(`/api/preventivi/${prev.id}`, { method: 'DELETE' });
+                                    if (!res.ok) throw new Error((await res.json()).detail || `HTTP ${res.status}`);
+                                    await caricaPreventivi();
+                                }
+                            });
+                        });
+
+                        azioniCella.appendChild(btnEliminaPrev);
+                        tr.appendChild(azioniCella);
                         tableBody.appendChild(tr);
                     });
                 }
@@ -637,12 +1330,20 @@ import '../styles/global.css';
         });
 
         document.getElementById('close-photo-btn').addEventListener('click', () => photoDialog.close());
+        downloadPhotoBtn.addEventListener('click', () => {
+            if (activePhotoData) {
+                scaricaAllegato(activePhotoData.prevId, activePhotoData.allegatoId, activePhotoData.nome);
+            }
+        });
         photoDialog.addEventListener('click', (evento) => {
             if (evento.target === photoDialog) photoDialog.close();
         });
         photoDialog.addEventListener('close', () => {
-            URL.revokeObjectURL(photoViewer.src);
+            if (photoViewer.src && photoViewer.src.startsWith('blob:')) {
+                URL.revokeObjectURL(photoViewer.src);
+            }
             photoViewer.removeAttribute('src');
+            activePhotoData = null;
         });
 
         if (isLogged) caricaPreventivi();

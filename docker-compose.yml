@@ -16,6 +16,7 @@ services:
     volumes:
       - ./backend:/app
       - backend_venv:/app/.venv
+    command: sh /app/entrypoint.sh
     # Esposta internamente a Nginx da Pywrangler sulla porta 8000
 
   proxy:
