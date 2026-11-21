@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /area-clienti
+Disallow: /accesso-preventivi
+
+Sitemap: https://poliureasystem.it/sitemap-index.xml
