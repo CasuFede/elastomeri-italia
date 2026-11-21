@@ -16,6 +16,28 @@ const links = [
     { href: '/imprese', label: 'Per imprese' },
     { href: '/contatti', label: 'Contatti' },
 ];
+const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+        {
+            '@type': 'WebSite',
+            '@id': 'https://poliureasystem.it/#website',
+            name: 'Poliurea System',
+            url: 'https://poliureasystem.it/',
+            inLanguage: 'it-IT',
+            publisher: {
+                '@id': 'https://poliureasystem.it/#organization',
+            },
+        },
+        {
+            '@type': 'Organization',
+            '@id': 'https://poliureasystem.it/#organization',
+            name: 'Poliurea System',
+            url: 'https://poliureasystem.it/',
+            logo: 'https://poliureasystem.it/logo-poliurea-system.png',
+        },
+    ],
+};
 ---
 
 <!doctype html>
@@ -25,8 +47,13 @@ const links = [
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
         <meta name="description" content={description} />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <meta property="og:site_name" content="Poliurea System" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+        <link rel="apple-touch-icon" href="/favicon-192x192.png" />
         <title>{title}</title>
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     </head>
     <body class="site-body bg-black text-zinc-200 antialiased selection:bg-sky-500 selection:text-white">
         <header class="site-header sticky top-0 z-40 border-b border-zinc-800 bg-black/85 backdrop-blur-xl">
