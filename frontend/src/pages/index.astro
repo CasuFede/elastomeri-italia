@@ -9,19 +9,33 @@ import CallToAction from '../components/CallToAction.astro';
 >
     <!-- HERO SECTION -->
     <section class="home-hero relative overflow-hidden">
-        <!-- Immagine di sfondo a tutto schermo -->
+        <!-- Video di sfondo a tutto schermo -->
+        <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            poster="/images/hero-capannone-poliurea-bianca.webp"
+            aria-hidden="true"
+            class="absolute inset-0 w-full h-full object-cover object-[78%_20%] sm:object-[68%_20%] lg:object-[center_20%] z-0 motion-reduce:hidden"
+        >
+            <source src="/videos/hero-poliurea.mp4" type="video/mp4" />
+        </video>
+        <!-- Fallback statico per preferenza riduzione animazioni -->
         <img
-            src="/images/cantiere-poliurea-hero.webp"
-            alt="Cantiere applicazione poliurea a spruzzo"
+            src="/images/hero-capannone-poliurea-bianca.webp"
+            alt="Tecnico Poliurea System in tuta bianca mentre spruzza poliurea bianca sulla copertura di un capannone industriale"
             width="1376"
             height="768"
             loading="eager"
             decoding="async"
-            class="absolute inset-0 w-full h-full object-cover object-[75%_center] sm:object-center z-0"
+            class="hidden motion-reduce:block absolute inset-0 w-full h-full object-cover object-[78%_20%] sm:object-[68%_20%] lg:object-[center_20%] z-0"
         />
 
-        <!-- Overlay con gradiente: scuro a tutto campo su mobile, sfumato su desktop -->
-        <div class="absolute inset-0 bg-gradient-to-b sm:bg-gradient-to-r from-zinc-950 via-zinc-950/85 to-zinc-950/40 sm:to-transparent z-0 pointer-events-none"></div>
+        <!-- Overlay con gradiente: scuro sul testo a sinistra, sfumato sul tecnico e sul getto a destra -->
+        <div class="absolute inset-0 bg-gradient-to-b sm:bg-gradient-to-r from-zinc-950/95 via-zinc-950/85 to-zinc-950/55 sm:from-zinc-950/95 sm:via-zinc-950/75 sm:to-zinc-950/15 z-0 pointer-events-none"></div>
+        <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-950/95 to-transparent z-0 pointer-events-none"></div>
 
         <!-- Blocco testi e bottoni posizionato sopra lo sfondo fotografico -->
         <div class="wrap relative z-10 py-12 sm:py-20 lg:py-28">

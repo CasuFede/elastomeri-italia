@@ -491,7 +491,7 @@ p:not(.eyebrow) {
 .hero-description {
     max-width: 480px;
     margin: 20px 0 0;
-    color: var(--text-muted);
+    color: #e4e4e7;
     font-size: 15px;
     line-height: 1.7;
 }
@@ -508,7 +508,7 @@ p:not(.eyebrow) {
     align-items: center;
     gap: 9px;
     margin-top: 22px;
-    color: var(--text-faint);
+    color: #e4e4e7;
     font-size: 12px;
 }
 
@@ -531,7 +531,7 @@ p:not(.eyebrow) {
     align-items: center;
     gap: 16px;
     border-top: 1px solid var(--border-subtle);
-    color: var(--text-faint);
+    color: #a1a1aa;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: .12em;
