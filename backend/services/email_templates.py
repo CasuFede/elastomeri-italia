@@ -142,8 +142,9 @@ def build_conferma_preventivo_email(
                 <p style="margin: 0 0 6px; font-size: 13px; color: #d4d4d8;">
                   Hai un'infiltrazione attiva urgente o vuoi aggiungere dettagli?
                 </p>
-                <p style="margin: 0; font-size: 14px; font-weight: 700; color: #38bdf8;">
-                  Rispondi a questa email o chiamaci al <a href="tel:+393282343190" style="color: #38bdf8; text-decoration: none;">+39 328 234 3190</a>
+                <p style="margin: 0; font-size: 14px; font-weight: 700; color: #38bdf8; line-height: 1.6;">
+                  Rispondi a questa email o chiamaci:<br />
+                  Luigi <a href="tel:+393441366523" style="color: #38bdf8; text-decoration: none;">+39 344 136 6523</a> · Alessandro <a href="tel:+393484052908" style="color: #38bdf8; text-decoration: none;">+39 348 405 2908</a>
                 </p>
               </div>
 
@@ -184,7 +185,7 @@ I PROSSIMI PASSI:
 2. Sopralluogo e visita di persona: fisseremo una visita di persona in cantiere per le misurazioni e la valutazione tecnica del supporto.
 3. Invio preventivo e credenziali Area Clienti: se tutto va bene a seguito del sopralluogo, ti invieremo il preventivo dettagliato e le credenziali di accesso alla tua Area Clienti via email.
 
-Per qualsiasi necessità puoi scriverci a info@poliureasystem.it.
+Per qualsiasi necessità puoi scriverci a info@poliureasystem.it o chiamarci: Luigi +39 344 136 6523 · Alessandro +39 348 405 2908.
 
 Poliurea System
 info@poliureasystem.it - www.poliureasystem.it"""
@@ -378,8 +379,9 @@ def build_recupero_password_email(
           <!-- Footer -->
           <tr>
             <td style="padding: 20px 36px; border-top: 1px solid #27272a; text-align: center; background-color: #121214;">
-              <p style="margin: 0; font-size: 12px; color: #71717a;">
-                © {current_year} Poliurea System · Genova / Liguria e Regioni Limitrofe · Tel. +39 328 234 3190
+              <p style="margin: 0; font-size: 12px; color: #71717a; line-height: 1.6;">
+                © {current_year} Poliurea System · Genova / Liguria e Regioni Limitrofe<br />
+                Tel. Luigi +39 344 136 6523 · Alessandro +39 348 405 2908
               </p>
             </td>
           </tr>
@@ -404,7 +406,7 @@ Al tuo prossimo accesso con questa password provvisoria, ti verrà richiesto obb
 
 Accedi qui: https://www.poliureasystem.it/area-clienti
 
-Poliurea System - info@poliureasystem.it - Tel. +39 328 234 3190
+Poliurea System - info@poliureasystem.it - Luigi +39 344 136 6523 · Alessandro +39 348 405 2908
 """
 
     return subject, html_content, text_content
