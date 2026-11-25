@@ -237,12 +237,12 @@ async def invia_email_credenziali_cliente(
 async def invia_email_recupero_password_cliente(
     nome: str,
     email: str,
-    password_temporanea: str,
+    reset_url: str,
     environment: Any,
 ) -> None:
-    """Invia email con nuova password temporanea a seguito di richiesta 'password dimenticata'."""
+    """Invia email con link monouso (30 min) per il recupero password dimenticata."""
     subject, html_content, text_content = build_recupero_password_email(
-        nome, email, password_temporanea
+        nome, email, reset_url
     )
     await invia_email(
         to_email=email,

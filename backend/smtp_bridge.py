@@ -42,12 +42,12 @@ def spedisci_email(dati: dict) -> tuple[bool, str]:
     html_content = dati.get("html_content") or dati.get("htmlContent") or ""
     text_content = dati.get("text_content") or dati.get("textContent") or ""
 
-    smtp_server = dati.get("smtp_server") or DEFAULT_SERVER
-    smtp_port = int(dati.get("smtp_port") or DEFAULT_PORT)
-    smtp_user = dati.get("smtp_user") or DEFAULT_USER
-    smtp_password = dati.get("smtp_password") or DEFAULT_PASSWORD
-    smtp_from_email = dati.get("smtp_from_email") or DEFAULT_FROM_EMAIL
-    smtp_from_name = dati.get("smtp_from_name") or DEFAULT_FROM_NAME
+    smtp_server = DEFAULT_SERVER
+    smtp_port = DEFAULT_PORT
+    smtp_user = DEFAULT_USER
+    smtp_password = DEFAULT_PASSWORD
+    smtp_from_email = DEFAULT_FROM_EMAIL
+    smtp_from_name = DEFAULT_FROM_NAME
 
     if not smtp_user or not smtp_password:
         logging.error("Tentativo di invio email fallito: credenziali SMTP non configurate nell'ambiente.")
@@ -118,6 +118,9 @@ class SmtpBridgeHandler(BaseHTTPRequestHandler):
         if self.path == "/send-email":
             try:
                 length = int(self.headers.get("Content-Length", 0))
+                if length <= 0 or length > 1_048_576:
+                    self._send_json(413, {"status": "error", "detail": "Payload non valido o troppo grande."})
+                    return
                 payload = json.loads(self.rfile.read(length).decode("utf-8"))
             except Exception as e:
                 self._send_json(400, {"status": "error", "detail": f"JSON non valido: {e}"})

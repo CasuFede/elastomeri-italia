@@ -1,83 +1,53 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450" fill="none">
     <defs>
-        <linearGradient id="cantinaSky" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#0284c7" />
-            <stop offset="100%" stop-color="#38bdf8" />
-        </linearGradient>
-        <linearGradient id="cantinaBg" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#18181b" />
-            <stop offset="100%" stop-color="#09090b" />
-        </linearGradient>
-        <linearGradient id="wallInterior" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#27272a" />
-            <stop offset="100%" stop-color="#1f1f23" />
-        </linearGradient>
-        <linearGradient id="polyGlowGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#38bdf8" />
-            <stop offset="100%" stop-color="#0284c7" />
-        </linearGradient>
-        <pattern id="cantinaGrid" width="30" height="30" patternUnits="userSpaceOnUse">
-            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#27272a" stroke-width="0.8" stroke-opacity="0.4" />
+        <pattern id="cantinaGrid" width="32" height="32" patternUnits="userSpaceOnUse">
+            <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#1e293b" stroke-width="1" />
         </pattern>
-        <filter id="polyBlueGlow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="7" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-        </filter>
     </defs>
 
-    <!-- Canvas Background -->
-    <rect width="800" height="450" fill="url(#cantinaBg)" />
+    <!-- Sfondo solido ad alto contrasto -->
+    <rect width="800" height="450" fill="#0f172a" />
     <rect width="800" height="450" fill="url(#cantinaGrid)" />
 
-    <!-- Struttura Cantina / Sezione architettonica locale interrato -->
     <!-- Terreno esterno a sinistra -->
-    <path d="M 0 0 L 260 0 L 260 450 L 0 450 Z" fill="#1c1917" opacity="0.85" />
-    <path d="M 0 80 Q 130 90 260 80" stroke="#71717a" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 0 135 L 250 135 L 250 450 L 0 450 Z" fill="#1e293b" />
+    <line x1="0" y1="135" x2="250" y2="135" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="8 5" />
 
     <!-- Parete perimetrale cantina -->
-    <rect x="260" y="60" width="110" height="320" fill="url(#wallInterior)" stroke="#52525b" stroke-width="1.5" />
+    <rect x="258" y="135" width="96" height="245" fill="#334155" stroke="#94a3b8" stroke-width="2" />
     <!-- Pavimento / Soletta cantina -->
-    <rect x="260" y="380" width="480" height="40" fill="url(#wallInterior)" stroke="#52525b" stroke-width="1.5" />
+    <rect x="258" y="380" width="500" height="44" fill="#334155" stroke="#94a3b8" stroke-width="2" />
     <!-- Soffitto locale cantina -->
-    <rect x="260" y="60" width="480" height="30" fill="url(#wallInterior)" stroke="#52525b" stroke-width="1.5" />
+    <rect x="258" y="135" width="500" height="32" fill="#334155" stroke="#94a3b8" stroke-width="2" />
 
-    <!-- Membrana impermeabilizzante continua in Poliurea pura -->
-    <!-- Sigillatura esterna / interna a 90° tra parete e pavimento -->
-    <path d="M 254 50 L 254 386 L 740 386" fill="none" stroke="url(#polyGlowGrad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" filter="url(#polyBlueGlow)" />
-    <path d="M 254 50 L 254 386 L 740 386" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
-
-    <!-- Dettaglio interno cantina asciutta -->
-    <g transform="translate(420, 160)">
-        <!-- Scaffale / Ambiente cantina pulito -->
-        <rect x="0" y="0" width="140" height="210" rx="4" fill="#18181b" stroke="#3f3f46" stroke-width="1" />
-        <line x1="0" y1="70" x2="140" y2="70" stroke="#3f3f46" stroke-width="1" />
-        <line x1="0" y1="140" x2="140" y2="140" stroke="#3f3f46" stroke-width="1" />
-        <!-- Badge asciutto e salubre -->
-        <rect x="180" y="40" width="160" height="74" rx="8" fill="#09090b" stroke="#38bdf8" stroke-width="1" />
-        <text x="194" y="64" fill="#38bdf8" font-family="monospace" font-size="10" font-weight="bold">AMBIENTE PROTETTO</text>
-        <text x="194" y="84" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">Zero Umidità &amp; Muffe</text>
-        <text x="194" y="100" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="11">Aria salubre e muri asciutti</text>
-    </g>
+    <!-- Membrana impermeabilizzante continua in Poliurea pura (solida, zero glow) -->
+    <path d="M 250 135 L 250 388 L 758 388" fill="none" stroke="#0284c7" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 250 135 L 250 388 L 758 388" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
 
     <!-- Indicatore spinta acqua bloccata esternamente -->
-    <g stroke="#0284c7" stroke-width="2" opacity="0.5">
-        <circle cx="160" cy="180" r="16" stroke-dasharray="4 3" />
-        <circle cx="140" cy="240" r="22" stroke-dasharray="4 3" />
-        <circle cx="170" cy="300" r="18" stroke-dasharray="4 3" />
+    <g stroke="#38bdf8" stroke-width="3" fill="#38bdf8">
+        <line x1="120" y1="220" x2="230" y2="220" />
+        <polygon points="240,220 226,212 226,228" />
+        <line x1="120" y1="285" x2="230" y2="285" />
+        <polygon points="240,285 226,277 226,293" />
     </g>
-    <g stroke="#38bdf8" stroke-width="2.5" fill="#38bdf8">
-        <line x1="180" y1="210" x2="246" y2="210" />
-        <polygon points="246,210 236,204 236,216" />
-        <line x1="170" y1="270" x2="246" y2="270" />
-        <polygon points="246,270 236,264 236,276" />
+    <text x="120" y="335" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="14" font-weight="700">Acqua e umidità</text>
+    <text x="120" y="355" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="14" font-weight="800">BLOCCATE</text>
+
+    <!-- Badge interno cantina asciutta -->
+    <g transform="translate(390, 210)">
+        <rect width="335" height="120" rx="10" fill="#1e293b" stroke="#22c55e" stroke-width="2" />
+        <text x="20" y="32" fill="#22c55e" font-family="monospace" font-size="13" font-weight="bold">LOCALE INTERNO PROTETTO</text>
+        <text x="20" y="66" fill="#ffffff" font-family="system-ui, sans-serif" font-size="22" font-weight="800">Zero Umidità &amp; Muffe</text>
+        <text x="20" y="96" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="15" font-weight="600">Muri asciutti e aria salubre nel tempo</text>
     </g>
 
     <!-- Header Card -->
-    <g transform="translate(420, 40)">
-        <rect width="340" height="85" rx="12" fill="#09090b" fill-opacity="0.95" stroke="#3f3f46" stroke-width="1" />
-        <rect x="16" y="14" width="8" height="8" rx="2" fill="#38bdf8" />
-        <text x="32" y="22" fill="#38bdf8" font-family="monospace" font-size="11" font-weight="bold" letter-spacing="1">CANTINE E LOCALI INTERRATI</text>
-        <text x="16" y="48" fill="#ffffff" font-family="system-ui, sans-serif" font-size="15" font-weight="bold">Risanamento e Barriera Totale</text>
-        <text x="16" y="68" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="12">Resistente alla controspinta e risalita d'acqua</text>
+    <g transform="translate(28, 22)">
+        <rect width="744" height="90" rx="10" fill="#1e293b" stroke="#475569" stroke-width="2" />
+        <rect x="16" y="16" width="10" height="10" rx="2" fill="#38bdf8" />
+        <text x="34" y="26" fill="#38bdf8" font-family="monospace" font-size="13" font-weight="bold" letter-spacing="1">CANTINE, BOX E LOCALI INTERRATI</text>
+        <text x="16" y="58" fill="#ffffff" font-family="system-ui, sans-serif" font-size="21" font-weight="800">Risanamento e Barriera Totale Contro l'Umidità</text>
+        <text x="16" y="80" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Sigillatura continua a 90° tra parete e pavimento, resistente alla controspinta</text>
     </g>
 </svg>

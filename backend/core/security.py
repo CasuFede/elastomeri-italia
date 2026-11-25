@@ -71,14 +71,29 @@ def verifica_hash_password(password: str, password_hash: str) -> bool:
         return False
 
 
-def crea_token_sessione(tipo: str, identificatore: str, secret: str) -> str:
-    scadenza = int(time.time()) + TOKEN_SESSIONE_DURATA
-    nonce = secrets.token_hex(8)
+TOKEN_RESET_DURATA = 1800  # 30 minuti
+
+
+def crea_token_sessione(
+    tipo: str, identificatore: str, secret: str, durata_secondi: int = TOKEN_SESSIONE_DURATA
+) -> str:
+    scadenza = int(time.time()) + durata_secondi
+    nonce = secrets.token_hex(12)
     messaggio = f"{tipo}:{identificatore}:{scadenza}:{nonce}"
     firma = hmac.new(
         secret.encode("utf-8"), messaggio.encode("utf-8"), hashlib.sha256
     ).hexdigest()
     return f"{messaggio}:{firma}"
+
+
+def crea_token_reset(identificatore: str, secret: str) -> str:
+    """Crea un token monouso di reset password valido 30 minuti (legato al password_hash corrente)."""
+    return crea_token_sessione("reset", identificatore, secret, durata_secondi=TOKEN_RESET_DURATA)
+
+
+def valida_token_reset(token: str, secret: str) -> Optional[str]:
+    """Valida un token monouso di reset password."""
+    return valida_token_sessione(token, secret, "reset")
 
 
 def valida_token_sessione(

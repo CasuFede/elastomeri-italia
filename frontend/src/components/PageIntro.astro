@@ -9,8 +9,8 @@ interface Props {
 const { eyebrow, title, highlight, text } = Astro.props;
 ---
 
-<section class="page-intro wrap py-14 sm:py-16 scroll-reveal">
-    <p class="eyebrow inline-block rounded-md border border-sky-500/25 bg-sky-500/10 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-sky-400 transition-colors duration-300 hover:border-sky-500/50">{eyebrow}</p>
+<section class="page-intro wrap py-14 sm:py-16">
+    <p class="eyebrow inline-block rounded-md border border-sky-500 bg-sky-950 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-sky-300">{eyebrow}</p>
     <h1 class="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-5xl">{title}{highlight && <> <span class="text-sky-400">{highlight}</span></>}</h1>
-    <p class="intro-copy mt-4 max-w-2xl text-base leading-relaxed text-zinc-400">{text}</p>
+    <p class="intro-copy mt-4 max-w-2xl text-base leading-relaxed text-slate-200">{text}</p>
 </section>

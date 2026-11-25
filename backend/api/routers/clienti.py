@@ -139,7 +139,7 @@ async def reimposta_password_cliente(
 
     nuovo_hash = crea_hash_password(dati.password)
     await store.run(
-        "UPDATE clienti SET password_hash = ? WHERE id = ?",
+        "UPDATE clienti SET password_hash = ?, primo_accesso = 1 WHERE id = ?",
         nuovo_hash,
         cliente_id,
     )

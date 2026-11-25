@@ -31,7 +31,7 @@ from core.database import (
     get_services,
     valore_data_iso,
 )
-from core.rate_limit import get_client_ip, rate_limiter
+from core.rate_limit import check_rate_limit_d1, get_client_ip
 from core.storage import elimina_da_r2, risposta_file, salva_su_r2, tipo_immagine
 from api.deps import verifica_credenziali
 from schemas.preventivi import PreventivoRequest, StatoPreventivoAggiornamento
@@ -58,11 +58,17 @@ async def richiedi_preventivo(
     metratura: str = Form(...),
     messaggio: Optional[str] = Form(default=None),
     consenso: bool = Form(...),
+    website: Optional[str] = Form(default=None),
     files: Optional[list[UploadFile]] = File(default=None),
     services: CloudflareServices = Depends(get_services),
 ):
+    # Campo honeypot anti-bot: i visitatori reali lasciano vuoto questo campo invisibile
+    if website and website.strip():
+        return {"status": "success", "message": "Richiesta ricevuta", "id_pratica": 0}
+
     ip = get_client_ip(request)
-    if not rate_limiter.check("preventivo", ip, max_requests=5, window_seconds=600):
+    store = D1Store(services.database)
+    if not await check_rate_limit_d1(store, "preventivo", ip, max_requests=5, window_seconds=600):
         raise HTTPException(
             status_code=429,
             detail="Hai inviato troppe richieste in poco tempo. Attendi qualche minuto prima di riprovare.",

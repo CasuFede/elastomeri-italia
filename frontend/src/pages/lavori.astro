@@ -1,98 +1,98 @@
 ---
+import { env } from 'cloudflare:workers';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CallToAction from '../components/CallToAction.astro';
+
+interface Lavoro {
+    id: number;
+    titolo: string;
+    descrizione: string;
+    localita: string;
+    immagine_url: string;
+    data_creazione?: string;
+}
+
+let lavori: Lavoro[] = [];
+try {
+    const api = (env as unknown as { API?: { fetch: (req: Request) => Promise<Response> } })?.API;
+    const reqUrl = new URL('/api/lavori', Astro.url.origin).toString();
+    const res =
+        api && typeof api.fetch === 'function'
+            ? await api.fetch(new Request(reqUrl, { method: 'GET' }))
+            : await fetch(reqUrl);
+    if (res.ok) {
+        const body = (await res.json()) as { dati?: Lavoro[] };
+        if (Array.isArray(body?.dati)) {
+            lavori = body.dati;
+        }
+    }
+} catch {
+    lavori = [];
+}
 ---
 
 <SiteLayout
-    title="Lavori e Cantieri in Poliurea Pura | Poliurea System"
-    description="Scopri la galleria dedicata ai lavori e agli interventi di impermeabilizzazione in poliurea pura realizzati su terrazzi, coperture e fondazioni."
+    title="Lavori e Cantieri a Genova e Liguria | Poliurea System"
+    description="Galleria dei lavori e cantieri di impermeabilizzazione in poliurea pura realizzati a Genova e in Liguria su terrazzi, coperture e fondazioni."
     activePath="/lavori"
+    breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Lavori', path: '/lavori' }]}
 >
     <PageIntro
         eyebrow="LAVORI E INTERVENTI"
         title="Ogni intervento"
         highlight="parte da un’esigenza."
-        text="Una selezione di interventi, superfici trattate e soluzioni adottate, con immagini e informazioni sui lavori realizzati."
+        text="Una selezione di interventi realizzati a Genova, in Liguria e nel Nord Italia: superfici trattate, problemi risolti e soluzioni adottate."
     />
-    <section id="gallery-empty" class="gallery-empty wrap my-12 grid gap-8 lg:grid-cols-[1fr_1.4fr] items-center rounded-3xl border border-zinc-800 bg-zinc-900 p-8 sm:p-12 shadow-2xl transition-colors duration-300 hover:border-zinc-700">
-        <div class="gallery-empty-art rounded-2xl border border-zinc-800 bg-zinc-950 p-8 flex items-center justify-center min-h-[220px] relative overflow-hidden" aria-hidden="true">
-            <div class="gallery-frame frame-back"></div>
-            <div class="gallery-frame frame-front border border-sky-500/30 bg-sky-500/10 text-sky-400"><span>EI</span><small class="text-zinc-300">SPAZIO PER I TUOI<br />PROGETTI REALIZZATI</small></div>
-            <span class="gallery-spark spark-one text-sky-400">✳</span><span class="gallery-spark spark-two text-sky-400">✳</span>
-        </div>
-        <div class="gallery-empty-copy">
-            <p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">GALLERIA IN PREPARAZIONE</p>
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-4">Qui racconteremo<br /><span class="text-sky-400">i lavori realizzati.</span></h2>
-            <p class="text-zinc-400 text-base leading-relaxed mb-6">Stiamo raccogliendo le fotografie e i dettagli dei progetti da condividere. Torna a trovarci per scoprire gli interventi, le superfici trattate e le soluzioni adottate.</p>
-            <a class="text-link inline-flex items-center gap-2 text-sm font-bold text-sky-400 hover:text-sky-300 transition-colors" href="/contatti">Hai un progetto da raccontare? <span aria-hidden="true">→</span></a>
-        </div>
-    </section>
-    <section id="works-gallery" class="works-gallery wrap my-12 hidden" aria-label="Lavori realizzati">
-        <div id="works-grid" class="works-grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
-    </section>
-    <section class="gallery-guidelines py-14 bg-zinc-950 border-y border-zinc-800">
+
+    {lavori.length > 0 ? (
+        <section id="works-gallery" class="works-gallery wrap my-12" aria-label="Lavori realizzati">
+            <div id="works-grid" class="works-grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {lavori.map((lavoro) => (
+                    <article class="work-card rounded-2xl border-2 border-slate-600 bg-slate-800 overflow-hidden transition-colors duration-200 hover:border-sky-400 flex flex-col">
+                        <img
+                            src={lavoro.immagine_url}
+                            alt={`Lavoro realizzato da Poliurea System: ${lavoro.titolo}${lavoro.localita ? ` (${lavoro.localita})` : ''}`}
+                            loading="lazy"
+                            width="600"
+                            height="450"
+                            class="w-full aspect-[4/3] object-cover bg-slate-900"
+                        />
+                        <div class="work-card-content p-6 flex-1 flex flex-col">
+                            {lavoro.localita && (
+                                <p class="work-location text-xs font-extrabold uppercase tracking-wider text-sky-400 mb-2">
+                                    {lavoro.localita}
+                                </p>
+                            )}
+                            <h2 class="text-xl font-bold text-white mb-2">{lavoro.titolo}</h2>
+                            {lavoro.descrizione && (
+                                <p class="text-sm text-slate-200 leading-relaxed">{lavoro.descrizione}</p>
+                            )}
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </section>
+    ) : (
+        <section id="gallery-empty" class="gallery-empty wrap my-12 grid gap-8 lg:grid-cols-[1fr_1.4fr] items-center rounded-3xl border-2 border-slate-600 bg-slate-800 p-8 sm:p-12 transition-colors duration-200 hover:border-sky-400">
+            <div class="gallery-empty-art rounded-2xl border border-slate-600 bg-slate-900 p-8 flex items-center justify-center min-h-[220px]">
+                <img src="/logo-poliurea-system.png" alt="Poliurea System - Galleria lavori in preparazione" class="max-w-[240px] w-full h-auto" width="240" height="41" />
+            </div>
+            <div class="gallery-empty-copy">
+                <p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">GALLERIA IN PREPARAZIONE</p>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-4">Qui racconteremo<br /><span class="text-sky-400">i lavori realizzati.</span></h2>
+                <p class="text-slate-200 text-base leading-relaxed mb-6">Stiamo raccogliendo le fotografie e i dettagli dei progetti da condividere. Torna a trovarci per scoprire gli interventi, le superfici trattate e le soluzioni adottate.</p>
+                <a class="text-link inline-flex items-center gap-2 text-sm font-bold text-sky-400 hover:text-white transition-colors" href="/contatti">Hai un progetto da raccontare? <span aria-hidden="true">→</span></a>
+            </div>
+        </section>
+    )}
+
+    <section class="gallery-guidelines py-14 bg-[#111827] border-y border-slate-700">
         <div class="wrap gallery-guidelines-inner grid gap-6 md:grid-cols-3">
-            <div class="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-lg shadow-black/40 flex items-start gap-4 transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-800/80"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-500/15 border border-sky-500/30 text-sky-400 font-mono text-sm font-bold">01</span><p class="text-sm"><strong class="block text-white font-bold mb-1">Il contesto</strong><small class="text-zinc-400 text-xs">Tipologia dell’edificio e area interessata</small></p></div>
-            <div class="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-lg shadow-black/40 flex items-start gap-4 transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-800/80"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-500/15 border border-sky-500/30 text-sky-400 font-mono text-sm font-bold">02</span><p class="text-sm"><strong class="block text-white font-bold mb-1">Il problema</strong><small class="text-zinc-400 text-xs">La situazione da cui è partito l’intervento</small></p></div>
-            <div class="rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-lg shadow-black/40 flex items-start gap-4 transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-800/80"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-500/15 border border-sky-500/30 text-sky-400 font-mono text-sm font-bold">03</span><p class="text-sm"><strong class="block text-white font-bold mb-1">Il percorso</strong><small class="text-zinc-400 text-xs">Le fasi e le soluzioni effettivamente adottate</small></p></div>
+            <div class="rounded-2xl border-2 border-slate-600 bg-slate-800 p-6 flex items-start gap-4 transition-colors duration-200 hover:border-sky-400"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-600 text-white font-mono text-sm font-bold">01</span><p class="text-sm"><strong class="block text-white font-bold mb-1">Il contesto</strong><small class="text-slate-200 text-xs">Tipologia dell’edificio e area interessata</small></p></div>
+            <div class="rounded-2xl border-2 border-slate-600 bg-slate-800 p-6 flex items-start gap-4 transition-colors duration-200 hover:border-sky-400"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-600 text-white font-mono text-sm font-bold">02</span><p class="text-sm"><strong class="block text-white font-bold mb-1">Il problema</strong><small class="text-slate-200 text-xs">La situazione da cui è partito l’intervento</small></p></div>
+            <div class="rounded-2xl border-2 border-slate-600 bg-slate-800 p-6 flex items-start gap-4 transition-colors duration-200 hover:border-sky-400"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-600 text-white font-mono text-sm font-bold">03</span><p class="text-sm"><strong class="block text-white font-bold mb-1">Il percorso</strong><small class="text-slate-200 text-xs">Le fasi e le soluzioni effettivamente adottate</small></p></div>
         </div>
     </section>
     <CallToAction title="Hai un problema simile?" text="Raccontacelo: ogni valutazione comincia dalle caratteristiche del tuo edificio." />
-    <script is:inline>
-        const caricaGalleria = async () => {
-            try {
-                const risposta = await fetch('/api/lavori');
-                if (!risposta.ok) throw new Error(`HTTP ${risposta.status}`);
-                const { dati } = await risposta.json();
-                if (!Array.isArray(dati) || dati.length === 0) return;
-
-                const griglia = document.getElementById('works-grid');
-                for (const lavoro of dati) {
-                    const scheda = document.createElement('article');
-                    scheda.className = 'work-card group rounded-2xl border border-zinc-800 bg-zinc-900 overflow-hidden shadow-xl hover:border-zinc-700 hover:bg-zinc-800/80 hover:-translate-y-1 transition-colors duration-300';
-                    const immagine = document.createElement('img');
-                    immagine.src = lavoro.immagine_url;
-                    immagine.alt = `Lavoro: ${lavoro.titolo}`;
-                    immagine.loading = 'lazy';
-                    immagine.width = 600;
-                    immagine.height = 450;
-                    immagine.className = 'w-full aspect-[4/3] object-cover bg-zinc-800';
-                    immagine.onerror = () => {
-                        immagine.onerror = null;
-                        immagine.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 450' width='600' height='450' fill='%2318181b'%3E%3Crect width='600' height='450' fill='%2318181b'/%3E%3Crect x='20' y='20' width='560' height='410' rx='12' fill='%2309090b' stroke='%2327272a' stroke-width='1.5'/%3E%3Ccircle cx='300' cy='200' r='36' fill='%230284c7' fill-opacity='0.15' stroke='%2338bdf8' stroke-width='2'/%3E%3Cpath d='M285 200h30M300 185v30' stroke='%2338bdf8' stroke-width='2.5' stroke-linecap='round'/%3E%3Ctext x='300' y='270' fill='%23a1a1aa' font-family='system-ui, sans-serif' font-size='14' font-weight='600' text-anchor='middle'%3EIntervento Poliurea System%3C/text%3E%3C/svg%3E";
-                    };
-                    scheda.appendChild(immagine);
-
-                    const contenuto = document.createElement('div');
-                    contenuto.className = 'work-card-content p-6';
-                    if (lavoro.localita) {
-                        const localita = document.createElement('p');
-                        localita.className = 'work-location text-xs font-bold uppercase tracking-wider text-sky-400 mb-2';
-                        localita.textContent = lavoro.localita;
-                        contenuto.appendChild(localita);
-                    }
-                    const titolo = document.createElement('h2');
-                    titolo.className = 'text-xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors';
-                    titolo.textContent = lavoro.titolo;
-                    contenuto.appendChild(titolo);
-                    if (lavoro.descrizione) {
-                        const descrizione = document.createElement('p');
-                        descrizione.className = 'text-sm text-zinc-400 line-clamp-3';
-                        descrizione.textContent = lavoro.descrizione;
-                        contenuto.appendChild(descrizione);
-                    }
-                    scheda.appendChild(contenuto);
-                    griglia.appendChild(scheda);
-                }
-
-                document.getElementById('gallery-empty').hidden = true;
-                document.getElementById('works-gallery').classList.remove('hidden');
-            } catch (errore) {
-                console.error('Impossibile caricare la galleria lavori:', errore);
-            }
-        };
-
-        caricaGalleria();
-    </script>
 </SiteLayout>

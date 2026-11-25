@@ -3,7 +3,12 @@ import '../styles/global.css';
 import SiteLayout from '../layouts/SiteLayout.astro';
 ---
 
-<SiteLayout title="Richiedi Sopralluogo e Preventivo Gratuito | Poliurea System" description="Richiedi un sopralluogo diagnostico senza impegno. Risposta garantita entro 24 ore per la tua impermeabilizzazione definitiva in poliurea pura." activePath="/preventivo">
+<SiteLayout
+    title="Preventivo Impermeabilizzazione Genova e Liguria | Poliurea"
+    description="Richiedi un sopralluogo diagnostico gratuito a Genova e in Liguria. Risposta garantita entro 24 ore per impermeabilizzazioni in poliurea pura."
+    activePath="/preventivo"
+    breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Richiedi un preventivo', path: '/preventivo' }]}
+>
     <div class="quote-page">
         <div class="quote-header-note"><span class="online-dot"></span> Sopralluogo diagnostico gratuito e senza impegno · Risposta entro 24h</div>
 
@@ -26,6 +31,7 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             </div>
 
             <form id="form-preventivo" novalidate>
+                <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" />
                 <input type="hidden" name="tipo_immobile" id="tipo_immobile" />
                 <input type="hidden" name="area_intervento" id="area_intervento" />
                 <input type="hidden" name="situazione" id="situazione" />
@@ -569,8 +575,8 @@ import SiteLayout from '../layouts/SiteLayout.astro';
     <style>
         .quote-page {
             min-height: 100vh;
-            background: #000000;
-            color: #e4e4e7;
+            background: #0b0f17;
+            color: #e2e8f0;
             padding-bottom: 3rem;
             display: flex;
             flex-direction: column;
@@ -583,19 +589,18 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             margin: 2rem auto 0;
             padding: 6px 14px;
             border-radius: 9999px;
-            background: rgba(2, 132, 199, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            color: #38bdf8;
+            background: #0c4a6e;
+            border: 1px solid #38bdf8;
+            color: #ffffff;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             width: fit-content;
         }
         .online-dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            background: #38bdf8;
-            box-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+            background: #22c55e;
         }
         .page-content {
             width: min(100% - 32px, 760px);
@@ -608,7 +613,7 @@ import SiteLayout from '../layouts/SiteLayout.astro';
         .eyebrow, .step-kicker {
             color: #38bdf8;
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: 0.14em;
             text-transform: uppercase;
         }
@@ -624,21 +629,20 @@ import SiteLayout from '../layouts/SiteLayout.astro';
         .intro h1 span { color: #38bdf8; }
         .intro-copy {
             margin: 12px auto 0;
-            color: #a1a1aa;
+            color: #e2e8f0;
             font-size: 15px;
             line-height: 1.6;
         }
         .wizard-card {
             overflow: hidden;
-            border: 1px solid #27272a;
+            border: 2px solid #475569;
             border-radius: 20px;
-            background: #18181b;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            background: #1e293b;
         }
         .wizard-top {
             padding: 24px 30px 20px;
-            border-bottom: 1px solid #27272a;
-            background: #121215;
+            border-bottom: 1px solid #334155;
+            background: #111827;
         }
         .progress-label {
             display: flex;
@@ -649,25 +653,24 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             font-weight: 700;
         }
         .time-label {
-            color: #71717a;
+            color: #cbd5e1;
             font-size: 11px;
-            font-weight: 500;
+            font-weight: 600;
         }
         .progress-track {
-            height: 6px;
+            height: 8px;
             overflow: hidden;
             margin-top: 12px;
             border-radius: 9999px;
-            background: #09090b;
-            border: 1px solid #27272a;
+            background: #0f172a;
+            border: 1px solid #475569;
         }
         .progress-track span {
             display: block;
             width: 20%;
             height: 100%;
             border-radius: inherit;
-            background: linear-gradient(90deg, #0284c7, #38bdf8);
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+            background: #0284c7;
             transition: width 0.3s ease;
         }
         .wizard-step { padding: 30px 30px 16px; }
@@ -681,8 +684,8 @@ import SiteLayout from '../layouts/SiteLayout.astro';
         }
         .step-copy {
             margin: 8px 0 24px;
-            color: #a1a1aa;
-            font-size: 13px;
+            color: #e2e8f0;
+            font-size: 13.5px;
             line-height: 1.5;
         }
         .choice-grid { display: grid; gap: 12px; }
@@ -696,24 +699,21 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             justify-content: center;
             gap: 10px;
             padding: 16px;
-            border: 1px solid #27272a;
+            border: 2px solid #475569;
             border-radius: 14px;
-            background: #09090b;
-            color: #e4e4e7;
+            background: #0f172a;
+            color: #f1f5f9;
             cursor: pointer;
             text-align: left;
-            transition: all 0.2s ease;
+            transition: border-color 0.15s ease, background-color 0.15s ease;
         }
         .choice-card:hover {
-            transform: translateY(-2px);
-            border-color: #3f3f46;
-            background: #18181b;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+            border-color: #38bdf8;
+            background: #1e293b;
         }
         .choice-card[aria-pressed="true"] {
-            border-color: #0284c7;
-            background: rgba(2, 132, 199, 0.12);
-            box-shadow: 0 0 0 1px #0284c7, 0 10px 25px -5px rgba(2, 132, 199, 0.2);
+            border-color: #38bdf8;
+            background: #0c4a6e;
         }
         .choice-icon {
             color: #38bdf8;
@@ -728,7 +728,7 @@ import SiteLayout from '../layouts/SiteLayout.astro';
         }
         .choice-caption {
             margin-top: -4px;
-            color: #71717a;
+            color: #cbd5e1;
             font-size: 11px;
         }
         .choice-grid-4 .choice-card { min-height: 115px; padding: 14px; }
@@ -737,49 +737,46 @@ import SiteLayout from '../layouts/SiteLayout.astro';
         .size-card { min-height: 80px; align-items: center; padding: 14px; text-align: center; }
         .size-card .choice-title { font-size: 14px; }
         .size-card sup { font-size: 10px; }
-        .field-error { min-height: 16px; margin: 8px 0 0; color: #f87171; font-size: 12px; }
+        .field-error { min-height: 16px; margin: 8px 0 0; color: #fca5a5; font-size: 12px; font-weight: 600; }
         .contact-step { padding-bottom: 16px; }
         .contact-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-        .form-field { display: flex; flex-direction: column; gap: 8px; color: #d4d4d8; font-size: 12px; font-weight: 600; }
+        .form-field { display: flex; flex-direction: column; gap: 8px; color: #f1f5f9; font-size: 12.5px; font-weight: 700; }
         .form-field b, .privacy-check b { color: #38bdf8; }
-        .form-field small, .upload-heading small { color: #71717a; font-size: 11px; font-weight: 400; }
+        .form-field small, .upload-heading small { color: #cbd5e1; font-size: 11px; font-weight: 500; }
         .form-field input, .form-field textarea {
             width: 100%;
-            border: 1px solid #3f3f46;
+            border: 1px solid #64748b;
             border-radius: 10px;
             outline: 0;
-            background: #09090b;
+            background: #0f172a;
             color: #ffffff;
             font: inherit;
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 400;
-            transition: border-color 0.15s, box-shadow 0.15s;
+            transition: border-color 0.15s;
         }
         .form-field input { height: 44px; padding: 0 14px; }
         .form-field textarea { min-height: 84px; padding: 12px 14px; resize: vertical; }
         .form-field input:focus, .form-field textarea:focus {
-            border-color: #0284c7;
-            box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.25);
+            border-color: #38bdf8;
         }
         .form-field input.is-invalid {
             border-color: #ef4444 !important;
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.25) !important;
         }
         .form-field input.is-valid {
-            border-color: #10b981 !important;
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
+            border-color: #22c55e !important;
         }
         .field-error-msg {
             min-height: 16px;
             margin-top: 4px;
-            color: #f87171;
-            font-size: 11px;
-            font-weight: 500;
+            color: #fca5a5;
+            font-size: 11.5px;
+            font-weight: 600;
         }
-        .form-field input::placeholder, .form-field textarea::placeholder { color: #71717a; }
+        .form-field input::placeholder, .form-field textarea::placeholder { color: #94a3b8; }
         .full-field { grid-column: 1 / -1; }
         .upload-field { margin-top: 24px; }
-        .upload-heading { margin-bottom: 10px; color: #e4e4e7; font-size: 12px; font-weight: 700; }
+        .upload-heading { margin-bottom: 10px; color: #ffffff; font-size: 12.5px; font-weight: 700; }
         .upload-heading > span { margin-right: 6px; color: #38bdf8; font-size: 16px; }
         .upload-zone {
             min-height: 115px;
@@ -788,34 +785,34 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             align-items: center;
             justify-content: center;
             gap: 6px;
-            border: 2px dashed #3f3f46;
+            border: 2px dashed #64748b;
             border-radius: 12px;
-            background: #09090b;
-            color: #a1a1aa;
+            background: #0f172a;
+            color: #e2e8f0;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 12.5px;
             text-align: center;
             transition: background 0.15s, border-color 0.15s;
             padding: 16px;
         }
         .upload-zone:hover, .upload-zone.is-dragging {
-            border-color: #0284c7;
-            background: rgba(2, 132, 199, 0.08);
+            border-color: #38bdf8;
+            background: #162033;
         }
         .upload-zone strong { color: #38bdf8; }
-        .upload-zone small { color: #71717a; font-size: 10px; }
+        .upload-zone small { color: #cbd5e1; font-size: 11px; }
         .upload-zone input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; clip-path: inset(50%); }
         .upload-symbol {
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             display: grid;
             place-items: center;
             margin-bottom: 2px;
             border-radius: 50%;
-            background: rgba(2, 132, 199, 0.15);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            color: #38bdf8;
+            background: #0284c7;
+            color: #ffffff;
             font-size: 16px;
+            font-weight: 700;
         }
         .preview-grid {
             display: grid;
@@ -827,21 +824,20 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             position: relative;
             display: flex;
             flex-direction: column;
-            border: 1px solid #27272a;
+            border: 1px solid #475569;
             border-radius: 12px;
-            background: #121215;
+            background: #0f172a;
             overflow: hidden;
-            transition: border-color 0.2s, transform 0.2s;
+            transition: border-color 0.15s;
         }
         .preview-card:hover {
             border-color: #38bdf8;
-            transform: translateY(-2px);
         }
         .preview-thumb-wrap {
             position: relative;
             width: 100%;
             height: 85px;
-            background: #09090b;
+            background: #0b0f17;
             overflow: hidden;
         }
         .preview-thumb-wrap img {
@@ -857,8 +853,8 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.75);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: #0f172a;
+            border: 1px solid #cbd5e1;
             color: #ffffff;
             display: flex;
             align-items: center;
@@ -879,10 +875,10 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             display: flex;
             flex-direction: column;
             gap: 2px;
-            background: #18181b;
+            background: #1e293b;
         }
         .preview-filename {
-            color: #e4e4e7;
+            color: #ffffff;
             font-size: 11px;
             font-weight: 600;
             white-space: nowrap;
@@ -890,31 +886,31 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             text-overflow: ellipsis;
         }
         .preview-filesize {
-            color: #71717a;
+            color: #cbd5e1;
             font-size: 10px;
         }
-        .upload-list { margin: 8px 0 0; color: #a1a1aa; font-size: 11px; }
+        .upload-list { margin: 8px 0 0; color: #e2e8f0; font-size: 11.5px; }
         .privacy-check {
             display: flex;
             align-items: flex-start;
             gap: 10px;
             margin-top: 20px;
-            color: #a1a1aa;
+            color: #e2e8f0;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 12.5px;
             line-height: 1.5;
         }
         .privacy-check input { width: 16px; height: 16px; margin: 2px 0 0; accent-color: #0284c7; }
-        .privacy-check a { color: #38bdf8; text-decoration: underline; }
-        .form-error { min-height: 16px; margin: 10px 0 0; color: #f87171; font-size: 12px; }
+        .privacy-check a { color: #38bdf8; text-decoration: underline; font-weight: 700; }
+        .form-error { min-height: 16px; margin: 10px 0 0; color: #fca5a5; font-size: 12.5px; font-weight: 600; }
         .wizard-actions {
             min-height: 76px;
             display: flex;
             align-items: center;
             gap: 14px;
             padding: 16px 30px 24px;
-            background: #121215;
-            border-top: 1px solid #27272a;
+            background: #111827;
+            border-top: 1px solid #334155;
         }
         .action-spacer { flex: 1; }
         .back-button, .next-button, .submit-button {
@@ -923,12 +919,12 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             border-radius: 10px;
             cursor: pointer;
             font: inherit;
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 700;
-            transition: all 0.15s ease;
+            transition: background-color 0.15s ease, color 0.15s ease;
         }
-        .back-button { padding: 0 14px; background: transparent; color: #a1a1aa; }
-        .back-button:hover { color: #ffffff; }
+        .back-button { padding: 0 14px; background: #1e293b; border: 1px solid #475569; color: #f1f5f9; }
+        .back-button:hover { background: #334155; color: #ffffff; }
         .next-button, .submit-button {
             display: inline-flex;
             justify-content: center;
@@ -937,12 +933,9 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             padding: 0 22px;
             background: #0284c7;
             color: #ffffff;
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
         }
         .next-button:hover, .submit-button:hover {
-            transform: translateY(-1px);
-            background: #0369a1;
-            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.45);
+            background: #0ea5e9;
         }
         .submit-button { min-height: 46px; padding: 0 24px; }
         .submit-button:disabled { cursor: wait; opacity: 0.7; }
@@ -955,18 +948,18 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             place-items: center;
             margin: 0 auto 16px;
             border-radius: 50%;
-            background: rgba(2, 132, 199, 0.15);
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            color: #38bdf8;
+            background: #16a34a;
+            color: #ffffff;
             font-size: 26px;
+            font-weight: 800;
         }
         .success-email-notice {
             margin: 16px auto 0;
             padding: 12px 18px;
             border-radius: 12px;
-            background: rgba(2, 132, 199, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            color: #d4d4d8;
+            background: #0f172a;
+            border: 1px solid #38bdf8;
+            color: #f1f5f9;
             font-size: 13px;
             line-height: 1.5;
             max-width: 540px;

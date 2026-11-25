@@ -2,13 +2,37 @@
 import '../styles/global.css';
 import ChatWidget from '../components/ChatWidget.astro';
 
+interface BreadcrumbItem {
+    name: string;
+    path: string;
+}
+
 interface Props {
     title: string;
     description: string;
     activePath?: string;
+    noindex?: boolean;
+    ogImage?: string;
+    breadcrumbs?: BreadcrumbItem[];
+    extraStructuredData?: Record<string, unknown>[];
 }
 
-const { title, description, activePath = '' } = Astro.props;
+const {
+    title,
+    description,
+    activePath = '',
+    noindex = false,
+    ogImage = '/images/hero-capannone-poliurea-bianca.jpg',
+    breadcrumbs,
+    extraStructuredData = [],
+} = Astro.props;
+
+const SITE_ORIGIN = 'https://poliureasystem.it';
+const rawPath = Astro.url.pathname;
+const normalizedPath = rawPath.length > 1 ? rawPath.replace(/\/+$/, '') : '/';
+const canonicalUrl = `${SITE_ORIGIN}${normalizedPath === '/' ? '/' : normalizedPath}`;
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${SITE_ORIGIN}${ogImage}`;
+
 const links = [
     { href: '/fondazioni', label: 'Fondazioni' },
     { href: '/metodo', label: 'Metodo' },
@@ -16,27 +40,86 @@ const links = [
     { href: '/imprese', label: 'Per imprese' },
     { href: '/contatti', label: 'Contatti' },
 ];
+
+const graph: Record<string, unknown>[] = [
+    {
+        '@type': 'WebSite',
+        '@id': `${SITE_ORIGIN}/#website`,
+        name: 'Poliurea System',
+        url: `${SITE_ORIGIN}/`,
+        inLanguage: 'it-IT',
+        publisher: {
+            '@id': `${SITE_ORIGIN}/#business`,
+        },
+    },
+    {
+        '@type': ['HomeAndConstructionBusiness', 'Organization'],
+        '@id': `${SITE_ORIGIN}/#business`,
+        name: 'Poliurea System',
+        url: `${SITE_ORIGIN}/`,
+        logo: `${SITE_ORIGIN}/logo-poliurea-system.png`,
+        image: `${SITE_ORIGIN}/images/hero-capannone-poliurea-bianca.jpg`,
+        email: 'info@poliureasystem.it',
+        telephone: '+393441366523',
+        description:
+            'Impermeabilizzazioni in poliurea pura a spruzzo senza demolizioni per terrazzi, tetti, coperture industriali, fondazioni e cantine a Genova e in Liguria.',
+        address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'Genova',
+            addressRegion: 'Liguria',
+            addressCountry: 'IT',
+        },
+        areaServed: [
+            { '@type': 'City', name: 'Genova' },
+            { '@type': 'AdministrativeArea', name: 'Liguria' },
+            { '@type': 'Place', name: 'Nord Italia' },
+        ],
+        contactPoint: [
+            {
+                '@type': 'ContactPoint',
+                telephone: '+39-344-136-6523',
+                contactType: 'customer service',
+                name: 'Luigi',
+                areaServed: 'IT',
+                availableLanguage: 'Italian',
+            },
+            {
+                '@type': 'ContactPoint',
+                telephone: '+39-348-405-2908',
+                contactType: 'customer service',
+                name: 'Alessandro',
+                areaServed: 'IT',
+                availableLanguage: 'Italian',
+            },
+        ],
+        serviceType: [
+            'Impermeabilizzazione in poliurea pura a spruzzo',
+            'Impermeabilizzazione terrazzi e balconi senza demolizione',
+            'Impermeabilizzazione tetti e coperture industriali',
+            'Impermeabilizzazione fondazioni, platee e cantine',
+        ],
+    },
+];
+
+if (breadcrumbs && breadcrumbs.length > 0) {
+    graph.push({
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbs.map((item, idx) => ({
+            '@type': 'ListItem',
+            position: idx + 1,
+            name: item.name,
+            item: `${SITE_ORIGIN}${item.path === '/' ? '/' : item.path}`,
+        })),
+    });
+}
+
+for (const extra of extraStructuredData) {
+    graph.push(extra);
+}
+
 const structuredData = {
     '@context': 'https://schema.org',
-    '@graph': [
-        {
-            '@type': 'WebSite',
-            '@id': 'https://poliureasystem.it/#website',
-            name: 'Poliurea System',
-            url: 'https://poliureasystem.it/',
-            inLanguage: 'it-IT',
-            publisher: {
-                '@id': 'https://poliureasystem.it/#organization',
-            },
-        },
-        {
-            '@type': 'Organization',
-            '@id': 'https://poliureasystem.it/#organization',
-            name: 'Poliurea System',
-            url: 'https://poliureasystem.it/',
-            logo: 'https://poliureasystem.it/logo-poliurea-system.png',
-        },
-    ],
+    '@graph': graph,
 };
 ---
 
@@ -45,18 +128,34 @@ const structuredData = {
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
+        <meta name="theme-color" content="#0b0f17" />
+        {noindex && <meta name="robots" content="noindex, nofollow" />}
         <meta name="description" content={description} />
+        {!noindex && <link rel="canonical" href={canonicalUrl} />}
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="it_IT" />
         <meta property="og:site_name" content="Poliurea System" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={ogImageUrl} />
+        <meta property="og:image:width" content="1376" />
+        <meta property="og:image:height" content="768" />
+        <meta property="og:image:alt" content="Poliurea System — Impermeabilizzazioni in poliurea pura a Genova e Liguria" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImageUrl} />
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
         <link rel="apple-touch-icon" href="/favicon-192x192.png" />
         <title>{title}</title>
         <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     </head>
-    <body class="site-body bg-black text-zinc-200 antialiased selection:bg-sky-500 selection:text-white">
-        <header class="site-header sticky top-0 z-40 border-b border-zinc-800 bg-black/85 backdrop-blur-xl">
+    <body class="site-body bg-[#0b0f17] text-white antialiased selection:bg-sky-600 selection:text-white">
+        <header class="site-header sticky top-0 z-40 border-b border-slate-700 bg-[#0f172a]">
             <div class="header-inner">
                 <a class="brand" href="/" aria-label="Poliurea System Impermeabilizzazioni, home">
                     <picture>
@@ -69,15 +168,15 @@ const structuredData = {
                         <a href={href} aria-current={activePath === href ? 'page' : undefined}>{label}</a>
                     ))}
                 </nav>
-                <button class="mobile-menu-toggle border border-zinc-800 bg-zinc-900 transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-800" id="mobile-menu-toggle" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-menu">
+                <button class="mobile-menu-toggle border border-slate-600 bg-slate-800 transition-colors duration-200 hover:border-sky-400 hover:bg-slate-700" id="mobile-menu-toggle" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-menu">
                     <span></span><span></span>
                 </button>
                 <div class="header-actions">
-                    <a class="header-login inline-flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-900 px-3.5 py-2 text-xs font-bold text-zinc-200 shadow-sm transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-800 hover:text-sky-400 hover:-translate-y-0.5" href="/area-clienti" aria-label="Accedi all’area clienti">
+                    <a class="header-login inline-flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-3.5 py-2 text-xs font-bold text-white transition-colors duration-200 hover:border-sky-400 hover:bg-slate-700" href="/area-clienti" aria-label="Accedi all’area clienti">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" /></svg>
                         <span>Area clienti</span>
                     </a>
-                    <a class="header-cta inline-flex items-center gap-2.5 rounded-lg bg-sky-500 px-4 py-2.5 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition-colors duration-300 hover:bg-sky-400 hover:shadow-sky-500/40 hover:-translate-y-0.5" href="/preventivo">Preventivo gratuito <span aria-hidden="true">↗</span></a>
+                    <a class="header-cta inline-flex items-center gap-2.5 rounded-lg bg-sky-600 px-4 py-2.5 text-sm font-bold text-white transition-colors duration-200 hover:bg-sky-500" href="/preventivo">Preventivo gratuito <span aria-hidden="true">↗</span></a>
                 </div>
             </div>
             <nav class="mobile-menu" id="mobile-menu" aria-label="Navigazione principale" aria-hidden="true" inert>
@@ -93,8 +192,17 @@ const structuredData = {
         <main>
             <slot />
         </main>
+        <div id="schema-lightbox" class="schema-lightbox" role="dialog" aria-modal="true" aria-labelledby="schema-lightbox-title" hidden>
+            <div class="schema-lightbox-dialog">
+                <div class="schema-lightbox-header">
+                    <h3 id="schema-lightbox-title" class="schema-lightbox-title">Schema tecnico</h3>
+                    <button id="schema-lightbox-close" type="button" class="schema-lightbox-close" aria-label="Chiudi ingrandimento">Chiudi ✕</button>
+                </div>
+                <img id="schema-lightbox-img" alt="Schema tecnico ingrandito" class="schema-lightbox-img" />
+            </div>
+        </div>
         <ChatWidget />
-        <footer class="site-footer bg-zinc-950 border-t border-zinc-800">
+        <footer class="site-footer bg-[#0b0f17] border-t-2 border-slate-700">
             <div class="footer-main">
                 <div class="footer-brand">
                     <a class="brand footer-logo" href="/" aria-label="Poliurea System Impermeabilizzazioni, home">
@@ -125,7 +233,7 @@ const structuredData = {
                     <a class="text-link" href="/preventivo">Richiedi un sopralluogo <span aria-hidden="true">→</span></a>
                 </div>
             </div>
-            <div class="footer-bottom border-t border-zinc-800/80 text-zinc-500 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pr-20 md:pr-48">
+            <div class="footer-bottom border-t border-slate-700 text-slate-300 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pr-20 md:pr-48">
                 <span>© {new Date().getFullYear()} Poliurea System</span>
                 <span>Protezione, progettata intorno al tuo edificio.</span>
             </div>
@@ -154,59 +262,39 @@ const structuredData = {
                 if (evento.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') chiudiMenu();
             });
 
-            // Micro-interazione: Fade-in morbido allo scroll con Intersection Observer
-            if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                document.documentElement.classList.add('js-reveal-ready');
-                const observerOpzioni = {
-                    root: null,
-                    rootMargin: '50px 0px 50px 0px',
-                    threshold: 0.01,
+            // Lightbox globale per ingrandire gli schemi tecnici al clic
+            const schemaLightbox = document.getElementById('schema-lightbox');
+            const schemaLightboxImg = document.getElementById('schema-lightbox-img');
+            const schemaLightboxTitle = document.getElementById('schema-lightbox-title');
+            const schemaLightboxClose = document.getElementById('schema-lightbox-close');
+            if (schemaLightbox && schemaLightboxImg && schemaLightboxTitle && schemaLightboxClose) {
+                const closeLightbox = () => {
+                    schemaLightbox.hidden = true;
+                    schemaLightboxImg.removeAttribute('src');
+                    document.body.style.overflow = '';
                 };
-                const revealObserver = new IntersectionObserver((entries, obs) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('is-revealed');
-                            obs.unobserve(entry.target);
-                        }
-                    });
-                }, observerOpzioni);
-
-                const setupScrollReveal = () => {
-                    const selettori = [
-                        '.scroll-reveal',
-                        '.service-card',
-                        '.polyurea-section article',
-                        '.bento-grid > article',
-                        '.audience-list > div',
-                        '.audience-list > a',
-                        '.method-steps > div',
-                        '.home-checklist li',
-                        '.faq-list > details',
-                        '.cta-inner',
-                        '.service-detail',
-                        '.roadmap-step',
-                        '.audience-cards > article',
-                        '.gallery-guidelines-inner > div',
-                        '.contact-panel',
-                        '.contact-details',
-                        '.page-intro',
-                        '.method-illustration',
-                        '.business-statement',
-                        '.business-checklist',
-                        '.gallery-empty'
-                    ].join(', ');
-
-                    document.querySelectorAll(selettori).forEach((elemento) => {
-                        elemento.classList.add('scroll-reveal');
-                        revealObserver.observe(elemento);
-                    });
-                };
-
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', setupScrollReveal);
-                } else {
-                    setupScrollReveal();
-                }
+                document.addEventListener('click', (ev) => {
+                    const trigger = ev.target && ev.target.closest ? ev.target.closest('[data-schema-zoom]') : null;
+                    if (!trigger) return;
+                    ev.preventDefault();
+                    const src = trigger.getAttribute('data-schema-src') || '';
+                    const title = trigger.getAttribute('data-schema-title') || 'Schema tecnico';
+                    const alt = trigger.getAttribute('data-schema-alt') || title;
+                    if (!src) return;
+                    schemaLightboxImg.setAttribute('src', src);
+                    schemaLightboxImg.setAttribute('alt', alt);
+                    schemaLightboxTitle.textContent = title;
+                    schemaLightbox.hidden = false;
+                    document.body.style.overflow = 'hidden';
+                    schemaLightboxClose.focus();
+                });
+                schemaLightboxClose.addEventListener('click', closeLightbox);
+                schemaLightbox.addEventListener('click', (ev) => {
+                    if (ev.target === schemaLightbox) closeLightbox();
+                });
+                document.addEventListener('keydown', (ev) => {
+                    if (ev.key === 'Escape' && !schemaLightbox.hidden) closeLightbox();
+                });
             }
         </script>
     </body>

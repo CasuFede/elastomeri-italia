@@ -17,15 +17,20 @@ class ClienteLostPasswordRequest(BaseModel):
     email: EmailStr
 
 
+class ClienteConfirmResetRequest(BaseModel):
+    token: str = Field(min_length=20, max_length=512)
+    password: str = Field(min_length=8, max_length=200)
+
+
 class ClienteModificaPassword(BaseModel):
-    password: str
+    password: str = Field(min_length=12, max_length=200)
 
 
 class ClienteCambiaPasswordForm(BaseModel):
-    password: str
+    password: str = Field(min_length=8, max_length=200)
 
 
 class ClienteCreazione(BaseModel):
-    nome: str
+    nome: str = Field(min_length=1, max_length=160)
     email: EmailStr
-    password: Optional[str] = None
+    password: Optional[str] = Field(default=None, max_length=200)

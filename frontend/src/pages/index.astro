@@ -1,289 +1,423 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
 import CallToAction from '../components/CallToAction.astro';
+
+const faqStructuredData = [
+    {
+        '@type': 'FAQPage',
+        mainEntity: [
+            {
+                '@type': 'Question',
+                name: 'È davvero possibile impermeabilizzare senza demolire le piastrelle o la vecchia guaina?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Sì. Se il pavimento esistente (gres, klinker, cemento) o la vecchia guaina sono ben ancorati, non serve demolire. Eseguiamo una levigatura diamantata superficiale, applichiamo un primer epossidico ad altissima adesione e spruzziamo la poliurea in soli 2–3 mm: zero macerie, niente polvere e risparmio immediato.',
+                },
+            },
+            {
+                '@type': 'Question',
+                name: "Quanto dura nel tempo un'impermeabilizzazione in poliurea pura a spruzzo?",
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: "A differenza delle guaine prefabbricate che si fessurano sui sormonti a causa degli sbalzi termici, la poliurea a spruzzo crea una membrana monolitica priva di giunzioni. Mantiene la sua elasticità (>400%) inalterata per decenni, resiste ai raggi UV grazie al topcoat alifatico e sopporta ristagni d'acqua persistenti senza degradarsi.",
+                },
+            },
+            {
+                '@type': 'Question',
+                name: 'In quanto tempo viene completato il cantiere e quando posso calpestare la superficie?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: "Il materiale polimerizza in pochi secondi ed è perfettamente calpestabile dopo appena 60 minuti. Un terrazzo residenziale medio viene preparato, primerizzato e impermeabilizzato in 1–2 giorni lavorativi, azzerando i lunghi e invasivi cantieri dell'edilizia tradizionale.",
+                },
+            },
+            {
+                '@type': 'Question',
+                name: 'Cosa succede dopo che ho inviato il modulo di contatto?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Un nostro tecnico esamina i dati e le foto ricevute e ti ricontatta entro 24 ore. Concordiamo un sopralluogo diagnostico in loco, 100% gratuito e senza impegno, durante il quale verifichiamo pendenze, supporti e umidità per formulare un preventivo chiaro e trasparente.',
+                },
+            },
+        ],
+    },
+];
 ---
 
 <SiteLayout
-    title="Poliurea System | Impermeabilizzazioni in Poliurea"
-    description="Impermeabilizzazioni in poliurea a spruzzo per terrazzi, tetti e fondazioni. Membrana continua, calpestabile in 60 minuti. Richiedi un preventivo."
+    title="Poliurea System | Impermeabilizzazioni Genova e Liguria"
+    description="Impermeabilizzazioni in poliurea a spruzzo a Genova e in Liguria per terrazzi, tetti e fondazioni. Zero demolizioni, calpestabile in 60 min."
+    extraStructuredData={faqStructuredData}
 >
     <!-- HERO SECTION -->
     <section class="home-hero relative overflow-hidden">
-        <!-- Video di sfondo a tutto schermo -->
-        <video
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="auto"
-            poster="/images/hero-capannone-poliurea-bianca.webp"
-            aria-hidden="true"
-            class="absolute inset-0 w-full h-full object-cover object-[78%_20%] sm:object-[68%_20%] lg:object-[center_20%] z-0 motion-reduce:hidden"
-        >
-            <source src="/videos/hero-poliurea.mp4" type="video/mp4" />
-        </video>
-        <!-- Fallback statico per preferenza riduzione animazioni -->
+        <!-- Immagine di base sempre presente sotto al video (evita schermate nere o icone play su iOS Risparmio Energetico) -->
         <img
             src="/images/hero-capannone-poliurea-bianca.webp"
             alt="Tecnico Poliurea System in tuta bianca mentre spruzza poliurea bianca sulla copertura di un capannone industriale"
             width="1376"
             height="768"
             loading="eager"
+            fetchpriority="high"
             decoding="async"
-            class="hidden motion-reduce:block absolute inset-0 w-full h-full object-cover object-[78%_20%] sm:object-[68%_20%] lg:object-[center_20%] z-0"
+            class="absolute inset-0 w-full h-full object-cover object-[78%_20%] sm:object-[68%_20%] lg:object-[center_20%] z-0 pointer-events-none"
         />
+        <!-- Video di sfondo a tutto schermo (appare in dissolvenza appena parte la riproduzione reale) -->
+        <video
+            id="hero-bg-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            webkit-playsinline
+            disablepictureinpicture
+            disableRemotePlayback
+            preload="auto"
+            aria-hidden="true"
+            src="/media/hero-poliurea.mp4?v=3"
+            class="hero-bg-video absolute inset-0 w-full h-full object-cover object-[78%_20%] sm:object-[68%_20%] lg:object-[center_20%] z-0 pointer-events-none opacity-0 transition-opacity duration-500 motion-reduce:hidden"
+        ></video>
 
-        <!-- Overlay con gradiente: scuro sul testo a sinistra, sfumato sul tecnico e sul getto a destra -->
-        <div class="absolute inset-0 bg-gradient-to-b sm:bg-gradient-to-r from-zinc-950/95 via-zinc-950/85 to-zinc-950/55 sm:from-zinc-950/95 sm:via-zinc-950/75 sm:to-zinc-950/15 z-0 pointer-events-none"></div>
-        <div class="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-zinc-950/95 to-transparent z-0 pointer-events-none"></div>
+        <!-- Velo scuro uniforme (nessuna sfumatura) per mantenere leggibile il testo sul video -->
+        <div class="absolute inset-0 bg-[#0b0f17]/60 z-0 pointer-events-none"></div>
 
-        <!-- Blocco testi e bottoni posizionato sopra lo sfondo fotografico -->
+        <!-- Blocco testi con sfondo trasparente direttamente sopra al video -->
         <div class="wrap relative z-10 py-12 sm:py-20 lg:py-28">
             <div class="hero-copy max-w-2xl">
-                <div class="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-3 sm:px-3.5 py-1 text-[11px] sm:text-xs font-semibold tracking-wider text-sky-400 mb-4 backdrop-blur-sm max-w-full">
-                    <span class="h-1.5 w-1.5 shrink-0 rounded-full bg-sky-400 animate-pulse"></span>
+                <div class="inline-flex items-center gap-2 rounded-md border border-sky-400 bg-[#0b0f17]/80 px-3 py-1 text-[11px] sm:text-xs font-bold tracking-wider text-sky-300 mb-4 max-w-full">
+                    <span class="h-2 w-2 shrink-0 rounded-full bg-sky-400"></span>
                     <span>IMPERMEABILIZZAZIONE A SPRUZZO SENZA DEMOLIZIONI</span>
                 </div>
-                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.12] mb-5">
+                <h1 class="text-3xl sm:text-5xl lg:text-[3.4rem] font-extrabold tracking-tight text-white leading-[1.12] mb-5 [text-shadow:0_2px_10px_rgba(0,0,0,0.85)]">
                     L’acqua trova la strada.<br />
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-sky-200">Noi la soluzione definitiva.</span>
+                    <span class="text-sky-400">Noi la soluzione definitiva.</span>
                 </h1>
-                <p class="hero-description text-base sm:text-lg text-zinc-200 leading-relaxed max-w-xl mb-7 font-normal">
+                <p class="hero-description text-base sm:text-lg text-white leading-relaxed max-w-xl mb-7 font-medium [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]">
                     Basta infiltrazioni, continue riparazioni provvisorie e costose demolizioni di piastrelle. Applichiamo una membrana continua in pura poliurea a caldo: monolitica, elastica al 400% e calpestabile già dopo 60 minuti.
                 </p>
                 <div class="hero-actions flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 sm:gap-4">
                     <a 
-                        class="inline-flex items-center justify-center gap-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-bold text-sm sm:text-base px-6 py-3.5 shadow-lg shadow-sky-500/25 transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
+                        class="inline-flex items-center justify-center gap-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm sm:text-base px-6 py-3.5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
                         href="/preventivo"
                     >
                         Richiedi un sopralluogo gratuito <span aria-hidden="true" class="text-base font-bold">↗</span>
                     </a>
                     <a 
-                        class="inline-flex items-center justify-center gap-2 rounded-xl border border-zinc-700/80 bg-zinc-900/80 hover:bg-zinc-800 hover:border-zinc-600 text-zinc-200 hover:text-white font-semibold text-sm px-5 py-3.5 transition-all duration-200 backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400"
+                        class="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-slate-300 bg-[#0f172a]/85 hover:bg-slate-800 hover:border-white text-white font-semibold text-sm px-5 py-3.5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
                         href="/metodo"
                     >
-                        Scopri il nostro metodo <span aria-hidden="true" class="text-zinc-400">→</span>
+                        Scopri il nostro metodo <span aria-hidden="true" class="text-sky-400">→</span>
                     </a>
                 </div>
-                <div class="hero-note mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium text-zinc-300">
+                <div class="hero-note mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-bold text-white [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]">
                     <span class="inline-flex items-center gap-1.5">
-                        <span class="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold">✓</span>
+                        <span class="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-600 text-white text-[10px] font-bold">✓</span>
                         Sopralluogo diagnostico senza impegno
                     </span>
                     <span class="inline-flex items-center gap-1.5">
-                        <span class="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold">✓</span>
+                        <span class="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-600 text-white text-[10px] font-bold">✓</span>
                         Risposta entro 24 ore
                     </span>
                     <span class="inline-flex items-center gap-1.5">
-                        <span class="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold">✓</span>
+                        <span class="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-600 text-white text-[10px] font-bold">✓</span>
                         Preventivo chiaro e trasparente
                     </span>
                 </div>
             </div>
         </div>
 
-        <div class="hero-bottom wrap relative z-10 flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs font-mono font-bold tracking-widest text-zinc-400 py-6 border-t border-zinc-800/80">
-            <span>DALLE FONDAZIONI</span><i class="h-1 w-1 rounded-full bg-zinc-700 hidden sm:inline-block"></i><span>ALLE COPERTURE</span><i class="h-1 w-1 rounded-full bg-zinc-700 hidden sm:inline-block"></i><span>FINO AI DETTAGLI</span>
+        <div class="hero-bottom wrap relative z-10 flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs font-mono font-bold tracking-widest text-white py-5 border-t border-white/20 [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]">
+            <span>DALLE FONDAZIONI</span><i class="h-1.5 w-1.5 rounded-full bg-sky-400 hidden sm:inline-block"></i><span>ALLE COPERTURE</span><i class="h-1.5 w-1.5 rounded-full bg-sky-400 hidden sm:inline-block"></i><span>FINO AI DETTAGLI</span>
         </div>
     </section>
 
     <!-- TRUST BAR: 4 QUANTITATIVE METRICS -->
-    <section class="trust-bar bg-zinc-950 border-b border-zinc-800/80 py-8 sm:py-10">
+    <section class="trust-bar bg-[#111827] border-b border-slate-700 py-8 sm:py-10">
         <div class="wrap">
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                <div class="flex flex-col p-4 sm:p-5 rounded-xl border border-zinc-800/80 bg-zinc-900/60 transition-colors duration-200 hover:border-zinc-700">
+                <div class="flex flex-col p-4 sm:p-5 rounded-xl border border-slate-600 bg-slate-800 transition-colors duration-200 hover:border-sky-400">
                     <div class="text-2xl sm:text-3xl font-extrabold text-sky-400 tracking-tight">0 Demolizioni</div>
-                    <div class="mt-1 text-xs sm:text-sm font-semibold text-white">Nessuna rimozione piastrelle</div>
-                    <p class="mt-1 text-xs text-zinc-400 leading-normal">Zero macerie, nessun costo di discarica o polvere.</p>
+                    <div class="mt-1 text-xs sm:text-sm font-bold text-white">Nessuna rimozione piastrelle</div>
+                    <p class="mt-1 text-xs text-slate-200 leading-normal">Zero macerie, nessun costo di discarica o polvere.</p>
                 </div>
-                <div class="flex flex-col p-4 sm:p-5 rounded-xl border border-zinc-800/80 bg-zinc-900/60 transition-colors duration-200 hover:border-zinc-700">
+                <div class="flex flex-col p-4 sm:p-5 rounded-xl border border-slate-600 bg-slate-800 transition-colors duration-200 hover:border-sky-400">
                     <div class="text-2xl sm:text-3xl font-extrabold text-sky-400 tracking-tight">60 Minuti</div>
-                    <div class="mt-1 text-xs sm:text-sm font-semibold text-white">Pedonabile all'istante</div>
-                    <p class="mt-1 text-xs text-zinc-400 leading-normal">Asciugatura rapida: cantiere fruibile in giornata.</p>
+                    <div class="mt-1 text-xs sm:text-sm font-bold text-white">Pedonabile all'istante</div>
+                    <p class="mt-1 text-xs text-slate-200 leading-normal">Asciugatura rapida: cantiere fruibile in giornata.</p>
                 </div>
-                <div class="flex flex-col p-4 sm:p-5 rounded-xl border border-zinc-800/80 bg-zinc-900/60 transition-colors duration-200 hover:border-zinc-700">
+                <div class="flex flex-col p-4 sm:p-5 rounded-xl border border-slate-600 bg-slate-800 transition-colors duration-200 hover:border-sky-400">
                     <div class="text-2xl sm:text-3xl font-extrabold text-sky-400 tracking-tight">0 Giunzioni</div>
-                    <div class="mt-1 text-xs sm:text-sm font-semibold text-white">Membrana continua 100%</div>
-                    <p class="mt-1 text-xs text-zinc-400 leading-normal">Monolitica senza sormonti o saldature a fiamma.</p>
+                    <div class="mt-1 text-xs sm:text-sm font-bold text-white">Membrana continua 100%</div>
+                    <p class="mt-1 text-xs text-slate-200 leading-normal">Monolitica senza sormonti o saldature a fiamma.</p>
                 </div>
-                <div class="flex flex-col p-4 sm:p-5 rounded-xl border border-zinc-800/80 bg-zinc-900/60 transition-colors duration-200 hover:border-zinc-700">
+                <div class="flex flex-col p-4 sm:p-5 rounded-xl border border-slate-600 bg-slate-800 transition-colors duration-200 hover:border-sky-400">
                     <div class="text-2xl sm:text-3xl font-extrabold text-sky-400 tracking-tight">&gt; 400%</div>
-                    <div class="mt-1 text-xs sm:text-sm font-semibold text-white">Allungamento elastico</div>
-                    <p class="mt-1 text-xs text-zinc-400 leading-normal">Assorbe movimenti strutturali ed escursioni termiche.</p>
+                    <div class="mt-1 text-xs sm:text-sm font-bold text-white">Allungamento elastico</div>
+                    <p class="mt-1 text-xs text-slate-200 leading-normal">Assorbe movimenti strutturali ed escursioni termiche.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- DOVE POSSIAMO INTERVENIRE -->
-    <section class="section-block wrap py-16 sm:py-20">
-        <div class="section-heading mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-                <p class="eyebrow inline-block rounded-md border border-sky-500/25 bg-sky-500/10 px-3 py-1 font-mono text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">DOVE RISOLVIAMO IL PROBLEMA</p>
-                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">Danni da infiltrazione?<br /><span class="text-sky-400">Ecco dove interveniamo alla radice.</span></h2>
-            </div>
-            <p class="text-base text-zinc-300 leading-relaxed max-w-md">Umidità, guaine fessurate e ristagni d'acqua: interveniamo con cicli specifici per ogni tipo di supporto, senza demolire l'esistente.</p>
+    <!-- MENU RAPIDO STICKY DEGLI ARGOMENTI -->
+    <nav class="home-quick-nav" aria-label="Argomenti della home page">
+        <div class="wrap home-quick-nav-inner">
+            <span class="home-quick-nav-label">ARGOMENTI</span>
+            <a class="home-quick-link is-active" href="#interventi" data-band-link="interventi"><span>01</span> Dove interveniamo</a>
+            <a class="home-quick-link" href="#metodo" data-band-link="metodo"><span>02</span> Il metodo</a>
+            <a class="home-quick-link" href="#poliurea" data-band-link="poliurea"><span>03</span> Perché la poliurea</a>
+            <a class="home-quick-link" href="#clienti" data-band-link="clienti"><span>04</span> Privati &amp; Imprese</a>
+            <a class="home-quick-link" href="#preventivo-step" data-band-link="preventivo-step"><span>05</span> Preventivo</a>
+            <a class="home-quick-link" href="#faq" data-band-link="faq"><span>06</span> FAQ</a>
         </div>
-        <div class="service-grid">
-            <a class="service-card group rounded-2xl border border-zinc-800 bg-zinc-900 p-6 sm:p-7 shadow-lg shadow-black/60 transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-850 hover:-translate-y-1.5 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 flex flex-col" href="/fondazioni#terrazzi">
-                <div class="w-full aspect-[16/10] overflow-hidden rounded-xl border border-zinc-800/80 bg-zinc-950 p-1 mb-5">
-                    <img
-                        src="/images/terrazzi-impermeabilizzazione.svg"
-                        alt="Impermeabilizzazione terrazzi e lastrici solari senza demolizione"
-                        class="h-full w-full rounded-lg object-cover group-hover:scale-105 transition-transform duration-300"
-                        width="400"
-                        height="250"
-                        loading="lazy"
-                    />
+    </nav>
+
+    <!-- BARRA 01: DOVE POSSIAMO INTERVENIRE -->
+    <section id="interventi" class="home-band" data-band="interventi">
+        <div class="home-band-bar">
+            <div class="wrap home-band-bar-inner">
+                <div class="home-band-title">
+                    <span class="home-band-num">01</span>
+                    <span class="home-band-label">Dove risolviamo il problema</span>
                 </div>
-                <span class="card-index text-xs font-extrabold uppercase tracking-wider text-sky-400">01 / TERRAZZI E BALCONI</span>
-                <h3 class="mt-2 text-lg font-bold text-white group-hover:text-sky-300 transition-colors">Terrazzi e lastrici solari</h3>
-                <p class="mt-2 text-sm leading-relaxed text-zinc-300">Stop definitivo alle infiltrazioni ai piani sottostanti senza demolire la pavimentazione esistente. Calpestabile in 60 minuti.</p>
-                <span class="card-link mt-auto pt-4 text-xs font-bold text-sky-400 flex items-center gap-1 group-hover:text-sky-300">Approfondisci terrazzi <span aria-hidden="true">↗</span></span>
-            </a>
-            <a class="service-card group rounded-2xl border border-zinc-800 bg-zinc-900 p-6 sm:p-7 shadow-lg shadow-black/60 transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-850 hover:-translate-y-1.5 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 flex flex-col" href="/fondazioni#coperture">
-                <div class="w-full aspect-[16/10] overflow-hidden rounded-xl border border-zinc-800/80 bg-zinc-950 p-1 mb-5">
-                    <img
-                        src="/images/coperture-impermeabilizzazione.svg"
-                        alt="Impermeabilizzazione tetti e coperture industriali"
-                        class="h-full w-full rounded-lg object-cover group-hover:scale-105 transition-transform duration-300"
-                        width="400"
-                        height="250"
-                        loading="lazy"
-                    />
+                <a class="home-band-action" href="/fondazioni">Tutte le aree di intervento <span aria-hidden="true">→</span></a>
+            </div>
+        </div>
+        <div class="wrap home-band-body">
+            <div class="section-heading mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">Danni da infiltrazione?<br /><span class="text-sky-400">Ecco dove interveniamo alla radice.</span></h2>
                 </div>
-                <span class="card-index text-xs font-extrabold uppercase tracking-wider text-sky-400">02 / TETTI E COPERTURE</span>
-                <h3 class="mt-2 text-lg font-bold text-white group-hover:text-sky-300 transition-colors">Tetti e coperture industriali</h3>
-                <p class="mt-2 text-sm leading-relaxed text-zinc-300">Scudo protettivo continuo per coperture piane, guaine ammalorate e lamiere. Sigillatura ermetica di lucernari e raccordi.</p>
-                <span class="card-link mt-auto pt-4 text-xs font-bold text-sky-400 flex items-center gap-1 group-hover:text-sky-300">Approfondisci coperture <span aria-hidden="true">↗</span></span>
-            </a>
-            <a class="service-card group rounded-2xl border border-zinc-800 bg-zinc-900 p-6 sm:p-7 shadow-lg shadow-black/60 transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-850 hover:-translate-y-1.5 hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 flex flex-col" href="/fondazioni#fondazioni">
-                <div class="w-full aspect-[16/10] overflow-hidden rounded-xl border border-zinc-800/80 bg-zinc-950 p-1 mb-5">
-                    <img
-                        src="/images/fondazioni-impermeabilizzazione.svg"
-                        alt="Impermeabilizzazione fondazioni e strutture interrate"
-                        class="h-full w-full rounded-lg object-cover group-hover:scale-105 transition-transform duration-300"
-                        width="400"
-                        height="250"
-                        loading="lazy"
-                    />
-                </div>
-                <span class="card-index text-xs font-extrabold uppercase tracking-wider text-sky-400">03 / STRUTTURE INTERRATE</span>
-                <h3 class="mt-2 text-lg font-bold text-white group-hover:text-sky-300 transition-colors">Fondazioni, corselli e cantine</h3>
-                <p class="mt-2 text-sm leading-relaxed text-zinc-300">Barriera continua contro la spinta idrostatica e l'umidità di risalita su muri controterra, fosse ascensore e vasche.</p>
-                <span class="card-link mt-auto pt-4 text-xs font-bold text-sky-400 flex items-center gap-1 group-hover:text-sky-300">Approfondisci fondazioni <span aria-hidden="true">↗</span></span>
-            </a>
+                <p class="text-base text-slate-200 leading-relaxed max-w-md">Umidità, guaine fessurate e ristagni d'acqua: clicca su ogni schema tecnico per ingrandirlo e leggere nel dettaglio la stratigrafia dell'intervento.</p>
+            </div>
+            <div class="service-grid">
+                <article class="service-card rounded-2xl border-2 border-slate-600 bg-slate-800 p-5 sm:p-6 transition-colors duration-200 hover:border-sky-400 flex flex-col">
+                    <button
+                        type="button"
+                        data-schema-zoom
+                        data-schema-src="/images/terrazzi-impermeabilizzazione.svg"
+                        data-schema-title="Schema Tecnico — Terrazzi e lastrici solari"
+                        data-schema-alt="Schema tecnico impermeabilizzazione terrazzi e lastrici solari senza demolizione"
+                        class="group/zoom w-full rounded-xl border-2 border-slate-600 hover:border-sky-400 bg-[#0f172a] p-2 mb-5 text-left cursor-zoom-in transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                        aria-label="Ingrandisci schema tecnico terrazzi e lastrici solari"
+                    >
+                        <img
+                            src="/images/terrazzi-impermeabilizzazione.svg"
+                            alt="Schema tecnico impermeabilizzazione terrazzi e lastrici solari senza demolizione"
+                            class="w-full aspect-[16/10] rounded-lg object-contain bg-[#0f172a]"
+                            width="800"
+                            height="500"
+                            loading="lazy"
+                        />
+                        <span class="mt-2 flex items-center justify-between gap-2 rounded-lg bg-slate-800 border border-slate-500 px-3 py-2 text-xs font-bold text-white group-hover/zoom:bg-sky-600 group-hover/zoom:border-sky-400 transition-colors">
+                            <span>Clicca per ingrandire lo schema</span>
+                            <span aria-hidden="true">⤢</span>
+                        </span>
+                    </button>
+                    <span class="card-index text-xs font-extrabold uppercase tracking-wider text-sky-400">01 / TERRAZZI E BALCONI</span>
+                    <h3 class="mt-2 text-lg font-bold text-white">
+                        <a href="/fondazioni#terrazzi" class="hover:text-sky-400 transition-colors">Terrazzi e lastrici solari</a>
+                    </h3>
+                    <p class="mt-2 text-sm leading-relaxed text-slate-200">Stop definitivo alle infiltrazioni ai piani sottostanti senza demolire la pavimentazione esistente. Calpestabile in 60 minuti.</p>
+                    <a href="/fondazioni#terrazzi" class="card-link mt-auto pt-4 text-xs font-bold text-sky-400 hover:text-white flex items-center gap-1 transition-colors">Approfondisci terrazzi <span aria-hidden="true">↗</span></a>
+                </article>
+
+                <article class="service-card rounded-2xl border-2 border-slate-600 bg-slate-800 p-5 sm:p-6 transition-colors duration-200 hover:border-sky-400 flex flex-col">
+                    <button
+                        type="button"
+                        data-schema-zoom
+                        data-schema-src="/images/coperture-impermeabilizzazione.svg"
+                        data-schema-title="Schema Tecnico — Tetti e coperture industriali"
+                        data-schema-alt="Schema tecnico impermeabilizzazione tetti e coperture industriali"
+                        class="group/zoom w-full rounded-xl border-2 border-slate-600 hover:border-sky-400 bg-[#0f172a] p-2 mb-5 text-left cursor-zoom-in transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                        aria-label="Ingrandisci schema tecnico tetti e coperture industriali"
+                    >
+                        <img
+                            src="/images/coperture-impermeabilizzazione.svg"
+                            alt="Schema tecnico impermeabilizzazione tetti e coperture industriali"
+                            class="w-full aspect-[16/10] rounded-lg object-contain bg-[#0f172a]"
+                            width="800"
+                            height="500"
+                            loading="lazy"
+                        />
+                        <span class="mt-2 flex items-center justify-between gap-2 rounded-lg bg-slate-800 border border-slate-500 px-3 py-2 text-xs font-bold text-white group-hover/zoom:bg-sky-600 group-hover/zoom:border-sky-400 transition-colors">
+                            <span>Clicca per ingrandire lo schema</span>
+                            <span aria-hidden="true">⤢</span>
+                        </span>
+                    </button>
+                    <span class="card-index text-xs font-extrabold uppercase tracking-wider text-sky-400">02 / TETTI E COPERTURE</span>
+                    <h3 class="mt-2 text-lg font-bold text-white">
+                        <a href="/fondazioni#coperture" class="hover:text-sky-400 transition-colors">Tetti e coperture industriali</a>
+                    </h3>
+                    <p class="mt-2 text-sm leading-relaxed text-slate-200">Scudo protettivo continuo per coperture piane, guaine ammalorate e lamiere. Sigillatura ermetica di lucernari e raccordi.</p>
+                    <a href="/fondazioni#coperture" class="card-link mt-auto pt-4 text-xs font-bold text-sky-400 hover:text-white flex items-center gap-1 transition-colors">Approfondisci coperture <span aria-hidden="true">↗</span></a>
+                </article>
+
+                <article class="service-card rounded-2xl border-2 border-slate-600 bg-slate-800 p-5 sm:p-6 transition-colors duration-200 hover:border-sky-400 flex flex-col">
+                    <button
+                        type="button"
+                        data-schema-zoom
+                        data-schema-src="/images/fondazioni-impermeabilizzazione.svg"
+                        data-schema-title="Schema Tecnico — Fondazioni, corselli e cantine"
+                        data-schema-alt="Schema tecnico impermeabilizzazione fondazioni e strutture interrate"
+                        class="group/zoom w-full rounded-xl border-2 border-slate-600 hover:border-sky-400 bg-[#0f172a] p-2 mb-5 text-left cursor-zoom-in transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                        aria-label="Ingrandisci schema tecnico fondazioni, corselli e cantine"
+                    >
+                        <img
+                            src="/images/fondazioni-impermeabilizzazione.svg"
+                            alt="Schema tecnico impermeabilizzazione fondazioni e strutture interrate"
+                            class="w-full aspect-[16/10] rounded-lg object-contain bg-[#0f172a]"
+                            width="800"
+                            height="500"
+                            loading="lazy"
+                        />
+                        <span class="mt-2 flex items-center justify-between gap-2 rounded-lg bg-slate-800 border border-slate-500 px-3 py-2 text-xs font-bold text-white group-hover/zoom:bg-sky-600 group-hover/zoom:border-sky-400 transition-colors">
+                            <span>Clicca per ingrandire lo schema</span>
+                            <span aria-hidden="true">⤢</span>
+                        </span>
+                    </button>
+                    <span class="card-index text-xs font-extrabold uppercase tracking-wider text-sky-400">03 / STRUTTURE INTERRATE</span>
+                    <h3 class="mt-2 text-lg font-bold text-white">
+                        <a href="/fondazioni#fondazioni" class="hover:text-sky-400 transition-colors">Fondazioni, corselli e cantine</a>
+                    </h3>
+                    <p class="mt-2 text-sm leading-relaxed text-slate-200">Barriera continua contro la spinta idrostatica e l'umidità di risalita su muri controterra, fosse ascensore e vasche.</p>
+                    <a href="/fondazioni#fondazioni" class="card-link mt-auto pt-4 text-xs font-bold text-sky-400 hover:text-white flex items-center gap-1 transition-colors">Approfondisci fondazioni <span aria-hidden="true">↗</span></a>
+                </article>
+            </div>
         </div>
     </section>
 
-    <!-- METODO DIAGNOSTICO -->
-    <section class="method-preview py-16 sm:py-20 bg-zinc-950 border-y border-zinc-800">
-        <div class="wrap method-preview-grid">
-            <div class="method-illustration" aria-hidden="true">
-                <div class="method-ring ring-a"></div><div class="method-ring ring-b"></div>
-                <div class="method-core"><span>EI</span><small>ANALISI<br />E INTERVENTO</small></div>
-                <span class="method-node node-a">01</span><span class="method-node node-b">02</span><span class="method-node node-c">03</span>
-            </div>
-            <div class="method-copy">
-                <p class="eyebrow inline-block rounded-md border border-sky-500/25 bg-sky-500/10 px-3 py-1 font-mono text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">METODO DIAGNOSTICO CERTIFICATO</p>
-                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight mb-4">Prima capire.<br /><span class="text-sky-400">Poi intervenire.</span></h2>
-                <p class="text-base text-zinc-300 leading-relaxed mb-6">Un'impermeabilizzazione fallisce se applicata senza diagnosi su un supporto inadeguato. Il nostro protocollo esclude interventi alla cieca: garantiamo adesione chimica e tenuta idraulica duratura nel tempo.</p>
-                <a class="text-link inline-flex items-center gap-2 text-sm font-bold text-sky-400 hover:text-sky-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded-md" href="/metodo">Scopri le fasi del metodo <span aria-hidden="true">→</span></a>
-            </div>
-            <div class="method-steps flex flex-col gap-4">
-                <div class="flex items-start gap-4 rounded-xl border border-zinc-800 bg-zinc-900 p-4 shadow-md transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-800/80">
-                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-sky-500/30 bg-sky-500/10 font-mono text-xs font-bold text-sky-400">01</span>
-                    <div>
-                        <strong class="block text-sm font-bold text-white mb-0.5">Analisi Diagnostica Strumentale</strong>
-                        <small class="text-xs text-zinc-300 leading-relaxed block">Rilevamento termografico e igrometrico per mappare con precisione l'origine esatta dell'acqua e l'umidità del sottofondo.</small>
-                    </div>
+    <!-- BARRA 02: METODO DIAGNOSTICO -->
+    <section id="metodo" class="home-band home-band--alt method-preview" data-band="metodo">
+        <div class="home-band-bar">
+            <div class="wrap home-band-bar-inner">
+                <div class="home-band-title">
+                    <span class="home-band-num">02</span>
+                    <span class="home-band-label">Metodo diagnostico certificato</span>
                 </div>
-                <div class="flex items-start gap-4 rounded-xl border border-zinc-800 bg-zinc-900 p-4 shadow-md transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-800/80">
-                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-sky-500/30 bg-sky-500/10 font-mono text-xs font-bold text-sky-400">02</span>
-                    <div>
-                        <strong class="block text-sm font-bold text-white mb-0.5">Trattamento Meccanico del Supporto</strong>
-                        <small class="text-xs text-zinc-300 leading-relaxed block">Levigatura diamantata, ripristino giunti e applicazione del primer epossidico per una forza di adesione strutturale (&gt; 2.5 MPa).</small>
+                <a class="home-band-action" href="/metodo">Approfondisci il protocollo <span aria-hidden="true">→</span></a>
+            </div>
+        </div>
+        <div class="wrap home-band-body">
+            <div class="method-preview-grid">
+                <div class="method-copy">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight mb-4">Prima capire.<br /><span class="text-sky-400">Poi intervenire.</span></h2>
+                    <p class="text-base text-slate-200 leading-relaxed mb-6">Un'impermeabilizzazione fallisce se applicata senza diagnosi su un supporto inadeguato. Il nostro protocollo esclude interventi alla cieca: verifichiamo l'umidità del supporto e garantiamo adesione chimica e tenuta idraulica certificata.</p>
+                    <div class="flex flex-wrap gap-2.5 mb-7">
+                        <span class="inline-flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-xs font-bold text-white">
+                            <span class="h-2 w-2 rounded-full bg-sky-400"></span> Termocamera IR
+                        </span>
+                        <span class="inline-flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-xs font-bold text-white">
+                            <span class="h-2 w-2 rounded-full bg-sky-400"></span> Igrometro a carburo
+                        </span>
+                        <span class="inline-flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-3 py-2 text-xs font-bold text-white">
+                            <span class="h-2 w-2 rounded-full bg-emerald-400"></span> Collaudo certificato
+                        </span>
                     </div>
+                    <a class="inline-flex items-center gap-2 rounded-xl border-2 border-sky-500 bg-slate-800 hover:bg-sky-600 px-5 py-3 text-sm font-bold text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400" href="/metodo">Scopri le fasi del metodo <span aria-hidden="true">→</span></a>
                 </div>
-                <div class="flex items-start gap-4 rounded-xl border border-zinc-800 bg-zinc-900 p-4 shadow-md transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-800/80">
-                    <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-sky-500/30 bg-sky-500/10 font-mono text-xs font-bold text-sky-400">03</span>
-                    <div>
-                        <strong class="block text-sm font-bold text-white mb-0.5">Spruzzatura Continua & Collaudo</strong>
-                        <small class="text-xs text-zinc-300 leading-relaxed block">Nebulizzazione a caldo (70°C, 200 bar) della membrana continua in pura poliurea e successivo collaudo idraulico certificato.</small>
+                <div class="method-steps flex flex-col gap-4">
+                    <div class="flex items-start gap-4 rounded-xl border-2 border-slate-600 bg-slate-800 p-5 transition-colors duration-200 hover:border-sky-400">
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-600 font-mono text-xs font-extrabold text-white">01</span>
+                        <div>
+                            <strong class="block text-base font-bold text-white mb-1">Analisi Diagnostica Strumentale</strong>
+                            <small class="text-sm text-slate-200 leading-relaxed block">Rilevamento termografico e igrometrico per mappare con precisione l'origine esatta dell'acqua e l'umidità del sottofondo.</small>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 rounded-xl border-2 border-slate-600 bg-slate-800 p-5 transition-colors duration-200 hover:border-sky-400">
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-600 font-mono text-xs font-extrabold text-white">02</span>
+                        <div>
+                            <strong class="block text-base font-bold text-white mb-1">Trattamento Meccanico del Supporto</strong>
+                            <small class="text-sm text-slate-200 leading-relaxed block">Levigatura diamantata, ripristino giunti e applicazione del primer epossidico per una forza di adesione strutturale (&gt; 2.5 MPa).</small>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4 rounded-xl border-2 border-slate-600 bg-slate-800 p-5 transition-colors duration-200 hover:border-sky-400">
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-600 font-mono text-xs font-extrabold text-white">03</span>
+                        <div>
+                            <strong class="block text-base font-bold text-white mb-1">Spruzzatura Continua &amp; Collaudo</strong>
+                            <small class="text-sm text-slate-200 leading-relaxed block">Nebulizzazione a caldo (70°C, 200 bar) della membrana continua in pura poliurea e successivo collaudo idraulico certificato.</small>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- BENTO GRID: BENEFICI DELLA POLIUREA -->
-    <section class="polyurea-section py-16 sm:py-20 bg-black">
-        <div class="wrap">
+    <!-- BARRA 03: BENEFICI DELLA POLIUREA -->
+    <section id="poliurea" class="home-band polyurea-section" data-band="poliurea">
+        <div class="home-band-bar">
+            <div class="wrap home-band-bar-inner">
+                <div class="home-band-title">
+                    <span class="home-band-num">03</span>
+                    <span class="home-band-label">Tecnologia · Poliurea pura</span>
+                </div>
+                <a class="home-band-action" href="/metodo">Schede e parametri tecnici <span aria-hidden="true">→</span></a>
+            </div>
+        </div>
+        <div class="wrap home-band-body">
             <div class="mb-10 text-center sm:text-left">
-                <p class="inline-block rounded-md border border-sky-500/25 bg-sky-500/10 px-3 py-1 font-mono text-xs font-bold uppercase tracking-wider text-sky-400">TECNOLOGIA AD ALTE PRESTAZIONI</p>
-                <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">Perché la poliurea pura<br /><span class="text-sky-400">supera le guaine tradizionali.</span></h2>
-                <p class="mt-3 max-w-xl text-base leading-relaxed text-zinc-300">Niente saldature a fiamma, zero giunti che si scollano dopo pochi inverni. Una corazza elastica a spruzzo che diventa un tutt'uno con l'edificio.</p>
+                <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">Perché la poliurea pura<br /><span class="text-sky-400">supera le guaine tradizionali.</span></h2>
+                <p class="mt-3 max-w-xl text-base leading-relaxed text-slate-200">Niente saldature a fiamma, zero giunti che si scollano dopo pochi inverni. Una corazza elastica a spruzzo che diventa un tutt'uno con l'edificio.</p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Card 1: Continua & Monolitica -->
-                <article class="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/95 p-7 sm:p-8 shadow-xl transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-800/90 hover:-translate-y-1">
+                <article class="flex flex-col justify-between rounded-2xl border-2 border-slate-600 bg-slate-800 p-7 sm:p-8 transition-colors duration-200 hover:border-sky-400">
                     <div>
                         <div class="flex items-center justify-between gap-4 mb-5">
-                            <div class="flex h-12 w-12 items-center justify-center rounded-xl border border-sky-500/30 bg-sky-500/10 text-sky-400 shadow-lg shadow-sky-500/10 group-hover:scale-105 transition-transform duration-300">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-600 text-white">
                                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                                     <path d="m9 12 2 2 4-4"/>
                                 </svg>
                             </div>
-                            <span class="rounded-md border border-sky-500/25 bg-sky-500/10 px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-wider text-sky-400">ZERO SALDATURE</span>
+                            <span class="rounded-md border border-sky-500 bg-sky-950 px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-wider text-sky-300">ZERO SALDATURE</span>
                         </div>
                         <h3 class="text-xl font-bold tracking-tight text-white mb-2.5">Impermeabilità Continua</h3>
-                        <p class="text-sm leading-relaxed text-zinc-300">Niente teli prefabbricati né fiamme: la membrana nebulizzata a caldo aderisce molecolarmente formando un unico manto monolitico senza giunti deboli.</p>
+                        <p class="text-sm leading-relaxed text-slate-200">Niente teli prefabbricati né fiamme: la membrana nebulizzata a caldo aderisce molecolarmente formando un unico manto monolitico senza giunti deboli.</p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs text-zinc-400">
+                    <div class="mt-6 pt-4 border-t border-slate-600 flex items-center justify-between text-xs">
                         <span class="font-semibold text-white">0% Punti di perdita</span>
                         <span class="font-mono text-sky-400 font-bold">100% Monolitica</span>
                     </div>
                 </article>
 
                 <!-- Card 2: Pedonabile in 60 Minuti -->
-                <article class="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/95 p-7 sm:p-8 shadow-xl transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-800/90 hover:-translate-y-1">
+                <article class="flex flex-col justify-between rounded-2xl border-2 border-slate-600 bg-slate-800 p-7 sm:p-8 transition-colors duration-200 hover:border-sky-400">
                     <div>
                         <div class="flex items-center justify-between gap-4 mb-5">
-                            <div class="flex h-12 w-12 items-center justify-center rounded-xl border border-sky-500/30 bg-sky-500/10 text-sky-400 shadow-lg shadow-sky-500/10 group-hover:scale-105 transition-transform duration-300">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-600 text-white">
                                 <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
                                 </svg>
                             </div>
-                            <span class="rounded-md border border-sky-500/25 bg-sky-500/10 px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-wider text-sky-400">TEMPI RECORD</span>
+                            <span class="rounded-md border border-sky-500 bg-sky-950 px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-wider text-sky-300">TEMPI RECORD</span>
                         </div>
                         <h3 class="text-xl font-bold tracking-tight text-white mb-2.5">Pedonabile in 60 Minuti</h3>
-                        <p class="text-sm leading-relaxed text-zinc-300">Polimerizzazione immediata in pochi secondi dall'ugello: le superfici tornano subito praticabili, azzerando i disagi e i fermi prolungati di cantiere.</p>
+                        <p class="text-sm leading-relaxed text-slate-200">Polimerizzazione immediata in pochi secondi dall'ugello: le superfici tornano subito praticabili, azzerando i disagi e i fermi prolungati di cantiere.</p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs text-zinc-400">
+                    <div class="mt-6 pt-4 border-t border-slate-600 flex items-center justify-between text-xs">
                         <span class="font-semibold text-white">Gel-time immediato</span>
                         <span class="font-mono text-sky-400 font-bold">60 min calpestabile</span>
                     </div>
                 </article>
 
                 <!-- Card 3: Elasticità & Resistenza Totale -->
-                <article class="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900/95 p-7 sm:p-8 shadow-xl transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-800/90 hover:-translate-y-1">
+                <article class="flex flex-col justify-between rounded-2xl border-2 border-slate-600 bg-slate-800 p-7 sm:p-8 transition-colors duration-200 hover:border-sky-400">
                     <div>
                         <div class="flex items-center justify-between gap-4 mb-5">
-                            <div class="flex h-12 w-12 items-center justify-center rounded-xl border border-sky-500/30 bg-sky-500/10 text-sky-400 shadow-lg shadow-sky-500/10 group-hover:scale-105 transition-transform duration-300">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-600 text-white">
                                 <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="m5 9-3 3 3 3"/>
                                     <path d="m19 9 3 3-3 3"/>
                                     <path d="M2 12h20"/>
                                 </svg>
                             </div>
-                            <span class="rounded-md border border-sky-500/25 bg-sky-500/10 px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-wider text-sky-400">CRACK-BRIDGING</span>
+                            <span class="rounded-md border border-sky-500 bg-sky-950 px-2.5 py-1 font-mono text-[11px] font-bold uppercase tracking-wider text-sky-300">CRACK-BRIDGING</span>
                         </div>
                         <h3 class="text-xl font-bold tracking-tight text-white mb-2.5">Elasticità Superiore al 400%</h3>
-                        <p class="text-sm leading-relaxed text-zinc-300">Assorbe fessurazioni ed escursioni termiche estreme (-20°C / +80°C). Resiste stabilmente a ristagni d'acqua persistenti e all'irraggiamento UV.</p>
+                        <p class="text-sm leading-relaxed text-slate-200">Assorbe fessurazioni ed escursioni termiche estreme (-20°C / +80°C). Resiste stabilmente a ristagni d'acqua persistenti e all'irraggiamento UV.</p>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-zinc-800/80 flex items-center justify-between text-xs text-zinc-400">
+                    <div class="mt-6 pt-4 border-t border-slate-600 flex items-center justify-between text-xs">
                         <span class="font-semibold text-white">Allungamento dinamico</span>
                         <span class="font-mono text-sky-400 font-bold">&gt; 400% a rottura</span>
                     </div>
@@ -291,14 +425,14 @@ import CallToAction from '../components/CallToAction.astro';
             </div>
 
             <!-- Box di collegamento alle specifiche tecniche complete per tecnici e progettisti -->
-            <div class="mt-10 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
+            <div class="mt-10 rounded-2xl border-2 border-slate-600 bg-slate-800 p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div>
                     <h4 class="text-lg font-bold text-white">Sei un progettista o cerchi le schede tecniche dettagliate?</h4>
-                    <p class="mt-1 text-sm text-zinc-300">Consulta il nostro protocollo completo: parametri bimixer, igrometria del supporto, primer e collaudi idraulici.</p>
+                    <p class="mt-1 text-sm text-slate-200">Consulta il nostro protocollo completo: parametri bimixer, igrometria del supporto, primer e collaudi idraulici.</p>
                 </div>
                 <a 
                     href="/metodo" 
-                    class="shrink-0 inline-flex items-center gap-2 rounded-xl border border-zinc-700 bg-zinc-800 hover:bg-zinc-700 hover:border-zinc-600 text-white font-semibold text-sm px-5 py-3 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
+                    class="shrink-0 inline-flex items-center gap-2 rounded-xl border-2 border-sky-500 bg-slate-900 hover:bg-sky-600 text-white font-bold text-sm px-5 py-3 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
                 >
                     Scopri il Metodo Tecnico <span aria-hidden="true">→</span>
                 </a>
@@ -306,163 +440,197 @@ import CallToAction from '../components/CallToAction.astro';
         </div>
     </section>
 
-    <!-- INTERMEDIATE HIGH-CONVERTING CTA BAND -->
-    <section class="intermediate-cta wrap py-8 sm:py-12">
-        <div class="flex flex-col lg:flex-row items-center justify-between gap-6 rounded-2xl border border-sky-500/30 bg-gradient-to-r from-sky-950/40 via-zinc-900 to-zinc-900 p-8 sm:p-10 shadow-2xl">
-            <div class="max-w-2xl text-center lg:text-left">
-                <span class="inline-block rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-mono font-bold tracking-wider text-sky-400 mb-2">
-                    NON ASPETTARE CHE IL DANNO PEGGIORI
-                </span>
-                <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                    Hai notato macchie o infiltrazioni nel tuo immobile?
-                </h3>
-                <p class="mt-2 text-sm sm:text-base text-zinc-300">
-                    L'acqua penetra nei ferri d'armatura provocando distacchi e muffe. Un sopralluogo diagnostico tempestivo ti consente di bloccare i danni prima di dover affrontare spese quintuplicate.
-                </p>
-            </div>
-            <div class="shrink-0">
-                <a 
-                    class="inline-flex items-center justify-center gap-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-bold text-sm sm:text-base px-6 py-3.5 shadow-lg shadow-sky-500/25 transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
-                    href="/preventivo"
-                >
-                    Richiedi la verifica in loco <span aria-hidden="true" class="text-base font-bold">↗</span>
-                </a>
+    <!-- FASCIA URGENZA INTERMEDIA -->
+    <section class="home-band--urgent">
+        <div class="wrap">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-6 rounded-2xl border-2 border-sky-500 bg-slate-800 p-7 sm:p-9">
+                <div class="max-w-2xl text-center lg:text-left">
+                    <span class="inline-block rounded-md border border-sky-500 bg-sky-950 px-3 py-1 text-xs font-mono font-bold tracking-wider text-sky-300 mb-3">
+                        NON ASPETTARE CHE IL DANNO PEGGIORI
+                    </span>
+                    <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                        Hai notato macchie o infiltrazioni nel tuo immobile?
+                    </h3>
+                    <p class="mt-2 text-sm sm:text-base text-slate-200">
+                        L'acqua penetra nei ferri d'armatura provocando distacchi e muffe. Un sopralluogo diagnostico tempestivo ti consente di bloccare i danni prima di dover affrontare spese quintuplicate.
+                    </p>
+                </div>
+                <div class="shrink-0">
+                    <a 
+                        class="inline-flex items-center justify-center gap-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm sm:text-base px-6 py-3.5 transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
+                        href="/preventivo"
+                    >
+                        Richiedi la verifica in loco <span aria-hidden="true" class="text-base font-bold">↗</span>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- AUDIENCE PREVIEW -->
-    <section class="section-block wrap audience-preview flex flex-col lg:grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16 py-16 sm:py-20">
-        <div class="audience-copy">
-            <p class="eyebrow inline-block rounded-md border border-sky-500/25 bg-sky-500/10 px-3 py-1 font-mono text-xs font-bold uppercase tracking-wider text-sky-400 mb-3">PER OGNI TIPOLOGIA DI EDIFICIO</p>
-            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight mb-4 break-words">Un interlocutore unico<br /><span class="text-sky-400">per privati, aziende e condomìni.</span></h2>
-            <p class="text-base text-zinc-300 leading-relaxed mb-6 break-words">Che si tratti del terrazzo di casa o della copertura di uno stabilimento industriale, garantiamo la medesima precisione diagnostica, report tecnici e certificazioni di conformità.</p>
-            <a class="text-link inline-flex items-center gap-2 text-sm font-bold text-sky-400 hover:text-sky-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded" href="/imprese">Scopri i servizi per imprese <span aria-hidden="true">→</span></a>
+    <!-- BARRA 04: PRIVATI, AZIENDE E CONDOMÌNI -->
+    <section id="clienti" class="home-band home-band--alt" data-band="clienti">
+        <div class="home-band-bar">
+            <div class="wrap home-band-bar-inner">
+                <div class="home-band-title">
+                    <span class="home-band-num">04</span>
+                    <span class="home-band-label">Per ogni tipologia di edificio</span>
+                </div>
+                <a class="home-band-action" href="/imprese">Servizi per imprese <span aria-hidden="true">→</span></a>
+            </div>
         </div>
-        <div class="audience-list flex flex-col space-y-3 w-full">
-            <a href="/preventivo" class="group flex items-center w-full gap-4 px-6 py-4 rounded-xl border border-zinc-800 bg-zinc-900 shadow-lg transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-800/80 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400">
-                <span class="font-mono text-xs font-bold text-sky-400 border border-sky-500/25 bg-sky-500/10 px-2.5 py-1 rounded-md shrink-0">01</span>
-                <div class="flex-1 min-w-0">
-                    <strong class="text-sm sm:text-base font-bold text-white group-hover:text-sky-300 transition-colors block">Privati e proprietari di casa</strong>
-                    <span class="text-xs text-zinc-400 block mt-0.5">Risoluzione rapida su terrazzi e balconi senza macerie o disagi prolungati.</span>
+        <div class="wrap home-band-body">
+            <div class="audience-preview flex flex-col lg:grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16">
+                <div class="audience-copy">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight mb-4 break-words">Un interlocutore unico<br /><span class="text-sky-400">per privati, aziende e condomìni.</span></h2>
+                    <p class="text-base text-slate-200 leading-relaxed mb-6 break-words">Che si tratti del terrazzo di casa o della copertura di uno stabilimento industriale, garantiamo la medesima precisione diagnostica, report tecnici e certificazioni di conformità.</p>
+                    <a class="inline-flex items-center gap-2 rounded-xl border-2 border-sky-500 bg-slate-800 hover:bg-sky-600 px-5 py-3 text-sm font-bold text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400" href="/imprese">Scopri i servizi per imprese <span aria-hidden="true">→</span></a>
                 </div>
-                <span class="text-sky-400 text-sm font-bold shrink-0 ml-auto group-hover:translate-x-0.5 transition-transform" aria-hidden="true">↗</span>
-            </a>
-            <a href="/imprese" class="group flex items-center w-full gap-4 px-6 py-4 rounded-xl border border-zinc-800 bg-zinc-900 shadow-lg transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-800/80 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400">
-                <span class="font-mono text-xs font-bold text-sky-400 border border-sky-500/25 bg-sky-500/10 px-2.5 py-1 rounded-md shrink-0">02</span>
-                <div class="flex-1 min-w-0">
-                    <strong class="text-sm sm:text-base font-bold text-white group-hover:text-sky-300 transition-colors block">Amministratori condominiali</strong>
-                    <span class="text-xs text-zinc-400 block mt-0.5">Interventi certificati che azzerano contenziosi tra condòmini e infiltrazioni nei box.</span>
+                <div class="audience-list flex flex-col space-y-3 w-full">
+                    <a href="/preventivo" class="group flex items-center w-full gap-4 px-6 py-4 rounded-xl border-2 border-slate-600 bg-slate-800 transition-colors duration-200 hover:border-sky-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400">
+                        <span class="font-mono text-xs font-extrabold text-white bg-sky-600 px-2.5 py-1 rounded-md shrink-0">01</span>
+                        <div class="flex-1 min-w-0">
+                            <strong class="text-sm sm:text-base font-bold text-white group-hover:text-sky-400 transition-colors block">Privati e proprietari di casa</strong>
+                            <span class="text-xs text-slate-200 block mt-0.5">Risoluzione rapida su terrazzi e balconi senza macerie o disagi prolungati.</span>
+                        </div>
+                        <span class="text-sky-400 text-sm font-bold shrink-0 ml-auto" aria-hidden="true">↗</span>
+                    </a>
+                    <a href="/imprese" class="group flex items-center w-full gap-4 px-6 py-4 rounded-xl border-2 border-slate-600 bg-slate-800 transition-colors duration-200 hover:border-sky-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400">
+                        <span class="font-mono text-xs font-extrabold text-white bg-sky-600 px-2.5 py-1 rounded-md shrink-0">02</span>
+                        <div class="flex-1 min-w-0">
+                            <strong class="text-sm sm:text-base font-bold text-white group-hover:text-sky-400 transition-colors block">Amministratori condominiali</strong>
+                            <span class="text-xs text-slate-200 block mt-0.5">Interventi certificati che azzerano contenziosi tra condòmini e infiltrazioni nei box.</span>
+                        </div>
+                        <span class="text-sky-400 text-sm font-bold shrink-0 ml-auto" aria-hidden="true">↗</span>
+                    </a>
+                    <a href="/imprese" class="group flex items-center w-full gap-4 px-6 py-4 rounded-xl border-2 border-slate-600 bg-slate-800 transition-colors duration-200 hover:border-sky-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400">
+                        <span class="font-mono text-xs font-extrabold text-white bg-sky-600 px-2.5 py-1 rounded-md shrink-0">03</span>
+                        <div class="flex-1 min-w-0">
+                            <strong class="text-sm sm:text-base font-bold text-white group-hover:text-sky-400 transition-colors block">Imprese, progettisti e tecnici</strong>
+                            <span class="text-xs text-slate-200 block mt-0.5">Supporto su capitolati, prove di tenuta idraulica documentate e posa garantita.</span>
+                        </div>
+                        <span class="text-sky-400 text-sm font-bold shrink-0 ml-auto" aria-hidden="true">↗</span>
+                    </a>
                 </div>
-                <span class="text-sky-400 text-sm font-bold shrink-0 ml-auto group-hover:translate-x-0.5 transition-transform" aria-hidden="true">↗</span>
-            </a>
-            <a href="/imprese" class="group flex items-center w-full gap-4 px-6 py-4 rounded-xl border border-zinc-800 bg-zinc-900 shadow-lg transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-800/80 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400">
-                <span class="font-mono text-xs font-bold text-sky-400 border border-sky-500/25 bg-sky-500/10 px-2.5 py-1 rounded-md shrink-0">03</span>
-                <div class="flex-1 min-w-0">
-                    <strong class="text-sm sm:text-base font-bold text-white group-hover:text-sky-300 transition-colors block">Imprese, progettisti e tecnici</strong>
-                    <span class="text-xs text-zinc-400 block mt-0.5">Supporto su capitolati, prove di tenuta idraulica documentate e posa garantita.</span>
-                </div>
-                <span class="text-sky-400 text-sm font-bold shrink-0 ml-auto group-hover:translate-x-0.5 transition-transform" aria-hidden="true">↗</span>
-            </a>
+            </div>
         </div>
     </section>
 
-    <!-- CHECKLIST: PRIMA DEL SOPRALLUOGO -->
-    <section class="home-checklist bg-zinc-950 border-y border-zinc-800 py-16">
-        <div class="wrap home-checklist-inner grid grid-cols-1 md:grid-cols-2 items-center gap-10 lg:gap-16 p-8 lg:p-12 rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl">
-            <div>
-                <p class="eyebrow inline-block rounded-md border border-sky-500/25 bg-sky-500/10 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-sky-400">SEMPLICE E TRASPARENTE</p>
-                <h2 class="mt-3 text-2xl font-extrabold tracking-tight text-white sm:text-4xl">Richiedere un preventivo<br /><span class="text-sky-400">richiede solo 2 minuti.</span></h2>
-                <p class="mt-4 text-base leading-relaxed text-zinc-300">Bastano poche informazioni essenziali per consentirci di inquadrare la situazione e organizzare il sopralluogo diagnostico gratuito.</p>
-                <div class="mt-8">
-                    <a class="inline-flex items-center gap-2 rounded-xl bg-sky-500 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition-all duration-300 hover:bg-sky-400 hover:shadow-sky-500/40 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300" href="/preventivo">Invia la tua richiesta ora <span aria-hidden="true" class="font-bold">↗</span></a>
+    <!-- BARRA 05: CHECKLIST PRIMA DEL SOPRALLUOGO -->
+    <section id="preventivo-step" class="home-band home-checklist" data-band="preventivo-step">
+        <div class="home-band-bar">
+            <div class="wrap home-band-bar-inner">
+                <div class="home-band-title">
+                    <span class="home-band-num">05</span>
+                    <span class="home-band-label">Come richiedere il preventivo</span>
                 </div>
+                <a class="home-band-action" href="/preventivo">Avvia richiesta (2 min) <span aria-hidden="true">↗</span></a>
             </div>
-            <ul class="flex flex-col gap-4 list-none m-0 p-0">
-                <li class="flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-4 transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90">
-                    <span class="font-mono text-sm font-bold text-sky-400 shrink-0">01</span>
-                    <div>
-                        <strong class="block text-sm font-bold text-white mb-0.5">Comune e superficie</strong>
-                        <small class="text-xs text-zinc-300 leading-relaxed block">Dove si trova l'immobile e cosa vuoi impermeabilizzare (terrazzo, lastrico, tetto o interrato).</small>
+        </div>
+        <div class="wrap home-band-body">
+            <div class="home-checklist-inner grid grid-cols-1 md:grid-cols-2 items-center gap-10 lg:gap-16 p-7 sm:p-8 lg:p-12 rounded-2xl border-2 border-slate-600 bg-slate-800">
+                <div>
+                    <h2 class="text-2xl font-extrabold tracking-tight text-white sm:text-4xl">Richiedere un preventivo<br /><span class="text-sky-400">richiede solo 2 minuti.</span></h2>
+                    <p class="mt-4 text-base leading-relaxed text-slate-200">Bastano poche informazioni essenziali per consentirci di inquadrare la situazione e organizzare il sopralluogo diagnostico gratuito.</p>
+                    <div class="mt-8">
+                        <a class="inline-flex items-center gap-2 rounded-xl bg-sky-600 hover:bg-sky-500 px-6 py-3.5 text-sm font-bold text-white transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300" href="/preventivo">Invia la tua richiesta ora <span aria-hidden="true" class="font-bold">↗</span></a>
                     </div>
-                </li>
-                <li class="flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-4 transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90">
-                    <span class="font-mono text-sm font-bold text-sky-400 shrink-0">02</span>
-                    <div>
-                        <strong class="block text-sm font-bold text-white mb-0.5">Il problema riscontrato</strong>
-                        <small class="text-xs text-zinc-300 leading-relaxed block">Gocciolamenti, macchie di umidità, pavimentazione ammalorata o nuova opera.</small>
-                    </div>
-                </li>
-                <li class="flex items-center gap-4 rounded-xl border border-zinc-800 bg-zinc-950 p-4 transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-900/90">
-                    <span class="font-mono text-sm font-bold text-sky-400 shrink-0">03</span>
-                    <div>
-                        <strong class="block text-sm font-bold text-white mb-0.5">Qualche foto dal cellulare</strong>
-                        <small class="text-xs text-zinc-300 leading-relaxed block">Una foto d'insieme e una del dettaglio per consentirci una prima diagnosi preliminare mirata.</small>
-                    </div>
-                </li>
-            </ul>
+                </div>
+                <ul class="flex flex-col gap-4 list-none m-0 p-0">
+                    <li class="flex items-center gap-4 rounded-xl border border-slate-600 bg-slate-900 p-4 transition-colors duration-200 hover:border-sky-400">
+                        <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-600 font-mono text-xs font-extrabold text-white shrink-0">01</span>
+                        <div>
+                            <strong class="block text-sm font-bold text-white mb-0.5">Comune e superficie</strong>
+                            <small class="text-xs text-slate-200 leading-relaxed block">Dove si trova l'immobile e cosa vuoi impermeabilizzare (terrazzo, lastrico, tetto o interrato).</small>
+                        </div>
+                    </li>
+                    <li class="flex items-center gap-4 rounded-xl border border-slate-600 bg-slate-900 p-4 transition-colors duration-200 hover:border-sky-400">
+                        <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-600 font-mono text-xs font-extrabold text-white shrink-0">02</span>
+                        <div>
+                            <strong class="block text-sm font-bold text-white mb-0.5">Il problema riscontrato</strong>
+                            <small class="text-xs text-slate-200 leading-relaxed block">Gocciolamenti, macchie di umidità, pavimentazione ammalorata o nuova opera.</small>
+                        </div>
+                    </li>
+                    <li class="flex items-center gap-4 rounded-xl border border-slate-600 bg-slate-900 p-4 transition-colors duration-200 hover:border-sky-400">
+                        <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-600 font-mono text-xs font-extrabold text-white shrink-0">03</span>
+                        <div>
+                            <strong class="block text-sm font-bold text-white mb-0.5">Qualche foto dal cellulare</strong>
+                            <small class="text-xs text-slate-200 leading-relaxed block">Una foto d'insieme e una del dettaglio per consentirci una prima diagnosi preliminare mirata.</small>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
     </section>
 
-    <!-- FAQ SECTION: OBJECTION BUSTERS -->
-    <section class="faq-section wrap py-16 sm:py-20">
-        <div class="max-w-5xl w-full mx-auto">
-            <div class="faq-heading mb-10">
-                <p class="eyebrow inline-block rounded-md border border-sky-500/25 bg-sky-500/10 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-sky-400">DOMANDE FREQUENTI</p>
-                <h2 class="mt-3 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">Tutto quello che c'è da sapere<br /><span class="text-sky-400">prima di richiedere il sopralluogo.</span></h2>
+    <!-- BARRA 06: DOMANDE FREQUENTI -->
+    <section id="faq" class="home-band home-band--alt faq-section" data-band="faq">
+        <div class="home-band-bar">
+            <div class="wrap home-band-bar-inner">
+                <div class="home-band-title">
+                    <span class="home-band-num">06</span>
+                    <span class="home-band-label">Domande frequenti</span>
+                </div>
+                <span class="home-band-meta">4 risposte rapide</span>
             </div>
-            <div class="faq-list space-y-4 max-w-5xl w-full">
-                <!-- FAQ 1 -->
-                <details class="group rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-sm transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-800/60 open:border-zinc-700 open:bg-zinc-900/95 focus-within:ring-2 focus-within:ring-sky-400/50 w-full">
-                    <summary class="flex cursor-pointer items-center justify-between w-full text-base sm:text-lg font-bold text-white select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded p-1">
-                        <span>È davvero possibile impermeabilizzare senza demolire le piastrelle o la vecchia guaina?</span>
-                        <span class="ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-xl border border-zinc-700 bg-zinc-950 text-sky-400 transition-transform duration-300 group-open:rotate-180">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </span>
-                    </summary>
-                    <p class="mt-4 text-sm sm:text-base leading-relaxed text-zinc-300">
-                        Sì. Se il pavimento esistente (gres, klinker, cemento) o la vecchia guaina sono ben ancorati, non serve demolire. Eseguiamo una levigatura diamantata superficiale, applichiamo un primer epossidico ad altissima adesione e spruzziamo la poliurea in soli 2–3 mm: zero macerie, niente polvere e risparmio immediato.
-                    </p>
-                </details>
+        </div>
+        <div class="wrap home-band-body">
+            <div class="max-w-5xl w-full mx-auto">
+                <div class="faq-heading mb-10">
+                    <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">Tutto quello che c'è da sapere<br /><span class="text-sky-400">prima di richiedere il sopralluogo.</span></h2>
+                </div>
+                <div class="faq-list space-y-4 max-w-5xl w-full">
+                    <!-- FAQ 1 -->
+                    <details class="group rounded-2xl border-2 border-slate-600 bg-slate-800 p-6 transition-colors duration-200 hover:border-sky-400 open:border-sky-400 w-full">
+                        <summary class="flex cursor-pointer items-center justify-between w-full text-base sm:text-lg font-bold text-white select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded p-1">
+                            <span>È davvero possibile impermeabilizzare senza demolire le piastrelle o la vecchia guaina?</span>
+                            <span class="ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-500 bg-slate-900 text-sky-400 transition-transform duration-200 group-open:rotate-180">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </span>
+                        </summary>
+                        <p class="mt-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                            Sì. Se il pavimento esistente (gres, klinker, cemento) o la vecchia guaina sono ben ancorati, non serve demolire. Eseguiamo una levigatura diamantata superficiale, applichiamo un primer epossidico ad altissima adesione e spruzziamo la poliurea in soli 2–3 mm: zero macerie, niente polvere e risparmio immediato.
+                        </p>
+                    </details>
 
-                <!-- FAQ 2 -->
-                <details class="group rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-sm transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-800/60 open:border-zinc-700 open:bg-zinc-900/95 focus-within:ring-2 focus-within:ring-sky-400/50 w-full">
-                    <summary class="flex cursor-pointer items-center justify-between w-full text-base sm:text-lg font-bold text-white select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded p-1">
-                        <span>Quanto dura nel tempo un'impermeabilizzazione in poliurea pura a spruzzo?</span>
-                        <span class="ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-xl border border-zinc-700 bg-zinc-950 text-sky-400 transition-transform duration-300 group-open:rotate-180">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </span>
-                    </summary>
-                    <p class="mt-4 text-sm sm:text-base leading-relaxed text-zinc-300">
-                        A differenza delle guaine prefabbricate che si fessurano sui sormonti a causa degli sbalzi termici, la poliurea a spruzzo crea una membrana monolitica priva di giunzioni. Mantiene la sua elasticità (&gt;400%) inalterata per decenni, resiste ai raggi UV grazie al topcoat alifatico e sopporta ristagni d'acqua persistenti senza degradarsi.
-                    </p>
-                </details>
+                    <!-- FAQ 2 -->
+                    <details class="group rounded-2xl border-2 border-slate-600 bg-slate-800 p-6 transition-colors duration-200 hover:border-sky-400 open:border-sky-400 w-full">
+                        <summary class="flex cursor-pointer items-center justify-between w-full text-base sm:text-lg font-bold text-white select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded p-1">
+                            <span>Quanto dura nel tempo un'impermeabilizzazione in poliurea pura a spruzzo?</span>
+                            <span class="ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-500 bg-slate-900 text-sky-400 transition-transform duration-200 group-open:rotate-180">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </span>
+                        </summary>
+                        <p class="mt-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                            A differenza delle guaine prefabbricate che si fessurano sui sormonti a causa degli sbalzi termici, la poliurea a spruzzo crea una membrana monolitica priva di giunzioni. Mantiene la sua elasticità (&gt;400%) inalterata per decenni, resiste ai raggi UV grazie al topcoat alifatico e sopporta ristagni d'acqua persistenti senza degradarsi.
+                        </p>
+                    </details>
 
-                <!-- FAQ 3 -->
-                <details class="group rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-sm transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-800/60 open:border-zinc-700 open:bg-zinc-900/95 focus-within:ring-2 focus-within:ring-sky-400/50 w-full">
-                    <summary class="flex cursor-pointer items-center justify-between w-full text-base sm:text-lg font-bold text-white select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded p-1">
-                        <span>In quanto tempo viene completato il cantiere e quando posso calpestare la superficie?</span>
-                        <span class="ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-xl border border-zinc-700 bg-zinc-950 text-sky-400 transition-transform duration-300 group-open:rotate-180">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </span>
-                    </summary>
-                    <p class="mt-4 text-sm sm:text-base leading-relaxed text-zinc-300">
-                        Il materiale polimerizza in pochi secondi ed è perfettamente calpestabile dopo appena 60 minuti. Un terrazzo residenziale medio viene preparato, primerizzato e impermeabilizzato in 1–2 giorni lavorativi, azzerando i lunghi e invasivi cantieri dell'edilizia tradizionale.
-                    </p>
-                </details>
+                    <!-- FAQ 3 -->
+                    <details class="group rounded-2xl border-2 border-slate-600 bg-slate-800 p-6 transition-colors duration-200 hover:border-sky-400 open:border-sky-400 w-full">
+                        <summary class="flex cursor-pointer items-center justify-between w-full text-base sm:text-lg font-bold text-white select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded p-1">
+                            <span>In quanto tempo viene completato il cantiere e quando posso calpestare la superficie?</span>
+                            <span class="ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-500 bg-slate-900 text-sky-400 transition-transform duration-200 group-open:rotate-180">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </span>
+                        </summary>
+                        <p class="mt-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                            Il materiale polimerizza in pochi secondi ed è perfettamente calpestabile dopo appena 60 minuti. Un terrazzo residenziale medio viene preparato, primerizzato e impermeabilizzato in 1–2 giorni lavorativi, azzerando i lunghi e invasivi cantieri dell'edilizia tradizionale.
+                        </p>
+                    </details>
 
-                <!-- FAQ 4 -->
-                <details class="group rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-sm transition-all duration-300 hover:border-zinc-700 hover:bg-zinc-800/60 open:border-zinc-700 open:bg-zinc-900/95 focus-within:ring-2 focus-within:ring-sky-400/50 w-full">
-                    <summary class="flex cursor-pointer items-center justify-between w-full text-base sm:text-lg font-bold text-white select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded p-1">
-                        <span>Cosa succede dopo che ho inviato il modulo di contatto?</span>
-                        <span class="ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-xl border border-zinc-700 bg-zinc-950 text-sky-400 transition-transform duration-300 group-open:rotate-180">
-                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                        </span>
-                    </summary>
-                    <p class="mt-4 text-sm sm:text-base leading-relaxed text-zinc-300">
-                        Un nostro tecnico esamina i dati e le foto ricevute e ti ricontatta entro 24 ore. Concordiamo un sopralluogo diagnostico in loco, 100% gratuito e senza impegno, durante il quale verifichiamo pendenze, supporti e umidità per formulare un preventivo chiaro e trasparente.
-                    </p>
-                </details>
+                    <!-- FAQ 4 -->
+                    <details class="group rounded-2xl border-2 border-slate-600 bg-slate-800 p-6 transition-colors duration-200 hover:border-sky-400 open:border-sky-400 w-full">
+                        <summary class="flex cursor-pointer items-center justify-between w-full text-base sm:text-lg font-bold text-white select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded p-1">
+                            <span>Cosa succede dopo che ho inviato il modulo di contatto?</span>
+                            <span class="ml-4 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-500 bg-slate-900 text-sky-400 transition-transform duration-200 group-open:rotate-180">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </span>
+                        </summary>
+                        <p class="mt-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                            Un nostro tecnico esamina i dati e le foto ricevute e ti ricontatta entro 24 ore. Concordiamo un sopralluogo diagnostico in loco, 100% gratuito e senza impegno, durante il quale verifichiamo pendenze, supporti e umidità per formulare un preventivo chiaro e trasparente.
+                        </p>
+                    </details>
+                </div>
             </div>
         </div>
     </section>
@@ -474,4 +642,107 @@ import CallToAction from '../components/CallToAction.astro';
         text="Non rimandare finché l'acqua non rovina intonaci, solai e finiture. Richiedi subito il tuo sopralluogo diagnostico gratuito: verificheremo le superfici e ti indicheremo la soluzione definitiva senza impegno."
         buttonText="Richiedi il Sopralluogo Gratuito"
     />
+
+    <script is:inline>
+        (() => {
+            // Avvio affidabile del video Hero su iOS Safari e Android (senza mai mostrare il tasto Play nativo)
+            const heroVideo = document.getElementById('hero-bg-video');
+            if (heroVideo instanceof HTMLVideoElement && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                heroVideo.muted = true;
+                heroVideo.defaultMuted = true;
+                heroVideo.playsInline = true;
+                heroVideo.setAttribute('playsinline', '');
+                heroVideo.setAttribute('webkit-playsinline', '');
+
+                const revealVideo = () => {
+                    heroVideo.classList.remove('opacity-0');
+                    heroVideo.classList.add('opacity-100');
+                };
+
+                heroVideo.addEventListener('playing', revealVideo, { once: true });
+                heroVideo.addEventListener('timeupdate', () => {
+                    if (heroVideo.currentTime > 0 && !heroVideo.paused) revealVideo();
+                });
+
+                const tryPlay = () => {
+                    if (!heroVideo.paused && heroVideo.currentTime > 0) {
+                        revealVideo();
+                        return;
+                    }
+                    const playPromise = heroVideo.play();
+                    if (playPromise && typeof playPromise.then === 'function') {
+                        playPromise.then(() => {
+                            if (heroVideo.currentTime > 0 || !heroVideo.paused) revealVideo();
+                        }).catch(() => {
+                            // In Risparmio Energetico iOS resta visibile la foto pulita sottostante senza alcun simbolo Play
+                        });
+                    }
+                };
+
+                if (heroVideo.readyState >= 2) {
+                    tryPlay();
+                } else {
+                    heroVideo.addEventListener('loadeddata', tryPlay, { once: true });
+                    heroVideo.addEventListener('canplay', tryPlay, { once: true });
+                    tryPlay();
+                }
+
+                const onFirstInteraction = () => {
+                    tryPlay();
+                    window.removeEventListener('touchstart', onFirstInteraction);
+                    window.removeEventListener('pointerdown', onFirstInteraction);
+                    window.removeEventListener('click', onFirstInteraction);
+                };
+                window.addEventListener('touchstart', onFirstInteraction, { passive: true, once: true });
+                window.addEventListener('pointerdown', onFirstInteraction, { passive: true, once: true });
+                window.addEventListener('click', onFirstInteraction, { passive: true, once: true });
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden) tryPlay();
+                });
+            }
+
+            const syncHeaderOffset = () => {
+                const header = document.querySelector('.site-header');
+                if (header) {
+                    document.documentElement.style.setProperty(
+                        '--site-header-height',
+                        `${Math.round(header.getBoundingClientRect().height)}px`
+                    );
+                }
+            };
+            syncHeaderOffset();
+            window.addEventListener('resize', syncHeaderOffset, { passive: true });
+
+            const links = Array.from(document.querySelectorAll('[data-band-link]'));
+            const bands = Array.from(document.querySelectorAll('section[data-band]'));
+            if (!links.length || !bands.length || !('IntersectionObserver' in window)) return;
+
+            const setActive = (id) => {
+                links.forEach((link) => {
+                    const active = link.getAttribute('data-band-link') === id;
+                    link.classList.toggle('is-active', active);
+                    if (active) {
+                        link.setAttribute('aria-current', 'true');
+                    } else {
+                        link.removeAttribute('aria-current');
+                    }
+                });
+            };
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    const visible = entries
+                        .filter((e) => e.isIntersecting)
+                        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+                    if (visible.length > 0) {
+                        const id = visible[0].target.getAttribute('data-band');
+                        if (id) setActive(id);
+                    }
+                },
+                { rootMargin: '-150px 0px -55% 0px', threshold: 0.01 }
+            );
+
+            bands.forEach((band) => observer.observe(band));
+        })();
+    </script>
 </SiteLayout>

@@ -3,7 +3,7 @@
 ---
 
 <aside class="chat-widget fixed z-50 right-4 md:right-6 bottom-4 md:bottom-6 max-w-[calc(100vw-2rem)]" id="chat-widget">
-    <section class="chat-panel w-[calc(100vw-2rem)] right-4 max-w-[420px] max-h-[calc(100dvh-5rem)] overflow-hidden flex flex-col rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl" id="chat-panel" aria-label="Chat con il Castoro" aria-hidden="true" inert hidden>
+    <section class="chat-panel w-[calc(100vw-2rem)] right-4 max-w-[420px] max-h-[calc(100dvh-5rem)] overflow-hidden flex flex-col rounded-2xl border-2 border-slate-600 bg-slate-800" id="chat-panel" aria-label="Chat con il Castoro" aria-hidden="true" inert hidden>
         <header class="chat-header">
             <div class="chat-avatar">
                 <img class="chat-header-mascot" src="/mascotte-castoro.webp" alt="Mascotte Il Castoro, assistente virtuale Poliurea System" width="52" height="52" />
@@ -36,7 +36,7 @@
         <p class="chat-disclaimer">Informazioni tratte dal manuale tecnico · <a href="/preventivo">Richiedi un sopralluogo</a></p>
     </section>
     <button
-        class="chat-launcher group flex items-center gap-2.5 md:gap-3 p-1.5 md:px-4 md:py-2.5 rounded-full bg-zinc-900/80 hover:bg-zinc-800/90 backdrop-blur-md border border-zinc-700/50 hover:border-zinc-500 shadow-2xl shadow-black/80 hover:shadow-sky-500/10 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer pointer-events-auto"
+        class="chat-launcher group flex items-center gap-2.5 md:gap-3 p-1.5 md:px-4 md:py-2.5 rounded-full bg-slate-800 hover:bg-slate-700 border-2 border-sky-500 hover:border-sky-400 transition-colors duration-200 cursor-pointer pointer-events-auto"
         id="chat-launcher"
         type="button"
         aria-label="Apri la chat con il Castoro"
@@ -47,14 +47,14 @@
             <img
                 src="/mascotte-castoro.webp"
                 alt="Assistente virtuale Il Castoro di Poliurea System"
-                class="w-10 h-10 md:w-8 md:h-8 rounded-full object-cover ring-2 ring-zinc-700/60 group-hover:ring-sky-500/50 transition-colors"
+                class="w-10 h-10 md:w-8 md:h-8 rounded-full object-cover ring-2 ring-slate-500 group-hover:ring-sky-400 transition-colors"
                 width="40"
                 height="40"
             />
-            <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-zinc-900" aria-hidden="true"></span>
+            <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-slate-800" aria-hidden="true"></span>
         </div>
-        <span class="chat-launcher-label hidden md:block text-sm font-medium text-white whitespace-nowrap">Chiedi al Castoro</span>
-        <span class="hidden md:flex items-center justify-center w-6 h-6 rounded-full bg-sky-500/10 border border-sky-500/25 text-sky-400 shrink-0 group-hover:bg-sky-500/20 group-hover:border-sky-500/40 transition-colors" aria-hidden="true">
+        <span class="chat-launcher-label hidden md:block text-sm font-bold text-white whitespace-nowrap">Chiedi al Castoro</span>
+        <span class="hidden md:flex items-center justify-center w-6 h-6 rounded-full bg-sky-600 text-white shrink-0" aria-hidden="true">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
@@ -241,7 +241,7 @@
             else messaggioAttesa.textContent = risultato.answer;
             messaggioAttesa.classList.remove('chat-message-pending');
 
-            cronologiaChat.push({ role: 'user', content: domanda }, { role: 'model', content: risultato.answer });
+            cronologiaChat.push({ role: 'user', content: domanda }, { role: 'assistant', content: risultato.answer });
             if (cronologiaChat.length > 10) cronologiaChat.splice(0, cronologiaChat.length - 10);
             mostraOpzioni(opzioni, opzioni.length ? 'Puoi approfondire' : 'Vuoi chiedere altro?');
         } catch (errore) {

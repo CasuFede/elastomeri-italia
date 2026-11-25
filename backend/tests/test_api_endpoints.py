@@ -137,3 +137,60 @@ def test_clienti_list_authenticated():
     assert "dati" in data
     assert len(data["dati"]) == 1
     assert data["dati"][0]["preventivi"] == 2
+    client.cookies.clear()
+
+
+def test_docs_disabled_by_default():
+    assert client.get("/docs").status_code == 404
+    assert client.get("/openapi.json").status_code == 404
+    assert client.get("/redoc").status_code == 404
+
+
+def test_http_basic_auth_rejected():
+    client.cookies.clear()
+    response = client.get("/api/clienti", auth=("admin", "testpassword123"))
+    assert response.status_code == 401
+    assert "www-authenticate" not in {k.lower() for k in response.headers.keys()}
+
+
+def test_csrf_blocks_foreign_origin():
+    token = crea_token_sessione("admin", "admin", "testsecret123")
+    client.cookies.set("poliurea_admin_session", token)
+    response = client.post(
+        "/api/clienti",
+        json={"nome": "Evil", "email": "evil@example.com"},
+        headers={"Origin": "https://evil.example"},
+    )
+    assert response.status_code == 403
+    client.cookies.clear()
+
+
+def test_admin_me_verifies_signed_cookie():
+    client.cookies.clear()
+    assert client.get("/api/auth/admin/me").status_code == 401
+    client.cookies.set("poliurea_admin_session", "fake-cookie-value")
+    assert client.get("/api/auth/admin/me").status_code == 401
+    token = crea_token_sessione("admin", "admin", "testsecret123")
+    client.cookies.set("poliurea_admin_session", token)
+    resp = client.get("/api/auth/admin/me")
+    assert resp.status_code == 200
+    assert resp.json()["username"] == "admin"
+    client.cookies.clear()
+
+
+def test_preventivo_honeypot_silently_drops_spam():
+    form_data = {
+        "nome": "Bot Spam",
+        "email": "bot@spam.example",
+        "telefono": "+39 333 1234567",
+        "comune": "Genova",
+        "tipo_immobile": "Condominio",
+        "area_intervento": "Terrazzi / Balconi",
+        "situazione": "Manutenzione preventiva",
+        "metratura": "< 50 mq",
+        "consenso": "true",
+        "website": "https://spam.example",
+    }
+    response = client.post("/api/preventivo", data=form_data)
+    assert response.status_code == 200
+    assert response.json()["id_pratica"] == 0

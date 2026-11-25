@@ -1,79 +1,60 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450" fill="none">
     <defs>
-        <linearGradient id="skyGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#0284c7" />
-            <stop offset="100%" stop-color="#38bdf8" />
-        </linearGradient>
-        <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#18181b" />
-            <stop offset="100%" stop-color="#09090b" />
-        </linearGradient>
-        <linearGradient id="concreteGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#27272a" />
-            <stop offset="100%" stop-color="#3f3f46" />
-        </linearGradient>
-        <linearGradient id="polyGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#38bdf8" />
-            <stop offset="100%" stop-color="#0284c7" />
-        </linearGradient>
-        <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
-            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#27272a" stroke-width="0.8" stroke-opacity="0.4" />
+        <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+            <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#1e293b" stroke-width="1" />
         </pattern>
-        <filter id="blueGlow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="8" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-        </filter>
     </defs>
 
-    <!-- Canvas Background -->
-    <rect width="800" height="450" fill="url(#bgGrad)" />
+    <!-- Sfondo solido ad alto contrasto -->
+    <rect width="800" height="450" fill="#0f172a" />
     <rect width="800" height="450" fill="url(#grid)" />
 
     <!-- Terreno / Ground cut -->
-    <path d="M 0 340 L 480 340 L 480 450 L 0 450 Z" fill="#1c1917" opacity="0.8" />
-    <path d="M 0 340 Q 240 335 480 340" stroke="#71717a" stroke-width="2" stroke-dasharray="4 4" />
+    <path d="M 0 210 L 470 210 L 470 450 L 0 450 Z" fill="#1e293b" />
+    <line x1="0" y1="210" x2="470" y2="210" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="8 5" />
+    <text x="36" y="196" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="15" font-weight="700">Livello terreno esterno</text>
 
     <!-- Fondazione: Muro controterra in calcestruzzo armato -->
-    <rect x="480" y="70" width="130" height="300" fill="url(#concreteGrad)" stroke="#52525b" stroke-width="1.5" />
+    <rect x="476" y="140" width="136" height="230" fill="#334155" stroke="#94a3b8" stroke-width="2" />
+    <text x="544" y="255" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="15" font-weight="700">Muro</text>
+    <text x="544" y="276" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="15" font-weight="700">Controterra</text>
+
     <!-- Platea di fondazione -->
-    <rect x="420" y="370" width="280" height="60" fill="url(#concreteGrad)" stroke="#52525b" stroke-width="1.5" />
+    <rect x="414" y="370" width="330" height="58" fill="#334155" stroke="#94a3b8" stroke-width="2" />
+    <text x="579" y="405" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="16" font-weight="700">Platea di fondazione</text>
 
-    <!-- Membrana continua in Poliurea (Accento Blu Elettrico) -->
-    <!-- Lungo la parete controterra e raccordo su platea -->
-    <path d="M 474 60 L 474 374 L 414 374 L 414 434" fill="none" stroke="url(#polyGrad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" filter="url(#blueGlow)" />
-    <path d="M 474 60 L 474 374 L 414 374 L 414 434" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.8" />
-
-    <!-- Linee di spinta idrostatica / falda freatica (Onde stilizzate) -->
-    <g stroke="#0284c7" stroke-width="2" opacity="0.6">
-        <path d="M 120 280 C 180 270 240 290 300 280" stroke-dasharray="6 4" />
-        <path d="M 160 305 C 220 295 280 315 340 305" stroke-dasharray="6 4" />
-        <path d="M 200 330 C 260 320 320 340 380 330" stroke-dasharray="6 4" />
-    </g>
+    <!-- Membrana continua in Poliurea (solida, zero glow) -->
+    <path d="M 468 135 L 468 370 L 408 370 L 408 428" fill="none" stroke="#0284c7" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M 468 135 L 468 370 L 408 370 L 408 428" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
 
     <!-- Frecce di pressione idrostatica bloccate -->
-    <g stroke="#38bdf8" stroke-width="2.5" fill="#38bdf8">
-        <line x1="380" y1="160" x2="450" y2="160" marker-end="url(#arrow)" />
-        <polygon points="450,160 440,154 440,166" />
-        <line x1="360" y1="220" x2="450" y2="220" />
-        <polygon points="450,220 440,214 440,226" />
-        <line x1="340" y1="280" x2="450" y2="280" />
-        <polygon points="450,280 440,274 440,286" />
+    <g stroke="#38bdf8" stroke-width="3" fill="#38bdf8">
+        <line x1="290" y1="250" x2="446" y2="250" />
+        <polygon points="456,250 442,242 442,258" />
+        <line x1="290" y1="305" x2="446" y2="305" />
+        <polygon points="456,305 442,297 442,313" />
+        <line x1="290" y1="360" x2="386" y2="360" />
+        <polygon points="396,360 382,352 382,368" />
     </g>
+
+    <rect x="36" y="276" width="234" height="62" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="2" />
+    <text x="153" y="302" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="14" font-weight="800">SPINTA IDROSTATICA</text>
+    <text x="153" y="324" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="14" font-weight="700">Bloccata all'esterno</text>
 
     <!-- Callout Card Tecnica -->
-    <g transform="translate(40, 40)">
-        <rect width="260" height="90" rx="12" fill="#09090b" fill-opacity="0.92" stroke="#3f3f46" stroke-width="1" />
-        <rect x="14" y="14" width="8" height="8" rx="2" fill="#38bdf8" />
-        <text x="30" y="22" fill="#38bdf8" font-family="monospace" font-size="11" font-weight="bold" letter-spacing="1">FONDAZIONI E PLATEE</text>
-        <text x="14" y="48" fill="#ffffff" font-family="system-ui, sans-serif" font-size="15" font-weight="bold">Barriera Monolitica</text>
-        <text x="14" y="70" fill="#a1a1aa" font-family="system-ui, sans-serif" font-size="12">Poliurea applicata a spruzzo 2.5 mm</text>
+    <g transform="translate(28, 22)">
+        <rect width="380" height="96" rx="10" fill="#1e293b" stroke="#475569" stroke-width="2" />
+        <rect x="16" y="16" width="10" height="10" rx="2" fill="#38bdf8" />
+        <text x="34" y="26" fill="#38bdf8" font-family="monospace" font-size="13" font-weight="bold" letter-spacing="1">FONDAZIONI E PLATEE</text>
+        <text x="16" y="56" fill="#ffffff" font-family="system-ui, sans-serif" font-size="20" font-weight="800">Barriera Monolitica Continua</text>
+        <text x="16" y="80" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Poliurea pura applicata a spruzzo 2,5 mm</text>
     </g>
 
-    <!-- Badge Specifiche Tecniche in basso a destra -->
-    <g transform="translate(540, 40)">
-        <rect width="220" height="74" rx="10" fill="#09090b" fill-opacity="0.9" stroke="#27272a" stroke-width="1" />
-        <text x="16" y="26" fill="#38bdf8" font-family="monospace" font-size="10" font-weight="bold">TENUTA IDRAULICA CONTINUA</text>
-        <text x="16" y="48" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="600">Zero infiltrazioni controterra</text>
-        <text x="16" y="64" fill="#71717a" font-family="system-ui, sans-serif" font-size="11">Elasticità &gt; 400% anti-fessurazione</text>
+    <!-- Badge Specifiche Tecniche -->
+    <g transform="translate(428, 22)">
+        <rect width="344" height="96" rx="10" fill="#1e293b" stroke="#0284c7" stroke-width="2" />
+        <text x="16" y="26" fill="#38bdf8" font-family="monospace" font-size="13" font-weight="bold">TENUTA IDRAULICA TOTALE</text>
+        <text x="16" y="56" fill="#ffffff" font-family="system-ui, sans-serif" font-size="19" font-weight="800">Zero infiltrazioni controterra</text>
+        <text x="16" y="80" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Elasticità &gt; 400% anti-fessurazione</text>
     </g>
 </svg>

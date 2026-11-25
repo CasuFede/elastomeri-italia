@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "elastomeri-italia-frontend",
   "compatibility_date": "2026-11-13",
-  "workers_dev": true,
+  "workers_dev": false,
   "services": [
     {
       "binding": "API",

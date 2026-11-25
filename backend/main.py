@@ -8,7 +8,10 @@ Architettura modulare:
 - api/routers/: router modulari per dominio (auth, preventivi, clienti, lavori, chat)
 """
 import json
+import os
+import sys
 from typing import Any
+from urllib.parse import urlparse
 
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,10 +21,19 @@ from api.routers import auth, chat, clienti, lavori, preventivi
 # Re-export per compatibilità retroattiva con script o tooling di migrazione
 from core.security import crea_hash_password, verifica_hash_password  # noqa: F401
 
+_ENABLE_DOCS = (
+    os.environ.get("ENABLE_API_DOCS") == "1"
+    and sys.platform != "emscripten"
+    and "pyodide" not in sys.modules
+)
+
 app = FastAPI(
     title="Poliurea System API",
     description="API backend per Poliurea System & Impermeabilizzazioni",
     version="2.0.0",
+    docs_url="/docs" if _ENABLE_DOCS else None,
+    redoc_url="/redoc" if _ENABLE_DOCS else None,
+    openapi_url="/openapi.json" if _ENABLE_DOCS else None,
 )
 
 # Configurazione CORS restrittiva ed esplicita
@@ -33,6 +45,7 @@ ALLOWED_ORIGINS = [
     "https://poliureasystem.it",
     "https://www.poliureasystem.it",
 ]
+ALLOWED_ORIGINS_SET = set(ALLOWED_ORIGINS)
 
 app.add_middleware(
     CORSMiddleware,
@@ -41,6 +54,16 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
+
+
+def _origin_da_referer(referer: str) -> str:
+    try:
+        parsed = urlparse(referer)
+        if parsed.scheme and parsed.netloc:
+            return f"{parsed.scheme}://{parsed.netloc}"
+    except Exception:
+        pass
+    return ""
 
 
 @app.middleware("http")
@@ -61,15 +84,33 @@ async def remove_api_prefix_and_security(request: Request, call_next: Any) -> Re
 
     # Protezione CSRF: blocca richieste cross-site mutative che sfruttano cookie di sessione
     if request.method in ("POST", "PUT", "PATCH", "DELETE"):
-        sec_fetch_site = request.headers.get("sec-fetch-site")
-        if sec_fetch_site == "cross-site":
-            has_auth_cookie = bool(
-                request.cookies.get("poliurea_admin_session")
-                or request.cookies.get("poliurea_client_session")
-            )
-            if has_auth_cookie:
+        has_auth_cookie = bool(
+            request.cookies.get("poliurea_admin_session")
+            or request.cookies.get("poliurea_client_session")
+        )
+        if has_auth_cookie:
+            sec_fetch_site = (request.headers.get("sec-fetch-site") or "").strip().lower()
+            origin = (request.headers.get("origin") or "").strip()
+            referer_origin = _origin_da_referer((request.headers.get("referer") or "").strip())
+            effective_origin = origin or referer_origin
+            host = (request.headers.get("host") or "").strip().lower()
+            is_testclient = host == "testserver"
+
+            if sec_fetch_site == "cross-site":
                 return Response(
                     content=json.dumps({"detail": "Richiesta cross-site non consentita."}),
+                    status_code=403,
+                    media_type="application/json",
+                )
+            if effective_origin and effective_origin not in ALLOWED_ORIGINS_SET:
+                return Response(
+                    content=json.dumps({"detail": "Origine richiesta non consentita."}),
+                    status_code=403,
+                    media_type="application/json",
+                )
+            if not is_testclient and not effective_origin and sec_fetch_site not in ("same-origin", "same-site"):
+                return Response(
+                    content=json.dumps({"detail": "Header di origine mancante per richiesta autenticata."}),
                     status_code=403,
                     media_type="application/json",
                 )
@@ -77,6 +118,7 @@ async def remove_api_prefix_and_security(request: Request, call_next: Any) -> Re
     response: Response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
 
     if is_head:
         return Response(

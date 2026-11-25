@@ -3,19 +3,13 @@ import secrets
 import time
 from typing import Any, Optional
 from fastapi import Depends, HTTPException, Request
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
 from core.config import get_secret, get_session_secret
 from core.database import CloudflareServices, D1Store, get_environment, get_services
-from core.security import valida_token_sessione, verifica_hash_password
-
-security = HTTPBasic(auto_error=False)
+from core.security import valida_token_sessione
 
 
-def verifica_credenziali(
-    request: Request,
-    credentials: Optional[HTTPBasicCredentials] = Depends(security),
-) -> str:
+def verifica_credenziali(request: Request) -> str:
     environment = get_environment(request)
     admin_user = get_secret(environment, "ADMIN_USERNAME")
     admin_pass = get_secret(environment, "ADMIN_PASSWORD")
@@ -35,7 +29,7 @@ def verifica_credenziali(
         ):
             return username
 
-    # 2. Verifica tramite Bearer token nell'header Authorization
+    # 2. Verifica tramite Bearer token firmato HMAC nell'header Authorization
     auth_header = request.headers.get("Authorization", "")
     if auth_header.startswith("Bearer "):
         bearer_token = auth_header[7:].strip()
@@ -45,21 +39,9 @@ def verifica_credenziali(
         ):
             return username
 
-    # 3. Fallback: HTTP Basic Auth (per CLI, cURL o script)
-    if credentials:
-        username_corretta = secrets.compare_digest(
-            credentials.username.encode("utf8"), admin_user.encode("utf8")
-        )
-        password_corretta = secrets.compare_digest(
-            credentials.password.encode("utf8"), admin_pass.encode("utf8")
-        )
-        if username_corretta and password_corretta:
-            return credentials.username
-
     raise HTTPException(
         status_code=401,
         detail="Autenticazione richiesta",
-        headers={"WWW-Authenticate": "Basic"},
     )
 
 
@@ -94,7 +76,6 @@ async def _valida_token_cliente(
 
 async def verifica_cliente(
     request: Request,
-    credentials: Optional[HTTPBasicCredentials] = Depends(security),
     services: CloudflareServices = Depends(get_services),
 ) -> dict[str, Any]:
     store = D1Store(services.database)
@@ -113,7 +94,7 @@ async def verifica_cliente(
         if cliente:
             return cliente
 
-    # 2. Verifica tramite Bearer token
+    # 2. Verifica tramite Bearer token firmato HMAC
     auth_header = request.headers.get("Authorization", "")
     if auth_header.startswith("Bearer "):
         bearer_token = auth_header[7:].strip()
@@ -121,23 +102,7 @@ async def verifica_cliente(
         if cliente:
             return cliente
 
-    # 3. Fallback: HTTP Basic Auth
-    if credentials:
-        email = credentials.username.strip().lower()
-        cliente = await store.one(
-            "SELECT id, nome, email, password_hash, attivo, data_creazione, COALESCE(primo_accesso, 1) AS primo_accesso "
-            "FROM clienti WHERE lower(email) = ? LIMIT 1",
-            email,
-        )
-        if (
-            cliente
-            and cliente["attivo"]
-            and verifica_hash_password(credentials.password, cliente["password_hash"])
-        ):
-            return cliente
-
     raise HTTPException(
         status_code=401,
         detail="Credenziali cliente non valide",
-        headers={"WWW-Authenticate": "Basic"},
     )

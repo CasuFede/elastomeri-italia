@@ -5,9 +5,10 @@ import CallToAction from '../components/CallToAction.astro';
 ---
 
 <SiteLayout
-    title="Terrazzi, Tetti, Fondazioni e Cantine | Poliurea System"
-    description="Impermeabilizzazioni continue senza demolizioni per terrazzi, tetti, fondazioni e cantine. Blocca infiltrazioni e umidità con poliurea pura a caldo."
+    title="Terrazzi, Tetti e Fondazioni Genova e Liguria | Poliurea"
+    description="Impermeabilizzazioni continue senza demolizioni a Genova e in Liguria per terrazzi, tetti, fondazioni e cantine con poliurea pura a caldo."
     activePath="/fondazioni"
+    breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Aree di intervento', path: '/fondazioni' }]}
 >
     <PageIntro
         eyebrow="AREE DI INTERVENTO SPECIALISTICHE"
@@ -18,109 +19,165 @@ import CallToAction from '../components/CallToAction.astro';
 
     <section class="service-detail-list wrap my-10 space-y-10">
         <!-- 01: Terrazzi e Balconi (Primary Lead Driver) -->
-        <article class="service-detail-card rounded-3xl border border-zinc-800 bg-zinc-900 p-6 sm:p-10 shadow-2xl transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-850/60 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center" id="terrazzi">
+        <article class="service-detail-card rounded-3xl border border-slate-600 bg-slate-800 p-6 sm:p-10 transition-colors duration-200 hover:border-sky-400 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center" id="terrazzi">
             <div class="detail-content">
                 <div class="flex items-center gap-3 mb-4">
-                    <span class="font-mono text-sm font-extrabold text-sky-400 border border-sky-500/25 bg-sky-500/10 px-3 py-1 rounded-md">01</span>
+                    <span class="font-mono text-sm font-extrabold text-white border border-sky-400 bg-sky-600 px-3 py-1 rounded-md">01</span>
                     <span class="font-mono text-xs font-bold uppercase tracking-wider text-sky-400">SUPERFICI ESTERNE & TERRAZZI</span>
                 </div>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-4">Terrazzi, lastrici solari e balconi</h2>
-                <p class="text-sm sm:text-base leading-relaxed text-zinc-300 mb-6">Le infiltrazioni su terrazzi e balconi danneggiano rapidamente solette, ferri d'armatura e soffitti degli appartamenti sottostanti. Con la poliurea pura a caldo interveniamo direttamente sopra il pavimento esistente senza demolizioni: una membrana monolitica continua, elastica e calpestabile già dopo 60 minuti che sigilla soglie, giunti e scarichi pluviali senza lasciare punti deboli.</p>
+                <p class="text-sm sm:text-base leading-relaxed text-slate-200 mb-6">Le infiltrazioni su terrazzi e balconi danneggiano rapidamente solette, ferri d'armatura e soffitti degli appartamenti sottostanti. Con la poliurea pura a caldo interveniamo direttamente sopra il pavimento esistente senza demolizioni: una membrana monolitica continua, elastica e calpestabile già dopo 60 minuti che sigilla soglie, giunti e scarichi pluviali senza lasciare punti deboli.</p>
                 <ul class="check-list space-y-2.5">
-                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Applicazione a spruzzo senza demolire o rimuovere piastrelle</li>
-                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Sigillatura continua di scarichi, soglie portafinestra e raccordi verticali</li>
-                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Finitura antiscivolo resistente ai raggi UV e a ristagni prolungati d'acqua</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-slate-100"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-600 text-white text-xs font-bold shrink-0">✓</span> Applicazione a spruzzo senza demolire o rimuovere piastrelle</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-slate-100"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-600 text-white text-xs font-bold shrink-0">✓</span> Sigillatura continua di scarichi, soglie portafinestra e raccordi verticali</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-slate-100"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-600 text-white text-xs font-bold shrink-0">✓</span> Finitura antiscivolo resistente ai raggi UV e a ristagni prolungati d'acqua</li>
                 </ul>
             </div>
-            <div class="detail-media relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 p-2 shadow-2xl transition-all duration-300 hover:border-zinc-700">
-                <img
-                    src="/images/terrazzi-impermeabilizzazione.svg"
-                    alt="Impermeabilizzazione continua senza demolizioni per terrazzi e balconi con poliurea"
-                    class="aspect-video w-full rounded-lg object-cover"
-                    width="800"
-                    height="450"
-                    loading="lazy"
-                />
+            <div class="detail-media relative overflow-hidden rounded-2xl border-2 border-slate-600 bg-slate-900 p-2.5 transition-colors duration-200 hover:border-sky-400">
+                <button
+                    type="button"
+                    data-schema-zoom
+                    data-schema-src="/images/terrazzi-impermeabilizzazione.svg"
+                    data-schema-title="Schema Tecnico — Terrazzi, lastrici solari e balconi"
+                    data-schema-alt="Impermeabilizzazione continua senza demolizioni per terrazzi e balconi con poliurea"
+                    class="group block w-full cursor-zoom-in text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded-lg"
+                    aria-label="Ingrandisci lo schema tecnico per terrazzi e balconi"
+                >
+                    <img
+                        src="/images/terrazzi-impermeabilizzazione.svg"
+                        alt="Impermeabilizzazione continua senza demolizioni per terrazzi e balconi con poliurea"
+                        class="aspect-[16/10] w-full rounded-lg object-contain bg-[#0f172a]"
+                        width="800"
+                        height="500"
+                        loading="lazy"
+                    />
+                    <span class="mt-2.5 flex items-center justify-between gap-2 rounded-lg border border-slate-500 bg-slate-800 px-3.5 py-2 text-xs font-bold text-white transition-colors group-hover:bg-sky-600 group-hover:border-sky-400">
+                        <span>Clicca per ingrandire lo schema</span>
+                        <span aria-hidden="true">⤢</span>
+                    </span>
+                </button>
             </div>
         </article>
 
         <!-- 02: Coperture e Tetti -->
-        <article class="service-detail-card rounded-3xl border border-zinc-800 bg-zinc-900 p-6 sm:p-10 shadow-2xl transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-850/60 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center" id="coperture">
-            <div class="detail-media relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 p-2 shadow-2xl transition-all duration-300 hover:border-zinc-700 order-2 lg:order-1">
-                <img
-                    src="/images/coperture-impermeabilizzazione.svg"
-                    alt="Impermeabilizzazione tetti industriali, coperture piane e sottotetti con poliurea a caldo"
-                    class="aspect-video w-full rounded-lg object-cover"
-                    width="800"
-                    height="450"
-                    loading="lazy"
-                />
+        <article class="service-detail-card rounded-3xl border border-slate-600 bg-slate-800 p-6 sm:p-10 transition-colors duration-200 hover:border-sky-400 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center" id="coperture">
+            <div class="detail-media relative overflow-hidden rounded-2xl border-2 border-slate-600 bg-slate-900 p-2.5 transition-colors duration-200 hover:border-sky-400 order-2 lg:order-1">
+                <button
+                    type="button"
+                    data-schema-zoom
+                    data-schema-src="/images/coperture-impermeabilizzazione.svg"
+                    data-schema-title="Schema Tecnico — Coperture piane, shed e tetti industriali"
+                    data-schema-alt="Impermeabilizzazione tetti industriali, coperture piane e sottotetti con poliurea a caldo"
+                    class="group block w-full cursor-zoom-in text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded-lg"
+                    aria-label="Ingrandisci lo schema tecnico per tetti e coperture industriali"
+                >
+                    <img
+                        src="/images/coperture-impermeabilizzazione.svg"
+                        alt="Impermeabilizzazione tetti industriali, coperture piane e sottotetti con poliurea a caldo"
+                        class="aspect-[16/10] w-full rounded-lg object-contain bg-[#0f172a]"
+                        width="800"
+                        height="500"
+                        loading="lazy"
+                    />
+                    <span class="mt-2.5 flex items-center justify-between gap-2 rounded-lg border border-slate-500 bg-slate-800 px-3.5 py-2 text-xs font-bold text-white transition-colors group-hover:bg-sky-600 group-hover:border-sky-400">
+                        <span>Clicca per ingrandire lo schema</span>
+                        <span aria-hidden="true">⤢</span>
+                    </span>
+                </button>
             </div>
             <div class="detail-content order-1 lg:order-2">
                 <div class="flex items-center gap-3 mb-4">
-                    <span class="font-mono text-sm font-extrabold text-sky-400 border border-sky-500/25 bg-sky-500/10 px-3 py-1 rounded-md">02</span>
+                    <span class="font-mono text-sm font-extrabold text-white border border-sky-400 bg-sky-600 px-3 py-1 rounded-md">02</span>
                     <span class="font-mono text-xs font-bold uppercase tracking-wider text-sky-400">TETTI E COPERTURE INDUSTRIALI</span>
                 </div>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-4">Coperture piane, shed e tetti industriali</h2>
-                <p class="text-sm sm:text-base leading-relaxed text-zinc-300 mb-6">La pioggia battente, la grandine e gli sbalzi termici mettono in crisi le vecchie guaine bituminose, provocando distacchi sui sormonti e infiltrazioni invisibili. La poliurea a caldo elimina ogni rischio creando un manto monolitico senza giunzioni, conformandosi perfettamente a lucernari, pannelli fotovoltaici, camini e canali di gronda con certificazione europea ETAG 005 - W3 (durata attesa 25 anni).</p>
+                <p class="text-sm sm:text-base leading-relaxed text-slate-200 mb-6">La pioggia battente, la grandine e gli sbalzi termici mettono in crisi le vecchie guaine bituminose, provocando distacchi sui sormonti e infiltrazioni invisibili. La poliurea a caldo elimina ogni rischio creando un manto monolitico senza giunzioni, conformandosi perfettamente a lucernari, pannelli fotovoltaici, camini e canali di gronda con certificazione europea ETAG 005 - W3 (durata attesa 25 anni).</p>
                 <ul class="check-list space-y-2.5">
-                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Manto continuo privo di giunti e totale assenza di fiamme libere in cantiere</li>
-                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Sigillatura millimetrica di camini, lucernari, staffaggi fotovoltaici e grondaie</li>
-                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Massima resistenza ad agenti atmosferici estremi, grandine e cicli gelo-disgelo</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-slate-100"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-600 text-white text-xs font-bold shrink-0">✓</span> Manto continuo privo di giunti e totale assenza di fiamme libere in cantiere</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-slate-100"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-600 text-white text-xs font-bold shrink-0">✓</span> Sigillatura millimetrica di camini, lucernari, staffaggi fotovoltaici e grondaie</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-slate-100"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-600 text-white text-xs font-bold shrink-0">✓</span> Massima resistenza ad agenti atmosferici estremi, grandine e cicli gelo-disgelo</li>
                 </ul>
             </div>
         </article>
 
         <!-- 03: Fondazioni e Platee -->
-        <article class="service-detail-card rounded-3xl border border-zinc-800 bg-zinc-900 p-6 sm:p-10 shadow-2xl transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-850/60 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center" id="fondazioni">
+        <article class="service-detail-card rounded-3xl border border-slate-600 bg-slate-800 p-6 sm:p-10 transition-colors duration-200 hover:border-sky-400 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center" id="fondazioni">
             <div class="detail-content">
                 <div class="flex items-center gap-3 mb-4">
-                    <span class="font-mono text-sm font-extrabold text-sky-400 border border-sky-500/25 bg-sky-500/10 px-3 py-1 rounded-md">03</span>
+                    <span class="font-mono text-sm font-extrabold text-white border border-sky-400 bg-sky-600 px-3 py-1 rounded-md">03</span>
                     <span class="font-mono text-xs font-bold uppercase tracking-wider text-sky-400">STRUTTURE INTERRATE</span>
                 </div>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-4">Fondazioni, platee e muri controterra</h2>
-                <p class="text-sm sm:text-base leading-relaxed text-zinc-300 mb-6">Pareti controterra, platee in calcestruzzo e giunti di ripresa di getto sono costantemente esposti alla spinta idrostatica dell'acqua e all'umidità del terreno. La poliurea pura a caldo crea una barriera monolitica continua senza giunzioni né saldature, garantendo adesione chimica al calcestruzzo ed elasticità superiore al 400% per sopportare assestamenti e microfessurazioni nel tempo.</p>
+                <p class="text-sm sm:text-base leading-relaxed text-slate-200 mb-6">Pareti controterra, platee in calcestruzzo e giunti di ripresa di getto sono costantemente esposti alla spinta idrostatica dell'acqua e all'umidità del terreno. La poliurea pura a caldo crea una barriera monolitica continua senza giunzioni né saldature, garantendo adesione chimica al calcestruzzo ed elasticità superiore al 400% per sopportare assestamenti e microfessurazioni nel tempo.</p>
                 <ul class="check-list space-y-2.5">
-                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Protezione totale di pareti controterra, platee e vani ascensore</li>
-                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Resistenza permanente alla spinta idrostatica costante della falda</li>
-                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Aderenza strutturale al supporto senza rischi di infiltrazioni sottoscorrimento</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-slate-100"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-600 text-white text-xs font-bold shrink-0">✓</span> Protezione totale di pareti controterra, platee e vani ascensore</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-slate-100"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-600 text-white text-xs font-bold shrink-0">✓</span> Resistenza permanente alla spinta idrostatica costante della falda</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-slate-100"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-600 text-white text-xs font-bold shrink-0">✓</span> Aderenza strutturale al supporto senza rischi di infiltrazioni sottoscorrimento</li>
                 </ul>
             </div>
-            <div class="detail-media relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 p-2 shadow-2xl transition-all duration-300 hover:border-zinc-700">
-                <img
-                    src="/images/fondazioni-impermeabilizzazione.svg"
-                    alt="Schema tecnico impermeabilizzazione continua per fondazioni e platee in poliurea"
-                    class="aspect-video w-full rounded-lg object-cover"
-                    width="800"
-                    height="450"
-                    loading="lazy"
-                />
+            <div class="detail-media relative overflow-hidden rounded-2xl border-2 border-slate-600 bg-slate-900 p-2.5 transition-colors duration-200 hover:border-sky-400">
+                <button
+                    type="button"
+                    data-schema-zoom
+                    data-schema-src="/images/fondazioni-impermeabilizzazione.svg"
+                    data-schema-title="Schema Tecnico — Fondazioni, platee e muri controterra"
+                    data-schema-alt="Schema tecnico impermeabilizzazione continua per fondazioni e platee in poliurea"
+                    class="group block w-full cursor-zoom-in text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded-lg"
+                    aria-label="Ingrandisci lo schema tecnico per fondazioni e platee"
+                >
+                    <img
+                        src="/images/fondazioni-impermeabilizzazione.svg"
+                        alt="Schema tecnico impermeabilizzazione continua per fondazioni e platee in poliurea"
+                        class="aspect-[16/10] w-full rounded-lg object-contain bg-[#0f172a]"
+                        width="800"
+                        height="500"
+                        loading="lazy"
+                    />
+                    <span class="mt-2.5 flex items-center justify-between gap-2 rounded-lg border border-slate-500 bg-slate-800 px-3.5 py-2 text-xs font-bold text-white transition-colors group-hover:bg-sky-600 group-hover:border-sky-400">
+                        <span>Clicca per ingrandire lo schema</span>
+                        <span aria-hidden="true">⤢</span>
+                    </span>
+                </button>
             </div>
         </article>
 
         <!-- 04: Cantine e Corselli Box -->
-        <article class="service-detail-card rounded-3xl border border-zinc-800 bg-zinc-900 p-6 sm:p-10 shadow-2xl transition-colors duration-300 hover:border-zinc-700 hover:bg-zinc-850/60 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center" id="cantine">
-            <div class="detail-media relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 p-2 shadow-2xl transition-all duration-300 hover:border-zinc-700 order-2 lg:order-1">
-                <img
-                    src="/images/cantine-impermeabilizzazione.svg"
-                    alt="Risanamento impermeabile cantine e locali interrati contro umidità di risalita"
-                    class="aspect-video w-full rounded-lg object-cover"
-                    width="800"
-                    height="450"
-                    loading="lazy"
-                />
+        <article class="service-detail-card rounded-3xl border border-slate-600 bg-slate-800 p-6 sm:p-10 transition-colors duration-200 hover:border-sky-400 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center" id="cantine">
+            <div class="detail-media relative overflow-hidden rounded-2xl border-2 border-slate-600 bg-slate-900 p-2.5 transition-colors duration-200 hover:border-sky-400 order-2 lg:order-1">
+                <button
+                    type="button"
+                    data-schema-zoom
+                    data-schema-src="/images/cantine-impermeabilizzazione.svg"
+                    data-schema-title="Schema Tecnico — Cantine, corselli box e locali interrati"
+                    data-schema-alt="Risanamento impermeabile cantine e locali interrati contro umidità di risalita"
+                    class="group block w-full cursor-zoom-in text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 rounded-lg"
+                    aria-label="Ingrandisci lo schema tecnico per cantine e locali interrati"
+                >
+                    <img
+                        src="/images/cantine-impermeabilizzazione.svg"
+                        alt="Risanamento impermeabile cantine e locali interrati contro umidità di risalita"
+                        class="aspect-[16/10] w-full rounded-lg object-contain bg-[#0f172a]"
+                        width="800"
+                        height="500"
+                        loading="lazy"
+                    />
+                    <span class="mt-2.5 flex items-center justify-between gap-2 rounded-lg border border-slate-500 bg-slate-800 px-3.5 py-2 text-xs font-bold text-white transition-colors group-hover:bg-sky-600 group-hover:border-sky-400">
+                        <span>Clicca per ingrandire lo schema</span>
+                        <span aria-hidden="true">⤢</span>
+                    </span>
+                </button>
             </div>
             <div class="detail-content order-1 lg:order-2">
                 <div class="flex items-center gap-3 mb-4">
-                    <span class="font-mono text-sm font-extrabold text-sky-400 border border-sky-500/25 bg-sky-500/10 px-3 py-1 rounded-md">04</span>
+                    <span class="font-mono text-sm font-extrabold text-white border border-sky-400 bg-sky-600 px-3 py-1 rounded-md">04</span>
                     <span class="font-mono text-xs font-bold uppercase tracking-wider text-sky-400">LOCALI SOTTERRANEI & BOX</span>
                 </div>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-4">Cantine, corselli box e locali interrati</h2>
-                <p class="text-sm sm:text-base leading-relaxed text-zinc-300 mb-6">Muri umidi, efflorescenze saline, intonaci che si staccano e odore di muffa indicano infiltrazioni per capillarità o presenza di acqua in controspinta. Il nostro ciclo specialistico risana le murature e sigilla pavimentazioni e giunti perimetrali, restituendo locali perfettamente asciutti, salubri e fruibili per garage, magazzini o archivi.</p>
+                <p class="text-sm sm:text-base leading-relaxed text-slate-200 mb-6">Muri umidi, efflorescenze saline, intonaci che si staccano e odore di muffa indicano infiltrazioni per capillarità o presenza di acqua in controspinta. Il nostro ciclo specialistico risana le murature e sigilla pavimentazioni e giunti perimetrali, restituendo locali perfettamente asciutti, salubri e fruibili per garage, magazzini o archivi.</p>
                 <ul class="check-list space-y-2.5">
-                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Stop definitivo a umidità di risalita capillare, muffe e distacchi di intonaco</li>
-                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Barriera impermeabile contro la pressione d'acqua negativa (in controspinta)</li>
-                    <li class="flex items-center gap-3 text-sm font-medium text-zinc-300"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-500/15 text-sky-400 text-xs font-bold shrink-0">✓</span> Ambienti risanati, salubri e calpestabili già nella stessa giornata</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-slate-100"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-600 text-white text-xs font-bold shrink-0">✓</span> Stop definitivo a umidità di risalita capillare, muffe e distacchi di intonaco</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-slate-100"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-600 text-white text-xs font-bold shrink-0">✓</span> Barriera impermeabile contro la pressione d'acqua negativa (in controspinta)</li>
+                    <li class="flex items-center gap-3 text-sm font-medium text-slate-100"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-sky-600 text-white text-xs font-bold shrink-0">✓</span> Ambienti risanati, salubri e calpestabili già nella stessa giornata</li>
                 </ul>
             </div>
         </article>
@@ -128,16 +185,16 @@ import CallToAction from '../components/CallToAction.astro';
 
     <!-- DIAGNOSTIC REASSURANCE BANNER -->
     <section class="diagnostic-banner wrap my-12">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-6 rounded-2xl border border-sky-500/30 bg-gradient-to-r from-sky-950/40 via-zinc-900 to-zinc-900 p-8 shadow-2xl">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6 rounded-2xl border-2 border-sky-500 bg-slate-800 p-8">
             <div class="flex items-start gap-4">
-                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-sky-500/30 bg-sky-500/10 text-xl font-bold text-sky-400" aria-hidden="true">🔍</span>
+                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-sky-400 bg-sky-950 text-xl font-bold text-sky-400" aria-hidden="true">🔍</span>
                 <div>
                     <h3 class="text-lg font-bold text-white mb-1">Non sai esattamente da dove entri l'acqua?</h3>
-                    <p class="text-sm text-zinc-300 leading-relaxed max-w-2xl">Nel 70% dei casi il punto in cui si manifesta la macchia o il gocciolamento non coincide con il punto d'ingresso esterno. Con il nostro sopralluogo diagnostico eseguiamo rilievi igrometrici e termografici per individuare l'origine esatta prima di formulare la proposta.</p>
+                    <p class="text-sm text-slate-200 leading-relaxed max-w-2xl">Nel 70% dei casi il punto in cui si manifesta la macchia o il gocciolamento non coincide con il punto d'ingresso esterno. Con il nostro sopralluogo diagnostico eseguiamo rilievi igrometrici e termografici per individuare l'origine esatta prima di formulare la proposta.</p>
                 </div>
             </div>
             <a 
-                class="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-bold text-sm px-6 py-3.5 shadow-lg shadow-sky-500/25 transition-all duration-200 hover:-translate-y-0.5"
+                class="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm px-6 py-3.5 transition-colors duration-200"
                 href="/preventivo"
             >
                 Richiedi la diagnosi <span aria-hidden="true">↗</span>

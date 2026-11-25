@@ -2,6 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "elastomeri-italia-api",
   "main": "worker.py",
+  "workers_dev": false,
   "compatibility_date": "2026-11-13",
   "compatibility_flags": ["python_workers"],
   "observability": {

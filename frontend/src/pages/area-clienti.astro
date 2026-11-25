@@ -10,6 +10,7 @@ import '../styles/global.css';
     <meta name="theme-color" content="#05070b" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
     <link rel="apple-touch-icon" href="/favicon-192x192.png" />
     <title>Area clienti | Poliurea System</title>
@@ -62,7 +63,7 @@ import '../styles/global.css';
                                 </div>
                             </div>
                             
-                            <button id="customer-login-button" type="submit" class="w-full rounded-xl bg-sky-500 p-3.5 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition hover:bg-sky-400 hover:-translate-y-0.5 mt-2 cursor-pointer">Accedi</button>
+                            <button id="customer-login-button" type="submit" class="w-full rounded-xl bg-sky-600 p-3.5 text-sm font-bold text-white transition hover:bg-sky-500 mt-2 cursor-pointer">Accedi</button>
                         </form>
                         <p id="customer-login-error" class="customer-error mt-4 rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-xs font-medium text-red-400" role="alert" aria-live="polite" hidden></p>
                     </div>
@@ -71,18 +72,42 @@ import '../styles/global.css';
                     <div id="login-box-lost" class="hidden">
                         <p class="customer-kicker text-xs font-bold uppercase tracking-wider text-amber-400 mb-2">ASSISTENZA CREDENZIALI</p>
                         <h2 class="text-2xl font-extrabold text-white tracking-tight mb-2">Recupera la password</h2>
-                        <p class="text-zinc-400 text-sm mb-6 leading-relaxed">Inserisci l’email con cui hai richiesto il preventivo. Ti invieremo subito una nuova password provvisoria via email. Al prossimo accesso ti verrà richiesto di crearne una nuova definitiva (operazione consentita max 1 volta al giorno).</p>
+                        <p class="text-zinc-300 text-sm mb-6 leading-relaxed">Inserisci l’email con cui hai richiesto il preventivo. Se l'account esiste, riceverai un link sicuro valido 30 minuti per impostare una nuova password senza bloccare il tuo accesso attuale.</p>
                         <form id="customer-lost-form" class="space-y-4">
                             <div>
                                 <label for="lost-email" class="block text-xs font-semibold text-zinc-300 mb-1.5">La tua Email registrata</label>
                                 <input id="lost-email" type="email" autocomplete="email" required placeholder="mario.rossi@example.com" class="w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
                             </div>
-                            <button id="lost-submit-button" type="submit" class="w-full rounded-xl bg-sky-500 p-3.5 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition hover:bg-sky-400 hover:-translate-y-0.5 mt-2 cursor-pointer">Invia nuova password provvisoria</button>
+                            <button id="lost-submit-button" type="submit" class="w-full rounded-xl bg-sky-600 p-3.5 text-sm font-bold text-white transition hover:bg-sky-500 mt-2 cursor-pointer">Invia link di ripristino</button>
                         </form>
                         <p id="lost-feedback" class="mt-4 rounded-lg p-3 text-xs font-medium" role="alert" aria-live="polite" hidden></p>
                         <div class="mt-6 pt-4 border-t border-zinc-800 text-center">
                             <button id="btn-back-to-login" type="button" class="text-xs text-zinc-400 hover:text-white transition cursor-pointer inline-flex items-center gap-1.5 font-semibold">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                                <span>Torna alla schermata di accesso</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Vista Conferma Reset Password tramite link monouso (?reset=...) -->
+                    <div id="login-box-confirm-reset" class="hidden">
+                        <p class="customer-kicker text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">RIPRISTINO SICURO</p>
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight mb-2">Imposta nuova password</h2>
+                        <p class="text-zinc-300 text-sm mb-6 leading-relaxed">Scegli una nuova password sicura (almeno 8 caratteri, una maiuscola, una minuscola e un numero) per accedere subito alla tua Area Clienti.</p>
+                        <form id="confirm-reset-form" class="space-y-4">
+                            <div>
+                                <label for="confirm-reset-password" class="block text-xs font-semibold text-zinc-300 mb-1.5">Nuova password</label>
+                                <input id="confirm-reset-password" type="password" required minlength="8" autocomplete="new-password" placeholder="Almeno 8 caratteri con maiuscola e numero" class="w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500" />
+                            </div>
+                            <div>
+                                <label for="confirm-reset-repeat" class="block text-xs font-semibold text-zinc-300 mb-1.5">Conferma nuova password</label>
+                                <input id="confirm-reset-repeat" type="password" required minlength="8" autocomplete="new-password" placeholder="Ripeti la nuova password" class="w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500" />
+                            </div>
+                            <button id="confirm-reset-submit" type="submit" class="w-full rounded-xl bg-sky-600 p-3.5 text-sm font-bold text-white transition hover:bg-sky-500 mt-2 cursor-pointer">Salva nuova password e accedi</button>
+                        </form>
+                        <p id="confirm-reset-feedback" class="mt-4 rounded-lg p-3 text-xs font-medium" role="alert" aria-live="polite" hidden></p>
+                        <div class="mt-6 pt-4 border-t border-zinc-800 text-center">
+                            <button id="btn-back-from-reset" type="button" class="text-xs text-zinc-400 hover:text-white transition cursor-pointer inline-flex items-center gap-1.5 font-semibold">
                                 <span>Torna alla schermata di accesso</span>
                             </button>
                         </div>
@@ -143,7 +168,7 @@ import '../styles/global.css';
                     <h2 id="customer-photo-title" class="font-bold text-white text-sm sm:text-base truncate">Foto allegata</h2>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button id="customer-download-photo-btn" type="button" class="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-sky-500 hover:bg-sky-400 px-3.5 py-2 rounded-xl shadow-md shadow-sky-500/20 transition cursor-pointer">
+                    <button id="customer-download-photo-btn" type="button" class="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-sky-600 hover:bg-sky-500 px-3.5 py-2 rounded-xl transition cursor-pointer">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         <span>Scarica foto</span>
                     </button>
@@ -211,7 +236,7 @@ import '../styles/global.css';
                 <p id="first-access-error" class="rounded-lg border border-red-500/30 bg-red-500/10 p-3 text-xs font-medium text-red-400" role="alert" hidden></p>
                 <p id="first-access-success" class="rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-3 text-xs font-medium text-emerald-400" role="status" hidden></p>
 
-                <button id="first-access-submit" type="submit" class="w-full rounded-xl bg-sky-500 p-3.5 text-sm font-bold text-white shadow-lg shadow-sky-500/25 transition hover:bg-sky-400 hover:-translate-y-0.5 mt-2 cursor-pointer">
+                <button id="first-access-submit" type="submit" class="w-full rounded-xl bg-sky-600 p-3.5 text-sm font-bold text-white transition hover:bg-sky-500 mt-2 cursor-pointer">
                     Salva nuova password e continua
                 </button>
             </form>
@@ -420,7 +445,7 @@ import '../styles/global.css';
                 const progressBar = document.createElement('div');
                 progressBar.className = 'h-2 w-full rounded-full bg-zinc-950 border border-zinc-800 overflow-hidden';
                 const progressFill = document.createElement('div');
-                progressFill.className = 'h-full bg-gradient-to-r from-sky-600 to-sky-400 rounded-full transition-all duration-500 shadow-sm shadow-sky-500/50';
+                progressFill.className = 'h-full bg-sky-500 rounded-full transition-all duration-500';
                 progressFill.style.width = `${stato.progress}%`;
                 progressBar.appendChild(progressFill);
                 progressBox.append(progressLabelRow, progressBar);
@@ -818,7 +843,78 @@ import '../styles/global.css';
             }
         });
 
-        if (sessionStorage.getItem(sessionKey) === '1') caricaAreaCliente();
+        // Gestione Conferma Reset Password tramite token nel link (?reset=...)
+        const confirmResetBox = document.getElementById('login-box-confirm-reset');
+        const confirmResetForm = document.getElementById('confirm-reset-form');
+        const confirmResetPwd = document.getElementById('confirm-reset-password');
+        const confirmResetRepeat = document.getElementById('confirm-reset-repeat');
+        const confirmResetSubmit = document.getElementById('confirm-reset-submit');
+        const confirmResetFeedback = document.getElementById('confirm-reset-feedback');
+        const btnBackFromReset = document.getElementById('btn-back-from-reset');
+        const resetTokenFromUrl = new URLSearchParams(window.location.search).get('reset');
+
+        if (resetTokenFromUrl && confirmResetBox) {
+            document.getElementById('login-box-default')?.classList.add('hidden');
+            document.getElementById('login-box-lost')?.classList.add('hidden');
+            confirmResetBox.classList.remove('hidden');
+            if (window.history && window.history.replaceState) {
+                window.history.replaceState({}, document.title, '/area-clienti');
+            }
+        }
+
+        btnBackFromReset?.addEventListener('click', () => {
+            confirmResetBox?.classList.add('hidden');
+            document.getElementById('login-box-default')?.classList.remove('hidden');
+        });
+
+        confirmResetForm?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!confirmResetFeedback) return;
+            confirmResetFeedback.hidden = true;
+            const pwd = confirmResetPwd.value.trim();
+            const rep = confirmResetRepeat.value.trim();
+            if (pwd !== rep) {
+                confirmResetFeedback.className = 'mt-4 rounded-lg border border-red-500 bg-red-950 p-3 text-xs font-medium text-red-200';
+                confirmResetFeedback.textContent = 'Le due password non coincidono.';
+                confirmResetFeedback.hidden = false;
+                return;
+            }
+            if (pwd.length < 8 || !/[A-Z]/.test(pwd) || !/[a-z]/.test(pwd) || !/[0-9]/.test(pwd)) {
+                confirmResetFeedback.className = 'mt-4 rounded-lg border border-red-500 bg-red-950 p-3 text-xs font-medium text-red-200';
+                confirmResetFeedback.textContent = 'La password deve avere almeno 8 caratteri, una maiuscola, una minuscola e un numero.';
+                confirmResetFeedback.hidden = false;
+                return;
+            }
+            confirmResetSubmit.disabled = true;
+            confirmResetSubmit.textContent = 'Salvataggio in corso...';
+            try {
+                const res = await fetch('/api/auth/cliente/confirm-reset', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: resetTokenFromUrl, password: pwd }),
+                });
+                const data = await res.json().catch(() => ({}));
+                if (!res.ok) throw new Error(data.detail || `Errore (HTTP ${res.status})`);
+                sessionStorage.setItem(sessionKey, '1');
+                confirmResetFeedback.className = 'mt-4 rounded-lg border border-emerald-500 bg-emerald-950 p-3 text-xs font-medium text-emerald-200';
+                confirmResetFeedback.textContent = data.message || 'Password aggiornata! Accesso in corso...';
+                confirmResetFeedback.hidden = false;
+                setTimeout(() => {
+                    confirmResetBox?.classList.add('hidden');
+                    document.getElementById('login-box-default')?.classList.remove('hidden');
+                    caricaAreaCliente();
+                }, 700);
+            } catch (err) {
+                confirmResetFeedback.className = 'mt-4 rounded-lg border border-red-500 bg-red-950 p-3 text-xs font-medium text-red-200';
+                confirmResetFeedback.textContent = err.message || 'Link non valido o scaduto.';
+                confirmResetFeedback.hidden = false;
+            } finally {
+                confirmResetSubmit.disabled = false;
+                confirmResetSubmit.textContent = 'Salva nuova password e accedi';
+            }
+        });
+
+        if (!resetTokenFromUrl && sessionStorage.getItem(sessionKey) === '1') caricaAreaCliente();
     </script>
 </body>
 </html>

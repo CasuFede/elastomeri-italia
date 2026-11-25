@@ -155,7 +155,7 @@ def build_conferma_preventivo_email(
           <tr>
             <td style="padding: 24px 36px; background-color: #0c0c0e; border-top: 1px solid #27272a; text-align: center;">
               <p style="margin: 0 0 6px; font-size: 12px; font-weight: 700; color: #d4d4d8;">Poliurea System · Impermeabilizzazioni Continue ad Alta Pressione</p>
-              <p style="margin: 0; font-size: 11px; color: #71717a;">Genova / Liguria e Nord Italia · www.poliureasystem.it · info@poliureasystem.it</p>
+              <p style="margin: 0; font-size: 11px; color: #71717a;">Genova / Liguria e Nord Italia · poliureasystem.it · info@poliureasystem.it</p>
             </td>
           </tr>
 
@@ -188,7 +188,7 @@ I PROSSIMI PASSI:
 Per qualsiasi necessità puoi scriverci a info@poliureasystem.it o chiamarci: Luigi +39 344 136 6523 · Alessandro +39 348 405 2908.
 
 Poliurea System
-info@poliureasystem.it - www.poliureasystem.it"""
+info@poliureasystem.it - poliureasystem.it"""
 
     return subject, html_content, text_content
 
@@ -256,12 +256,12 @@ def build_credenziali_cliente_email(
 
               <!-- Bottone CTA -->
               <div style="text-align: center; margin: 30px 0 20px;">
-                <a href="https://www.poliureasystem.it/area-clienti" style="display: inline-block; background: #0284c7; color: #ffffff; font-size: 14px; font-weight: 700; text-decoration: none; padding: 14px 32px; border-radius: 10px; box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4);">
+                <a href="https://poliureasystem.it/area-clienti" style="display: inline-block; background: #0284c7; color: #ffffff; font-size: 14px; font-weight: 700; text-decoration: none; padding: 14px 32px; border-radius: 10px; box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4);">
                   Accedi all'Area Clienti →
                 </a>
               </div>
               <p style="text-align: center; margin: 0; font-size: 12px; color: #71717a;">
-                Oppure copia questo link nel browser: <a href="https://www.poliureasystem.it/area-clienti" style="color: #38bdf8; text-decoration: none;">https://www.poliureasystem.it/area-clienti</a>
+                Oppure copia questo link nel browser: <a href="https://poliureasystem.it/area-clienti" style="color: #38bdf8; text-decoration: none;">https://poliureasystem.it/area-clienti</a>
               </p>
             </td>
           </tr>
@@ -270,7 +270,7 @@ def build_credenziali_cliente_email(
           <tr>
             <td style="padding: 24px 36px; background-color: #0c0c0e; border-top: 1px solid #27272a; text-align: center;">
               <p style="margin: 0 0 6px; font-size: 12px; font-weight: 700; color: #d4d4d8;">Poliurea System · Impermeabilizzazioni Continue Pure ad Alta Pressione</p>
-              <p style="margin: 0; font-size: 11px; color: #71717a;">Email: info@poliureasystem.it · Web: www.poliureasystem.it</p>
+              <p style="margin: 0; font-size: 11px; color: #71717a;">Email: info@poliureasystem.it · Web: poliureasystem.it</p>
             </td>
           </tr>
 
@@ -290,13 +290,13 @@ LE TUE CREDENZIALI:
 - Username (Email): {email}
 - Password temporanea: {password_temporanea}
 
-Link di accesso: https://www.poliureasystem.it/area-clienti
+Link di accesso: https://poliureasystem.it/area-clienti
 
 IMPORTANTE:
 Al tuo primo accesso ti verrà richiesto obbligatoriamente di sostituire questa password temporanea con una nuova password sicura a tua scelta.
 
 Poliurea System
-info@poliureasystem.it - www.poliureasystem.it"""
+info@poliureasystem.it - poliureasystem.it"""
 
     return subject, html_content, text_content
 
@@ -304,11 +304,12 @@ info@poliureasystem.it - www.poliureasystem.it"""
 def build_recupero_password_email(
     nome: str,
     email: str,
-    password_temporanea: str,
+    reset_url: str,
 ) -> tuple[str, str, str]:
-    """Genera (subject, html_content, text_content) per il recupero password dimenticata."""
-    subject = "Poliurea System · Nuova password temporanea per l'Area Clienti"
+    """Genera (subject, html_content, text_content) con link monouso sicuro per reimpostare la password."""
+    subject = "Poliurea System · Link sicuro per reimpostare la password"
     current_year = datetime.now(timezone.utc).year
+    safe_reset_url = html.escape(reset_url, quote=True)
 
     html_content = f"""<!DOCTYPE html>
 <html lang="it">
@@ -317,69 +318,44 @@ def build_recupero_password_email(
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(subject)}</title>
 </head>
-<body style="margin: 0; padding: 0; background-color: #09090b; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #f4f4f5;">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #09090b; padding: 40px 15px;">
+<body style="margin: 0; padding: 0; background-color: #0b0f17; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #f1f5f9;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #0b0f17; padding: 40px 15px;">
     <tr>
       <td align="center">
-        <table role="presentation" width="100%" style="max-width: 600px; background-color: #18181b; border: 1px solid #27272a; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.6);" cellspacing="0" cellpadding="0">
-          
-          <!-- Header -->
+        <table role="presentation" width="100%" style="max-width: 600px; background-color: #1e293b; border: 1px solid #475569; border-radius: 16px; overflow: hidden;" cellspacing="0" cellpadding="0">
           <tr>
-            <td style="padding: 32px 36px 24px; border-bottom: 1px solid #27272a; background: linear-gradient(180deg, #18181b 0%, #121214 100%);">
+            <td style="padding: 32px 36px 24px; border-bottom: 1px solid #334155; background-color: #0f172a;">
               <span style="font-size: 11px; font-weight: 800; letter-spacing: 0.12em; color: #38bdf8; text-transform: uppercase; display: block; margin-bottom: 6px;">Poliurea System · Recupero Password</span>
-              <h1 style="margin: 0; font-size: 22px; font-weight: 800; color: #ffffff;">Nuova password provvisoria</h1>
+              <h1 style="margin: 0; font-size: 22px; font-weight: 800; color: #ffffff;">Reimposta la tua password</h1>
             </td>
           </tr>
-
-          <!-- Body -->
           <tr>
             <td style="padding: 32px 36px 24px;">
               <p style="margin: 0 0 16px; font-size: 16px; line-height: 1.6; color: #ffffff;">
                 Gentile <strong>{html.escape(nome)}</strong>,
               </p>
-              <p style="margin: 0 0 24px; font-size: 14px; line-height: 1.6; color: #a1a1aa;">
-                Abbiamo ricevuto la tua richiesta di recupero credenziali per l'accesso all'<strong>Area Clienti</strong> di Poliurea System. Ecco la tua nuova password provvisoria generata dal nostro sistema:
+              <p style="margin: 0 0 24px; font-size: 14px; line-height: 1.6; color: #e2e8f0;">
+                Abbiamo ricevuto una richiesta di ripristino password per l'account <strong>{html.escape(email)}</strong> sull'<strong>Area Clienti</strong> di Poliurea System. La tua password attuale resta valida finché non completi la procedura dal pulsante qui sotto.
               </p>
-
-              <!-- Box Credenziali -->
-              <div style="background-color: #0c0c0e; border: 1px solid #38bdf8; border-radius: 12px; padding: 22px; margin-bottom: 24px;">
-                <p style="margin: 0 0 16px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #38bdf8;">
-                  🔑 Credenziali di accesso provvisorie
-                </p>
-                <div style="margin-bottom: 14px;">
-                  <span style="display: block; font-size: 11px; color: #71717a; text-transform: uppercase; font-weight: 600; margin-bottom: 4px;">Username (Email):</span>
-                  <span style="display: block; font-size: 15px; font-weight: 700; color: #ffffff; font-family: monospace;">{html.escape(email)}</span>
-                </div>
-                <div>
-                  <span style="display: block; font-size: 11px; color: #71717a; text-transform: uppercase; font-weight: 600; margin-bottom: 4px;">Nuova password provvisoria:</span>
-                  <span style="display: inline-block; background-color: #18181b; border: 1px solid #3f3f46; border-radius: 6px; padding: 6px 12px; font-size: 15px; font-weight: 700; color: #38bdf8; font-family: monospace;">{html.escape(password_temporanea)}</span>
-                </div>
-              </div>
-
-              <!-- Avviso Cambio Password al primo accesso -->
-              <div style="background-color: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 10px; padding: 14px 18px; margin-bottom: 26px;">
-                <p style="margin: 0; font-size: 13px; color: #fcd34d; line-height: 1.5;">
-                  🔒 <strong>Primo accesso obbligatorio:</strong> Per motivi di sicurezza, quando effettuerai l'accesso con questa password provvisoria ti verrà richiesto obbligatoriamente di impostare una nuova password definitiva personalizzata e sicura.
+              <div style="background-color: #0f172a; border: 1px solid #38bdf8; border-radius: 10px; padding: 14px 18px; margin-bottom: 24px;">
+                <p style="margin: 0; font-size: 13px; color: #e2e8f0; line-height: 1.5;">
+                  🔒 <strong>Link monouso valido 30 minuti:</strong> clicca il pulsante per scegliere subito una nuova password sicura. Se non hai richiesto tu il ripristino, puoi ignorare questa email in sicurezza.
                 </p>
               </div>
-
-              <!-- Bottone CTA -->
-              <div style="text-align: center; margin: 30px 0 20px;">
-                <a href="https://www.poliureasystem.it/area-clienti" style="display: inline-block; background: #0284c7; color: #ffffff; font-size: 14px; font-weight: 700; text-decoration: none; padding: 14px 32px; border-radius: 10px; box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4);">
-                  Accedi all'Area Clienti →
+              <div style="text-align: center; margin: 28px 0 20px;">
+                <a href="{safe_reset_url}" style="display: inline-block; background-color: #0284c7; color: #ffffff; font-size: 14px; font-weight: 700; text-decoration: none; padding: 14px 32px; border-radius: 10px;">
+                  Imposta Nuova Password →
                 </a>
               </div>
-
-              <p style="margin: 24px 0 0; font-size: 12px; color: #71717a; line-height: 1.5; text-align: center;">
-                Se non hai effettuato tu questa richiesta, contatta il nostro supporto tecnico a <a href="mailto:info@poliureasystem.it" style="color: #38bdf8; text-decoration: none;">info@poliureasystem.it</a>.
+              <p style="margin: 20px 0 0; font-size: 12px; color: #cbd5e1; line-height: 1.5; text-align: center; word-break: break-all;">
+                Se il pulsante non funziona, copia questo link nel browser:<br />
+                <a href="{safe_reset_url}" style="color: #38bdf8; text-decoration: none;">{safe_reset_url}</a>
               </p>
             </td>
           </tr>
-
-          <!-- Footer -->
           <tr>
-            <td style="padding: 20px 36px; border-top: 1px solid #27272a; text-align: center; background-color: #121214;">
-              <p style="margin: 0; font-size: 12px; color: #71717a; line-height: 1.6;">
+            <td style="padding: 20px 36px; border-top: 1px solid #334155; text-align: center; background-color: #0f172a;">
+              <p style="margin: 0; font-size: 12px; color: #cbd5e1; line-height: 1.6;">
                 © {current_year} Poliurea System · Genova / Liguria e Regioni Limitrofe<br />
                 Tel. Luigi +39 344 136 6523 · Alessandro +39 348 405 2908
               </p>
@@ -392,19 +368,15 @@ def build_recupero_password_email(
 </body>
 </html>"""
 
-    text_content = f"""Poliurea System · Nuova password provvisoria per l'Area Clienti
+    text_content = f"""Poliurea System · Link sicuro per reimpostare la password
 
 Gentile {nome},
-Abbiamo ricevuto la tua richiesta di recupero credenziali per l'Area Clienti.
+abbiamo ricevuto una richiesta di ripristino password per l'account {email} sull'Area Clienti.
 
-Ecco la tua nuova password provvisoria:
-Username (Email): {email}
-Password temporanea: {password_temporanea}
+Clicca o copia questo link (monouso, valido 30 minuti) per impostare la tua nuova password:
+{reset_url}
 
-IMPORTANTE:
-Al tuo prossimo accesso con questa password provvisoria, ti verrà richiesto obbligatoriamente di creare una nuova password definitiva a tua scelta.
-
-Accedi qui: https://www.poliureasystem.it/area-clienti
+Se non hai effettuato tu questa richiesta, puoi ignorare questa email: la tua password attuale non è stata modificata.
 
 Poliurea System - info@poliureasystem.it - Luigi +39 344 136 6523 · Alessandro +39 348 405 2908
 """
@@ -469,12 +441,12 @@ def build_chiarimenti_preventivo_email(
 
               <!-- Bottone CTA -->
               <div style="text-align: center; margin: 28px 0 20px;">
-                <a href="https://www.poliureasystem.it/area-clienti" style="display: inline-block; background: #0284c7; color: #ffffff; font-size: 14px; font-weight: 700; text-decoration: none; padding: 14px 32px; border-radius: 10px; box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4);">
+                <a href="https://poliureasystem.it/area-clienti" style="display: inline-block; background: #0284c7; color: #ffffff; font-size: 14px; font-weight: 700; text-decoration: none; padding: 14px 32px; border-radius: 10px; box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4);">
                   Accedi all'Area Clienti →
                 </a>
               </div>
               <p style="text-align: center; margin: 0; font-size: 12px; color: #71717a;">
-                Oppure copia questo link nel browser: <a href="https://www.poliureasystem.it/area-clienti" style="color: #38bdf8; text-decoration: none;">https://www.poliureasystem.it/area-clienti</a>
+                Oppure copia questo link nel browser: <a href="https://poliureasystem.it/area-clienti" style="color: #38bdf8; text-decoration: none;">https://poliureasystem.it/area-clienti</a>
               </p>
             </td>
           </tr>
@@ -483,7 +455,7 @@ def build_chiarimenti_preventivo_email(
           <tr>
             <td style="padding: 24px 36px; background-color: #0c0c0e; border-top: 1px solid #27272a; text-align: center;">
               <p style="margin: 0 0 6px; font-size: 12px; font-weight: 700; color: #d4d4d8;">Poliurea System · Impermeabilizzazioni Continue Pure ad Alta Pressione</p>
-              <p style="margin: 0; font-size: 11px; color: #71717a;">Email: info@poliureasystem.it · Web: www.poliureasystem.it</p>
+              <p style="margin: 0; font-size: 11px; color: #71717a;">Email: info@poliureasystem.it · Web: poliureasystem.it</p>
             </td>
           </tr>
 
@@ -504,11 +476,11 @@ in merito alla tua richiesta di preventivo #{preventivo_id} ({servizio or 'Inter
 --------------------------------------------------
 
 Puoi verificare la tua pratica nella tua Area Clienti:
-https://www.poliureasystem.it/area-clienti
+https://poliureasystem.it/area-clienti
 
 Oppure puoi rispondere direttamente a questa email con le informazioni o le foto richieste.
 
 Poliurea System
-info@poliureasystem.it - www.poliureasystem.it"""
+info@poliureasystem.it - poliureasystem.it"""
 
     return subject, html_content, text_content

@@ -9,6 +9,7 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://poliureasystem.it',
+  trailingSlash: 'never',
   output: 'server',
   adapter: cloudflare({ imageService: 'passthrough' }),
   session: false,
@@ -22,7 +23,9 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/admin') &&
         !page.includes('/area-clienti') &&
-        !page.includes('/accesso-preventivi')
+        !page.includes('/accesso-preventivi') &&
+        !page.includes('/404') &&
+        !page.includes('/media/')
     })
   ]
 });
