@@ -1,11 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-    <path d="M2 41L32 18L62 41H51L32 26.5L13 41H2Z" fill="#1d4e89"/>
-    <path d="M13 43L32 28.5L51 43H42.5L32 35L21.5 43H13Z" fill="#94a3b8"/>
-    <path d="M16 43L32 30.8L48 43H43.5L32 34.2L20.5 43H16Z" fill="#e2e8f0"/>
-    <rect x="27" y="38.5" width="4.2" height="4.2" fill="#2563eb"/>
-    <rect x="32.8" y="38.5" width="4.2" height="4.2" fill="#2563eb"/>
-    <rect x="27" y="44.2" width="4.2" height="4.2" fill="#2563eb"/>
-    <rect x="32.8" y="44.2" width="4.2" height="4.2" fill="#2563eb"/>
-    <path d="M46 17C42.2 22.2 40.5 24.8 40.5 27.6A5.5 5.5 0 1 0 51.5 27.6C51.5 24.8 49.8 22.2 46 17Z" fill="#0284c7" stroke="#0f172a" stroke-width="1.2"/>
-    <path d="M44.3 25.5C43.5 26.7 43.3 28 43.8 29.2" stroke="#e0f2fe" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+    <path d="M1 50L32 6L63 50H49.5L32 25.5L14.5 50H1Z" fill="#18447c"/>
+    <path d="M4.5 48.5L32 9.5V19.5L12.5 48.5H4.5Z" fill="#318ad4"/>
+    <path d="M32 9.5L59.5 48.5H51.5L32 19.5V9.5Z" fill="#48a8ec"/>
+    <path d="M13 52L32 25.5L51 52H42L32 37.8L22 52H13Z" fill="#cbd5e1"/>
+    <path d="M16.2 50.5L32 28.5L47.8 50.5H44.2L32 33.6L19.8 50.5H16.2Z" fill="#ffffff"/>
+    <rect x="24.8" y="43.8" width="6.2" height="6.2" fill="#18447c"/>
+    <rect x="25.6" y="44.6" width="4.6" height="4.6" fill="#38bdf8"/>
+    <rect x="33" y="43.8" width="6.2" height="6.2" fill="#18447c"/>
+    <rect x="33.8" y="44.6" width="4.6" height="4.6" fill="#38bdf8"/>
+    <rect x="24.8" y="52" width="6.2" height="6.2" fill="#18447c"/>
+    <rect x="25.6" y="52.8" width="4.6" height="4.6" fill="#38bdf8"/>
+    <rect x="33" y="52" width="6.2" height="6.2" fill="#18447c"/>
+    <rect x="33.8" y="52.8" width="4.6" height="4.6" fill="#38bdf8"/>
+    <path d="M47.2 8.2C42.2 15.8 39.2 21.8 39.2 28.2A8 8 0 1 0 55.2 28.2C55.2 21.8 52.2 15.8 47.2 8.2Z" fill="#0ea5e9" stroke="#0f172a" stroke-width="2.2" stroke-linejoin="round"/>
+    <ellipse cx="45.2" cy="27.2" rx="2.4" ry="4.4" fill="#e0f2fe"/>
+    <ellipse cx="45" cy="26.8" rx="1.3" ry="2.6" fill="#ffffff"/>
 </svg>
