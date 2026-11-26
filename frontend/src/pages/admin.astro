@@ -1272,6 +1272,8 @@ if (!adminCookie) {
             return { contenitore, campo };
         };
 
+        const openWorkIds = new Set();
+
         const caricaLavori = async () => {
             try {
                 const risposta = await fetch('/api/lavori');
@@ -1295,11 +1297,12 @@ if (!adminCookie) {
                     const fotoPrima = Array.isArray(lavoro.foto_prima) ? lavoro.foto_prima : [];
                     const fotoDopo = Array.isArray(lavoro.foto_dopo) ? lavoro.foto_dopo : [];
                     const videoDopo = Array.isArray(lavoro.video_dopo) ? lavoro.video_dopo : [];
+                    const isExpanded = openWorkIds.has(lavoro.id);
 
                     const scheda = document.createElement('article');
-                    scheda.className = 'grid gap-5 rounded-2xl border border-zinc-800 bg-zinc-900 p-5 shadow-xl';
+                    scheda.className = 'rounded-2xl border border-zinc-800 bg-zinc-900 p-4 sm:p-5 shadow-xl';
 
-                    // INTESTAZIONE RIEPILOGATIVA DEL LAVORO
+                    // INTESTAZIONE RIEPILOGATIVA COMPATTA DEL LAVORO
                     const header = document.createElement('div');
                     header.className = 'grid gap-4 md:grid-cols-[220px_1fr] items-start';
 
@@ -1348,8 +1351,10 @@ if (!adminCookie) {
                         badgesRow.appendChild(bMq);
                     }
 
-                    const bMedia = document.createElement('span');
-                    bMedia.className = 'rounded-full border border-zinc-700 bg-zinc-950 px-2.5 py-0.5 text-[11px] font-semibold text-zinc-300';
+                    const bMedia = document.createElement('button');
+                    bMedia.type = 'button';
+                    bMedia.title = 'Mostra o nascondi foto, video e modifica scheda';
+                    bMedia.className = 'rounded-full border border-zinc-700 bg-zinc-950 px-2.5 py-0.5 text-[11px] font-semibold text-zinc-300 transition hover:border-sky-500 hover:text-white cursor-pointer';
                     bMedia.textContent = `${fotoPrima.length} Prima · ${fotoDopo.length} Dopo · ${videoDopo.length} Video`;
                     badgesRow.appendChild(bMedia);
 
@@ -1362,7 +1367,7 @@ if (!adminCookie) {
                         .join(' · ');
                     const pSpecs = document.createElement('p');
                     pSpecs.className = 'text-xs text-zinc-400';
-                    pSpecs.textContent = specsLine || 'Scheda tecnica modificabile qui sotto.';
+                    pSpecs.textContent = specsLine || 'Clicca "Modifica / Media" per gestire scheda e allegati.';
 
                     const topActions = document.createElement('div');
                     topActions.className = 'flex flex-wrap items-center gap-2 pt-1';
@@ -1416,6 +1421,12 @@ if (!adminCookie) {
                     const btnAddDopo = creaUploadRapido('dopo', '+ Foto Dopo', 'image/jpeg,image/png,image/webp', 'border-sky-500/40 bg-sky-500/15 text-sky-300 hover:bg-sky-500/25');
                     const btnAddVideo = creaUploadRapido('video', '+ Video Dopo', 'video/mp4,video/webm,video/quicktime', 'border-emerald-500/40 bg-emerald-500/15 text-emerald-300 hover:bg-emerald-500/25');
 
+                    const btnToggleDrawer = document.createElement('button');
+                    btnToggleDrawer.type = 'button';
+                    btnToggleDrawer.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+                    btnToggleDrawer.className = 'rounded-lg border border-sky-500/35 bg-sky-500/10 px-3 py-1.5 text-xs font-semibold text-sky-300 transition hover:border-sky-400 hover:bg-sky-500/20 cursor-pointer';
+                    btnToggleDrawer.textContent = isExpanded ? 'Chiudi modifica ▴' : 'Modifica / Media ▾';
+
                     const elimina = document.createElement('button');
                     elimina.type = 'button';
                     elimina.className = 'ml-auto rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-1.5 text-xs font-semibold text-red-400 transition hover:border-red-500/40 hover:bg-red-500/20 cursor-pointer';
@@ -1430,16 +1441,36 @@ if (!adminCookie) {
                             onConfirm: async () => {
                                 const res = await fetch(`/api/lavori/${lavoro.id}`, { method: 'DELETE' });
                                 if (!res.ok) throw new Error((await res.json()).detail || `HTTP ${res.status}`);
+                                openWorkIds.delete(lavoro.id);
                                 mostraFeedbackLavori('Lavoro eliminato.');
                                 await caricaLavori();
                             },
                         });
                     });
 
-                    topActions.append(linkPub, btnAddPrima, btnAddDopo, btnAddVideo, elimina);
+                    topActions.append(linkPub, btnAddPrima, btnAddDopo, btnAddVideo, btnToggleDrawer, elimina);
                     summary.append(badgesRow, hTitle, pSpecs, topActions);
                     header.append(coverBox, summary);
                     scheda.appendChild(header);
+
+                    // PANNELLO ESPANDIBILE (NASCOSTO DI DEFAULT): MEDIA + SCHEDA TECNICA
+                    const drawer = document.createElement('div');
+                    drawer.className = `${isExpanded ? 'grid' : 'hidden'} mt-5 gap-5 border-t border-zinc-800 pt-5`;
+
+                    const toggleDrawer = () => {
+                        const nowOpen = drawer.classList.contains('hidden');
+                        drawer.classList.toggle('hidden', !nowOpen);
+                        drawer.classList.toggle('grid', nowOpen);
+                        btnToggleDrawer.setAttribute('aria-expanded', nowOpen ? 'true' : 'false');
+                        btnToggleDrawer.textContent = nowOpen ? 'Chiudi modifica ▴' : 'Modifica / Media ▾';
+                        if (nowOpen) {
+                            openWorkIds.add(lavoro.id);
+                        } else {
+                            openWorkIds.delete(lavoro.id);
+                        }
+                    };
+                    btnToggleDrawer.addEventListener('click', toggleDrawer);
+                    bMedia.addEventListener('click', toggleDrawer);
 
                     // MINIATURE MEDIA CARICATI CON ELIMINAZIONE SINGOLA
                     const tuttiMediaCard = [
@@ -1448,8 +1479,21 @@ if (!adminCookie) {
                         ...videoDopo.map((v) => ({ id: v.id, url: v.poster_url || '', didascalia: v.titolo, badge: `VIDEO${v.durata ? ` ${v.durata}` : ''}`, badgeCls: 'bg-emerald-600 text-white', isVideo: true })),
                     ];
                     if (tuttiMediaCard.length > 0) {
+                        const mediaSection = document.createElement('div');
+                        mediaSection.className = 'grid gap-2.5';
+
+                        const mediaHead = document.createElement('div');
+                        mediaHead.className = 'flex flex-wrap items-center justify-between gap-2';
+                        const mediaTitle = document.createElement('span');
+                        mediaTitle.className = 'text-xs font-bold uppercase tracking-wider text-zinc-300';
+                        mediaTitle.textContent = `Foto e video caricati (${tuttiMediaCard.length})`;
+                        const mediaHint = document.createElement('span');
+                        mediaHint.className = 'text-[11px] text-zinc-500';
+                        mediaHint.textContent = 'Clicca ✕ per eliminare un singolo file';
+                        mediaHead.append(mediaTitle, mediaHint);
+
                         const mediaStrip = document.createElement('div');
-                        mediaStrip.className = 'grid grid-cols-3 gap-2.5 sm:grid-cols-5 lg:grid-cols-6 border-t border-zinc-800 pt-4';
+                        mediaStrip.className = 'grid grid-cols-3 gap-2.5 sm:grid-cols-5 lg:grid-cols-6';
                         tuttiMediaCard.forEach((m) => {
                             const tile = document.createElement('div');
                             tile.className = 'relative overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 aspect-[4/3] group';
@@ -1492,19 +1536,17 @@ if (!adminCookie) {
                             tile.append(b, btnDelM);
                             mediaStrip.appendChild(tile);
                         });
-                        scheda.appendChild(mediaStrip);
+                        mediaSection.append(mediaHead, mediaStrip);
+                        drawer.appendChild(mediaSection);
                     }
 
-                    // EDITOR ESPANDIBILE PER MODIFICARE TUTTI I CAMPI TECNICI
-                    const details = document.createElement('details');
-                    details.className = 'rounded-xl border border-zinc-800 bg-zinc-950/60';
-                    const summ = document.createElement('summary');
-                    summ.className = 'cursor-pointer select-none px-4 py-3 text-xs font-bold uppercase tracking-wider text-sky-400 hover:text-sky-300';
-                    summ.textContent = 'Modifica scheda tecnica, testi e stratigrafia';
-                    details.appendChild(summ);
-
+                    // EDITOR CAMPI TECNICI, TESTI E STRATIGRAFIA
                     const editorWrap = document.createElement('div');
-                    editorWrap.className = 'grid gap-4 border-t border-zinc-800 p-4';
+                    editorWrap.className = 'grid gap-4 rounded-xl border border-zinc-800 bg-zinc-950/60 p-4';
+
+                    const editorHeading = document.createElement('p');
+                    editorHeading.className = 'text-xs font-bold uppercase tracking-wider text-sky-400';
+                    editorHeading.textContent = 'Modifica scheda tecnica, testi e stratigrafia';
 
                     const gridCampi = document.createElement('div');
                     gridCampi.className = 'grid gap-3 sm:grid-cols-2 lg:grid-cols-4';
@@ -1582,6 +1624,7 @@ if (!adminCookie) {
                                 }),
                             });
                             if (!res.ok) throw new Error((await res.json()).detail || `HTTP ${res.status}`);
+                            openWorkIds.delete(lavoro.id);
                             mostraFeedbackLavori('Scheda tecnica aggiornata.');
                             await caricaLavori();
                         } catch (errore) {
@@ -1591,9 +1634,9 @@ if (!adminCookie) {
                         }
                     });
 
-                    editorWrap.append(gridCampi, fasiHead, fasiListEl, salva);
-                    details.appendChild(editorWrap);
-                    scheda.appendChild(details);
+                    editorWrap.append(editorHeading, gridCampi, fasiHead, fasiListEl, salva);
+                    drawer.appendChild(editorWrap);
+                    scheda.appendChild(drawer);
                     worksList.appendChild(scheda);
                 });
             } catch (errore) {
