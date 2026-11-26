@@ -150,11 +150,6 @@ export const lavoriProgetti: LavoroProgetto[] = [
                 alt: 'Colmo e raccordi attorno al camino sigillati a ciclo ultimato',
                 didascalia: 'Risultato finale — Colmo e risvolti attorno al camino completamente impermeabilizzati',
             },
-            {
-                src: '/images/lavori/cantiere-lupia/dopo-04.webp',
-                alt: 'Vista laterale della copertura finita con sfiati e volumi tecnici sigillati',
-                didascalia: 'Risultato finale — Chiusura uniforme su falde, sfiati e corpi emergenti',
-            },
         ],
         videoDopo: [
             {
