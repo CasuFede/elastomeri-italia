@@ -1,5 +1,6 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
+import { metodiOperativi } from '../data/metodi';
 
 const faqStructuredData = [
     {
@@ -253,57 +254,47 @@ const faqStructuredData = [
         </div>
     </section>
 
-    <!-- BARRA 02: METODO DIAGNOSTICO -->
+    <!-- BARRA 02: LE 3 MODALITÀ OPERATIVE -->
     <section id="metodo" class="home-band home-band--alt method-preview" data-band="metodo">
         <div class="home-band-bar">
             <div class="wrap home-band-bar-inner">
                 <div class="home-band-title">
                     <span class="home-band-num">02</span>
-                    <span class="home-band-label">Metodo diagnostico certificato</span>
+                    <span class="home-band-label">Le 3 modalità operative</span>
                 </div>
-                <a class="home-band-action" href="/metodo">Approfondisci il protocollo <span aria-hidden="true">→</span></a>
+                <a class="home-band-action" href="/metodo">Confronta i 3 metodi <span aria-hidden="true">→</span></a>
             </div>
         </div>
-        <div class="wrap home-band-body">
-            <div class="method-preview-grid">
-                <div class="method-copy">
-                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1D1D1F] leading-tight mb-4">Prima capire.<br /><span class="text-[#0071E3]">Poi intervenire.</span></h2>
-                    <p class="text-base text-[#6E6E73] leading-relaxed mb-6">Un'impermeabilizzazione fallisce se applicata senza diagnosi su un supporto inadeguato. Il nostro protocollo esclude interventi alla cieca: verifichiamo l'umidità del supporto e garantiamo adesione chimica e tenuta idraulica certificata.</p>
-                    <div class="flex flex-wrap gap-2.5 mb-7">
-                        <span class="inline-flex items-center gap-2 rounded-full border border-[#D2D2D7] bg-white px-3.5 py-2 text-xs font-bold text-[#1D1D1F]">
-                            <span class="h-2 w-2 rounded-full bg-[#0071E3]"></span> Termocamera IR
-                        </span>
-                        <span class="inline-flex items-center gap-2 rounded-full border border-[#D2D2D7] bg-white px-3.5 py-2 text-xs font-bold text-[#1D1D1F]">
-                            <span class="h-2 w-2 rounded-full bg-[#0071E3]"></span> Igrometro a carburo
-                        </span>
-                        <span class="inline-flex items-center gap-2 rounded-full border border-[#D2D2D7] bg-white px-3.5 py-2 text-xs font-bold text-[#1D1D1F]">
-                            <span class="h-2 w-2 rounded-full bg-[#30A14E]"></span> Collaudo certificato
-                        </span>
-                    </div>
-                    <a class="inline-flex items-center gap-2 rounded-full border-2 border-[#0071E3] bg-white hover:bg-[#0071E3] px-6 py-3 text-sm font-semibold text-[#0071E3] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071E3]" href="/metodo">Scopri le fasi del metodo <span aria-hidden="true">→</span></a>
+        <div class="wrap ps-editorial-body">
+            <div class="ps-inner ps-center">
+                <div class="ps-eyebrow">Come operiamo</div>
+                <h2 class="ps-h2">Tre metodi applicativi.<br /><em>Una sola tenuta continua.</em></h2>
+                <p class="ps-sub">Scegliamo la tecnica più efficace per ogni cantiere in base a superficie, accesso e supporto: applicazione manuale, poliurea a caldo a spruzzo o poliurea a freddo.</p>
+
+                <div class="home-methods-grid">
+                    {metodiOperativi.map((m) => (
+                        <article class={`home-method-card ${m.id === 'spruzzo-caldo' ? 'is-featured' : ''}`}>
+                            <div class="home-method-top">
+                                <span class="home-method-num">{m.numero}</span>
+                                <span class="home-method-tag">{m.tag}</span>
+                            </div>
+                            <h3>{m.titolo}</h3>
+                            <p>{m.riepilogoHome}</p>
+                            <div class="home-method-specs">
+                                <span>{m.metricaHomeSinistra}</span>
+                                <span>{m.metricaHomeDestra}</span>
+                            </div>
+                            <a class="home-method-link" href={`/metodo#${m.id}`}>
+                                Scheda tecnica e parametri <span aria-hidden="true">→</span>
+                            </a>
+                        </article>
+                    ))}
                 </div>
-                <div class="method-steps flex flex-col gap-4">
-                    <div class="flex items-start gap-4 rounded-2xl border border-[#D2D2D7] bg-white p-5 transition-colors duration-200 hover:border-[#0071E3]">
-                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] font-mono text-xs font-extrabold text-white">01</span>
-                        <div>
-                            <strong class="block text-base font-bold text-[#1D1D1F] mb-1">Analisi Diagnostica Strumentale</strong>
-                            <small class="text-sm text-[#6E6E73] leading-relaxed block">Rilevamento termografico e igrometrico per mappare con precisione l'origine esatta dell'acqua e l'umidità del sottofondo.</small>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-4 rounded-2xl border border-[#D2D2D7] bg-white p-5 transition-colors duration-200 hover:border-[#0071E3]">
-                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] font-mono text-xs font-extrabold text-white">02</span>
-                        <div>
-                            <strong class="block text-base font-bold text-[#1D1D1F] mb-1">Trattamento Meccanico del Supporto</strong>
-                            <small class="text-sm text-[#6E6E73] leading-relaxed block">Levigatura diamantata, ripristino giunti e applicazione del primer epossidico per una forza di adesione strutturale (&gt; 2.5 MPa).</small>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-4 rounded-2xl border border-[#D2D2D7] bg-white p-5 transition-colors duration-200 hover:border-[#0071E3]">
-                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] font-mono text-xs font-extrabold text-white">03</span>
-                        <div>
-                            <strong class="block text-base font-bold text-[#1D1D1F] mb-1">Spruzzatura Continua &amp; Collaudo</strong>
-                            <small class="text-sm text-[#6E6E73] leading-relaxed block">Nebulizzazione a caldo (70°C, 200 bar) della membrana continua in pura poliurea e successivo collaudo idraulico certificato.</small>
-                        </div>
-                    </div>
+
+                <div class="mt-10">
+                    <a class="ps-pill-btn ps-pill-btn--solid" href="/metodo">
+                        Confronta nel dettaglio i 3 metodi <span aria-hidden="true">→</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -361,9 +352,9 @@ const faqStructuredData = [
                 <div class="ps-designer-band">
                     <div>
                         <h3>Sei un progettista o cerchi le schede tecniche dettagliate?</h3>
-                        <p>Consulta il nostro protocollo completo: parametri bimixer, igrometria del supporto, primer e collaudi idraulici.</p>
+                        <p>Confronta nel dettaglio i nostri 3 metodi applicativi: posa manuale, poliurea a caldo bimixer (65–80°C, 200 bar) e poliurea a freddo.</p>
                     </div>
-                    <a class="ps-pill-btn ps-pill-btn--outline" href="/metodo">Scopri il Metodo Tecnico <span aria-hidden="true">→</span></a>
+                    <a class="ps-pill-btn ps-pill-btn--outline" href="/metodo">Scopri i 3 Metodi <span aria-hidden="true">→</span></a>
                 </div>
             </div>
         </div>

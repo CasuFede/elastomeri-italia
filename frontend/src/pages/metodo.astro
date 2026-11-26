@@ -1,103 +1,158 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
-import MethodTimeline from '../components/MethodTimeline.astro';
 import CallToAction from '../components/CallToAction.astro';
+import { metodiOperativi, confrontoMetodi } from '../data/metodi';
 ---
 
 <SiteLayout
-    title="Metodo Diagnostico Poliurea Liguria | Poliurea System"
-    description="Protocollo in 3 fasi a Genova e in Liguria: diagnosi igrometrica, preparazione meccanica diamantata del supporto e posa continua di poliurea pura."
+    title="I 3 Metodi di Applicazione: Manuale, a Spruzzo e a Freddo | Poliurea System"
+    description="Come operiamo a Genova e in Liguria: applicazione manuale con fibra di vetro, poliurea a caldo a spruzzo con bimixer (70°C, 200 bar) e poliurea a freddo / poliaspartica."
     activePath="/metodo"
-    breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Il metodo', path: '/metodo' }]}
+    breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Metodo', path: '/metodo' }]}
 >
     <PageIntro
-        eyebrow="METODO DIAGNOSTICO CERTIFICATO"
-        title="Prima capire l'origine."
-        highlight="Poi eliminare il problema."
-        text="Un'impermeabilizzazione fallisce se applicata su un supporto inadeguato o senza una diagnosi preliminare. Il nostro protocollo esclude interventi improvvisati: garantiamo adesione chimica, tenuta idraulica duratura e garanzia decennale."
+        eyebrow="LE NOSTRE 3 MODALITÀ OPERATIVE"
+        title="Tre metodi applicativi."
+        highlight="La tecnica giusta per ogni cantiere."
+        text="Non forziamo mai un’unica soluzione su tutti gli edifici. In base a superficie, supporto esistente, accesso logistico e tempi richiesti scegliamo tra applicazione manuale, poliurea a caldo a spruzzo e poliurea a freddo."
     />
 
-    <!-- TIMELINE DEL METODO IN 3 FASI -->
-    <MethodTimeline />
-
-    <!-- CONFRONTO: METODO TRADIZIONALE VS METODO POLIUREA SYSTEM -->
-    <section class="method-comparison wrap my-16">
-        <div class="mb-10 text-center sm:text-left">
-            <p class="inline-block rounded-full border border-[#B5CCE4] bg-[#E8F2FC] px-3.5 py-1 font-mono text-xs font-bold uppercase tracking-wider text-[#0071E3]">LA DIFFERENZA SOSTANZIALE</p>
-            <h2 class="mt-3 text-2xl sm:text-4xl font-extrabold text-[#1D1D1F] tracking-tight">Perché i metodi tradizionali falliscono<br /><span class="text-[#0071E3]">e perché il nostro metodo dura nel tempo.</span></h2>
-            <p class="mt-3 text-sm sm:text-base text-[#6E6E73] max-w-2xl">La differenza tra una riparazione provvisoria e una soluzione definitiva risiede nel rispetto rigoroso delle fasi preparatorie e chimiche.</p>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- Box Tradizionale -->
-            <div class="rounded-3xl border-2 border-[#F5C2BE] bg-[#F5F5F7] p-6 sm:p-8">
-                <div class="flex items-center gap-3 mb-6">
-                    <span class="flex h-8 w-8 items-center justify-center rounded-full bg-[#B42318] text-white font-bold text-sm">✕</span>
-                    <h3 class="text-xl font-bold text-[#1D1D1F]">Interventi Edili Tradizionali</h3>
-                </div>
-                <ul class="space-y-4 text-sm text-[#6E6E73]">
-                    <li class="flex items-start gap-3">
-                        <span class="text-[#B42318] font-bold mt-0.5">✕</span>
-                        <div><strong class="text-[#1D1D1F] block mb-0.5">Demolizioni invasive e costose:</strong> rimozione di piastrelle e massetto con macerie, polvere e rumori per settimane.</div>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-[#B42318] font-bold mt-0.5">✕</span>
-                        <div><strong class="text-[#1D1D1F] block mb-0.5">Saldature e sormonti a fiamma:</strong> le guaine bituminose hanno giunzioni vulnerabili che si scollano dopo 5-7 inverni.</div>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-[#B42318] font-bold mt-0.5">✕</span>
-                        <div><strong class="text-[#1D1D1F] block mb-0.5">Nessun controllo dell'umidità interna:</strong> l'acqua intrappolata nel massetto evapora creando bolle e distacchi della guaina.</div>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-[#B42318] font-bold mt-0.5">✕</span>
-                        <div><strong class="text-[#1D1D1F] block mb-0.5">Fermo cantiere prolungato:</strong> settimane di inagibilità delle superfici con disagi per residenti e attività.</div>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Box Metodo Poliurea System -->
-            <div class="rounded-3xl border-2 border-[#0071E3] bg-[#F5F5F7] p-6 sm:p-8">
-                <div class="flex items-center gap-3 mb-6">
-                    <span class="flex h-8 w-8 items-center justify-center rounded-full bg-[#0071E3] text-white font-bold text-sm">✓</span>
-                    <h3 class="text-xl font-bold text-[#1D1D1F]">Il Nostro Metodo Diagnostico</h3>
-                </div>
-                <ul class="space-y-4 text-sm text-[#6E6E73]">
-                    <li class="flex items-start gap-3">
-                        <span class="text-[#30A14E] font-bold mt-0.5">✓</span>
-                        <div><strong class="text-[#1D1D1F] block mb-0.5">Zero demolizioni:</strong> applichiamo la membrana sopra le piastrelle o la guaina esistente, azzerando macerie e costi di smaltimento.</div>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-[#30A14E] font-bold mt-0.5">✓</span>
-                        <div><strong class="text-[#1D1D1F] block mb-0.5">Membrana continua al 100% monolitica:</strong> nessun giunto, nessuna saldatura e totale assenza di fiamme libere in opera.</div>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-[#30A14E] font-bold mt-0.5">✓</span>
-                        <div><strong class="text-[#1D1D1F] block mb-0.5">Rilievi termo-igrometrici certificati:</strong> misuriamo l'umidità del supporto e applichiamo primer ad adesione chimica (&gt; 2.5 MPa).</div>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <span class="text-[#30A14E] font-bold mt-0.5">✓</span>
-                        <div><strong class="text-[#1D1D1F] block mb-0.5">Pedonabile in 60 minuti:</strong> cantiere concluso in 1-2 giorni lavorativi e superfici immediatamente riutilizzabili.</div>
-                    </li>
-                </ul>
-            </div>
+    <!-- NAVIGAZIONE RAPIDA TRA I 3 METODI E TABELLA COMPARATIVA -->
+    <section class="wrap mb-10" aria-label="Collegamenti rapidi ai metodi applicativi">
+        <div class="method-jump-bar">
+            {metodiOperativi.map((m) => (
+                <a class="method-jump-pill" href={`#${m.id}`}>
+                    <span>{m.numero}</span>
+                    {m.titolo}
+                </a>
+            ))}
+            <a class="method-jump-pill method-jump-pill--accent" href="#confronto">
+                Tabella comparativa →
+            </a>
         </div>
     </section>
 
-    <!-- PRINCIPIO GUIDA -->
-    <section class="method-principle border-y border-[#D2D2D7] bg-[#F5F5F7] py-16 text-center">
-        <div class="wrap principle-content max-w-2xl mx-auto">
-            <p class="eyebrow inline-block rounded-full border border-[#B5CCE4] bg-[#E8F2FC] px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-[#0071E3]">UN PRINCIPIO IRRINUNCIABILE</p>
-            <h2 class="mt-3 text-2xl font-extrabold text-[#1D1D1F] sm:text-4xl">La soluzione definitiva<br />inizia dalla <span class="text-[#0071E3]">diagnosi corretta.</span></h2>
-            <p class="mt-4 text-sm sm:text-base leading-relaxed text-[#6E6E73]">Non formuliamo preventivi sommari a distanza: ogni intervento comincia dall'analisi strumentale delle superfici per garantire tenuta assoluta e garanzia decennale.</p>
+    <!-- SCHEDE DETTAGLIATE DEI 3 METODI OPERATIVI -->
+    <section class="wrap pb-16 space-y-10" aria-label="Dettaglio delle tre modalità applicative">
+        {metodiOperativi.map((metodo) => (
+            <article id={metodo.id} class="method-detail-card">
+                <header class="method-detail-head">
+                    <div class="method-detail-meta">
+                        <span class="method-detail-num">{metodo.numero}</span>
+                        <span class="method-detail-tag">{metodo.tag}</span>
+                        <span class="method-detail-badge">{metodo.badgeHome}</span>
+                    </div>
+                    <h2 class="method-detail-title">{metodo.titolo}</h2>
+                    <p class="method-detail-sub">{metodo.sottotitolo}</p>
+                </header>
+
+                <div class="method-detail-grid">
+                    <!-- Colonna Sinistra: Spiegazione, Campi d'impiego, Vantaggi, Fasi -->
+                    <div class="method-detail-main">
+                        <p class="method-detail-desc">{metodo.descrizione}</p>
+
+                        <div class="method-detail-block">
+                            <h3>Dove la impieghiamo</h3>
+                            <div class="method-chips">
+                                {metodo.idealePer.map((uso) => (
+                                    <span class="method-chip">{uso}</span>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div class="method-detail-block">
+                            <h3>Vantaggi principali</h3>
+                            <ul class="method-check-list">
+                                {metodo.vantaggi.map((v) => (
+                                    <li>
+                                        <span class="method-check-icon" aria-hidden="true">✓</span>
+                                        <span>{v}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div class="method-detail-block">
+                            <h3>Fasi operative di posa</h3>
+                            <ol class="method-phases-list">
+                                {metodo.fasiPosa.map((fase, idx) => (
+                                    <li>
+                                        <span class="method-phase-num">{String(idx + 1).padStart(2, '0')}</span>
+                                        <span>{fase}</span>
+                                    </li>
+                                ))}
+                            </ol>
+                        </div>
+                    </div>
+
+                    <!-- Colonna Destra: Scheda Parametri Tecnici + CTA -->
+                    <aside class="method-specs-box" aria-label={`Parametri tecnici ${metodo.titolo}`}>
+                        <span class="method-specs-kicker">PARAMETRI TECNICI DI RIFERIMENTO</span>
+                        <dl class="method-specs-list">
+                            {metodo.parametri.map((param) => (
+                                <div class="method-spec-row">
+                                    <dt>{param.etichetta}</dt>
+                                    <dd>{param.valore}</dd>
+                                </div>
+                            ))}
+                        </dl>
+                        <a class="ps-pill-btn ps-pill-btn--solid w-full mt-6" href="/preventivo">
+                            Valuta questo metodo per il tuo edificio <span aria-hidden="true">↗</span>
+                        </a>
+                    </aside>
+                </div>
+            </article>
+        ))}
+    </section>
+
+    <!-- TABELLA COMPARATIVA DEI 3 METODI -->
+    <section id="confronto" class="method-compare-section">
+        <div class="wrap">
+            <div class="ps-inner ps-center mb-12">
+                <div class="ps-eyebrow">Confronto diretto</div>
+                <h2 class="ps-h2">Quale sistema scegliamo<br /><em>per il tuo intervento?</em></h2>
+                <p class="ps-sub">
+                    Tutte e tre le modalità garantiscono una membrana continua senza giunzioni. Qui vedi a colpo d’occhio le differenze operative tra posa manuale, poliurea a caldo a spruzzo e poliurea a freddo.
+                </p>
+            </div>
+
+            <div class="method-table-wrap">
+                <table class="method-compare-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Parametro</th>
+                            <th scope="col">
+                                <span class="method-th-num">01</span> Applicazione Manuale
+                            </th>
+                            <th scope="col" class="is-featured">
+                                <span class="method-th-num">02</span> Poliurea a Caldo a Spruzzo
+                            </th>
+                            <th scope="col">
+                                <span class="method-th-num">03</span> Poliurea a Freddo
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {confrontoMetodi.map((riga) => (
+                            <tr>
+                                <th scope="row">{riga.criterio}</th>
+                                <td>{riga.manuale}</td>
+                                <td class="is-featured">{riga.spruzzoCaldo}</td>
+                                <td>{riga.poliureaFreddo}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </section>
 
     <!-- CALL TO ACTION FINALE -->
-    <CallToAction 
-        eyebrow="METODO COLLAUDATO & GARANTITO"
-        title="Affida il tuo edificio a un protocollo certo." 
-        text="Non rischiare con interventi provvisori che raddoppiano i costi nel tempo. Prenota oggi stesso il tuo sopralluogo diagnostico in loco senza impegno." 
+    <CallToAction
+        eyebrow="CONSULENZA TECNICA SU MISURA"
+        title="Non sai quale dei 3 metodi è più adatto al tuo edificio?"
+        text="Verifichiamo gratuitamente metratura, accesso e tipo di supporto in loco per indicarti la tecnologia più conveniente e duratura tra manuale, spruzzo a caldo e poliurea a freddo."
         buttonText="Richiedi il Sopralluogo Gratuito"
     />
 </SiteLayout>
