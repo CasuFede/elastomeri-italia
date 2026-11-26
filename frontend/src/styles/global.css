@@ -2202,6 +2202,7 @@
     color: #1D1D1F;
     background: #F5F5F7;
     border-bottom: 1px solid #D2D2D7;
+    text-align: left;
     vertical-align: middle;
 }
 
@@ -2233,6 +2234,7 @@
     color: #1D1D1F;
     border-top: 1px solid #E5E5EA;
     background: #FFFFFF;
+    text-align: left;
     width: 22%;
 }
 

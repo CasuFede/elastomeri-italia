@@ -102,7 +102,7 @@ export const metodiOperativi: MetodoOperativo[] = [
     {
         id: 'poliurea-freddo',
         numero: '03',
-        tag: 'TEMPERATURA AMBIENTE · AIRLESS O RULLO',
+        tag: 'A FREDDO · AIRLESS O RULLO',
         titolo: 'Poliurea a Freddo',
         sottotitolo: 'Sistemi poliureici a freddo e poliaspartici applicati a temperatura ambiente senza bimixer',
         riepilogoHome:
