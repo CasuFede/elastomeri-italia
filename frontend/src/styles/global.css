@@ -2606,7 +2606,7 @@
 .work-detail-modal {
     position: fixed;
     inset: 0;
-    z-index: 90;
+    z-index: 120;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3143,7 +3143,7 @@
 .work-modal {
     position: fixed;
     inset: 0;
-    z-index: 100;
+    z-index: 130;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3295,6 +3295,15 @@
     line-height: 1.5;
 }
 
+.work-modal-swipe-hint {
+    display: none;
+    margin: 0;
+    text-align: center;
+    color: #A9B3C7;
+    font-size: 11.5px;
+    font-weight: 600;
+}
+
 @media (max-width: 1024px) {
     .work-cards-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3311,47 +3320,262 @@
 }
 
 @media (max-width: 640px) {
+    /* Card lavori compatte e subito chiare su smartphone */
     .work-cards-grid {
         grid-template-columns: 1fr;
+        gap: 16px;
     }
-    .work-detail-modal {
-        padding: 10px;
-    }
-    .work-detail-dialog {
-        max-height: 94vh;
+    .work-compact-trigger {
         border-radius: 20px;
     }
+    .work-compact-diptych,
+    .work-compact-single {
+        aspect-ratio: 16 / 9;
+    }
+    .work-compact-half .work-phase-pill,
+    .work-compact-single .work-phase-pill {
+        top: 8px;
+        left: 8px;
+        padding: 4px 8px;
+        font-size: 9.5px;
+    }
+    .work-compact-media-count {
+        right: 8px;
+        bottom: 8px;
+        padding: 4px 9px;
+        font-size: 10.5px;
+    }
+    .work-compact-body {
+        padding: 15px 16px 16px;
+        gap: 8px;
+    }
+    .work-compact-title {
+        font-size: 16.5px;
+    }
+    .work-compact-specs {
+        font-size: 12.5px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .work-compact-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin-top: 4px;
+        padding-top: 12px;
+    }
+    .work-compact-cta {
+        justify-content: center;
+        padding: 10px 14px;
+        border-radius: 12px;
+        background: #E8F2FC;
+        border: 1px solid #B5CCE4;
+        color: #0071E3;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    /* Scheda lavoro a schermo intero su mobile (stile app, massimo spazio a foto e video) */
+    .work-detail-modal {
+        padding: 0;
+        align-items: stretch;
+    }
+    .work-detail-dialog {
+        width: 100%;
+        height: 100dvh;
+        max-height: 100dvh;
+        border-radius: 0;
+        border: 0;
+    }
     .work-project-sheet {
-        max-height: 94vh;
+        height: 100dvh;
+        max-height: 100dvh;
     }
     .work-detail-header {
-        padding: 16px;
-        gap: 12px;
+        padding: 12px 14px;
+        gap: 10px;
+        align-items: center;
+    }
+    .work-case-meta {
+        gap: 6px 8px;
+        margin-bottom: 4px;
+    }
+    .work-case-category {
+        padding: 3px 8px;
+        font-size: 9.5px;
+    }
+    .work-compact-mq {
+        padding: 3px 8px;
+        font-size: 10.5px;
+    }
+    .work-detail-title {
+        font-size: 16.5px;
+        line-height: 1.22;
+    }
+    .work-detail-close {
+        padding: 7px 12px;
+        font-size: 12px;
+        background: #161D2E;
+        border-color: #161D2E;
+        color: #FFFFFF;
     }
     .work-detail-body {
-        padding: 18px 16px 24px;
-        gap: 20px;
+        padding: 14px 14px 32px;
+        gap: 16px;
     }
+    .work-detail-summary {
+        font-size: 13.5px;
+        line-height: 1.5;
+    }
+
+    /* Griglia KPI compatta 2x2 su mobile (dimezza lo scorrimento prima delle foto) */
     .work-kpi-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+    .work-kpi-card {
+        padding: 10px 12px;
+        border-radius: 12px;
+        gap: 2px;
+    }
+    .work-kpi-label {
+        font-size: 9.5px;
+    }
+    .work-kpi-value {
+        font-size: 13px;
+    }
+
+    /* Barra filtri in riga singola scorrevole col pollice */
+    .work-media-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 6px;
+        gap: 6px;
+        border-radius: 14px;
+    }
+    .work-media-tabs::-webkit-scrollbar {
+        display: none;
+    }
+    .work-media-tab {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        padding: 7px 12px;
+        font-size: 12px;
+    }
+
+    /* Galleria fotografica stile app: quadrati puliti 2 colonne, didascalia solo nel lightbox */
+    .work-gallery-section {
+        gap: 10px;
+    }
+    .work-gallery-badge-group h3 {
+        font-size: 15px;
+    }
+    .work-submedia-count {
+        font-size: 11.5px;
     }
     .work-gallery-grid,
     .work-gallery-grid--after {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
+        gap: 8px;
     }
+    .work-thumb-btn {
+        border-radius: 12px;
+    }
+    .work-thumb-media {
+        aspect-ratio: 1 / 1;
+    }
+    .work-thumb-overlay {
+        top: 6px;
+        right: 6px;
+        width: 26px;
+        height: 26px;
+    }
+    .work-thumb-overlay svg {
+        width: 13px;
+        height: 13px;
+    }
+    .work-thumb-caption {
+        display: none;
+    }
+
+    /* Video cards e stratigrafia compatte su mobile */
     .work-videos-grid--cols {
         grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .work-video-tile {
+        padding: 8px;
+        border-radius: 14px;
+    }
+    .work-video-info {
+        padding: 10px 4px 2px;
+    }
+    .work-video-info strong {
+        font-size: 14px;
+    }
+    .work-video-info span {
+        font-size: 12px;
     }
     .work-stratigraphy-box {
-        padding: 18px 16px;
+        padding: 16px 14px;
+        border-radius: 16px;
     }
+    .work-stratigraphy-lead {
+        font-size: 13.5px;
+        margin-bottom: 14px;
+    }
+    .work-layer-list--cols {
+        padding-top: 14px;
+        gap: 10px;
+    }
+    .work-layer-item {
+        padding: 12px;
+        border-radius: 12px;
+    }
+
+    /* Lightbox foto e video full-screen su telefono con supporto swipe */
     .work-modal {
-        padding: 10px;
+        padding: 0;
     }
     .work-modal-dialog {
-        padding: 14px;
-        border-radius: 16px;
+        width: 100%;
+        height: 100dvh;
+        max-height: 100dvh;
+        padding: 14px 12px 18px;
+        border: 0;
+        border-radius: 0;
+        justify-content: space-between;
+    }
+    .work-modal-title {
+        font-size: 14px;
+    }
+    .work-modal-stage {
+        flex: 1;
+        min-height: 0;
+        border-radius: 12px;
+    }
+    .work-modal-img {
+        max-height: calc(100dvh - 150px);
+    }
+    .work-modal-nav {
+        width: 38px;
+        height: 38px;
+    }
+    .work-modal-nav--prev { left: 8px; }
+    .work-modal-nav--next { right: 8px; }
+    .work-modal-video-wrap {
+        flex: 1;
+        max-height: calc(100dvh - 150px);
+    }
+    .work-modal-video {
+        max-height: calc(100dvh - 150px);
+    }
+    .work-modal-swipe-hint {
+        display: block;
     }
 }
 
