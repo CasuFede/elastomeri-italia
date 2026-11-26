@@ -38,11 +38,27 @@
     --chrome-muted: #A9B3C7;
 }
 
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; background: #FFFFFF; overflow-x: clip; }
-body { margin: 0; background: #FFFFFF; color: #1D1D1F; min-height: 100vh; overflow-x: clip; }
-a { color: inherit; }
-button, input, textarea { font: inherit; }
+@layer base {
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: #FFFFFF; overflow-x: clip; }
+    body { margin: 0; background: #FFFFFF; color: #1D1D1F; min-height: 100vh; overflow-x: clip; }
+    a { color: inherit; }
+    button, input, textarea { font: inherit; }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: #1D1D1F;
+        font-weight: 700;
+    }
+
+    h1 span, h2 span, h3 span {
+        color: var(--accent);
+    }
+
+    p:not(.eyebrow) {
+        color: var(--text-muted);
+    }
+}
+
 [hidden] { display: none !important; }
 
 /* --- Layout & Typography Base --- */
@@ -59,22 +75,6 @@ button, input, textarea { font: inherit; }
 @media (max-width: 700px) {
     .wrap {
         width: calc(100% - 32px);
-    }
-}
-
-/* Headings & Text in @layer base so Tailwind utility classes always override cleanly */
-@layer base {
-    h1, h2, h3, h4, h5, h6 {
-        color: #1D1D1F;
-        font-weight: 700;
-    }
-
-    h1 span, h2 span, h3 span {
-        color: var(--accent);
-    }
-
-    p:not(.eyebrow) {
-        color: var(--text-muted);
     }
 }
 
