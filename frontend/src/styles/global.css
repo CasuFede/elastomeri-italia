@@ -224,6 +224,7 @@ p:not(.eyebrow) {
     font-size: 14px;
     font-weight: 600;
     text-decoration: none;
+    white-space: nowrap;
     transition: color .16s ease;
 }
 
@@ -632,7 +633,7 @@ p:not(.eyebrow) {
 }
 
 .home-band--urgent {
-    padding-block: 72px 72px;
+    padding-block: 56px 56px;
     background: #0b0f17;
     border-bottom: 1px solid #334155;
 }
@@ -966,7 +967,7 @@ p:not(.eyebrow) {
 
 /* --- Struttura Editoriale Sezioni Home (Poliurea, Alert, Clienti, Preventivo, FAQ) --- */
 .ps-editorial-body {
-    padding-block: 76px 96px;
+    padding-block: 60px 76px;
 }
 
 .ps-inner {
@@ -1335,8 +1336,8 @@ p:not(.eyebrow) {
 }
 
 .ps-quote-step {
-    background: #0369a1;
-    border: 1px solid #38bdf8;
+    background: #075985;
+    border: 1px solid #7dd3fc;
     border-radius: 20px;
     padding: 24px;
 }
@@ -1362,7 +1363,7 @@ p:not(.eyebrow) {
     display: block;
     font-size: 14px;
     line-height: 1.55;
-    color: #e0f2fe;
+    color: #ffffff;
 }
 
 /* 5. Sezione FAQ Editoriale */
