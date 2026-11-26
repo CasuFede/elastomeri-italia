@@ -2,7 +2,6 @@
 import { env } from 'cloudflare:workers';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
-import CallToAction from '../components/CallToAction.astro';
 import {
     lavoriProgetti,
     type LavoroMediaFoto,
@@ -140,7 +139,6 @@ try {
 // Tutti i lavori unificati: prima i cantieri pubblicati da Admin (più recenti), poi i cantieri di vetrina
 const tuttiLavori: LavoroProgetto[] = [...lavoriApiMappati, ...lavoriProgetti];
 const categorieDisponibili = Array.from(new Set(tuttiLavori.map((p) => p.categoria)));
-const totaleSuperficie = tuttiLavori.reduce((acc, p) => acc + (p.superficieMq > 0 ? p.superficieMq : 0), 0);
 ---
 
 <SiteLayout
@@ -291,40 +289,6 @@ const totaleSuperficie = tuttiLavori.reduce((acc, p) => acc + (p.superficieMq > 
             })}
         </div>
     </section>
-
-    <!-- FASCIA TRASPARENZA DOCUMENTAZIONE CANTIERI -->
-    <section class="gallery-guidelines py-14 bg-[#F5F5F7] border-y border-[#D2D2D7]">
-        <div class="wrap gallery-guidelines-inner grid gap-6 md:grid-cols-3">
-            <div class="rounded-2xl border border-[#D2D2D7] bg-white p-6 flex items-start gap-4 transition-colors duration-200 hover:border-[#0071E3]">
-                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white font-mono text-sm font-bold">01</span>
-                <p class="text-sm">
-                    <strong class="block text-[#1D1D1F] font-bold mb-1">Foto reali Prima e Dopo</strong>
-                    <small class="text-[#6E6E73] text-xs">Documentiamo il supporto originario, la posa dell’armatura e la finitura completata</small>
-                </p>
-            </div>
-            <div class="rounded-2xl border border-[#D2D2D7] bg-white p-6 flex items-start gap-4 transition-colors duration-200 hover:border-[#0071E3]">
-                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white font-mono text-sm font-bold">02</span>
-                <p class="text-sm">
-                    <strong class="block text-[#1D1D1F] font-bold mb-1">Ciclo e stratigrafia dichiarati</strong>
-                    <small class="text-[#6E6E73] text-xs">Materiali certificati, spessori controllati e armatura strutturale dove richiesta</small>
-                </p>
-            </div>
-            <div class="rounded-2xl border border-[#D2D2D7] bg-white p-6 flex items-start gap-4 transition-colors duration-200 hover:border-[#0071E3]">
-                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white font-mono text-sm font-bold">03</span>
-                <p class="text-sm">
-                    <strong class="block text-[#1D1D1F] font-bold mb-1">Superfici protette ({totaleSuperficie}+ mq documentati)</strong>
-                    <small class="text-[#6E6E73] text-xs">Membrane continue senza giunzioni collaudate per durare nel tempo</small>
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <CallToAction
-        eyebrow="VALUTAZIONE TECNICA GRATUITA"
-        title="Hai un problema simile sul tuo edificio?"
-        text="Raccontaci la tua superficie: eseguiamo un sopralluogo diagnostico gratuito e definiamo il ciclo più idoneo senza demolizioni."
-        buttonText="Richiedi il Sopralluogo Gratuito"
-    />
 
     <!-- MODALE SCHEDA COMPLETA LAVORO (Galleria Prima/Dopo + Video + Specifiche Tecniche) -->
     <div id="work-project-modal" class="work-detail-modal" role="dialog" aria-modal="true" aria-label="Dettaglio intervento" hidden>
