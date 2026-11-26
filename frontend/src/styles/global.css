@@ -3201,39 +3201,6 @@
     line-height: 1.5;
 }
 
-.work-card-cta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 14px;
-    padding: 18px 22px;
-    border-radius: 20px;
-    border: 1px solid #B5CCE4;
-    background: #E8F2FC;
-}
-
-.work-card-cta strong {
-    display: block;
-    color: #1D1D1F;
-    font-size: 15px;
-    font-weight: 800;
-}
-
-.work-card-cta span {
-    display: block;
-    color: #424245;
-    font-size: 13px;
-    margin-top: 2px;
-}
-
-.work-card-cta-btn {
-    min-height: 44px;
-    padding: 0 22px;
-    font-size: 14px;
-    flex-shrink: 0;
-}
-
 /* Modali Lightbox Foto & Video (z-index superiore alla modale scheda lavoro) */
 .work-modal {
     position: fixed;
@@ -3440,9 +3407,6 @@
     }
     .work-stratigraphy-box {
         padding: 18px 16px;
-    }
-    .work-card-cta-btn {
-        width: 100%;
     }
     .work-modal {
         padding: 10px;
