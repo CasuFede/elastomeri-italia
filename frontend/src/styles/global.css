@@ -2695,6 +2695,10 @@
     gap: 26px;
 }
 
+.work-detail-body > * {
+    flex-shrink: 0;
+}
+
 .work-detail-summary {
     margin: 0;
     color: #1D1D1F;
@@ -3449,8 +3453,11 @@
 
     /* Barra filtri in riga singola scorrevole col pollice */
     .work-media-tabs {
+        flex-shrink: 0;
         flex-wrap: nowrap;
+        align-items: center;
         overflow-x: auto;
+        overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         padding: 6px;
