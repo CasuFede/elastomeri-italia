@@ -3,7 +3,6 @@ import { env } from 'cloudflare:workers';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CallToAction from '../components/CallToAction.astro';
-import BeforeAfterSlider from '../components/BeforeAfterSlider.astro';
 import { lavoriProgetti } from '../data/lavori';
 
 interface LavoroApi {
@@ -39,15 +38,15 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
 
 <SiteLayout
     title="Lavori e Cantieri a Genova e Liguria | Poliurea System"
-    description="Interventi reali di impermeabilizzazione a Genova e in Liguria: confronto interattivo Prima e Dopo, schede tecniche, stratigrafie e video di cantiere."
+    description="Interventi reali di impermeabilizzazione a Genova e in Liguria: galleria fotografica Prima e Dopo, video del risultato finale, schede tecniche e stratigrafie."
     activePath="/lavori"
     breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Lavori', path: '/lavori' }]}
 >
     <PageIntro
         eyebrow="LAVORI E INTERVENTI ESEGUITI"
-        title="Risultati concreti,"
-        highlight="documentati prima e dopo."
-        text="Esplora gli interventi reali eseguiti in cantiere: confronta lo stato iniziale e il risultato finale con lo slider interattivo, consulta la stratigrafia completa dei materiali e guarda i dettagli operativi."
+        title="I nostri cantieri,"
+        highlight="prima e dopo."
+        text="Esplora gli interventi reali eseguiti sul campo. Clicca su un lavoro per aprire la galleria completa delle foto Prima e Dopo, i video del risultato finale e la scheda tecnica con la stratigrafia applicata."
     />
 
     <!-- BARRA FILTRI PER CATEGORIA (si attiva automaticamente quando sono presenti più categorie) -->
@@ -66,193 +65,88 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
         </section>
     )}
 
-    <!-- SCHEDE INTERVENTI CON SLIDER PRIMA/DOPO, GALLERIA, VIDEO E SCHEDA TECNICA -->
-    <section id="works-showcase" class="wrap pb-16 space-y-12" aria-label="Interventi documentati">
-        {lavoriProgetti.map((lavoro, index) => {
-            const galleryItems = lavoro.galleria ?? [];
-            const videoItems = lavoro.video ?? [];
-            const galleryJson = JSON.stringify(galleryItems);
-            return (
-                <article
-                    id={lavoro.id}
-                    class="work-case-card"
-                    data-work-card
-                    data-work-category={lavoro.categoria}
-                >
-                    <!-- Intestazione intervento -->
-                    <header class="work-case-head">
-                        <div class="work-case-meta">
-                            <span class="work-case-index">{String(index + 1).padStart(2, '0')}</span>
-                            <span class="work-case-category">{lavoro.categoria}</span>
-                            <span class="work-case-location">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                                    <circle cx="12" cy="10" r="3" />
-                                </svg>
-                                {lavoro.localita}
-                            </span>
-                        </div>
-                        <h2 class="work-case-title">{lavoro.titolo}</h2>
-                        <p class="work-case-summary">{lavoro.riepilogo}</p>
-                    </header>
+    <!-- GRIGLIA COMPATTA DEI LAVORI (affiancati, cliccabili per aprire dettagli, foto e video) -->
+    <section id="works-showcase" class="wrap pb-16" aria-label="Elenco lavori documentati">
+        <div class="work-cards-grid">
+            {lavoriProgetti.map((lavoro) => {
+                const coverPrima = lavoro.fotoPrima[0];
+                const coverDopo = lavoro.fotoDopo[0];
+                const totFoto = lavoro.fotoPrima.length + lavoro.fotoDopo.length;
+                const totVideo = lavoro.videoDopo?.length ?? 0;
 
-                    <!-- Griglia principale 2 colonne: Media interattivi + Scheda tecnica -->
-                    <div class="work-case-grid">
-                        <!-- COLONNA SINISTRA: Slider Prima/Dopo + Galleria aggiuntiva + Video -->
-                        <div class="work-media-col">
-                            <BeforeAfterSlider
-                                id={lavoro.id}
-                                prima={lavoro.prima}
-                                dopo={lavoro.dopo}
-                            />
-
-                            <!-- Galleria foto aggiuntive (se presenti) -->
-                            {galleryItems.length > 0 && (
-                                <div class="work-submedia-block">
-                                    <div class="work-submedia-head">
-                                        <span class="work-submedia-label">GALLERIA FOTOGRAFICA DEL CANTIERE</span>
-                                        <span class="work-submedia-count">{galleryItems.length} foto · Clicca per ingrandire</span>
-                                    </div>
-                                    <div class="work-thumbs-grid" data-gallery-group={lavoro.id} data-gallery-items={galleryJson}>
-                                        {galleryItems.map((foto, fotoIdx) => (
-                                            <button
-                                                type="button"
-                                                class="work-thumb-btn"
-                                                data-open-gallery={lavoro.id}
-                                                data-gallery-index={fotoIdx}
-                                                aria-label={`Apri foto ${fotoIdx + 1}: ${foto.didascalia || foto.alt}`}
-                                            >
-                                                <img
-                                                    src={foto.src}
-                                                    alt={foto.alt}
-                                                    width="480"
-                                                    height="300"
-                                                    loading="lazy"
-                                                    decoding="async"
-                                                />
-                                                <span class="work-thumb-overlay" aria-hidden="true">
-                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                                        <circle cx="11" cy="11" r="7" />
-                                                        <path d="m21 21-4.3-4.3" />
-                                                        <path d="M11 8v6M8 11h6" />
-                                                    </svg>
-                                                </span>
-                                                {foto.didascalia && (
-                                                    <span class="work-thumb-caption">{foto.didascalia}</span>
-                                                )}
-                                            </button>
-                                        ))}
-                                    </div>
+                return (
+                    <article
+                        id={lavoro.id}
+                        class="work-compact-card"
+                        data-work-card
+                        data-work-category={lavoro.categoria}
+                    >
+                        <button
+                            type="button"
+                            class="work-compact-trigger"
+                            data-open-project={lavoro.id}
+                            aria-label={`Apri scheda completa, foto Prima e Dopo e video: ${lavoro.titolo}`}
+                        >
+                            <!-- Anteprima statica affiancata Prima / Dopo (nessuno slider) -->
+                            <div class="work-compact-diptych">
+                                <div class="work-compact-half">
+                                    <img
+                                        src={coverPrima.src}
+                                        alt={coverPrima.alt}
+                                        width="480"
+                                        height="360"
+                                        loading="eager"
+                                        decoding="async"
+                                    />
+                                    <span class="work-phase-pill work-phase-pill--before">PRIMA</span>
                                 </div>
-                            )}
-
-                            <!-- Video opzionali (caricamento lazy on-demand solo al clic) -->
-                            {videoItems.length > 0 && (
-                                <div class="work-submedia-block">
-                                    <div class="work-submedia-head">
-                                        <span class="work-submedia-label">VIDEO OPERATIVO</span>
-                                        <span class="work-submedia-count">{videoItems.length} video · Caricamento rapido</span>
-                                    </div>
-                                    <div class="work-videos-grid">
-                                        {videoItems.map((vid) => (
-                                            <button
-                                                type="button"
-                                                class="work-video-card"
-                                                data-open-video
-                                                data-video-src={vid.src}
-                                                data-video-poster={vid.poster}
-                                                data-video-title={vid.titolo}
-                                                data-video-desc={vid.descrizione || ''}
-                                                aria-label={`Riproduci video: ${vid.titolo}`}
-                                            >
-                                                <div class="work-video-poster">
-                                                    <img
-                                                        src={vid.poster}
-                                                        alt={`Copertina video: ${vid.titolo}`}
-                                                        width="640"
-                                                        height="360"
-                                                        loading="lazy"
-                                                        decoding="async"
-                                                    />
-                                                    <span class="work-video-scrim" aria-hidden="true"></span>
-                                                    <span class="work-video-play" aria-hidden="true">
-                                                        <svg viewBox="0 0 24 24" fill="currentColor">
-                                                            <path d="M8 5.14v14l11-7-11-7Z" />
-                                                        </svg>
-                                                    </span>
-                                                    {vid.durata && (
-                                                        <span class="work-video-duration">{vid.durata}</span>
-                                                    )}
-                                                </div>
-                                                <div class="work-video-info">
-                                                    <strong>{vid.titolo}</strong>
-                                                    {vid.descrizione && <span>{vid.descrizione}</span>}
-                                                </div>
-                                            </button>
-                                        ))}
-                                    </div>
+                                <div class="work-compact-half">
+                                    <img
+                                        src={coverDopo.src}
+                                        alt={coverDopo.alt}
+                                        width="480"
+                                        height="360"
+                                        loading="eager"
+                                        decoding="async"
+                                    />
+                                    <span class="work-phase-pill work-phase-pill--after">DOPO</span>
                                 </div>
-                            )}
-                        </div>
-
-                        <!-- COLONNA DESTRA: Dati chiave + Scheda tecnica Stratigrafia -->
-                        <aside class="work-specs-col" aria-label={`Scheda tecnica: ${lavoro.titolo}`}>
-                            <!-- Badge dati chiave -->
-                            <div class="work-kpi-grid">
-                                <div class="work-kpi-card work-kpi-card--highlight">
-                                    <span class="work-kpi-label">Superficie trattata</span>
-                                    <strong class="work-kpi-value">{lavoro.superficieMq} mq</strong>
-                                </div>
-                                <div class="work-kpi-card">
-                                    <span class="work-kpi-label">Supporto esistente</span>
-                                    <strong class="work-kpi-value">{lavoro.supporto}</strong>
-                                </div>
-                                <div class="work-kpi-card">
-                                    <span class="work-kpi-label">Ciclo e sistema</span>
-                                    <strong class="work-kpi-value">{lavoro.cicloSistema}</strong>
-                                </div>
-                                <div class="work-kpi-card">
-                                    <span class="work-kpi-label">Armatura strutturale</span>
-                                    <strong class="work-kpi-value">{lavoro.armatura}</strong>
-                                </div>
+                                <span class="work-compact-media-count">
+                                    {totFoto} foto{totVideo > 0 ? ` · ${totVideo} video` : ''}
+                                </span>
                             </div>
 
-                            <!-- Blocco Stratigrafia e Materiali -->
-                            <div class="work-stratigraphy-box">
-                                <div class="work-stratigraphy-head">
-                                    <span class="work-stratigraphy-kicker">SCHEDA TECNICA · STRATIGRAFIA</span>
-                                    <span class="work-stratigraphy-method">{lavoro.applicazione}</span>
+                            <!-- Informazioni essenziali compatte -->
+                            <div class="work-compact-body">
+                                <div class="work-compact-meta">
+                                    <span class="work-case-category">{lavoro.categoria}</span>
+                                    <span class="work-compact-mq">{lavoro.superficieMq} mq</span>
                                 </div>
-                                <p class="work-stratigraphy-lead">{lavoro.stratigrafiaDescrizione}</p>
 
-                                <ol class="work-layer-list">
-                                    {lavoro.stratigrafiaFasi.map((step) => (
-                                        <li class="work-layer-item">
-                                            <span class="work-layer-num">{step.fase}</span>
-                                            <div class="work-layer-body">
-                                                <strong>{step.titolo}</strong>
-                                                <p>{step.dettaglio}</p>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ol>
-                            </div>
+                                <h2 class="work-compact-title">{lavoro.titolo}</h2>
 
-                            <!-- Invito all'azione contestuale -->
-                            <div class="work-card-cta">
-                                <div>
-                                    <strong>Hai una superficie simile da proteggere?</strong>
-                                    <span>Sopralluogo diagnostico gratuito e ciclo studiato sul tuo supporto.</span>
+                                <p class="work-compact-specs">
+                                    {lavoro.supporto} · {lavoro.cicloSistema} · {lavoro.armatura}
+                                </p>
+
+                                <div class="work-compact-footer">
+                                    <span class="work-case-location">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                                            <circle cx="12" cy="10" r="3" />
+                                        </svg>
+                                        {lavoro.localita}
+                                    </span>
+                                    <span class="work-compact-cta">
+                                        Apri dettagli e foto <span aria-hidden="true">→</span>
+                                    </span>
                                 </div>
-                                <a class="ps-pill-btn ps-pill-btn--solid work-card-cta-btn" href="/preventivo">
-                                    Richiedi valutazione <span aria-hidden="true">↗</span>
-                                </a>
                             </div>
-                        </aside>
-                    </div>
-                </article>
-            );
-        })}
+                        </button>
+                    </article>
+                );
+            })}
+        </div>
     </section>
 
     <!-- EVENTUALI LAVORI AGGIUNTIVI CARICATI DAL PANNELLO ADMIN -->
@@ -296,15 +190,15 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
             <div class="rounded-2xl border border-[#D2D2D7] bg-white p-6 flex items-start gap-4 transition-colors duration-200 hover:border-[#0071E3]">
                 <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white font-mono text-sm font-bold">01</span>
                 <p class="text-sm">
-                    <strong class="block text-[#1D1D1F] font-bold mb-1">Stato iniziale verificato</strong>
-                    <small class="text-[#6E6E73] text-xs">Rilievo del supporto, dei giunti e delle infiltrazioni prima della posa</small>
+                    <strong class="block text-[#1D1D1F] font-bold mb-1">Foto reali Prima e Dopo</strong>
+                    <small class="text-[#6E6E73] text-xs">Documentiamo il supporto originario, la posa dell’armatura e la finitura completata</small>
                 </p>
             </div>
             <div class="rounded-2xl border border-[#D2D2D7] bg-white p-6 flex items-start gap-4 transition-colors duration-200 hover:border-[#0071E3]">
                 <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white font-mono text-sm font-bold">02</span>
                 <p class="text-sm">
                     <strong class="block text-[#1D1D1F] font-bold mb-1">Ciclo e stratigrafia dichiarati</strong>
-                    <small class="text-[#6E6E73] text-xs">Materiali certificati, spessori controllati e armatura dove richiesta</small>
+                    <small class="text-[#6E6E73] text-xs">Materiali certificati, spessori controllati e armatura strutturale dove richiesta</small>
                 </p>
             </div>
             <div class="rounded-2xl border border-[#D2D2D7] bg-white p-6 flex items-start gap-4 transition-colors duration-200 hover:border-[#0071E3]">
@@ -324,7 +218,268 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
         buttonText="Richiedi il Sopralluogo Gratuito"
     />
 
-    <!-- MODALE LIGHTBOX GALLERIA FOTOGRAFICA -->
+    <!-- MODALE SCHEDA COMPLETA LAVORO (Galleria Prima/Dopo + Video + Specifiche Tecniche) -->
+    <div id="work-project-modal" class="work-detail-modal" role="dialog" aria-modal="true" aria-label="Dettaglio intervento" hidden>
+        <div class="work-detail-dialog">
+            {lavoriProgetti.map((lavoro) => {
+                const videoItems = lavoro.videoDopo ?? [];
+                const allPhotos = [
+                    ...lavoro.fotoPrima.map((f) => ({ ...f, fase: 'PRIMA' })),
+                    ...lavoro.fotoDopo.map((f) => ({ ...f, fase: 'DOPO' })),
+                ];
+                const allPhotosJson = JSON.stringify(allPhotos);
+
+                return (
+                    <div
+                        class="work-project-sheet"
+                        data-project-sheet={lavoro.id}
+                        data-gallery-items={allPhotosJson}
+                        hidden
+                    >
+                        <!-- Intestazione fissa della modale -->
+                        <div class="work-detail-header">
+                            <div class="work-detail-header-info">
+                                <div class="work-case-meta">
+                                    <span class="work-case-category">{lavoro.categoria}</span>
+                                    <span class="work-compact-mq">{lavoro.superficieMq} mq</span>
+                                    <span class="work-case-location">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                                            <circle cx="12" cy="10" r="3" />
+                                        </svg>
+                                        {lavoro.localita}
+                                    </span>
+                                </div>
+                                <h2 class="work-detail-title">{lavoro.titolo}</h2>
+                            </div>
+                            <button
+                                type="button"
+                                class="work-detail-close"
+                                data-close-project
+                                aria-label="Chiudi scheda lavoro"
+                            >
+                                Chiudi ✕
+                            </button>
+                        </div>
+
+                        <!-- Corpo scorrevole della scheda lavoro -->
+                        <div class="work-detail-body">
+                            <p class="work-detail-summary">{lavoro.riepilogo}</p>
+
+                            <!-- Scheda Dati Chiave -->
+                            <div class="work-kpi-grid work-kpi-grid--modal">
+                                <div class="work-kpi-card work-kpi-card--highlight">
+                                    <span class="work-kpi-label">Superficie trattata</span>
+                                    <strong class="work-kpi-value">{lavoro.superficieMq} mq</strong>
+                                </div>
+                                <div class="work-kpi-card">
+                                    <span class="work-kpi-label">Supporto esistente</span>
+                                    <strong class="work-kpi-value">{lavoro.supporto}</strong>
+                                </div>
+                                <div class="work-kpi-card">
+                                    <span class="work-kpi-label">Ciclo e sistema</span>
+                                    <strong class="work-kpi-value">{lavoro.cicloSistema}</strong>
+                                </div>
+                                <div class="work-kpi-card">
+                                    <span class="work-kpi-label">Armatura strutturale</span>
+                                    <strong class="work-kpi-value">{lavoro.armatura}</strong>
+                                </div>
+                            </div>
+
+                            <!-- Filtri rapidi Galleria (Tutto / Prima / Dopo / Video) -->
+                            <div class="work-media-tabs" data-media-tabs role="tablist" aria-label="Filtra foto e video del cantiere">
+                                <button type="button" class="work-media-tab is-active" data-media-filter="all" role="tab" aria-selected="true">
+                                    Tutto <span>{allPhotos.length + videoItems.length}</span>
+                                </button>
+                                <button type="button" class="work-media-tab" data-media-filter="prima" role="tab" aria-selected="false">
+                                    Foto Prima <span>{lavoro.fotoPrima.length}</span>
+                                </button>
+                                <button type="button" class="work-media-tab" data-media-filter="dopo" role="tab" aria-selected="false">
+                                    Foto Dopo <span>{lavoro.fotoDopo.length}</span>
+                                </button>
+                                {videoItems.length > 0 && (
+                                    <button type="button" class="work-media-tab" data-media-filter="video" role="tab" aria-selected="false">
+                                        Video del Dopo <span>{videoItems.length}</span>
+                                    </button>
+                                )}
+                            </div>
+
+                            <!-- GALLERIA PRIMA -->
+                            <section class="work-gallery-section" data-media-section="prima">
+                                <div class="work-gallery-section-head">
+                                    <div class="work-gallery-badge-group">
+                                        <span class="work-phase-pill work-phase-pill--before">PRIMA</span>
+                                        <h3>Stato iniziale e posa armatura</h3>
+                                    </div>
+                                    <span class="work-submedia-count">{lavoro.fotoPrima.length} foto · Clicca per ingrandire</span>
+                                </div>
+                                <div class="work-gallery-grid">
+                                    {lavoro.fotoPrima.map((foto, idx) => (
+                                        <button
+                                            type="button"
+                                            class="work-thumb-btn"
+                                            data-open-gallery={lavoro.id}
+                                            data-gallery-index={idx}
+                                            aria-label={`Apri foto Prima ${idx + 1}: ${foto.didascalia || foto.alt}`}
+                                        >
+                                            <div class="work-thumb-media">
+                                                <img
+                                                    src={foto.src}
+                                                    alt={foto.alt}
+                                                    width="480"
+                                                    height="360"
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                />
+                                                <span class="work-thumb-overlay" aria-hidden="true">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <circle cx="11" cy="11" r="7" />
+                                                        <path d="m21 21-4.3-4.3" />
+                                                        <path d="M11 8v6M8 11h6" />
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                            {foto.didascalia && (
+                                                <span class="work-thumb-caption">{foto.didascalia}</span>
+                                            )}
+                                        </button>
+                                    ))}
+                                </div>
+                            </section>
+
+                            <!-- GALLERIA DOPO -->
+                            <section class="work-gallery-section" data-media-section="dopo">
+                                <div class="work-gallery-section-head">
+                                    <div class="work-gallery-badge-group">
+                                        <span class="work-phase-pill work-phase-pill--after">DOPO</span>
+                                        <h3>Risultato finale impermeabilizzato</h3>
+                                    </div>
+                                    <span class="work-submedia-count">{lavoro.fotoDopo.length} foto · Clicca per ingrandire</span>
+                                </div>
+                                <div class="work-gallery-grid work-gallery-grid--after">
+                                    {lavoro.fotoDopo.map((foto, idx) => (
+                                        <button
+                                            type="button"
+                                            class="work-thumb-btn"
+                                            data-open-gallery={lavoro.id}
+                                            data-gallery-index={lavoro.fotoPrima.length + idx}
+                                            aria-label={`Apri foto Dopo ${idx + 1}: ${foto.didascalia || foto.alt}`}
+                                        >
+                                            <div class="work-thumb-media">
+                                                <img
+                                                    src={foto.src}
+                                                    alt={foto.alt}
+                                                    width="480"
+                                                    height="360"
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                />
+                                                <span class="work-thumb-overlay" aria-hidden="true">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <circle cx="11" cy="11" r="7" />
+                                                        <path d="m21 21-4.3-4.3" />
+                                                        <path d="M11 8v6M8 11h6" />
+                                                    </svg>
+                                                </span>
+                                            </div>
+                                            {foto.didascalia && (
+                                                <span class="work-thumb-caption">{foto.didascalia}</span>
+                                            )}
+                                        </button>
+                                    ))}
+                                </div>
+                            </section>
+
+                            <!-- VIDEO DEL DOPO (lazy on-demand) -->
+                            {videoItems.length > 0 && (
+                                <section class="work-gallery-section" data-media-section="video">
+                                    <div class="work-gallery-section-head">
+                                        <div class="work-gallery-badge-group">
+                                            <span class="work-phase-pill work-phase-pill--video">VIDEO DOPO</span>
+                                            <h3>Riprese del risultato completato</h3>
+                                        </div>
+                                        <span class="work-submedia-count">{videoItems.length} video · Riproduzione rapida</span>
+                                    </div>
+                                    <div class="work-videos-grid work-videos-grid--cols">
+                                        {videoItems.map((vid) => (
+                                            <button
+                                                type="button"
+                                                class="work-video-tile"
+                                                data-open-video
+                                                data-video-src={vid.src}
+                                                data-video-poster={vid.poster}
+                                                data-video-title={vid.titolo}
+                                                data-video-desc={vid.descrizione || ''}
+                                                aria-label={`Riproduci video: ${vid.titolo}`}
+                                            >
+                                                <div class="work-video-poster">
+                                                    <img
+                                                        src={vid.poster}
+                                                        alt={`Copertina video: ${vid.titolo}`}
+                                                        width="640"
+                                                        height="360"
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                    />
+                                                    <span class="work-video-scrim" aria-hidden="true"></span>
+                                                    <span class="work-video-play" aria-hidden="true">
+                                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                                            <path d="M8 5.14v14l11-7-11-7Z" />
+                                                        </svg>
+                                                    </span>
+                                                    {vid.durata && (
+                                                        <span class="work-video-duration">{vid.durata}</span>
+                                                    )}
+                                                </div>
+                                                <div class="work-video-info">
+                                                    <strong>{vid.titolo}</strong>
+                                                    {vid.descrizione && <span>{vid.descrizione}</span>}
+                                                </div>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </section>
+                            )}
+
+                            <!-- SCHEDA TECNICA E STRATIGRAFIA -->
+                            <section class="work-stratigraphy-box work-stratigraphy-box--modal">
+                                <div class="work-stratigraphy-head">
+                                    <span class="work-stratigraphy-kicker">SCHEDA TECNICA · STRATIGRAFIA APPLICATA</span>
+                                    <span class="work-stratigraphy-method">{lavoro.applicazione}</span>
+                                </div>
+                                <p class="work-stratigraphy-lead">{lavoro.stratigrafiaDescrizione}</p>
+
+                                <ol class="work-layer-list work-layer-list--cols">
+                                    {lavoro.stratigrafiaFasi.map((step) => (
+                                        <li class="work-layer-item">
+                                            <span class="work-layer-num">{step.fase}</span>
+                                            <div class="work-layer-body">
+                                                <strong>{step.titolo}</strong>
+                                                <p>{step.dettaglio}</p>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ol>
+                            </section>
+
+                            <!-- CTA Contestuale -->
+                            <div class="work-card-cta">
+                                <div>
+                                    <strong>Hai una copertura o superficie simile da proteggere?</strong>
+                                    <span>Sopralluogo diagnostico gratuito e ciclo studiato sul tuo supporto.</span>
+                                </div>
+                                <a class="ps-pill-btn ps-pill-btn--solid work-card-cta-btn" href="/preventivo">
+                                    Richiedi valutazione gratuita <span aria-hidden="true">↗</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                );
+            })}
+        </div>
+    </div>
+
+    <!-- MODALE LIGHTBOX GALLERIA FOTOGRAFICA (z-index superiore alla scheda lavoro) -->
     <div id="work-gallery-modal" class="work-modal" role="dialog" aria-modal="true" aria-labelledby="work-gallery-title" hidden>
         <div class="work-modal-dialog work-modal-dialog--photo">
             <div class="work-modal-header">
@@ -346,246 +501,311 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
         </div>
     </div>
 
-    <!-- MODALE LIGHTBOX VIDEO LAZY-LOADED -->
+    <!-- MODALE LIGHTBOX VIDEO LAZY-LOADED (z-index superiore alla scheda lavoro) -->
     <div id="work-video-modal" class="work-modal" role="dialog" aria-modal="true" aria-labelledby="work-video-title" hidden>
         <div class="work-modal-dialog work-modal-dialog--video">
             <div class="work-modal-header">
                 <div class="min-w-0">
-                    <span class="work-modal-kicker">VIDEO DI CANTIERE</span>
-                    <h3 id="work-video-title" class="work-modal-title">Riproduzione video</h3>
+                    <span class="work-modal-kicker">VIDEO DEL RISULTATO</span>
+                    <h3 id="work-video-title" class="work-modal-title">Ripresa cantiere</h3>
                 </div>
                 <button type="button" id="work-video-close" class="work-modal-close" aria-label="Chiudi video">Chiudi ✕</button>
             </div>
-            <div id="work-video-mount" class="work-modal-video-wrap"></div>
+            <div class="work-modal-video-wrap">
+                <video
+                    id="work-video-player"
+                    class="work-modal-video"
+                    controls
+                    playsinline
+                    preload="none"
+                ></video>
+            </div>
             <p id="work-video-desc" class="work-modal-desc" hidden></p>
         </div>
     </div>
-
-    <script is:inline>
-        (() => {
-            /* 1. SLIDER PRIMA / DOPO INTERATTIVO (Pointer drag + Touch + Keyboard + Quick Jump) */
-            const sliders = Array.from(document.querySelectorAll('[data-ba-slider]'));
-
-            sliders.forEach((slider) => {
-                const range = slider.querySelector('[data-ba-range]');
-                const pillBefore = slider.querySelector('[data-ba-pill-before]');
-                const pillAfter = slider.querySelector('[data-ba-pill-after]');
-                const id = slider.getAttribute('data-ba-id') || '';
-                const quickBtns = Array.from(document.querySelectorAll(`[data-ba-target="${CSS.escape(id)}"]`));
-
-                const setPercent = (rawValue) => {
-                    const clamped = Math.max(0, Math.min(100, Number(rawValue)));
-                    slider.style.setProperty('--ba-pos', `${clamped}%`);
-                    if (range instanceof HTMLInputElement && Number(range.value) !== Math.round(clamped)) {
-                        range.value = String(Math.round(clamped));
-                    }
-                    if (pillBefore) pillBefore.style.opacity = clamped < 14 ? '0' : '1';
-                    if (pillAfter) pillAfter.style.opacity = clamped > 86 ? '0' : '1';
-                    quickBtns.forEach((btn) => {
-                        const target = Number(btn.getAttribute('data-ba-jump'));
-                        btn.classList.toggle('is-active', Math.abs(clamped - target) <= 2);
-                    });
-                };
-
-                const updateFromClientX = (clientX) => {
-                    const rect = slider.getBoundingClientRect();
-                    if (!rect.width) return;
-                    const pct = ((clientX - rect.left) / rect.width) * 100;
-                    setPercent(pct);
-                };
-
-                let dragging = false;
-                slider.addEventListener('pointerdown', (ev) => {
-                    if (ev.button !== undefined && ev.button !== 0 && ev.pointerType === 'mouse') return;
-                    dragging = true;
-                    slider.classList.add('is-dragging');
-                    try { slider.setPointerCapture(ev.pointerId); } catch {}
-                    updateFromClientX(ev.clientX);
-                });
-
-                slider.addEventListener('pointermove', (ev) => {
-                    if (!dragging) return;
-                    updateFromClientX(ev.clientX);
-                });
-
-                const endDrag = (ev) => {
-                    if (!dragging) return;
-                    dragging = false;
-                    slider.classList.remove('is-dragging');
-                    try { slider.releasePointerCapture(ev.pointerId); } catch {}
-                };
-
-                slider.addEventListener('pointerup', endDrag);
-                slider.addEventListener('pointercancel', endDrag);
-
-                if (range instanceof HTMLInputElement) {
-                    range.addEventListener('input', () => setPercent(range.value));
-                }
-
-                quickBtns.forEach((btn) => {
-                    btn.addEventListener('click', () => {
-                        slider.classList.add('is-snapping');
-                        setPercent(btn.getAttribute('data-ba-jump') || 50);
-                        window.setTimeout(() => slider.classList.remove('is-snapping'), 280);
-                    });
-                });
-
-                setPercent(range instanceof HTMLInputElement ? range.value : 50);
-            });
-
-            /* 2. FILTRI CATEGORIA */
-            const filterContainer = document.querySelector('[data-work-filters]');
-            if (filterContainer) {
-                const buttons = Array.from(filterContainer.querySelectorAll('[data-work-filter]'));
-                const cards = Array.from(document.querySelectorAll('[data-work-card]'));
-                buttons.forEach((btn) => {
-                    btn.addEventListener('click', () => {
-                        const selected = btn.getAttribute('data-work-filter') || 'all';
-                        buttons.forEach((b) => b.classList.toggle('is-active', b === btn));
-                        cards.forEach((card) => {
-                            const match = selected === 'all' || card.getAttribute('data-work-category') === selected;
-                            card.hidden = !match;
-                        });
-                    });
-                });
-            }
-
-            /* 3. MODALE GALLERIA FOTOGRAFICA */
-            const galleryModal = document.getElementById('work-gallery-modal');
-            const galleryImg = document.getElementById('work-gallery-img');
-            const galleryTitle = document.getElementById('work-gallery-title');
-            const galleryCounter = document.getElementById('work-gallery-counter');
-            const galleryClose = document.getElementById('work-gallery-close');
-            const galleryPrev = document.getElementById('work-gallery-prev');
-            const galleryNext = document.getElementById('work-gallery-next');
-
-            let activeGallery = [];
-            let activeGalleryIndex = 0;
-
-            const renderGalleryPhoto = () => {
-                if (!activeGallery.length || !galleryImg || !galleryTitle || !galleryCounter) return;
-                const current = activeGallery[activeGalleryIndex];
-                galleryImg.setAttribute('src', current.src || '');
-                galleryImg.setAttribute('alt', current.alt || current.didascalia || 'Foto cantiere');
-                galleryTitle.textContent = current.didascalia || current.alt || 'Dettaglio cantiere';
-                galleryCounter.textContent = `FOTO ${activeGalleryIndex + 1} DI ${activeGallery.length}`;
-                const multi = activeGallery.length > 1;
-                if (galleryPrev) galleryPrev.hidden = !multi;
-                if (galleryNext) galleryNext.hidden = !multi;
-            };
-
-            const closeGalleryModal = () => {
-                if (!galleryModal) return;
-                galleryModal.hidden = true;
-                if (galleryImg) galleryImg.removeAttribute('src');
-                document.body.style.overflow = '';
-            };
-
-            document.addEventListener('click', (ev) => {
-                const trigger = ev.target && ev.target.closest ? ev.target.closest('[data-open-gallery]') : null;
-                if (!trigger || !galleryModal) return;
-                const groupId = trigger.getAttribute('data-open-gallery') || '';
-                const startIndex = Number(trigger.getAttribute('data-gallery-index') || '0');
-                const groupEl = document.querySelector(`[data-gallery-group="${CSS.escape(groupId)}"]`);
-                if (!groupEl) return;
-                try {
-                    const parsed = JSON.parse(groupEl.getAttribute('data-gallery-items') || '[]');
-                    if (!Array.isArray(parsed) || !parsed.length) return;
-                    activeGallery = parsed;
-                    activeGalleryIndex = Math.max(0, Math.min(parsed.length - 1, startIndex));
-                    renderGalleryPhoto();
-                    galleryModal.hidden = false;
-                    document.body.style.overflow = 'hidden';
-                    galleryClose?.focus();
-                } catch {}
-            });
-
-            galleryPrev?.addEventListener('click', () => {
-                if (!activeGallery.length) return;
-                activeGalleryIndex = (activeGalleryIndex - 1 + activeGallery.length) % activeGallery.length;
-                renderGalleryPhoto();
-            });
-            galleryNext?.addEventListener('click', () => {
-                if (!activeGallery.length) return;
-                activeGalleryIndex = (activeGalleryIndex + 1) % activeGallery.length;
-                renderGalleryPhoto();
-            });
-            galleryClose?.addEventListener('click', closeGalleryModal);
-            galleryModal?.addEventListener('click', (ev) => {
-                if (ev.target === galleryModal) closeGalleryModal();
-            });
-
-            /* 4. MODALE VIDEO LAZY-LOADED (monta il player solo al clic e lo scarica alla chiusura) */
-            const videoModal = document.getElementById('work-video-modal');
-            const videoMount = document.getElementById('work-video-mount');
-            const videoTitle = document.getElementById('work-video-title');
-            const videoDesc = document.getElementById('work-video-desc');
-            const videoClose = document.getElementById('work-video-close');
-
-            const closeVideoModal = () => {
-                if (!videoModal || !videoMount) return;
-                const currentVideo = videoMount.querySelector('video');
-                if (currentVideo instanceof HTMLVideoElement) {
-                    currentVideo.pause();
-                    currentVideo.removeAttribute('src');
-                    currentVideo.load();
-                }
-                videoMount.replaceChildren();
-                videoModal.hidden = true;
-                document.body.style.overflow = '';
-            };
-
-            document.addEventListener('click', (ev) => {
-                const trigger = ev.target && ev.target.closest ? ev.target.closest('[data-open-video]') : null;
-                if (!trigger || !videoModal || !videoMount || !videoTitle) return;
-                const src = trigger.getAttribute('data-video-src') || '';
-                const poster = trigger.getAttribute('data-video-poster') || '';
-                const title = trigger.getAttribute('data-video-title') || 'Video di cantiere';
-                const desc = trigger.getAttribute('data-video-desc') || '';
-                if (!src) return;
-
-                videoTitle.textContent = title;
-                if (videoDesc) {
-                    videoDesc.textContent = desc;
-                    videoDesc.hidden = !desc;
-                }
-
-                const videoEl = document.createElement('video');
-                videoEl.className = 'work-modal-video';
-                videoEl.controls = true;
-                videoEl.autoplay = true;
-                videoEl.playsInline = true;
-                videoEl.setAttribute('playsinline', '');
-                videoEl.preload = 'metadata';
-                if (poster) videoEl.poster = poster;
-                videoEl.src = src;
-
-                videoMount.replaceChildren(videoEl);
-                videoModal.hidden = false;
-                document.body.style.overflow = 'hidden';
-                videoClose?.focus();
-            });
-
-            videoClose?.addEventListener('click', closeVideoModal);
-            videoModal?.addEventListener('click', (ev) => {
-                if (ev.target === videoModal) closeVideoModal();
-            });
-
-            document.addEventListener('keydown', (ev) => {
-                if (ev.key === 'Escape') {
-                    if (galleryModal && !galleryModal.hidden) closeGalleryModal();
-                    if (videoModal && !videoModal.hidden) closeVideoModal();
-                }
-                if (galleryModal && !galleryModal.hidden && activeGallery.length > 1) {
-                    if (ev.key === 'ArrowLeft') {
-                        activeGalleryIndex = (activeGalleryIndex - 1 + activeGallery.length) % activeGallery.length;
-                        renderGalleryPhoto();
-                    } else if (ev.key === 'ArrowRight') {
-                        activeGalleryIndex = (activeGalleryIndex + 1) % activeGallery.length;
-                        renderGalleryPhoto();
-                    }
-                }
-            });
-        })();
-    </script>
 </SiteLayout>
+
+<script>
+    interface GalleryPhotoItem {
+        src: string;
+        alt: string;
+        didascalia?: string;
+        fase?: string;
+    }
+
+    const syncBodyScroll = () => {
+        const anyOpen =
+            !document.getElementById('work-project-modal')?.hidden ||
+            !document.getElementById('work-gallery-modal')?.hidden ||
+            !document.getElementById('work-video-modal')?.hidden;
+        document.body.style.overflow = anyOpen ? 'hidden' : '';
+    };
+
+    // 1. Filtri per categoria nella griglia principale (attivi se presenti più categorie)
+    const filterBar = document.querySelector<HTMLElement>('[data-work-filters]');
+    if (filterBar) {
+        const filterBtns = Array.from(filterBar.querySelectorAll<HTMLButtonElement>('[data-work-filter]'));
+        const workCards = Array.from(document.querySelectorAll<HTMLElement>('[data-work-card]'));
+
+        filterBtns.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const selected = btn.dataset.workFilter || 'all';
+                filterBtns.forEach((b) => b.classList.toggle('is-active', b === btn));
+                workCards.forEach((card) => {
+                    const cat = card.dataset.workCategory || '';
+                    card.hidden = selected !== 'all' && cat !== selected;
+                });
+            });
+        });
+    }
+
+    // 2. Modale Scheda Completa Lavoro (apertura al clic sulla card compatta)
+    const projectModal = document.getElementById('work-project-modal') as HTMLElement | null;
+    const projectSheets = Array.from(document.querySelectorAll<HTMLElement>('[data-project-sheet]'));
+    let activeProjectId: string | null = null;
+    let lastProjectTrigger: HTMLElement | null = null;
+
+    const resetMediaTabs = (sheet: HTMLElement) => {
+        const tabs = Array.from(sheet.querySelectorAll<HTMLButtonElement>('[data-media-filter]'));
+        const sections = Array.from(sheet.querySelectorAll<HTMLElement>('[data-media-section]'));
+        tabs.forEach((t) => {
+            const isAll = t.dataset.mediaFilter === 'all';
+            t.classList.toggle('is-active', isAll);
+            t.setAttribute('aria-selected', isAll ? 'true' : 'false');
+        });
+        sections.forEach((s) => {
+            s.hidden = false;
+        });
+    };
+
+    const openProjectModal = (projectId: string, trigger?: HTMLElement | null) => {
+        if (!projectModal) return;
+        const targetSheet = projectSheets.find((s) => s.dataset.projectSheet === projectId);
+        if (!targetSheet) return;
+
+        lastProjectTrigger = trigger ?? null;
+        activeProjectId = projectId;
+
+        projectSheets.forEach((sheet) => {
+            const isTarget = sheet === targetSheet;
+            sheet.hidden = !isTarget;
+            if (isTarget) {
+                resetMediaTabs(sheet);
+                const body = sheet.querySelector<HTMLElement>('.work-detail-body');
+                if (body) body.scrollTop = 0;
+            }
+        });
+
+        projectModal.hidden = false;
+        syncBodyScroll();
+
+        const closeBtn = targetSheet.querySelector<HTMLButtonElement>('[data-close-project]');
+        closeBtn?.focus();
+    };
+
+    const closeProjectModal = () => {
+        if (!projectModal || projectModal.hidden) return;
+        projectModal.hidden = true;
+        projectSheets.forEach((s) => {
+            s.hidden = true;
+        });
+        activeProjectId = null;
+        syncBodyScroll();
+        if (window.location.hash) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
+        lastProjectTrigger?.focus();
+    };
+
+    document.querySelectorAll<HTMLButtonElement>('[data-open-project]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const id = btn.dataset.openProject;
+            if (id) openProjectModal(id, btn);
+        });
+    });
+
+    projectModal?.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target === projectModal || target.closest('[data-close-project]')) {
+            closeProjectModal();
+        }
+    });
+
+    // Filtri interni (Tutto / Foto Prima / Foto Dopo / Video del Dopo) dentro ciascuna scheda
+    projectSheets.forEach((sheet) => {
+        const tabs = Array.from(sheet.querySelectorAll<HTMLButtonElement>('[data-media-filter]'));
+        const sections = Array.from(sheet.querySelectorAll<HTMLElement>('[data-media-section]'));
+        tabs.forEach((tab) => {
+            tab.addEventListener('click', () => {
+                const filter = tab.dataset.mediaFilter || 'all';
+                tabs.forEach((t) => {
+                    const active = t === tab;
+                    t.classList.toggle('is-active', active);
+                    t.setAttribute('aria-selected', active ? 'true' : 'false');
+                });
+                sections.forEach((sec) => {
+                    const kind = sec.dataset.mediaSection || '';
+                    sec.hidden = filter !== 'all' && kind !== filter;
+                });
+            });
+        });
+    });
+
+    // Apertura automatica se l'URL contiene #id-progetto
+    const initialHash = window.location.hash.replace(/^#/, '');
+    if (initialHash && projectSheets.some((s) => s.dataset.projectSheet === initialHash)) {
+        openProjectModal(initialHash);
+    }
+
+    // 3. Lightbox Galleria Fotografica (Prima + Dopo con frecce Avanti/Indietro)
+    const galleryModal = document.getElementById('work-gallery-modal') as HTMLElement | null;
+    const galleryImg = document.getElementById('work-gallery-img') as HTMLImageElement | null;
+    const galleryTitle = document.getElementById('work-gallery-title') as HTMLElement | null;
+    const galleryCounter = document.getElementById('work-gallery-counter') as HTMLElement | null;
+    const galleryPrev = document.getElementById('work-gallery-prev') as HTMLButtonElement | null;
+    const galleryNext = document.getElementById('work-gallery-next') as HTMLButtonElement | null;
+    const galleryClose = document.getElementById('work-gallery-close') as HTMLButtonElement | null;
+
+    let activeGallery: GalleryPhotoItem[] = [];
+    let activeGalleryIdx = 0;
+    let lastGalleryTrigger: HTMLElement | null = null;
+
+    const renderGalleryItem = () => {
+        const item = activeGallery[activeGalleryIdx];
+        if (!item || !galleryImg || !galleryTitle || !galleryCounter) return;
+        galleryImg.src = item.src;
+        galleryImg.alt = item.alt || 'Dettaglio cantiere';
+        galleryTitle.textContent = item.didascalia || item.alt || 'Dettaglio cantiere';
+        const phasePrefix = item.fase ? `${item.fase} · ` : '';
+        galleryCounter.textContent = `${phasePrefix}FOTO ${activeGalleryIdx + 1} DI ${activeGallery.length}`;
+        const hasMultiple = activeGallery.length > 1;
+        if (galleryPrev) galleryPrev.hidden = !hasMultiple;
+        if (galleryNext) galleryNext.hidden = !hasMultiple;
+    };
+
+    const openGallery = (items: GalleryPhotoItem[], index: number, trigger: HTMLElement) => {
+        if (!galleryModal || items.length === 0) return;
+        activeGallery = items;
+        activeGalleryIdx = Math.max(0, Math.min(items.length - 1, index));
+        lastGalleryTrigger = trigger;
+        renderGalleryItem();
+        galleryModal.hidden = false;
+        syncBodyScroll();
+        galleryClose?.focus();
+    };
+
+    const closeGallery = () => {
+        if (!galleryModal || galleryModal.hidden) return;
+        galleryModal.hidden = true;
+        if (galleryImg) galleryImg.removeAttribute('src');
+        syncBodyScroll();
+        lastGalleryTrigger?.focus();
+    };
+
+    document.querySelectorAll<HTMLButtonElement>('[data-open-gallery]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const projectId = btn.dataset.openGallery;
+            const sheet = projectSheets.find((s) => s.dataset.projectSheet === projectId);
+            if (!sheet?.dataset.galleryItems) return;
+            try {
+                const items = JSON.parse(sheet.dataset.galleryItems) as GalleryPhotoItem[];
+                const idx = Number(btn.dataset.galleryIndex || '0');
+                openGallery(items, idx, btn);
+            } catch {
+                // ignore malformed dataset
+            }
+        });
+    });
+
+    galleryPrev?.addEventListener('click', () => {
+        if (activeGallery.length < 2) return;
+        activeGalleryIdx = (activeGalleryIdx - 1 + activeGallery.length) % activeGallery.length;
+        renderGalleryItem();
+    });
+
+    galleryNext?.addEventListener('click', () => {
+        if (activeGallery.length < 2) return;
+        activeGalleryIdx = (activeGalleryIdx + 1) % activeGallery.length;
+        renderGalleryItem();
+    });
+
+    galleryClose?.addEventListener('click', closeGallery);
+    galleryModal?.addEventListener('click', (e) => {
+        if (e.target === galleryModal) closeGallery();
+    });
+
+    // 4. Lightbox Video Lazy-Loaded (carica il file MP4 solo al clic)
+    const videoModal = document.getElementById('work-video-modal') as HTMLElement | null;
+    const videoPlayer = document.getElementById('work-video-player') as HTMLVideoElement | null;
+    const videoTitle = document.getElementById('work-video-title') as HTMLElement | null;
+    const videoDesc = document.getElementById('work-video-desc') as HTMLElement | null;
+    const videoClose = document.getElementById('work-video-close') as HTMLButtonElement | null;
+    let lastVideoTrigger: HTMLElement | null = null;
+
+    const openVideo = (btn: HTMLButtonElement) => {
+        if (!videoModal || !videoPlayer || !videoTitle) return;
+        const src = btn.dataset.videoSrc;
+        if (!src) return;
+
+        lastVideoTrigger = btn;
+        videoTitle.textContent = btn.dataset.videoTitle || 'Video del risultato';
+
+        const desc = (btn.dataset.videoDesc || '').trim();
+        if (videoDesc) {
+            videoDesc.textContent = desc;
+            videoDesc.hidden = desc.length === 0;
+        }
+
+        if (btn.dataset.videoPoster) {
+            videoPlayer.poster = btn.dataset.videoPoster;
+        }
+        videoPlayer.src = src;
+        videoPlayer.load();
+
+        videoModal.hidden = false;
+        syncBodyScroll();
+        videoClose?.focus();
+        videoPlayer.play().catch(() => {});
+    };
+
+    const closeVideo = () => {
+        if (!videoModal || videoModal.hidden) return;
+        if (videoPlayer) {
+            videoPlayer.pause();
+            videoPlayer.removeAttribute('src');
+            videoPlayer.load();
+        }
+        videoModal.hidden = true;
+        syncBodyScroll();
+        lastVideoTrigger?.focus();
+    };
+
+    document.querySelectorAll<HTMLButtonElement>('[data-open-video]').forEach((btn) => {
+        btn.addEventListener('click', () => openVideo(btn));
+    });
+
+    videoClose?.addEventListener('click', closeVideo);
+    videoModal?.addEventListener('click', (e) => {
+        if (e.target === videoModal) closeVideo();
+    });
+
+    // Gestione tastiera gerarchica (chiude sempre la modale in primo piano prima di quella sotto)
+    document.addEventListener('keydown', (e) => {
+        if (videoModal && !videoModal.hidden) {
+            if (e.key === 'Escape') closeVideo();
+            return;
+        }
+        if (galleryModal && !galleryModal.hidden) {
+            if (e.key === 'Escape') closeGallery();
+            else if (e.key === 'ArrowLeft') galleryPrev?.click();
+            else if (e.key === 'ArrowRight') galleryNext?.click();
+            return;
+        }
+        if (projectModal && !projectModal.hidden && e.key === 'Escape') {
+            closeProjectModal();
+        }
+    });
+
+    // Evita warning unused se serve futura espansione
+    void activeProjectId;
+</script>
