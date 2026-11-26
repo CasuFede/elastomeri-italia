@@ -3,7 +3,7 @@ import re
 from typing import Any, Optional
 from fastapi import HTTPException, Response
 
-MAX_RANGE_CHUNK = 4 * 1024 * 1024  # 4 MB max per singola risposta 206
+MAX_RANGE_CHUNK = 1 * 1024 * 1024  # 1 MB max per singola risposta 206 in fallback FastAPI
 _RANGE_RE = re.compile(r"^bytes=(\d*)-(\d*)$", re.IGNORECASE)
 
 
