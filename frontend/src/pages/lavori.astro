@@ -49,24 +49,24 @@ try {
         <section id="works-gallery" class="works-gallery wrap my-12" aria-label="Lavori realizzati">
             <div id="works-grid" class="works-grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {lavori.map((lavoro) => (
-                    <article class="work-card rounded-2xl border-2 border-slate-600 bg-slate-800 overflow-hidden transition-colors duration-200 hover:border-sky-400 flex flex-col">
+                    <article class="work-card rounded-3xl border border-[#D2D2D7] bg-[#F5F5F7] overflow-hidden transition-colors duration-200 hover:border-[#0071E3] flex flex-col">
                         <img
                             src={lavoro.immagine_url}
                             alt={`Lavoro realizzato da Poliurea System: ${lavoro.titolo}${lavoro.localita ? ` (${lavoro.localita})` : ''}`}
                             loading="lazy"
                             width="600"
                             height="450"
-                            class="w-full aspect-[4/3] object-cover bg-slate-900"
+                            class="w-full aspect-[4/3] object-cover bg-[#EBEBF0]"
                         />
                         <div class="work-card-content p-6 flex-1 flex flex-col">
                             {lavoro.localita && (
-                                <p class="work-location text-xs font-extrabold uppercase tracking-wider text-sky-400 mb-2">
+                                <p class="work-location text-xs font-extrabold uppercase tracking-wider text-[#0071E3] mb-2">
                                     {lavoro.localita}
                                 </p>
                             )}
-                            <h2 class="text-xl font-bold text-white mb-2">{lavoro.titolo}</h2>
+                            <h2 class="text-xl font-bold text-[#1D1D1F] mb-2">{lavoro.titolo}</h2>
                             {lavoro.descrizione && (
-                                <p class="text-sm text-slate-200 leading-relaxed">{lavoro.descrizione}</p>
+                                <p class="text-sm text-[#6E6E73] leading-relaxed">{lavoro.descrizione}</p>
                             )}
                         </div>
                     </article>
@@ -74,24 +74,24 @@ try {
             </div>
         </section>
     ) : (
-        <section id="gallery-empty" class="gallery-empty wrap my-12 grid gap-8 lg:grid-cols-[1fr_1.4fr] items-center rounded-3xl border-2 border-slate-600 bg-slate-800 p-8 sm:p-12 transition-colors duration-200 hover:border-sky-400">
-            <div class="gallery-empty-art rounded-2xl border border-slate-600 bg-slate-900 p-8 flex items-center justify-center min-h-[220px]">
+        <section id="gallery-empty" class="gallery-empty wrap my-12 grid gap-8 lg:grid-cols-[1fr_1.4fr] items-center rounded-[28px] border border-[#D2D2D7] bg-[#F5F5F7] p-8 sm:p-12 transition-colors duration-200 hover:border-[#0071E3]">
+            <div class="gallery-empty-art rounded-2xl border border-[#2A344B] bg-[#161D2E] p-8 flex items-center justify-center min-h-[220px]">
                 <img src="/logo-poliurea-system.png" alt="Poliurea System - Galleria lavori in preparazione" class="max-w-[240px] w-full h-auto" width="240" height="41" />
             </div>
             <div class="gallery-empty-copy">
-                <p class="eyebrow text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">GALLERIA IN PREPARAZIONE</p>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight mb-4">Qui racconteremo<br /><span class="text-sky-400">i lavori realizzati.</span></h2>
-                <p class="text-slate-200 text-base leading-relaxed mb-6">Stiamo raccogliendo le fotografie e i dettagli dei progetti da condividere. Torna a trovarci per scoprire gli interventi, le superfici trattate e le soluzioni adottate.</p>
-                <a class="text-link inline-flex items-center gap-2 text-sm font-bold text-sky-400 hover:text-white transition-colors" href="/contatti">Hai un progetto da raccontare? <span aria-hidden="true">→</span></a>
+                <p class="eyebrow text-xs font-bold uppercase tracking-wider text-[#0071E3] mb-2">GALLERIA IN PREPARAZIONE</p>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight leading-tight mb-4">Qui racconteremo<br /><span class="text-[#0071E3]">i lavori realizzati.</span></h2>
+                <p class="text-[#6E6E73] text-base leading-relaxed mb-6">Stiamo raccogliendo le fotografie e i dettagli dei progetti da condividere. Torna a trovarci per scoprire gli interventi, le superfici trattate e le soluzioni adottate.</p>
+                <a class="text-link inline-flex items-center gap-2 text-sm font-bold text-[#0071E3] hover:text-[#0064CC] transition-colors" href="/contatti">Hai un progetto da raccontare? <span aria-hidden="true">→</span></a>
             </div>
         </section>
     )}
 
-    <section class="gallery-guidelines py-14 bg-[#111827] border-y border-slate-700">
+    <section class="gallery-guidelines py-14 bg-[#F5F5F7] border-y border-[#D2D2D7]">
         <div class="wrap gallery-guidelines-inner grid gap-6 md:grid-cols-3">
-            <div class="rounded-2xl border-2 border-slate-600 bg-slate-800 p-6 flex items-start gap-4 transition-colors duration-200 hover:border-sky-400"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-600 text-white font-mono text-sm font-bold">01</span><p class="text-sm"><strong class="block text-white font-bold mb-1">Il contesto</strong><small class="text-slate-200 text-xs">Tipologia dell’edificio e area interessata</small></p></div>
-            <div class="rounded-2xl border-2 border-slate-600 bg-slate-800 p-6 flex items-start gap-4 transition-colors duration-200 hover:border-sky-400"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-600 text-white font-mono text-sm font-bold">02</span><p class="text-sm"><strong class="block text-white font-bold mb-1">Il problema</strong><small class="text-slate-200 text-xs">La situazione da cui è partito l’intervento</small></p></div>
-            <div class="rounded-2xl border-2 border-slate-600 bg-slate-800 p-6 flex items-start gap-4 transition-colors duration-200 hover:border-sky-400"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-600 text-white font-mono text-sm font-bold">03</span><p class="text-sm"><strong class="block text-white font-bold mb-1">Il percorso</strong><small class="text-slate-200 text-xs">Le fasi e le soluzioni effettivamente adottate</small></p></div>
+            <div class="rounded-2xl border border-[#D2D2D7] bg-white p-6 flex items-start gap-4 transition-colors duration-200 hover:border-[#0071E3]"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white font-mono text-sm font-bold">01</span><p class="text-sm"><strong class="block text-[#1D1D1F] font-bold mb-1">Il contesto</strong><small class="text-[#6E6E73] text-xs">Tipologia dell’edificio e area interessata</small></p></div>
+            <div class="rounded-2xl border border-[#D2D2D7] bg-white p-6 flex items-start gap-4 transition-colors duration-200 hover:border-[#0071E3]"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white font-mono text-sm font-bold">02</span><p class="text-sm"><strong class="block text-[#1D1D1F] font-bold mb-1">Il problema</strong><small class="text-[#6E6E73] text-xs">La situazione da cui è partito l’intervento</small></p></div>
+            <div class="rounded-2xl border border-[#D2D2D7] bg-white p-6 flex items-start gap-4 transition-colors duration-200 hover:border-[#0071E3]"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white font-mono text-sm font-bold">03</span><p class="text-sm"><strong class="block text-[#1D1D1F] font-bold mb-1">Il percorso</strong><small class="text-[#6E6E73] text-xs">Le fasi e le soluzioni effettivamente adottate</small></p></div>
         </div>
     </section>
     <CallToAction title="Hai un problema simile?" text="Raccontacelo: ogni valutazione comincia dalle caratteristiche del tuo edificio." />

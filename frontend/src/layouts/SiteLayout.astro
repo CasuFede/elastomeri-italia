@@ -128,7 +128,7 @@ const structuredData = {
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#0b0f17" />
+        <meta name="theme-color" content="#161D2E" />
         {noindex && <meta name="robots" content="noindex, nofollow" />}
         <meta name="description" content={description} />
         {!noindex && <link rel="canonical" href={canonicalUrl} />}
@@ -155,8 +155,8 @@ const structuredData = {
         <title>{title}</title>
         <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     </head>
-    <body class="site-body bg-[#0b0f17] text-white antialiased selection:bg-sky-600 selection:text-white">
-        <header class="site-header sticky top-0 z-40 border-b border-slate-700 bg-[#0f172a]">
+    <body class="site-body bg-white text-[#1D1D1F] antialiased selection:bg-[#0071E3] selection:text-white">
+        <header class="site-header sticky top-0 z-40 border-b border-[#2A344B] bg-[#161D2E]">
             <div class="header-inner">
                 <a class="brand" href="/" aria-label="Poliurea System Impermeabilizzazioni, home">
                     <picture>
@@ -169,15 +169,15 @@ const structuredData = {
                         <a href={href} aria-current={activePath === href ? 'page' : undefined}>{label}</a>
                     ))}
                 </nav>
-                <button class="mobile-menu-toggle border border-slate-600 bg-slate-800 transition-colors duration-200 hover:border-sky-400 hover:bg-slate-700" id="mobile-menu-toggle" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-menu">
+                <button class="mobile-menu-toggle border border-white/35 bg-[#1F2940] transition-colors duration-200 hover:border-white hover:bg-[#2A344B]" id="mobile-menu-toggle" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="mobile-menu">
                     <span></span><span></span>
                 </button>
                 <div class="header-actions">
-                    <a class="header-login inline-flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-800 px-3.5 py-2 text-xs font-bold text-white transition-colors duration-200 hover:border-sky-400 hover:bg-slate-700" href="/area-clienti" aria-label="Accedi all’area clienti">
+                    <a class="header-login inline-flex items-center gap-2 rounded-full border border-white/45 bg-transparent px-4 py-2 text-xs font-semibold text-white transition-colors duration-200 hover:border-white hover:bg-white/10" href="/area-clienti" aria-label="Accedi all’area clienti">
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" /></svg>
                         <span>Area clienti</span>
                     </a>
-                    <a class="header-cta inline-flex items-center gap-2.5 rounded-lg bg-sky-600 px-4 py-2.5 text-sm font-bold text-white transition-colors duration-200 hover:bg-sky-500" href="/preventivo">Preventivo gratuito <span aria-hidden="true">↗</span></a>
+                    <a class="header-cta inline-flex items-center gap-2 rounded-full bg-[#0071E3] px-4 py-2 text-xs font-semibold text-white transition-colors duration-200 hover:bg-[#0064CC]" href="/preventivo">Preventivo gratuito <span aria-hidden="true">↗</span></a>
                 </div>
             </div>
             <nav class="mobile-menu" id="mobile-menu" aria-label="Navigazione principale" aria-hidden="true" inert>
@@ -203,7 +203,7 @@ const structuredData = {
             </div>
         </div>
         <ChatWidget />
-        <footer class="site-footer bg-[#0b0f17] border-t-2 border-slate-700">
+        <footer class="site-footer bg-[#161D2E] border-t border-[#2A344B]">
             <div class="footer-main">
                 <div class="footer-brand">
                     <a class="brand footer-logo" href="/" aria-label="Poliurea System Impermeabilizzazioni, home">
@@ -234,7 +234,7 @@ const structuredData = {
                     <a class="text-link" href="/preventivo">Richiedi un sopralluogo <span aria-hidden="true">→</span></a>
                 </div>
             </div>
-            <div class="footer-bottom border-t border-slate-700 text-slate-300 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pr-20 md:pr-48">
+            <div class="footer-bottom border-t border-[#2A344B] text-[#A9B3C7] text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pr-20 md:pr-48">
                 <span>© {new Date().getFullYear()} Poliurea System</span>
                 <span>Protezione, progettata intorno al tuo edificio.</span>
             </div>
