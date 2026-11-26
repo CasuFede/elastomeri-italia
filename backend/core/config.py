@@ -3,7 +3,8 @@ import os
 import re
 from typing import Any, Optional
 
-MAX_UPLOAD_SIZE = 10 * 1024 * 1024
+MAX_UPLOAD_SIZE = 10 * 1024 * 1024  # 10 MB per immagini
+MAX_VIDEO_UPLOAD_SIZE = 30 * 1024 * 1024  # 30 MB per video cantiere
 MAX_UPLOAD_COUNT = 5
 PASSWORD_ITERATIONS = 100_000
 TOKEN_SESSIONE_DURATA = 8 * 3600  # 8 ore
@@ -18,15 +19,29 @@ STATI_PREVENTIVO = {
     "annullato": "Annullato",
 }
 
+CATEGORIE_LAVORO_VALIDE = (
+    "Coperture industriali",
+    "Terrazzi e lastrici",
+    "Fondazioni e cantine",
+    "Impermeabilizzazioni",
+)
+
+TIPI_MEDIA_LAVORO_VALIDI = ("prima", "dopo", "video")
+
 COLONNE_LAVORO_VALIDE = {
     "titolo": 160,
-    "descrizione": 2000,
-    "localita": 120,
+    "categoria": 80,
+    "descrizione": 3000,
+    "localita": 160,
+    "supporto": 160,
+    "ciclo_sistema": 160,
+    "armatura": 160,
+    "applicazione": 160,
+    "stratigrafia_descrizione": 3000,
 }
 
 
 def get_secret(environment: Any, key: str) -> Optional[str]:
-    from typing import Optional
     if environment is not None:
         try:
             valore = getattr(environment, key, None)

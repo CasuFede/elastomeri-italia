@@ -93,32 +93,168 @@ if (!adminCookie) {
             </table>
         </div>
         <section id="works-section" class="hidden w-full" aria-labelledby="tab-lavori">
-            <div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+            <div class="mb-6 flex flex-wrap items-end justify-between gap-4">
                 <div>
                     <p class="mb-2 text-xs font-bold uppercase tracking-wider text-sky-400">Contenuti del sito</p>
-                    <h2 class="text-2xl font-bold text-white sm:text-3xl">Lavori e immagini</h2>
-                    <p class="mt-2 max-w-2xl text-sm text-zinc-400">Pubblica un intervento nella galleria e aggiorna testi o immagini quando vuoi.</p>
+                    <h2 class="text-2xl font-bold text-white sm:text-3xl">Gestione Lavori e Cantieri</h2>
+                    <p class="mt-2 max-w-3xl text-sm text-zinc-400">Inserisci nuovi cantieri completi di scheda tecnica, stratigrafia, galleria fotografica Prima/Dopo e video del risultato finale. Verranno pubblicati automaticamente affiancati nella pagina <a href="/lavori" target="_blank" class="text-sky-400 underline hover:text-sky-300">/lavori</a>.</p>
                 </div>
+                <a href="/lavori" target="_blank" class="inline-flex items-center gap-1.5 rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-2 text-xs font-semibold text-zinc-200 transition hover:border-sky-500 hover:text-white">
+                    Apri pagina Lavori <span aria-hidden="true">↗</span>
+                </a>
             </div>
-            <form id="work-form" class="mb-8 grid gap-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-6 sm:grid-cols-2 shadow-xl">
-                <label class="grid gap-2 text-xs font-semibold text-zinc-300">Titolo
-                    <input name="titolo" required maxlength="160" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
-                </label>
-                <label class="grid gap-2 text-xs font-semibold text-zinc-300">Località
-                    <input name="localita" maxlength="160" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
-                </label>
-                <label class="grid gap-2 text-xs font-semibold text-zinc-300 sm:col-span-2">Descrizione
-                    <textarea name="descrizione" maxlength="3000" rows="3" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20"></textarea>
-                </label>
-                <label class="grid gap-2 text-xs font-semibold text-zinc-300 sm:col-span-2">Immagine (JPG, PNG o WEBP, massimo 10 MB)
-                    <input name="immagine" type="file" accept="image/jpeg,image/png,image/webp" required class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm text-zinc-300 file:mr-4 file:rounded-lg file:border-0 file:bg-sky-500 file:px-4 file:py-2 file:text-xs file:font-bold file:text-white file:cursor-pointer hover:file:bg-sky-400" />
-                </label>
-                <div class="flex flex-wrap items-center gap-4 sm:col-span-2 pt-2">
-                    <button id="work-submit" type="submit" class="rounded-xl bg-sky-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-sky-500">Pubblica nella galleria</button>
-                    <p id="work-feedback" class="text-sm text-zinc-300" role="status" aria-live="polite"></p>
+
+            <form id="work-form" class="mb-10 grid gap-6 rounded-2xl border border-zinc-800 bg-zinc-900 p-6 shadow-xl">
+                <!-- BLOCCO 1: Dati principali -->
+                <div class="grid gap-4">
+                    <div class="flex items-center gap-2 border-b border-zinc-800 pb-3">
+                        <span class="flex h-6 w-6 items-center justify-center rounded-full bg-sky-500/20 text-xs font-bold text-sky-400">1</span>
+                        <h3 class="text-sm font-bold uppercase tracking-wider text-white">Informazioni principali</h3>
+                    </div>
+                    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        <label class="grid gap-2 text-xs font-semibold text-zinc-300 sm:col-span-2">
+                            Titolo intervento *
+                            <input name="titolo" required maxlength="160" placeholder="es. Risanamento copertura bituminosa 600 mq — Ciclo Sika armato" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm font-normal text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
+                        </label>
+                        <label class="grid gap-2 text-xs font-semibold text-zinc-300">
+                            Categoria
+                            <select name="categoria" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm font-normal text-white outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20">
+                                <option value="Coperture industriali">Coperture industriali</option>
+                                <option value="Terrazzi e lastrici">Terrazzi e lastrici</option>
+                                <option value="Fondazioni e cantine">Fondazioni e cantine</option>
+                                <option value="Impermeabilizzazioni">Impermeabilizzazioni</option>
+                            </select>
+                        </label>
+                        <label class="grid gap-2 text-xs font-semibold text-zinc-300">
+                            Superficie (mq)
+                            <input name="superficie_mq" type="number" min="0" max="1000000" step="1" placeholder="es. 600" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm font-normal text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
+                        </label>
+                        <label class="grid gap-2 text-xs font-semibold text-zinc-300 sm:col-span-2">
+                            Località
+                            <input name="localita" maxlength="160" placeholder="es. Genova e Liguria" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm font-normal text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
+                        </label>
+                        <label class="grid gap-2 text-xs font-semibold text-zinc-300 sm:col-span-2">
+                            Metodo applicativo
+                            <input name="applicazione" maxlength="160" placeholder="es. Spruzzo con pompa airless / Poliurea a caldo bimixer / Manuale" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm font-normal text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
+                        </label>
+                        <label class="grid gap-2 text-xs font-semibold text-zinc-300 sm:col-span-2 lg:col-span-4">
+                            Riepilogo dell’intervento
+                            <textarea name="descrizione" maxlength="3000" rows="2" placeholder="Breve descrizione leggibile in apertura della scheda lavoro..." class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm font-normal text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20"></textarea>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- BLOCCO 2: Scheda Tecnica e Stratigrafia -->
+                <div class="grid gap-4">
+                    <div class="flex items-center gap-2 border-b border-zinc-800 pb-3">
+                        <span class="flex h-6 w-6 items-center justify-center rounded-full bg-sky-500/20 text-xs font-bold text-sky-400">2</span>
+                        <h3 class="text-sm font-bold uppercase tracking-wider text-white">Scheda tecnica e stratigrafia</h3>
+                    </div>
+                    <div class="grid gap-4 sm:grid-cols-3">
+                        <label class="grid gap-2 text-xs font-semibold text-zinc-300">
+                            Supporto esistente
+                            <input name="supporto" maxlength="160" placeholder="es. Materiale bituminoso" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm font-normal text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
+                        </label>
+                        <label class="grid gap-2 text-xs font-semibold text-zinc-300">
+                            Ciclo e sistema
+                            <input name="ciclo_sistema" maxlength="160" placeholder="es. Ciclo Sika (Remat)" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm font-normal text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
+                        </label>
+                        <label class="grid gap-2 text-xs font-semibold text-zinc-300">
+                            Armatura strutturale
+                            <input name="armatura" maxlength="160" placeholder="es. Corazzato con fibra di vetro Remax" class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm font-normal text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20" />
+                        </label>
+                    </div>
+
+                    <label class="grid gap-2 text-xs font-semibold text-zinc-300">
+                        Descrizione generale della stratigrafia
+                        <textarea name="stratigrafia_descrizione" maxlength="3000" rows="2" placeholder="es. Resina elastica monocomponente applicata a spruzzo con pompa airless, armatura con tessuto in fibra di vetro e ulteriore mano di chiusura..." class="rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm font-normal text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20"></textarea>
+                    </label>
+
+                    <div class="grid gap-3 rounded-xl border border-zinc-800 bg-zinc-950/70 p-4">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div>
+                                <p class="text-xs font-bold uppercase tracking-wider text-zinc-200">Fasi operative di posa (opzionali)</p>
+                                <p class="text-[11px] text-zinc-400">Compila solo gli strati che vuoi mostrare nella scheda tecnica (le righe vuote vengono ignorate).</p>
+                            </div>
+                            <button type="button" id="work-add-fase" class="rounded-lg border border-sky-500/40 bg-sky-500/15 px-3 py-1.5 text-xs font-bold text-sky-400 transition hover:bg-sky-500/25 cursor-pointer">
+                                + Aggiungi fase
+                            </button>
+                        </div>
+                        <div id="work-fasi-container" class="grid gap-3"></div>
+                    </div>
+                </div>
+
+                <!-- BLOCCO 3: Foto Prima, Foto Dopo e Video del Dopo -->
+                <div class="grid gap-4">
+                    <div class="flex items-center gap-2 border-b border-zinc-800 pb-3">
+                        <span class="flex h-6 w-6 items-center justify-center rounded-full bg-sky-500/20 text-xs font-bold text-sky-400">3</span>
+                        <h3 class="text-sm font-bold uppercase tracking-wider text-white">Galleria Foto Prima / Dopo e Video del Dopo</h3>
+                    </div>
+
+                    <div class="grid gap-4 lg:grid-cols-3">
+                        <!-- Upload Foto Prima -->
+                        <div class="flex flex-col gap-3 rounded-xl border border-zinc-800 bg-zinc-950/80 p-4">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-zinc-800 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">PRIMA</span>
+                                <span id="work-count-prima" class="text-[11px] font-semibold text-zinc-400">0 selezionate</span>
+                            </div>
+                            <label class="flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed border-zinc-700 bg-zinc-900/60 px-3 py-4 text-center transition hover:border-sky-500 hover:bg-zinc-900">
+                                <span class="text-xs font-bold text-sky-400">+ Seleziona foto Prima</span>
+                                <span class="text-[11px] text-zinc-400">JPG, PNG o WEBP · Selezione multipla</span>
+                                <input id="work-input-prima" type="file" multiple accept="image/jpeg,image/png,image/webp" class="sr-only" />
+                            </label>
+                            <div id="work-queue-prima" class="grid gap-2"></div>
+                        </div>
+
+                        <!-- Upload Foto Dopo -->
+                        <div class="flex flex-col gap-3 rounded-xl border border-zinc-800 bg-zinc-950/80 p-4">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-sky-600 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">DOPO</span>
+                                <span id="work-count-dopo" class="text-[11px] font-semibold text-zinc-400">0 selezionate</span>
+                            </div>
+                            <label class="flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed border-zinc-700 bg-zinc-900/60 px-3 py-4 text-center transition hover:border-sky-500 hover:bg-zinc-900">
+                                <span class="text-xs font-bold text-sky-400">+ Seleziona foto Dopo</span>
+                                <span class="text-[11px] text-zinc-400">JPG, PNG o WEBP · Selezione multipla</span>
+                                <input id="work-input-dopo" type="file" multiple accept="image/jpeg,image/png,image/webp" class="sr-only" />
+                            </label>
+                            <div id="work-queue-dopo" class="grid gap-2"></div>
+                        </div>
+
+                        <!-- Upload Video del Dopo -->
+                        <div class="flex flex-col gap-3 rounded-xl border border-zinc-800 bg-zinc-950/80 p-4">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-white">VIDEO DOPO</span>
+                                <span id="work-count-video" class="text-[11px] font-semibold text-zinc-400">0 selezionati</span>
+                            </div>
+                            <label class="flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-xl border border-dashed border-zinc-700 bg-zinc-900/60 px-3 py-4 text-center transition hover:border-emerald-500 hover:bg-zinc-900">
+                                <span class="text-xs font-bold text-emerald-400">+ Aggiungi video del Dopo</span>
+                                <span class="text-[11px] text-zinc-400">MP4 o WEBM (max 30 MB) · Copertina auto</span>
+                                <input id="work-input-video" type="file" multiple accept="video/mp4,video/webm,video/quicktime" class="sr-only" />
+                            </label>
+                            <div id="work-queue-video" class="grid gap-2"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Barra invio e avanzamento -->
+                <div class="grid gap-3 border-t border-zinc-800 pt-4">
+                    <div id="work-progress-wrap" class="hidden h-2 w-full overflow-hidden rounded-full bg-zinc-800">
+                        <div id="work-progress-bar" class="h-full bg-sky-500 transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-4">
+                        <button id="work-submit" type="submit" class="rounded-xl bg-sky-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-sky-500 disabled:opacity-50 cursor-pointer">
+                            Pubblica lavoro nella galleria
+                        </button>
+                        <p id="work-feedback" class="text-sm text-zinc-300" role="status" aria-live="polite"></p>
+                    </div>
                 </div>
             </form>
-            <div id="works-list" class="grid gap-4"></div>
+
+            <div class="mb-4 flex items-center justify-between gap-3">
+                <h3 class="text-lg font-bold text-white">Lavori pubblicati da Admin</h3>
+                <span id="works-total-badge" class="rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-1 text-xs font-mono text-zinc-400">0 cantieri</span>
+            </div>
+            <div id="works-list" class="grid gap-5"></div>
         </section>
         <section id="clients-section" class="hidden w-full" aria-labelledby="tab-clienti">
             <div class="mb-6">
@@ -483,9 +619,11 @@ if (!adminCookie) {
         const apriConfermaEliminazione = ({ tipo, id, titolo, target, dettagli, onConfirm }) => {
             pendingDeleteAction = onConfirm;
             deleteDialogTitle.textContent = titolo || 'Conferma eliminazione';
-            deleteDialogDesc.textContent = tipo === 'preventivo' 
-                ? 'Questa operazione eliminerà definitivamente la richiesta di preventivo e tutti gli allegati e foto caricati.' 
-                : 'Questa operazione eliminerà definitivamente l\'account cliente. L\'utente non potrà più effettuare l\'accesso all\'Area Clienti.';
+            deleteDialogDesc.textContent = tipo === 'preventivo'
+                ? 'Questa operazione eliminerà definitivamente la richiesta di preventivo e tutti gli allegati e foto caricati.'
+                : tipo === 'lavoro'
+                    ? 'Questa operazione eliminerà definitivamente il lavoro dalla pagina /lavori insieme a tutte le foto Prima, Dopo e ai video caricati.'
+                    : 'Questa operazione eliminerà definitivamente l\'account cliente. L\'utente non potrà più effettuare l\'accesso all\'Area Clienti.';
             deleteDialogTarget.textContent = target || `#${id}`;
             deleteDialogDetails.textContent = dettagli || '';
             deleteConfirmCheckbox.checked = false;
@@ -652,22 +790,484 @@ if (!adminCookie) {
 
         const mostraFeedbackLavori = (messaggio, errore = false) => {
             workFeedback.textContent = messaggio;
-            workFeedback.className = errore ? 'text-xs text-red-400' : 'text-xs text-sky-400';
+            workFeedback.className = errore ? 'text-xs font-medium text-red-400' : 'text-xs font-medium text-sky-400';
         };
 
-        const creaCampoLavoro = (etichetta, valore, multilinea = false) => {
-            const contenitore = document.createElement('label');
-            contenitore.className = 'grid gap-2 text-xs font-semibold text-zinc-300';
-            contenitore.append(document.createTextNode(etichetta));
-            const campo = document.createElement(multilinea ? 'textarea' : 'input');
-            campo.className = 'w-full rounded-xl border border-zinc-700 bg-zinc-950 p-3 text-sm font-normal text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20';
-            campo.value = valore || '';
-            if (multilinea) {
-                campo.rows = 3;
-                campo.maxLength = 3000;
-            } else {
-                campo.maxLength = etichetta === 'Titolo' ? 160 : 160;
+        const CATEGORIE_LAVORO = [
+            'Coperture industriali',
+            'Terrazzi e lastrici',
+            'Fondazioni e cantine',
+            'Impermeabilizzazioni',
+        ];
+
+        const workFasiContainer = document.getElementById('work-fasi-container');
+        const workAddFaseBtn = document.getElementById('work-add-fase');
+        const workInputPrima = document.getElementById('work-input-prima');
+        const workInputDopo = document.getElementById('work-input-dopo');
+        const workInputVideo = document.getElementById('work-input-video');
+        const workQueuePrimaEl = document.getElementById('work-queue-prima');
+        const workQueueDopoEl = document.getElementById('work-queue-dopo');
+        const workQueueVideoEl = document.getElementById('work-queue-video');
+        const workCountPrimaEl = document.getElementById('work-count-prima');
+        const workCountDopoEl = document.getElementById('work-count-dopo');
+        const workCountVideoEl = document.getElementById('work-count-video');
+        const workProgressWrap = document.getElementById('work-progress-wrap');
+        const workProgressBar = document.getElementById('work-progress-bar');
+        const worksTotalBadge = document.getElementById('works-total-badge');
+
+        const impostaProgressoLavori = (percentuale) => {
+            if (!workProgressWrap || !workProgressBar) return;
+            if (percentuale === null) {
+                workProgressWrap.classList.add('hidden');
+                workProgressBar.style.width = '0%';
+                return;
             }
+            workProgressWrap.classList.remove('hidden');
+            workProgressBar.style.width = `${Math.max(4, Math.min(100, Math.round(percentuale)))}%`;
+        };
+
+        const formattaDimensione = (bytes) => {
+            if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+            return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+        };
+
+        const formattaDurataSecondi = (secondi) => {
+            if (!Number.isFinite(secondi) || secondi <= 0) return '';
+            const tot = Math.round(secondi);
+            const min = Math.floor(tot / 60);
+            const sec = tot % 60;
+            return `${min}:${String(sec).padStart(2, '0')}`;
+        };
+
+        const ottimizzaImmagineBrowser = async (file) => {
+            if (!file || !file.type.startsWith('image/')) return file;
+            if (file.size <= 900 * 1024) return file;
+            try {
+                const bitmap = await createImageBitmap(file);
+                const maxLato = 1800;
+                const scala = Math.min(1, maxLato / Math.max(bitmap.width, bitmap.height));
+                const w = Math.max(1, Math.round(bitmap.width * scala));
+                const h = Math.max(1, Math.round(bitmap.height * scala));
+                const canvas = document.createElement('canvas');
+                canvas.width = w;
+                canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                if (!ctx) {
+                    bitmap.close();
+                    return file;
+                }
+                ctx.drawImage(bitmap, 0, 0, w, h);
+                bitmap.close();
+
+                const mimeOut = file.type === 'image/png' ? 'image/webp' : 'image/jpeg';
+                const extOut = mimeOut === 'image/webp' ? '.webp' : '.jpg';
+                const blob = await new Promise((resolve) => canvas.toBlob(resolve, mimeOut, 0.85));
+                if (!blob || blob.size >= file.size) return file;
+                const baseName = (file.name || 'foto').replace(/\.[^.]+$/, '');
+                return new File([blob], `${baseName}${extOut}`, { type: mimeOut });
+            } catch {
+                return file;
+            }
+        };
+
+        const estraiMetadataVideoBrowser = (file) =>
+            new Promise((resolve) => {
+                const url = URL.createObjectURL(file);
+                const video = document.createElement('video');
+                video.muted = true;
+                video.playsInline = true;
+                video.preload = 'metadata';
+                let risolto = false;
+
+                const chiudi = (risultato) => {
+                    if (risolto) return;
+                    risolto = true;
+                    clearTimeout(timer);
+                    video.removeAttribute('src');
+                    video.load();
+                    URL.revokeObjectURL(url);
+                    resolve(risultato);
+                };
+
+                const timer = setTimeout(() => chiudi({ durata: '', posterFile: null, previewUrl: '' }), 4500);
+
+                video.addEventListener('loadedmetadata', () => {
+                    const durata = formattaDurataSecondi(video.duration);
+                    const targetTime = Number.isFinite(video.duration) && video.duration > 1.2 ? Math.min(1.5, video.duration / 3) : 0.1;
+                    try {
+                        video.currentTime = targetTime;
+                    } catch {
+                        chiudi({ durata, posterFile: null, previewUrl: '' });
+                    }
+                });
+
+                video.addEventListener('seeked', () => {
+                    const durata = formattaDurataSecondi(video.duration);
+                    try {
+                        const maxW = 1080;
+                        const vw = video.videoWidth || 1280;
+                        const vh = video.videoHeight || 720;
+                        const scala = Math.min(1, maxW / Math.max(vw, vh));
+                        const canvas = document.createElement('canvas');
+                        canvas.width = Math.max(1, Math.round(vw * scala));
+                        canvas.height = Math.max(1, Math.round(vh * scala));
+                        const ctx = canvas.getContext('2d');
+                        if (!ctx) {
+                            chiudi({ durata, posterFile: null, previewUrl: '' });
+                            return;
+                        }
+                        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        canvas.toBlob(
+                            (blob) => {
+                                if (!blob) {
+                                    chiudi({ durata, posterFile: null, previewUrl: '' });
+                                    return;
+                                }
+                                const posterFile = new File([blob], 'poster.jpg', { type: 'image/jpeg' });
+                                const previewUrl = URL.createObjectURL(blob);
+                                chiudi({ durata, posterFile, previewUrl });
+                            },
+                            'image/jpeg',
+                            0.84
+                        );
+                    } catch {
+                        chiudi({ durata, posterFile: null, previewUrl: '' });
+                    }
+                });
+
+                video.addEventListener('error', () => chiudi({ durata: '', posterFile: null, previewUrl: '' }));
+                video.src = url;
+            });
+
+        const creaBuilderFasi = (container, addBtn, fasiIniziali = []) => {
+            const aggiornaNumeri = () => {
+                Array.from(container.children).forEach((riga, idx) => {
+                    const badge = riga.querySelector('[data-fase-num]');
+                    if (badge) badge.textContent = String(idx + 1).padStart(2, '0');
+                });
+            };
+
+            const aggiungiRiga = (step = { titolo: '', dettaglio: '' }) => {
+                const riga = document.createElement('div');
+                riga.className = 'grid gap-2 rounded-xl border border-zinc-800 bg-zinc-900 p-3 sm:grid-cols-[36px_1fr_1.4fr_auto] sm:items-start';
+
+                const badge = document.createElement('span');
+                badge.dataset.faseNum = '1';
+                badge.className = 'flex h-8 w-8 items-center justify-center rounded-full bg-sky-500/20 font-mono text-xs font-bold text-sky-400';
+
+                const inputTitolo = document.createElement('input');
+                inputTitolo.type = 'text';
+                inputTitolo.maxLength = 160;
+                inputTitolo.placeholder = 'Titolo fase (es. Prima mano airless)';
+                inputTitolo.value = step.titolo || '';
+                inputTitolo.dataset.faseTitolo = '1';
+                inputTitolo.className = 'w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-white placeholder-zinc-500 outline-none focus:border-sky-500';
+
+                const inputDettaglio = document.createElement('input');
+                inputDettaglio.type = 'text';
+                inputDettaglio.maxLength = 1000;
+                inputDettaglio.placeholder = 'Dettaglio tecnico dello strato applicato...';
+                inputDettaglio.value = step.dettaglio || '';
+                inputDettaglio.dataset.faseDettaglio = '1';
+                inputDettaglio.className = 'w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 text-xs text-white placeholder-zinc-500 outline-none focus:border-sky-500';
+
+                const btnRimuovi = document.createElement('button');
+                btnRimuovi.type = 'button';
+                btnRimuovi.title = 'Rimuovi fase';
+                btnRimuovi.className = 'rounded-lg border border-zinc-800 bg-zinc-950 px-2.5 py-2 text-xs font-bold text-zinc-400 transition hover:border-red-500/40 hover:text-red-400 cursor-pointer';
+                btnRimuovi.textContent = '✕';
+                btnRimuovi.addEventListener('click', () => {
+                    riga.remove();
+                    aggiornaNumeri();
+                });
+
+                riga.append(badge, inputTitolo, inputDettaglio, btnRimuovi);
+                container.appendChild(riga);
+                aggiornaNumeri();
+            };
+
+            const impostaFasi = (lista) => {
+                container.replaceChildren();
+                const items = lista && lista.length ? lista : [{ titolo: '', dettaglio: '' }, { titolo: '', dettaglio: '' }, { titolo: '', dettaglio: '' }];
+                items.forEach((item) => aggiungiRiga(item));
+            };
+
+            const leggiFasi = () => {
+                const out = [];
+                Array.from(container.children).forEach((riga) => {
+                    const t = riga.querySelector('[data-fase-titolo]')?.value.trim() || '';
+                    const d = riga.querySelector('[data-fase-dettaglio]')?.value.trim() || '';
+                    if (!t) return;
+                    out.push({
+                        fase: String(out.length + 1).padStart(2, '0'),
+                        titolo: t,
+                        dettaglio: d,
+                    });
+                });
+                return out;
+            };
+
+            addBtn?.addEventListener('click', () => {
+                if (container.children.length >= 12) return;
+                aggiungiRiga();
+            });
+
+            impostaFasi(fasiIniziali);
+            return { aggiungiRiga, impostaFasi, leggiFasi };
+        };
+
+        const builderFasiForm = creaBuilderFasi(workFasiContainer, workAddFaseBtn, []);
+
+        // Code locali dei media selezionati prima del salvataggio
+        const codeMedia = {
+            prima: [],
+            dopo: [],
+            video: [],
+        };
+
+        const renderCodaFoto = (tipo) => {
+            const lista = codeMedia[tipo];
+            const el = tipo === 'prima' ? workQueuePrimaEl : workQueueDopoEl;
+            const countEl = tipo === 'prima' ? workCountPrimaEl : workCountDopoEl;
+            if (!el || !countEl) return;
+            countEl.textContent = `${lista.length} ${lista.length === 1 ? 'selezionata' : 'selezionate'}`;
+            el.replaceChildren();
+
+            lista.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'grid grid-cols-[54px_1fr_auto] items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-900 p-2';
+
+                const img = document.createElement('img');
+                img.src = item.previewUrl;
+                img.alt = item.file.name;
+                img.className = 'h-12 w-14 rounded-md object-cover bg-zinc-950';
+
+                const info = document.createElement('div');
+                info.className = 'grid gap-1 min-w-0';
+                const nome = document.createElement('span');
+                nome.className = 'truncate text-[11px] font-semibold text-zinc-300';
+                nome.textContent = `${item.file.name} (${formattaDimensione(item.file.size)})`;
+
+                const did = document.createElement('input');
+                did.type = 'text';
+                did.maxLength = 300;
+                did.placeholder = 'Didascalia foto (opzionale)...';
+                did.value = item.didascalia;
+                did.className = 'w-full rounded-md border border-zinc-700 bg-zinc-950 px-2 py-1 text-[11px] text-white placeholder-zinc-500 outline-none focus:border-sky-500';
+                did.addEventListener('input', () => {
+                    item.didascalia = did.value;
+                });
+                info.append(nome, did);
+
+                const del = document.createElement('button');
+                del.type = 'button';
+                del.className = 'rounded-md px-2 py-1 text-xs font-bold text-zinc-400 hover:bg-red-500/15 hover:text-red-400 cursor-pointer';
+                del.textContent = '✕';
+                del.addEventListener('click', () => {
+                    URL.revokeObjectURL(item.previewUrl);
+                    lista.splice(idx, 1);
+                    renderCodaFoto(tipo);
+                });
+
+                card.append(img, info, del);
+                el.appendChild(card);
+            });
+        };
+
+        const renderCodaVideo = () => {
+            const lista = codeMedia.video;
+            if (!workQueueVideoEl || !workCountVideoEl) return;
+            workCountVideoEl.textContent = `${lista.length} ${lista.length === 1 ? 'selezionato' : 'selezionati'}`;
+            workQueueVideoEl.replaceChildren();
+
+            lista.forEach((item, idx) => {
+                const card = document.createElement('div');
+                card.className = 'grid gap-2 rounded-lg border border-zinc-800 bg-zinc-900 p-2.5';
+
+                const top = document.createElement('div');
+                top.className = 'grid grid-cols-[64px_1fr_auto] items-center gap-2.5';
+
+                if (item.previewUrl) {
+                    const img = document.createElement('img');
+                    img.src = item.previewUrl;
+                    img.alt = item.titolo;
+                    img.className = 'h-12 w-16 rounded-md object-cover bg-zinc-950 border border-zinc-800';
+                    top.appendChild(img);
+                } else {
+                    const box = document.createElement('div');
+                    box.className = 'flex h-12 w-16 items-center justify-center rounded-md bg-zinc-950 border border-zinc-800 text-xs font-bold text-emerald-400';
+                    box.textContent = '▶ MP4';
+                    top.appendChild(box);
+                }
+
+                const meta = document.createElement('div');
+                meta.className = 'min-w-0';
+                const nome = document.createElement('span');
+                nome.className = 'block truncate text-[11px] font-semibold text-zinc-200';
+                nome.textContent = item.file.name;
+                const infoSize = document.createElement('span');
+                infoSize.className = 'text-[10px] font-mono text-zinc-400';
+                infoSize.textContent = `${formattaDimensione(item.file.size)}${item.durata ? ` · ${item.durata}` : ''}`;
+                meta.append(nome, infoSize);
+
+                const del = document.createElement('button');
+                del.type = 'button';
+                del.className = 'rounded-md px-2 py-1 text-xs font-bold text-zinc-400 hover:bg-red-500/15 hover:text-red-400 cursor-pointer';
+                del.textContent = '✕';
+                del.addEventListener('click', () => {
+                    if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+                    lista.splice(idx, 1);
+                    renderCodaVideo();
+                });
+
+                top.append(meta, del);
+
+                const campi = document.createElement('div');
+                campi.className = 'grid grid-cols-[1fr_76px] gap-1.5';
+                const inTitolo = document.createElement('input');
+                inTitolo.type = 'text';
+                inTitolo.maxLength = 160;
+                inTitolo.placeholder = 'Titolo video...';
+                inTitolo.value = item.titolo;
+                inTitolo.className = 'w-full rounded-md border border-zinc-700 bg-zinc-950 px-2 py-1 text-[11px] text-white placeholder-zinc-500 outline-none focus:border-emerald-500';
+                inTitolo.addEventListener('input', () => { item.titolo = inTitolo.value; });
+
+                const inDurata = document.createElement('input');
+                inDurata.type = 'text';
+                inDurata.maxLength = 20;
+                inDurata.placeholder = '0:15';
+                inDurata.value = item.durata;
+                inDurata.className = 'w-full rounded-md border border-zinc-700 bg-zinc-950 px-2 py-1 text-[11px] font-mono text-white placeholder-zinc-500 outline-none focus:border-emerald-500';
+                inDurata.addEventListener('input', () => { item.durata = inDurata.value; });
+                campi.append(inTitolo, inDurata);
+
+                const inDesc = document.createElement('input');
+                inDesc.type = 'text';
+                inDesc.maxLength = 300;
+                inDesc.placeholder = 'Breve descrizione del video (opzionale)...';
+                inDesc.value = item.didascalia;
+                inDesc.className = 'w-full rounded-md border border-zinc-700 bg-zinc-950 px-2 py-1 text-[11px] text-white placeholder-zinc-500 outline-none focus:border-emerald-500';
+                inDesc.addEventListener('input', () => { item.didascalia = inDesc.value; });
+
+                card.append(top, campi, inDesc);
+                workQueueVideoEl.appendChild(card);
+            });
+        };
+
+        const aggiungiFotoACoda = (tipo, files) => {
+            Array.from(files || []).forEach((file) => {
+                if (file.size > 10 * 1024 * 1024) {
+                    mostraFeedbackLavori(`"${file.name}" supera i 10 MB ed è stato saltato.`, true);
+                    return;
+                }
+                codeMedia[tipo].push({
+                    file,
+                    didascalia: '',
+                    previewUrl: URL.createObjectURL(file),
+                });
+            });
+            renderCodaFoto(tipo);
+        };
+
+        workInputPrima?.addEventListener('change', () => {
+            aggiungiFotoACoda('prima', workInputPrima.files);
+            workInputPrima.value = '';
+        });
+
+        workInputDopo?.addEventListener('change', () => {
+            aggiungiFotoACoda('dopo', workInputDopo.files);
+            workInputDopo.value = '';
+        });
+
+        workInputVideo?.addEventListener('change', async () => {
+            const files = Array.from(workInputVideo.files || []);
+            workInputVideo.value = '';
+            for (const file of files) {
+                if (file.size > 30 * 1024 * 1024) {
+                    mostraFeedbackLavori(`Il video "${file.name}" supera i 30 MB: comprimilo prima del caricamento.`, true);
+                    continue;
+                }
+                const meta = await estraiMetadataVideoBrowser(file);
+                const cleanTitle = (file.name || 'Video risultato').replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' ').trim();
+                codeMedia.video.push({
+                    file,
+                    titolo: cleanTitle || 'Ripresa risultato finale',
+                    didascalia: '',
+                    durata: meta.durata,
+                    posterFile: meta.posterFile,
+                    previewUrl: meta.previewUrl,
+                });
+                renderCodaVideo();
+            }
+        });
+
+        const svuotaCodeMedia = () => {
+            ['prima', 'dopo', 'video'].forEach((k) => {
+                codeMedia[k].forEach((item) => {
+                    if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+                });
+                codeMedia[k].length = 0;
+            });
+            renderCodaFoto('prima');
+            renderCodaFoto('dopo');
+            renderCodaVideo();
+        };
+
+        const caricaSingoloMediaSuApi = async (lavoroId, tipo, item, ordine) => {
+            const fd = new FormData();
+            fd.append('tipo', tipo);
+            const fileDaCaricare = tipo === 'video' ? item.file : await ottimizzaImmagineBrowser(item.file);
+            fd.append('file', fileDaCaricare);
+            fd.append('ordine', String(ordine));
+            if (item.titolo) fd.append('titolo', item.titolo);
+            if (item.didascalia) fd.append('didascalia', item.didascalia);
+            if (item.durata) fd.append('durata', item.durata);
+            if (tipo === 'video' && item.posterFile) {
+                fd.append('poster', item.posterFile);
+            }
+            const res = await fetch(`/api/lavori/${lavoroId}/media`, {
+                method: 'POST',
+                body: fd,
+            });
+            if (!res.ok) {
+                let detail = `HTTP ${res.status}`;
+                try { detail = (await res.json()).detail || detail; } catch {}
+                throw new Error(detail);
+            }
+            return res.json();
+        };
+
+        const creaCampoLavoro = (etichetta, valore, opz = {}) => {
+            const { multilinea = false, tipo = 'text', opzioni = null, placeholder = '' } = opz;
+            const contenitore = document.createElement('label');
+            contenitore.className = 'grid gap-1.5 text-xs font-semibold text-zinc-300';
+            contenitore.append(document.createTextNode(etichetta));
+            let campo;
+            if (opzioni) {
+                campo = document.createElement('select');
+                opzioni.forEach((optVal) => {
+                    const opt = document.createElement('option');
+                    opt.value = optVal;
+                    opt.textContent = optVal;
+                    campo.appendChild(opt);
+                });
+                campo.value = opzioni.includes(valore) ? valore : opzioni[0];
+            } else {
+                campo = document.createElement(multilinea ? 'textarea' : 'input');
+                if (!multilinea) campo.type = tipo;
+                campo.value = valore ?? '';
+                if (placeholder) campo.placeholder = placeholder;
+                if (multilinea) {
+                    campo.rows = 2;
+                    campo.maxLength = 3000;
+                } else if (tipo === 'number') {
+                    campo.min = '0';
+                    campo.max = '1000000';
+                } else {
+                    campo.maxLength = 160;
+                }
+            }
+            campo.className = 'w-full rounded-xl border border-zinc-700 bg-zinc-950 p-2.5 text-sm font-normal text-white placeholder-zinc-500 outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20';
             contenitore.appendChild(campo);
             return { contenitore, campo };
         };
@@ -679,56 +1279,310 @@ if (!adminCookie) {
                 const risultato = await risposta.json();
                 if (!Array.isArray(risultato.dati)) throw new Error('Formato della risposta non valido.');
                 worksList.replaceChildren();
+                if (worksTotalBadge) {
+                    const n = risultato.dati.length;
+                    worksTotalBadge.textContent = `${n} ${n === 1 ? 'cantiere' : 'cantieri'}`;
+                }
                 if (!risultato.dati.length) {
                     const vuoto = document.createElement('p');
                     vuoto.className = 'rounded-xl border border-zinc-800 bg-zinc-900 p-5 text-sm text-zinc-400';
-                    vuoto.textContent = 'La galleria è vuota. Pubblica il primo lavoro dal modulo qui sopra.';
+                    vuoto.textContent = 'Nessun lavoro pubblicato da Admin al momento. Usa il modulo completo qui sopra per aggiungerne uno: apparirà affiancato nella pagina /lavori.';
                     worksList.appendChild(vuoto);
                     return;
                 }
 
                 risultato.dati.forEach((lavoro) => {
+                    const fotoPrima = Array.isArray(lavoro.foto_prima) ? lavoro.foto_prima : [];
+                    const fotoDopo = Array.isArray(lavoro.foto_dopo) ? lavoro.foto_dopo : [];
+                    const videoDopo = Array.isArray(lavoro.video_dopo) ? lavoro.video_dopo : [];
+
                     const scheda = document.createElement('article');
-                    scheda.className = 'grid gap-5 rounded-2xl border border-zinc-800 bg-zinc-900 p-5 shadow-xl md:grid-cols-[240px_1fr]';
-                    const anteprima = document.createElement('img');
-                    anteprima.className = 'aspect-[4/3] w-full rounded-xl bg-zinc-950 object-cover border border-zinc-800';
-                    anteprima.src = lavoro.immagine_url;
-                    anteprima.alt = `Lavoro: ${lavoro.titolo}`;
-                    scheda.appendChild(anteprima);
+                    scheda.className = 'grid gap-5 rounded-2xl border border-zinc-800 bg-zinc-900 p-5 shadow-xl';
 
-                    const colonna = document.createElement('div');
-                    colonna.className = 'grid content-start gap-4';
-                    const editor = document.createElement('div');
-                    editor.className = 'grid gap-3 sm:grid-cols-2';
-                    const titolo = creaCampoLavoro('Titolo', lavoro.titolo);
-                    const localita = creaCampoLavoro('Località', lavoro.localita);
-                    const descrizione = creaCampoLavoro('Descrizione', lavoro.descrizione, true);
-                    descrizione.contenitore.classList.add('sm:col-span-2');
-                    editor.append(titolo.contenitore, localita.contenitore, descrizione.contenitore);
-                    colonna.appendChild(editor);
+                    // INTESTAZIONE RIEPILOGATIVA DEL LAVORO
+                    const header = document.createElement('div');
+                    header.className = 'grid gap-4 md:grid-cols-[220px_1fr] items-start';
 
-                    const azioni = document.createElement('div');
-                    azioni.className = 'flex flex-wrap items-center gap-3';
+                    // Copertina mini Prima | Dopo o singola
+                    const coverBox = document.createElement('div');
+                    coverBox.className = 'overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 aspect-[16/10]';
+                    if (fotoPrima[0] && fotoDopo[0]) {
+                        coverBox.classList.add('grid', 'grid-cols-2', 'gap-0.5');
+                        const img1 = document.createElement('img');
+                        img1.src = fotoPrima[0].url;
+                        img1.alt = `Prima: ${lavoro.titolo}`;
+                        img1.className = 'h-full w-full object-cover';
+                        const img2 = document.createElement('img');
+                        img2.src = fotoDopo[0].url;
+                        img2.alt = `Dopo: ${lavoro.titolo}`;
+                        img2.className = 'h-full w-full object-cover';
+                        coverBox.append(img1, img2);
+                    } else if (lavoro.immagine_url) {
+                        const img = document.createElement('img');
+                        img.src = lavoro.immagine_url;
+                        img.alt = lavoro.titolo;
+                        img.className = 'h-full w-full object-cover';
+                        coverBox.appendChild(img);
+                    } else {
+                        const ph = document.createElement('div');
+                        ph.className = 'flex h-full w-full items-center justify-center text-xs text-zinc-500';
+                        ph.textContent = 'Nessuna foto';
+                        coverBox.appendChild(ph);
+                    }
+
+                    const summary = document.createElement('div');
+                    summary.className = 'grid gap-2.5';
+
+                    const badgesRow = document.createElement('div');
+                    badgesRow.className = 'flex flex-wrap items-center gap-2';
+
+                    const bCat = document.createElement('span');
+                    bCat.className = 'rounded-full border border-sky-500/30 bg-sky-500/15 px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-sky-400';
+                    bCat.textContent = lavoro.categoria || 'Impermeabilizzazioni';
+                    badgesRow.appendChild(bCat);
+
+                    if (lavoro.superficie_mq > 0) {
+                        const bMq = document.createElement('span');
+                        bMq.className = 'rounded-full bg-sky-600 px-2.5 py-0.5 text-[11px] font-bold text-white';
+                        bMq.textContent = `${lavoro.superficie_mq} mq`;
+                        badgesRow.appendChild(bMq);
+                    }
+
+                    const bMedia = document.createElement('span');
+                    bMedia.className = 'rounded-full border border-zinc-700 bg-zinc-950 px-2.5 py-0.5 text-[11px] font-semibold text-zinc-300';
+                    bMedia.textContent = `${fotoPrima.length} Prima · ${fotoDopo.length} Dopo · ${videoDopo.length} Video`;
+                    badgesRow.appendChild(bMedia);
+
+                    const hTitle = document.createElement('h4');
+                    hTitle.className = 'text-lg font-bold text-white leading-snug';
+                    hTitle.textContent = lavoro.titolo;
+
+                    const specsLine = [lavoro.localita, lavoro.supporto, lavoro.ciclo_sistema, lavoro.armatura]
+                        .filter(Boolean)
+                        .join(' · ');
+                    const pSpecs = document.createElement('p');
+                    pSpecs.className = 'text-xs text-zinc-400';
+                    pSpecs.textContent = specsLine || 'Scheda tecnica modificabile qui sotto.';
+
+                    const topActions = document.createElement('div');
+                    topActions.className = 'flex flex-wrap items-center gap-2 pt-1';
+
+                    const linkPub = document.createElement('a');
+                    linkPub.href = `/lavori#cantiere-${lavoro.id}`;
+                    linkPub.target = '_blank';
+                    linkPub.className = 'rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-xs font-semibold text-zinc-200 transition hover:border-sky-500 hover:text-white';
+                    linkPub.textContent = 'Vedi sul sito ↗';
+
+                    const creaUploadRapido = (tipo, label, accept, colorCls) => {
+                        const lbl = document.createElement('label');
+                        lbl.className = `cursor-pointer rounded-lg border px-3 py-1.5 text-xs font-semibold transition ${colorCls}`;
+                        lbl.textContent = label;
+                        const inp = document.createElement('input');
+                        inp.type = 'file';
+                        inp.multiple = true;
+                        inp.accept = accept;
+                        inp.className = 'sr-only';
+                        inp.addEventListener('change', async () => {
+                            const files = Array.from(inp.files || []);
+                            inp.value = '';
+                            if (!files.length) return;
+                            mostraFeedbackLavori(`Caricamento ${files.length} file (${tipo}) su "${lavoro.titolo}"...`);
+                            try {
+                                const baseOrder =
+                                    tipo === 'prima' ? fotoPrima.length : tipo === 'dopo' ? fotoDopo.length : videoDopo.length;
+                                for (let i = 0; i < files.length; i++) {
+                                    const f = files[i];
+                                    const item = { file: f, titolo: '', didascalia: '', durata: '', posterFile: null };
+                                    if (tipo === 'video') {
+                                        if (f.size > 30 * 1024 * 1024) throw new Error(`"${f.name}" supera i 30 MB.`);
+                                        const meta = await estraiMetadataVideoBrowser(f);
+                                        item.durata = meta.durata;
+                                        item.posterFile = meta.posterFile;
+                                        item.titolo = (f.name || 'Video risultato').replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' ').trim();
+                                    }
+                                    await caricaSingoloMediaSuApi(lavoro.id, tipo, item, baseOrder + i);
+                                }
+                                mostraFeedbackLavori('Media aggiunti con successo.');
+                                await caricaLavori();
+                            } catch (err) {
+                                mostraFeedbackLavori(`Errore upload media: ${err.message}`, true);
+                            }
+                        });
+                        lbl.appendChild(inp);
+                        return lbl;
+                    };
+
+                    const btnAddPrima = creaUploadRapido('prima', '+ Foto Prima', 'image/jpeg,image/png,image/webp', 'border-zinc-700 bg-zinc-950 text-zinc-200 hover:border-sky-500');
+                    const btnAddDopo = creaUploadRapido('dopo', '+ Foto Dopo', 'image/jpeg,image/png,image/webp', 'border-sky-500/40 bg-sky-500/15 text-sky-300 hover:bg-sky-500/25');
+                    const btnAddVideo = creaUploadRapido('video', '+ Video Dopo', 'video/mp4,video/webm,video/quicktime', 'border-emerald-500/40 bg-emerald-500/15 text-emerald-300 hover:bg-emerald-500/25');
+
+                    const elimina = document.createElement('button');
+                    elimina.type = 'button';
+                    elimina.className = 'ml-auto rounded-lg border border-red-500/20 bg-red-500/10 px-3 py-1.5 text-xs font-semibold text-red-400 transition hover:border-red-500/40 hover:bg-red-500/20 cursor-pointer';
+                    elimina.textContent = 'Elimina lavoro';
+                    elimina.addEventListener('click', () => {
+                        apriConfermaEliminazione({
+                            tipo: 'lavoro',
+                            id: lavoro.id,
+                            titolo: 'Elimina Lavoro dalla Galleria',
+                            target: lavoro.titolo,
+                            dettagli: `${fotoPrima.length} foto Prima · ${fotoDopo.length} foto Dopo · ${videoDopo.length} video verranno eliminati definitivamente.`,
+                            onConfirm: async () => {
+                                const res = await fetch(`/api/lavori/${lavoro.id}`, { method: 'DELETE' });
+                                if (!res.ok) throw new Error((await res.json()).detail || `HTTP ${res.status}`);
+                                mostraFeedbackLavori('Lavoro eliminato.');
+                                await caricaLavori();
+                            },
+                        });
+                    });
+
+                    topActions.append(linkPub, btnAddPrima, btnAddDopo, btnAddVideo, elimina);
+                    summary.append(badgesRow, hTitle, pSpecs, topActions);
+                    header.append(coverBox, summary);
+                    scheda.appendChild(header);
+
+                    // MINIATURE MEDIA CARICATI CON ELIMINAZIONE SINGOLA
+                    const tuttiMediaCard = [
+                        ...fotoPrima.filter((m) => m.id > 0).map((m) => ({ ...m, badge: 'PRIMA', badgeCls: 'bg-zinc-900 text-white' })),
+                        ...fotoDopo.filter((m) => m.id > 0).map((m) => ({ ...m, badge: 'DOPO', badgeCls: 'bg-sky-600 text-white' })),
+                        ...videoDopo.map((v) => ({ id: v.id, url: v.poster_url || '', didascalia: v.titolo, badge: `VIDEO${v.durata ? ` ${v.durata}` : ''}`, badgeCls: 'bg-emerald-600 text-white', isVideo: true })),
+                    ];
+                    if (tuttiMediaCard.length > 0) {
+                        const mediaStrip = document.createElement('div');
+                        mediaStrip.className = 'grid grid-cols-3 gap-2.5 sm:grid-cols-5 lg:grid-cols-6 border-t border-zinc-800 pt-4';
+                        tuttiMediaCard.forEach((m) => {
+                            const tile = document.createElement('div');
+                            tile.className = 'relative overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 aspect-[4/3] group';
+
+                            if (m.url) {
+                                const img = document.createElement('img');
+                                img.src = m.url;
+                                img.alt = m.didascalia || m.badge;
+                                img.loading = 'lazy';
+                                img.className = 'h-full w-full object-cover';
+                                tile.appendChild(img);
+                            } else {
+                                const ph = document.createElement('div');
+                                ph.className = 'flex h-full w-full items-center justify-center text-xs font-bold text-emerald-400';
+                                ph.textContent = '▶ VIDEO';
+                                tile.appendChild(ph);
+                            }
+
+                            const b = document.createElement('span');
+                            b.className = `absolute left-1.5 top-1.5 rounded px-1.5 py-0.5 text-[9px] font-extrabold tracking-wider ${m.badgeCls}`;
+                            b.textContent = m.badge;
+
+                            const btnDelM = document.createElement('button');
+                            btnDelM.type = 'button';
+                            btnDelM.title = 'Elimina questo file';
+                            btnDelM.className = 'absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-zinc-950/90 text-[11px] font-bold text-red-400 border border-red-500/40 hover:bg-red-600 hover:text-white cursor-pointer';
+                            btnDelM.textContent = '✕';
+                            btnDelM.addEventListener('click', async () => {
+                                if (!confirm('Rimuovere questo media dal lavoro?')) return;
+                                try {
+                                    const res = await fetch(`/api/lavori/${lavoro.id}/media/${m.id}`, { method: 'DELETE' });
+                                    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                                    mostraFeedbackLavori('File rimosso.');
+                                    await caricaLavori();
+                                } catch (err) {
+                                    mostraFeedbackLavori(`Errore eliminazione media: ${err.message}`, true);
+                                }
+                            });
+
+                            tile.append(b, btnDelM);
+                            mediaStrip.appendChild(tile);
+                        });
+                        scheda.appendChild(mediaStrip);
+                    }
+
+                    // EDITOR ESPANDIBILE PER MODIFICARE TUTTI I CAMPI TECNICI
+                    const details = document.createElement('details');
+                    details.className = 'rounded-xl border border-zinc-800 bg-zinc-950/60';
+                    const summ = document.createElement('summary');
+                    summ.className = 'cursor-pointer select-none px-4 py-3 text-xs font-bold uppercase tracking-wider text-sky-400 hover:text-sky-300';
+                    summ.textContent = 'Modifica scheda tecnica, testi e stratigrafia';
+                    details.appendChild(summ);
+
+                    const editorWrap = document.createElement('div');
+                    editorWrap.className = 'grid gap-4 border-t border-zinc-800 p-4';
+
+                    const gridCampi = document.createElement('div');
+                    gridCampi.className = 'grid gap-3 sm:grid-cols-2 lg:grid-cols-4';
+                    const fTitolo = creaCampoLavoro('Titolo *', lavoro.titolo);
+                    fTitolo.contenitore.classList.add('sm:col-span-2');
+                    const fCat = creaCampoLavoro('Categoria', lavoro.categoria, { opzioni: CATEGORIE_LAVORO });
+                    const fMq = creaCampoLavoro('Superficie (mq)', lavoro.superficie_mq || '', { tipo: 'number' });
+                    const fLoc = creaCampoLavoro('Località', lavoro.localita);
+                    const fApp = creaCampoLavoro('Metodo applicativo', lavoro.applicazione);
+                    const fSupp = creaCampoLavoro('Supporto esistente', lavoro.supporto);
+                    const fCiclo = creaCampoLavoro('Ciclo e sistema', lavoro.ciclo_sistema);
+                    const fArm = creaCampoLavoro('Armatura strutturale', lavoro.armatura);
+                    fArm.contenitore.classList.add('sm:col-span-2');
+                    const fDesc = creaCampoLavoro('Riepilogo intervento', lavoro.descrizione, { multilinea: true });
+                    fDesc.contenitore.classList.add('sm:col-span-2', 'lg:col-span-4');
+                    const fStratDesc = creaCampoLavoro('Descrizione stratigrafia', lavoro.stratigrafia_descrizione, { multilinea: true });
+                    fStratDesc.contenitore.classList.add('sm:col-span-2', 'lg:col-span-4');
+
+                    gridCampi.append(
+                        fTitolo.contenitore,
+                        fCat.contenitore,
+                        fMq.contenitore,
+                        fLoc.contenitore,
+                        fApp.contenitore,
+                        fSupp.contenitore,
+                        fCiclo.contenitore,
+                        fArm.contenitore,
+                        fDesc.contenitore,
+                        fStratDesc.contenitore
+                    );
+
+                    const fasiHead = document.createElement('div');
+                    fasiHead.className = 'flex items-center justify-between gap-2';
+                    const fasiLbl = document.createElement('span');
+                    fasiLbl.className = 'text-xs font-bold uppercase tracking-wider text-zinc-300';
+                    fasiLbl.textContent = 'Fasi della stratigrafia';
+                    const fasiAdd = document.createElement('button');
+                    fasiAdd.type = 'button';
+                    fasiAdd.className = 'rounded-lg border border-sky-500/40 bg-sky-500/15 px-3 py-1 text-xs font-bold text-sky-400 hover:bg-sky-500/25 cursor-pointer';
+                    fasiAdd.textContent = '+ Aggiungi fase';
+                    fasiHead.append(fasiLbl, fasiAdd);
+
+                    const fasiListEl = document.createElement('div');
+                    fasiListEl.className = 'grid gap-2';
+                    const fasiBuilder = creaBuilderFasi(
+                        fasiListEl,
+                        fasiAdd,
+                        Array.isArray(lavoro.stratigrafia_fasi) && lavoro.stratigrafia_fasi.length
+                            ? lavoro.stratigrafia_fasi
+                            : [{ titolo: '', dettaglio: '' }]
+                    );
+
                     const salva = document.createElement('button');
                     salva.type = 'button';
-                    salva.className = 'rounded-xl bg-sky-600 px-4 py-2 text-xs font-bold text-white transition hover:bg-sky-500';
-                    salva.textContent = 'Salva modifiche';
+                    salva.className = 'justify-self-start rounded-xl bg-sky-600 px-5 py-2.5 text-xs font-bold text-white transition hover:bg-sky-500 cursor-pointer';
+                    salva.textContent = 'Salva modifiche scheda';
                     salva.addEventListener('click', async () => {
                         salva.disabled = true;
                         try {
-                            const risposta = await fetch(`/api/lavori/${lavoro.id}`, {
+                            const res = await fetch(`/api/lavori/${lavoro.id}`, {
                                 method: 'PATCH',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                },
+                                headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({
-                                    titolo: titolo.campo.value,
-                                    localita: localita.campo.value,
-                                    descrizione: descrizione.campo.value,
+                                    titolo: fTitolo.campo.value,
+                                    categoria: fCat.campo.value,
+                                    superficie_mq: Number(fMq.campo.value || 0),
+                                    localita: fLoc.campo.value,
+                                    applicazione: fApp.campo.value,
+                                    supporto: fSupp.campo.value,
+                                    ciclo_sistema: fCiclo.campo.value,
+                                    armatura: fArm.campo.value,
+                                    descrizione: fDesc.campo.value,
+                                    stratigrafia_descrizione: fStratDesc.campo.value,
+                                    stratigrafia_fasi: fasiBuilder.leggiFasi(),
                                 }),
                             });
-                            if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
-                            mostraFeedbackLavori('Modifiche salvate.');
+                            if (!res.ok) throw new Error((await res.json()).detail || `HTTP ${res.status}`);
+                            mostraFeedbackLavori('Scheda tecnica aggiornata.');
                             await caricaLavori();
                         } catch (errore) {
                             mostraFeedbackLavori(`Impossibile salvare: ${errore.message}`, true);
@@ -736,54 +1590,10 @@ if (!adminCookie) {
                             salva.disabled = false;
                         }
                     });
-                    azioni.appendChild(salva);
 
-                    const sostituisci = document.createElement('label');
-                    sostituisci.className = 'cursor-pointer rounded-xl border border-zinc-700 bg-zinc-800 px-4 py-2 text-xs font-semibold text-zinc-200 hover:border-sky-500 hover:text-white transition';
-                    sostituisci.textContent = 'Sostituisci immagine';
-                    const file = document.createElement('input');
-                    file.type = 'file';
-                    file.accept = 'image/jpeg,image/png,image/webp';
-                    file.className = 'sr-only';
-                    file.addEventListener('change', async () => {
-                        if (!file.files.length) return;
-                        const modulo = new FormData();
-                        modulo.append('immagine', file.files[0]);
-                        try {
-                            const risposta = await fetch(`/api/lavori/${lavoro.id}/immagine`, {
-                                method: 'PUT',
-                                body: modulo,
-                            });
-                            if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
-                            mostraFeedbackLavori('Immagine sostituita.');
-                            await caricaLavori();
-                        } catch (errore) {
-                            mostraFeedbackLavori(`Impossibile sostituire l’immagine: ${errore.message}`, true);
-                        }
-                    });
-                    sostituisci.appendChild(file);
-                    azioni.appendChild(sostituisci);
-
-                    const elimina = document.createElement('button');
-                    elimina.type = 'button';
-                    elimina.className = 'rounded-xl border border-zinc-800 bg-zinc-950 px-4 py-2 text-xs font-semibold text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition';
-                    elimina.textContent = 'Elimina lavoro';
-                    elimina.addEventListener('click', async () => {
-                        if (!confirm(`Eliminare "${lavoro.titolo}" dalla galleria?`)) return;
-                        try {
-                            const risposta = await fetch(`/api/lavori/${lavoro.id}`, {
-                                method: 'DELETE',
-                            });
-                            if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
-                            mostraFeedbackLavori('Lavoro eliminato.');
-                            await caricaLavori();
-                        } catch (errore) {
-                            mostraFeedbackLavori(`Impossibile eliminare: ${errore.message}`, true);
-                        }
-                    });
-                    azioni.appendChild(elimina);
-                    colonna.appendChild(azioni);
-                    scheda.appendChild(colonna);
+                    editorWrap.append(gridCampi, fasiHead, fasiListEl, salva);
+                    details.appendChild(editorWrap);
+                    scheda.appendChild(details);
                     worksList.appendChild(scheda);
                 });
             } catch (errore) {
@@ -921,21 +1731,80 @@ if (!adminCookie) {
 
         workForm.addEventListener('submit', async (evento) => {
             evento.preventDefault();
+            const fd = new FormData(workForm);
+            const titolo = String(fd.get('titolo') || '').trim();
+            if (!titolo) {
+                mostraFeedbackLavori('Inserisci almeno il titolo del lavoro.', true);
+                return;
+            }
+            if (codeMedia.prima.length === 0 && codeMedia.dopo.length === 0) {
+                mostraFeedbackLavori('Seleziona almeno una foto Prima o una foto Dopo per pubblicare il lavoro.', true);
+                return;
+            }
+
             workSubmit.disabled = true;
-            mostraFeedbackLavori('Caricamento in corso...');
+            impostaProgressoLavori(6);
+            mostraFeedbackLavori('Salvataggio scheda tecnica in corso...');
+
+            const payload = {
+                titolo,
+                categoria: String(fd.get('categoria') || 'Impermeabilizzazioni'),
+                localita: String(fd.get('localita') || '').trim(),
+                superficie_mq: Math.max(0, Number(fd.get('superficie_mq') || 0) || 0),
+                applicazione: String(fd.get('applicazione') || '').trim(),
+                supporto: String(fd.get('supporto') || '').trim(),
+                ciclo_sistema: String(fd.get('ciclo_sistema') || '').trim(),
+                armatura: String(fd.get('armatura') || '').trim(),
+                descrizione: String(fd.get('descrizione') || '').trim(),
+                stratigrafia_descrizione: String(fd.get('stratigrafia_descrizione') || '').trim(),
+                stratigrafia_fasi: builderFasiForm.leggiFasi(),
+            };
+
+            let createdId = null;
             try {
-                const risposta = await fetch('/api/lavori', {
+                const resCreate = await fetch('/api/lavori', {
                     method: 'POST',
-                    body: new FormData(workForm),
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
                 });
-                if (!risposta.ok) throw new Error((await risposta.json()).detail || `HTTP ${risposta.status}`);
+                if (!resCreate.ok) {
+                    let detail = `HTTP ${resCreate.status}`;
+                    try { detail = (await resCreate.json()).detail || detail; } catch {}
+                    throw new Error(detail);
+                }
+                const created = await resCreate.json();
+                createdId = created.id;
+
+                const uploadTasks = [
+                    ...codeMedia.prima.map((item, idx) => ({ tipo: 'prima', label: `Foto Prima ${idx + 1}`, item, ordine: idx })),
+                    ...codeMedia.dopo.map((item, idx) => ({ tipo: 'dopo', label: `Foto Dopo ${idx + 1}`, item, ordine: idx })),
+                    ...codeMedia.video.map((item, idx) => ({ tipo: 'video', label: `Video ${idx + 1}`, item, ordine: idx })),
+                ];
+
+                for (let i = 0; i < uploadTasks.length; i++) {
+                    const task = uploadTasks[i];
+                    const pct = 12 + ((i + 1) / uploadTasks.length) * 84;
+                    mostraFeedbackLavori(`Caricamento ${i + 1}/${uploadTasks.length}: ${task.label}...`);
+                    impostaProgressoLavori(pct);
+                    await caricaSingoloMediaSuApi(createdId, task.tipo, task.item, task.ordine);
+                }
+
+                impostaProgressoLavori(100);
                 workForm.reset();
-                mostraFeedbackLavori('Lavoro pubblicato nella galleria.');
+                builderFasiForm.impostaFasi([]);
+                svuotaCodeMedia();
+                mostraFeedbackLavori(`Lavoro pubblicato con successo (${uploadTasks.length} media caricati)! Visibile subito su /lavori.`);
                 await caricaLavori();
             } catch (errore) {
-                mostraFeedbackLavori(`Impossibile pubblicare: ${errore.message}`, true);
+                if (createdId) {
+                    mostraFeedbackLavori(`Scheda creata (#${createdId}) ma errore durante il caricamento media: ${errore.message}. Puoi completare gli allegati nella lista sotto.`, true);
+                    await caricaLavori();
+                } else {
+                    mostraFeedbackLavori(`Impossibile pubblicare: ${errore.message}`, true);
+                }
             } finally {
                 workSubmit.disabled = false;
+                setTimeout(() => impostaProgressoLavori(null), 900);
             }
         });
 

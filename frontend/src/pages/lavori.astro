@@ -3,18 +3,67 @@ import { env } from 'cloudflare:workers';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CallToAction from '../components/CallToAction.astro';
-import { lavoriProgetti } from '../data/lavori';
+import {
+    lavoriProgetti,
+    type LavoroMediaFoto,
+    type LavoroProgetto,
+    type LavoroStratigrafiaStep,
+    type LavoroVideo,
+} from '../data/lavori';
+
+interface LavoroApiMedia {
+    id: number;
+    url: string;
+    alt?: string;
+    didascalia?: string;
+    ordine?: number;
+}
+
+interface LavoroApiVideo {
+    id: number;
+    url: string;
+    poster_url?: string;
+    titolo?: string;
+    durata?: string;
+    descrizione?: string;
+    ordine?: number;
+}
 
 interface LavoroApi {
     id: number;
     titolo: string;
-    descrizione: string;
-    localita: string;
-    immagine_url: string;
+    categoria?: string;
+    descrizione?: string;
+    localita?: string;
+    superficie_mq?: number;
+    supporto?: string;
+    ciclo_sistema?: string;
+    armatura?: string;
+    applicazione?: string;
+    stratigrafia_descrizione?: string;
+    stratigrafia_fasi?: LavoroStratigrafiaStep[];
+    foto_prima?: LavoroApiMedia[];
+    foto_dopo?: LavoroApiMedia[];
+    video_dopo?: LavoroApiVideo[];
+    immagine_url?: string;
     data_creazione?: string;
 }
 
-let lavoriApi: LavoroApi[] = [];
+const CATEGORIE_VALIDE: LavoroProgetto['categoria'][] = [
+    'Coperture industriali',
+    'Terrazzi e lastrici',
+    'Fondazioni e cantine',
+    'Impermeabilizzazioni',
+];
+
+function normalizzaCategoria(val?: string): LavoroProgetto['categoria'] {
+    if (val && CATEGORIE_VALIDE.includes(val as LavoroProgetto['categoria'])) {
+        return val as LavoroProgetto['categoria'];
+    }
+    return 'Impermeabilizzazioni';
+}
+
+let lavoriApiMappati: LavoroProgetto[] = [];
 try {
     const api = (env as unknown as { API?: { fetch: (req: Request) => Promise<Response> } })?.API;
     const reqUrl = new URL('/api/lavori', Astro.url.origin).toString();
@@ -25,15 +74,73 @@ try {
     if (res.ok) {
         const body = (await res.json()) as { dati?: LavoroApi[] };
         if (Array.isArray(body?.dati)) {
-            lavoriApi = body.dati;
+            lavoriApiMappati = body.dati.map((item): LavoroProgetto => {
+                const fotoPrima: LavoroMediaFoto[] = (item.foto_prima ?? []).map((f, i) => ({
+                    src: f.url,
+                    alt: f.alt || `Stato iniziale ${i + 1}: ${item.titolo}`,
+                    didascalia: f.didascalia || undefined,
+                }));
+                const fotoDopo: LavoroMediaFoto[] = (item.foto_dopo ?? []).map((f, i) => ({
+                    src: f.url,
+                    alt: f.alt || `Risultato finale ${i + 1}: ${item.titolo}`,
+                    didascalia: f.didascalia || undefined,
+                }));
+                if (fotoPrima.length === 0 && fotoDopo.length === 0 && item.immagine_url) {
+                    fotoDopo.push({
+                        src: item.immagine_url,
+                        alt: `Intervento realizzato da Poliurea System: ${item.titolo}`,
+                        didascalia: item.descrizione || undefined,
+                    });
+                }
+                const videoDopo: LavoroVideo[] = (item.video_dopo ?? []).map((v) => ({
+                    src: v.url,
+                    poster:
+                        v.poster_url ||
+                        fotoDopo[0]?.src ||
+                        fotoPrima[0]?.src ||
+                        '/images/hero-capannone-poliurea-bianca.webp',
+                    titolo: v.titolo || 'Video del risultato',
+                    durata: v.durata || undefined,
+                    descrizione: v.descrizione || undefined,
+                }));
+                const fasi: LavoroStratigrafiaStep[] = Array.isArray(item.stratigrafia_fasi)
+                    ? item.stratigrafia_fasi
+                          .filter((s) => s && typeof s.titolo === 'string' && s.titolo.trim().length > 0)
+                          .map((s, idx) => ({
+                              fase: (s.fase || '').trim() || String(idx + 1).padStart(2, '0'),
+                              titolo: s.titolo.trim(),
+                              dettaglio: (s.dettaglio || '').trim(),
+                          }))
+                    : [];
+
+                return {
+                    id: `cantiere-${item.id}`,
+                    categoria: normalizzaCategoria(item.categoria),
+                    titolo: item.titolo,
+                    localita: item.localita || 'Genova e Liguria',
+                    superficieMq: Number(item.superficie_mq || 0),
+                    supporto: item.supporto || '',
+                    cicloSistema: item.ciclo_sistema || '',
+                    armatura: item.armatura || '',
+                    applicazione: item.applicazione || '',
+                    riepilogo: item.descrizione || '',
+                    stratigrafiaDescrizione: item.stratigrafia_descrizione || '',
+                    stratigrafiaFasi: fasi,
+                    fotoPrima,
+                    fotoDopo,
+                    videoDopo,
+                };
+            });
         }
     }
 } catch {
-    lavoriApi = [];
+    lavoriApiMappati = [];
 }
 
-const categorieDisponibili = Array.from(new Set(lavoriProgetti.map((p) => p.categoria)));
-const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq, 0);
+// Tutti i lavori unificati: prima i cantieri pubblicati da Admin (più recenti), poi i cantieri di vetrina
+const tuttiLavori: LavoroProgetto[] = [...lavoriApiMappati, ...lavoriProgetti];
+const categorieDisponibili = Array.from(new Set(tuttiLavori.map((p) => p.categoria)));
+const totaleSuperficie = tuttiLavori.reduce((acc, p) => acc + (p.superficieMq > 0 ? p.superficieMq : 0), 0);
 ---
 
 <SiteLayout
@@ -53,11 +160,11 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
         <section class="wrap mb-8" aria-label="Filtra gli interventi per categoria">
             <div class="work-filter-bar" data-work-filters>
                 <button type="button" class="work-filter-btn is-active" data-work-filter="all">
-                    Tutti gli interventi <span>{lavoriProgetti.length}</span>
+                    Tutti gli interventi <span>{tuttiLavori.length}</span>
                 </button>
                 {categorieDisponibili.map((cat) => (
                     <button type="button" class="work-filter-btn" data-work-filter={cat}>
-                        {cat} <span>{lavoriProgetti.filter((p) => p.categoria === cat).length}</span>
+                        {cat} <span>{tuttiLavori.filter((p) => p.categoria === cat).length}</span>
                     </button>
                 ))}
             </div>
@@ -67,11 +174,15 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
     <!-- GRIGLIA COMPATTA DEI LAVORI (affiancati, cliccabili per aprire dettagli, foto e video) -->
     <section id="works-showcase" class="wrap pb-16" aria-label="Elenco lavori documentati">
         <div class="work-cards-grid">
-            {lavoriProgetti.map((lavoro) => {
+            {tuttiLavori.map((lavoro, cardIndex) => {
                 const coverPrima = lavoro.fotoPrima[0];
                 const coverDopo = lavoro.fotoDopo[0];
                 const totFoto = lavoro.fotoPrima.length + lavoro.fotoDopo.length;
                 const totVideo = lavoro.videoDopo?.length ?? 0;
+                const specsLine = [lavoro.supporto, lavoro.cicloSistema, lavoro.armatura]
+                    .filter((s) => s && s.trim().length > 0)
+                    .join(' · ');
+                const loadingAttr = cardIndex < 3 ? 'eager' : 'lazy';
 
                 return (
                     <article
@@ -86,56 +197,89 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
                             data-open-project={lavoro.id}
                             aria-label={`Apri scheda completa, foto Prima e Dopo e video: ${lavoro.titolo}`}
                         >
-                            <!-- Anteprima statica affiancata Prima / Dopo (nessuno slider) -->
-                            <div class="work-compact-diptych">
-                                <div class="work-compact-half">
+                            <!-- Anteprima statica Prima / Dopo (oppure copertina singola se presente solo una fase) -->
+                            {coverPrima && coverDopo ? (
+                                <div class="work-compact-diptych">
+                                    <div class="work-compact-half">
+                                        <img
+                                            src={coverPrima.src}
+                                            alt={coverPrima.alt}
+                                            width="480"
+                                            height="360"
+                                            loading={loadingAttr}
+                                            decoding="async"
+                                        />
+                                        <span class="work-phase-pill work-phase-pill--before">PRIMA</span>
+                                    </div>
+                                    <div class="work-compact-half">
+                                        <img
+                                            src={coverDopo.src}
+                                            alt={coverDopo.alt}
+                                            width="480"
+                                            height="360"
+                                            loading={loadingAttr}
+                                            decoding="async"
+                                        />
+                                        <span class="work-phase-pill work-phase-pill--after">DOPO</span>
+                                    </div>
+                                    {(totFoto > 0 || totVideo > 0) && (
+                                        <span class="work-compact-media-count">
+                                            {totFoto} foto{totVideo > 0 ? ` · ${totVideo} video` : ''}
+                                        </span>
+                                    )}
+                                </div>
+                            ) : (coverDopo || coverPrima) ? (
+                                <div class="work-compact-single">
                                     <img
-                                        src={coverPrima.src}
-                                        alt={coverPrima.alt}
-                                        width="480"
-                                        height="360"
-                                        loading="eager"
+                                        src={(coverDopo || coverPrima)!.src}
+                                        alt={(coverDopo || coverPrima)!.alt}
+                                        width="640"
+                                        height="400"
+                                        loading={loadingAttr}
                                         decoding="async"
                                     />
-                                    <span class="work-phase-pill work-phase-pill--before">PRIMA</span>
+                                    <span class={`work-phase-pill ${coverDopo ? 'work-phase-pill--after' : 'work-phase-pill--before'}`}>
+                                        {coverDopo ? 'DOPO' : 'PRIMA'}
+                                    </span>
+                                    {(totFoto > 0 || totVideo > 0) && (
+                                        <span class="work-compact-media-count">
+                                            {totFoto} foto{totVideo > 0 ? ` · ${totVideo} video` : ''}
+                                        </span>
+                                    )}
                                 </div>
-                                <div class="work-compact-half">
-                                    <img
-                                        src={coverDopo.src}
-                                        alt={coverDopo.alt}
-                                        width="480"
-                                        height="360"
-                                        loading="eager"
-                                        decoding="async"
-                                    />
-                                    <span class="work-phase-pill work-phase-pill--after">DOPO</span>
+                            ) : (
+                                <div class="work-compact-single work-compact-single--empty">
+                                    <span>Scheda tecnica cantiere</span>
                                 </div>
-                                <span class="work-compact-media-count">
-                                    {totFoto} foto{totVideo > 0 ? ` · ${totVideo} video` : ''}
-                                </span>
-                            </div>
+                            )}
 
                             <!-- Informazioni essenziali compatte -->
                             <div class="work-compact-body">
                                 <div class="work-compact-meta">
                                     <span class="work-case-category">{lavoro.categoria}</span>
-                                    <span class="work-compact-mq">{lavoro.superficieMq} mq</span>
+                                    {lavoro.superficieMq > 0 && (
+                                        <span class="work-compact-mq">{lavoro.superficieMq} mq</span>
+                                    )}
                                 </div>
 
                                 <h2 class="work-compact-title">{lavoro.titolo}</h2>
 
-                                <p class="work-compact-specs">
-                                    {lavoro.supporto} · {lavoro.cicloSistema} · {lavoro.armatura}
-                                </p>
+                                {(specsLine || lavoro.riepilogo) && (
+                                    <p class="work-compact-specs">
+                                        {specsLine || lavoro.riepilogo}
+                                    </p>
+                                )}
 
                                 <div class="work-compact-footer">
-                                    <span class="work-case-location">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                                            <circle cx="12" cy="10" r="3" />
-                                        </svg>
-                                        {lavoro.localita}
-                                    </span>
+                                    {lavoro.localita && (
+                                        <span class="work-case-location">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                                                <circle cx="12" cy="10" r="3" />
+                                            </svg>
+                                            {lavoro.localita}
+                                        </span>
+                                    )}
                                     <span class="work-compact-cta">
                                         Apri dettagli e foto <span aria-hidden="true">→</span>
                                     </span>
@@ -147,41 +291,6 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
             })}
         </div>
     </section>
-
-    <!-- EVENTUALI LAVORI AGGIUNTIVI CARICATI DAL PANNELLO ADMIN -->
-    {lavoriApi.length > 0 && (
-        <section id="works-gallery" class="works-gallery wrap mb-14" aria-label="Altri lavori realizzati">
-            <div class="mb-8">
-                <p class="eyebrow text-xs font-bold uppercase tracking-wider text-[#0071E3] mb-2">ARCHIVIO CANTIERI</p>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight">Altri interventi realizzati</h2>
-            </div>
-            <div id="works-grid" class="works-grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {lavoriApi.map((lavoro) => (
-                    <article class="work-card rounded-3xl border border-[#D2D2D7] bg-[#F5F5F7] overflow-hidden transition-colors duration-200 hover:border-[#0071E3] flex flex-col">
-                        <img
-                            src={lavoro.immagine_url}
-                            alt={`Lavoro realizzato da Poliurea System: ${lavoro.titolo}${lavoro.localita ? ` (${lavoro.localita})` : ''}`}
-                            loading="lazy"
-                            width="600"
-                            height="450"
-                            class="w-full aspect-[4/3] object-cover bg-[#EBEBF0]"
-                        />
-                        <div class="work-card-content p-6 flex-1 flex flex-col">
-                            {lavoro.localita && (
-                                <p class="work-location text-xs font-extrabold uppercase tracking-wider text-[#0071E3] mb-2">
-                                    {lavoro.localita}
-                                </p>
-                            )}
-                            <h3 class="text-xl font-bold text-[#1D1D1F] mb-2">{lavoro.titolo}</h3>
-                            {lavoro.descrizione && (
-                                <p class="text-sm text-[#6E6E73] leading-relaxed">{lavoro.descrizione}</p>
-                            )}
-                        </div>
-                    </article>
-                ))}
-            </div>
-        </section>
-    )}
 
     <!-- FASCIA TRASPARENZA DOCUMENTAZIONE CANTIERI -->
     <section class="gallery-guidelines py-14 bg-[#F5F5F7] border-y border-[#D2D2D7]">
@@ -220,13 +329,24 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
     <!-- MODALE SCHEDA COMPLETA LAVORO (Galleria Prima/Dopo + Video + Specifiche Tecniche) -->
     <div id="work-project-modal" class="work-detail-modal" role="dialog" aria-modal="true" aria-label="Dettaglio intervento" hidden>
         <div class="work-detail-dialog">
-            {lavoriProgetti.map((lavoro) => {
+            {tuttiLavori.map((lavoro) => {
                 const videoItems = lavoro.videoDopo ?? [];
                 const allPhotos = [
                     ...lavoro.fotoPrima.map((f) => ({ ...f, fase: 'PRIMA' })),
                     ...lavoro.fotoDopo.map((f) => ({ ...f, fase: 'DOPO' })),
                 ];
                 const allPhotosJson = JSON.stringify(allPhotos);
+                const mediaGroupsCount =
+                    (lavoro.fotoPrima.length > 0 ? 1 : 0) +
+                    (lavoro.fotoDopo.length > 0 ? 1 : 0) +
+                    (videoItems.length > 0 ? 1 : 0);
+                const hasKpis =
+                    lavoro.superficieMq > 0 ||
+                    Boolean(lavoro.supporto) ||
+                    Boolean(lavoro.cicloSistema) ||
+                    Boolean(lavoro.armatura);
+                const hasStratigrafia =
+                    Boolean(lavoro.stratigrafiaDescrizione) || lavoro.stratigrafiaFasi.length > 0;
 
                 return (
                     <div
@@ -240,14 +360,18 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
                             <div class="work-detail-header-info">
                                 <div class="work-case-meta">
                                     <span class="work-case-category">{lavoro.categoria}</span>
-                                    <span class="work-compact-mq">{lavoro.superficieMq} mq</span>
-                                    <span class="work-case-location">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                                            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                                            <circle cx="12" cy="10" r="3" />
-                                        </svg>
-                                        {lavoro.localita}
-                                    </span>
+                                    {lavoro.superficieMq > 0 && (
+                                        <span class="work-compact-mq">{lavoro.superficieMq} mq</span>
+                                    )}
+                                    {lavoro.localita && (
+                                        <span class="work-case-location">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                                                <circle cx="12" cy="10" r="3" />
+                                            </svg>
+                                            {lavoro.localita}
+                                        </span>
+                                    )}
                                 </div>
                                 <h2 class="work-detail-title">{lavoro.titolo}</h2>
                             </div>
@@ -263,131 +387,153 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
 
                         <!-- Corpo scorrevole della scheda lavoro -->
                         <div class="work-detail-body">
-                            <p class="work-detail-summary">{lavoro.riepilogo}</p>
+                            {lavoro.riepilogo && (
+                                <p class="work-detail-summary">{lavoro.riepilogo}</p>
+                            )}
 
                             <!-- Scheda Dati Chiave -->
-                            <div class="work-kpi-grid work-kpi-grid--modal">
-                                <div class="work-kpi-card work-kpi-card--highlight">
-                                    <span class="work-kpi-label">Superficie trattata</span>
-                                    <strong class="work-kpi-value">{lavoro.superficieMq} mq</strong>
+                            {hasKpis && (
+                                <div class="work-kpi-grid work-kpi-grid--modal">
+                                    {lavoro.superficieMq > 0 && (
+                                        <div class="work-kpi-card work-kpi-card--highlight">
+                                            <span class="work-kpi-label">Superficie trattata</span>
+                                            <strong class="work-kpi-value">{lavoro.superficieMq} mq</strong>
+                                        </div>
+                                    )}
+                                    {lavoro.supporto && (
+                                        <div class="work-kpi-card">
+                                            <span class="work-kpi-label">Supporto esistente</span>
+                                            <strong class="work-kpi-value">{lavoro.supporto}</strong>
+                                        </div>
+                                    )}
+                                    {lavoro.cicloSistema && (
+                                        <div class="work-kpi-card">
+                                            <span class="work-kpi-label">Ciclo e sistema</span>
+                                            <strong class="work-kpi-value">{lavoro.cicloSistema}</strong>
+                                        </div>
+                                    )}
+                                    {lavoro.armatura && (
+                                        <div class="work-kpi-card">
+                                            <span class="work-kpi-label">Armatura strutturale</span>
+                                            <strong class="work-kpi-value">{lavoro.armatura}</strong>
+                                        </div>
+                                    )}
                                 </div>
-                                <div class="work-kpi-card">
-                                    <span class="work-kpi-label">Supporto esistente</span>
-                                    <strong class="work-kpi-value">{lavoro.supporto}</strong>
-                                </div>
-                                <div class="work-kpi-card">
-                                    <span class="work-kpi-label">Ciclo e sistema</span>
-                                    <strong class="work-kpi-value">{lavoro.cicloSistema}</strong>
-                                </div>
-                                <div class="work-kpi-card">
-                                    <span class="work-kpi-label">Armatura strutturale</span>
-                                    <strong class="work-kpi-value">{lavoro.armatura}</strong>
-                                </div>
-                            </div>
+                            )}
 
-                            <!-- Filtri rapidi Galleria (Tutto / Prima / Dopo / Video) -->
-                            <div class="work-media-tabs" data-media-tabs role="tablist" aria-label="Filtra foto e video del cantiere">
-                                <button type="button" class="work-media-tab is-active" data-media-filter="all" role="tab" aria-selected="true">
-                                    Tutto <span>{allPhotos.length + videoItems.length}</span>
-                                </button>
-                                <button type="button" class="work-media-tab" data-media-filter="prima" role="tab" aria-selected="false">
-                                    Foto Prima <span>{lavoro.fotoPrima.length}</span>
-                                </button>
-                                <button type="button" class="work-media-tab" data-media-filter="dopo" role="tab" aria-selected="false">
-                                    Foto Dopo <span>{lavoro.fotoDopo.length}</span>
-                                </button>
-                                {videoItems.length > 0 && (
-                                    <button type="button" class="work-media-tab" data-media-filter="video" role="tab" aria-selected="false">
-                                        Video del Dopo <span>{videoItems.length}</span>
+                            <!-- Filtri rapidi Galleria (solo se ci sono almeno 2 gruppi media) -->
+                            {mediaGroupsCount > 1 && (
+                                <div class="work-media-tabs" data-media-tabs role="tablist" aria-label="Filtra foto e video del cantiere">
+                                    <button type="button" class="work-media-tab is-active" data-media-filter="all" role="tab" aria-selected="true">
+                                        Tutto <span>{allPhotos.length + videoItems.length}</span>
                                     </button>
-                                )}
-                            </div>
+                                    {lavoro.fotoPrima.length > 0 && (
+                                        <button type="button" class="work-media-tab" data-media-filter="prima" role="tab" aria-selected="false">
+                                            Foto Prima <span>{lavoro.fotoPrima.length}</span>
+                                        </button>
+                                    )}
+                                    {lavoro.fotoDopo.length > 0 && (
+                                        <button type="button" class="work-media-tab" data-media-filter="dopo" role="tab" aria-selected="false">
+                                            Foto Dopo <span>{lavoro.fotoDopo.length}</span>
+                                        </button>
+                                    )}
+                                    {videoItems.length > 0 && (
+                                        <button type="button" class="work-media-tab" data-media-filter="video" role="tab" aria-selected="false">
+                                            Video del Dopo <span>{videoItems.length}</span>
+                                        </button>
+                                    )}
+                                </div>
+                            )}
 
                             <!-- GALLERIA PRIMA -->
-                            <section class="work-gallery-section" data-media-section="prima">
-                                <div class="work-gallery-section-head">
-                                    <div class="work-gallery-badge-group">
-                                        <span class="work-phase-pill work-phase-pill--before">PRIMA</span>
-                                        <h3>Stato iniziale e posa armatura</h3>
+                            {lavoro.fotoPrima.length > 0 && (
+                                <section class="work-gallery-section" data-media-section="prima">
+                                    <div class="work-gallery-section-head">
+                                        <div class="work-gallery-badge-group">
+                                            <span class="work-phase-pill work-phase-pill--before">PRIMA</span>
+                                            <h3>Stato iniziale e lavorazione</h3>
+                                        </div>
+                                        <span class="work-submedia-count">{lavoro.fotoPrima.length} foto · Clicca per ingrandire</span>
                                     </div>
-                                    <span class="work-submedia-count">{lavoro.fotoPrima.length} foto · Clicca per ingrandire</span>
-                                </div>
-                                <div class="work-gallery-grid">
-                                    {lavoro.fotoPrima.map((foto, idx) => (
-                                        <button
-                                            type="button"
-                                            class="work-thumb-btn"
-                                            data-open-gallery={lavoro.id}
-                                            data-gallery-index={idx}
-                                            aria-label={`Apri foto Prima ${idx + 1}: ${foto.didascalia || foto.alt}`}
-                                        >
-                                            <div class="work-thumb-media">
-                                                <img
-                                                    src={foto.src}
-                                                    alt={foto.alt}
-                                                    width="480"
-                                                    height="360"
-                                                    loading="lazy"
-                                                    decoding="async"
-                                                />
-                                                <span class="work-thumb-overlay" aria-hidden="true">
-                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                                        <circle cx="11" cy="11" r="7" />
-                                                        <path d="m21 21-4.3-4.3" />
-                                                        <path d="M11 8v6M8 11h6" />
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                            {foto.didascalia && (
-                                                <span class="work-thumb-caption">{foto.didascalia}</span>
-                                            )}
-                                        </button>
-                                    ))}
-                                </div>
-                            </section>
+                                    <div class="work-gallery-grid">
+                                        {lavoro.fotoPrima.map((foto, idx) => (
+                                            <button
+                                                type="button"
+                                                class="work-thumb-btn"
+                                                data-open-gallery={lavoro.id}
+                                                data-gallery-index={idx}
+                                                aria-label={`Apri foto Prima ${idx + 1}: ${foto.didascalia || foto.alt}`}
+                                            >
+                                                <div class="work-thumb-media">
+                                                    <img
+                                                        src={foto.src}
+                                                        alt={foto.alt}
+                                                        width="480"
+                                                        height="360"
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                    />
+                                                    <span class="work-thumb-overlay" aria-hidden="true">
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <circle cx="11" cy="11" r="7" />
+                                                            <path d="m21 21-4.3-4.3" />
+                                                            <path d="M11 8v6M8 11h6" />
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                                {foto.didascalia && (
+                                                    <span class="work-thumb-caption">{foto.didascalia}</span>
+                                                )}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </section>
+                            )}
 
                             <!-- GALLERIA DOPO -->
-                            <section class="work-gallery-section" data-media-section="dopo">
-                                <div class="work-gallery-section-head">
-                                    <div class="work-gallery-badge-group">
-                                        <span class="work-phase-pill work-phase-pill--after">DOPO</span>
-                                        <h3>Risultato finale impermeabilizzato</h3>
+                            {lavoro.fotoDopo.length > 0 && (
+                                <section class="work-gallery-section" data-media-section="dopo">
+                                    <div class="work-gallery-section-head">
+                                        <div class="work-gallery-badge-group">
+                                            <span class="work-phase-pill work-phase-pill--after">DOPO</span>
+                                            <h3>Risultato finale impermeabilizzato</h3>
+                                        </div>
+                                        <span class="work-submedia-count">{lavoro.fotoDopo.length} foto · Clicca per ingrandire</span>
                                     </div>
-                                    <span class="work-submedia-count">{lavoro.fotoDopo.length} foto · Clicca per ingrandire</span>
-                                </div>
-                                <div class="work-gallery-grid work-gallery-grid--after">
-                                    {lavoro.fotoDopo.map((foto, idx) => (
-                                        <button
-                                            type="button"
-                                            class="work-thumb-btn"
-                                            data-open-gallery={lavoro.id}
-                                            data-gallery-index={lavoro.fotoPrima.length + idx}
-                                            aria-label={`Apri foto Dopo ${idx + 1}: ${foto.didascalia || foto.alt}`}
-                                        >
-                                            <div class="work-thumb-media">
-                                                <img
-                                                    src={foto.src}
-                                                    alt={foto.alt}
-                                                    width="480"
-                                                    height="360"
-                                                    loading="lazy"
-                                                    decoding="async"
-                                                />
-                                                <span class="work-thumb-overlay" aria-hidden="true">
-                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                                        <circle cx="11" cy="11" r="7" />
-                                                        <path d="m21 21-4.3-4.3" />
-                                                        <path d="M11 8v6M8 11h6" />
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                            {foto.didascalia && (
-                                                <span class="work-thumb-caption">{foto.didascalia}</span>
-                                            )}
-                                        </button>
-                                    ))}
-                                </div>
-                            </section>
+                                    <div class="work-gallery-grid work-gallery-grid--after">
+                                        {lavoro.fotoDopo.map((foto, idx) => (
+                                            <button
+                                                type="button"
+                                                class="work-thumb-btn"
+                                                data-open-gallery={lavoro.id}
+                                                data-gallery-index={lavoro.fotoPrima.length + idx}
+                                                aria-label={`Apri foto Dopo ${idx + 1}: ${foto.didascalia || foto.alt}`}
+                                            >
+                                                <div class="work-thumb-media">
+                                                    <img
+                                                        src={foto.src}
+                                                        alt={foto.alt}
+                                                        width="480"
+                                                        height="360"
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                    />
+                                                    <span class="work-thumb-overlay" aria-hidden="true">
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <circle cx="11" cy="11" r="7" />
+                                                            <path d="m21 21-4.3-4.3" />
+                                                            <path d="M11 8v6M8 11h6" />
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                                {foto.didascalia && (
+                                                    <span class="work-thumb-caption">{foto.didascalia}</span>
+                                                )}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </section>
+                            )}
 
                             <!-- VIDEO DEL DOPO (lazy on-demand) -->
                             {videoItems.length > 0 && (
@@ -441,25 +587,33 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
                             )}
 
                             <!-- SCHEDA TECNICA E STRATIGRAFIA -->
-                            <section class="work-stratigraphy-box work-stratigraphy-box--modal">
-                                <div class="work-stratigraphy-head">
-                                    <span class="work-stratigraphy-kicker">SCHEDA TECNICA · STRATIGRAFIA APPLICATA</span>
-                                    <span class="work-stratigraphy-method">{lavoro.applicazione}</span>
-                                </div>
-                                <p class="work-stratigraphy-lead">{lavoro.stratigrafiaDescrizione}</p>
+                            {hasStratigrafia && (
+                                <section class="work-stratigraphy-box work-stratigraphy-box--modal">
+                                    <div class="work-stratigraphy-head">
+                                        <span class="work-stratigraphy-kicker">SCHEDA TECNICA · STRATIGRAFIA APPLICATA</span>
+                                        {lavoro.applicazione && (
+                                            <span class="work-stratigraphy-method">{lavoro.applicazione}</span>
+                                        )}
+                                    </div>
+                                    {lavoro.stratigrafiaDescrizione && (
+                                        <p class="work-stratigraphy-lead">{lavoro.stratigrafiaDescrizione}</p>
+                                    )}
 
-                                <ol class="work-layer-list work-layer-list--cols">
-                                    {lavoro.stratigrafiaFasi.map((step) => (
-                                        <li class="work-layer-item">
-                                            <span class="work-layer-num">{step.fase}</span>
-                                            <div class="work-layer-body">
-                                                <strong>{step.titolo}</strong>
-                                                <p>{step.dettaglio}</p>
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ol>
-                            </section>
+                                    {lavoro.stratigrafiaFasi.length > 0 && (
+                                        <ol class="work-layer-list work-layer-list--cols">
+                                            {lavoro.stratigrafiaFasi.map((step) => (
+                                                <li class="work-layer-item">
+                                                    <span class="work-layer-num">{step.fase}</span>
+                                                    <div class="work-layer-body">
+                                                        <strong>{step.titolo}</strong>
+                                                        {step.dettaglio && <p>{step.dettaglio}</p>}
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </ol>
+                                    )}
+                                </section>
+                            )}
 
                             <!-- CTA Contestuale -->
                             <div class="work-card-cta">
@@ -561,7 +715,6 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
     // 2. Modale Scheda Completa Lavoro (apertura al clic sulla card compatta)
     const projectModal = document.getElementById('work-project-modal') as HTMLElement | null;
     const projectSheets = Array.from(document.querySelectorAll<HTMLElement>('[data-project-sheet]'));
-    let activeProjectId: string | null = null;
     let lastProjectTrigger: HTMLElement | null = null;
 
     const resetMediaTabs = (sheet: HTMLElement) => {
@@ -583,7 +736,6 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
         if (!targetSheet) return;
 
         lastProjectTrigger = trigger ?? null;
-        activeProjectId = projectId;
 
         projectSheets.forEach((sheet) => {
             const isTarget = sheet === targetSheet;
@@ -608,7 +760,6 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
         projectSheets.forEach((s) => {
             s.hidden = true;
         });
-        activeProjectId = null;
         syncBodyScroll();
         if (window.location.hash) {
             history.replaceState(null, '', window.location.pathname + window.location.search);
@@ -804,7 +955,4 @@ const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq,
             closeProjectModal();
         }
     });
-
-    // Evita warning unused se serve futura espansione
-    void activeProjectId;
 </script>
