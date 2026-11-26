@@ -153,10 +153,10 @@ export const lavoriProgetti: LavoroProgetto[] = [
         ],
         videoDopo: [
             {
-                src: '/media/cantiere-lupia-panoramica.mp4',
+                src: '/media/cantiere-lupia-panoramica.mp4?v=2',
                 poster: '/images/lavori/cantiere-lupia/video-panoramica-poster.webp',
                 titolo: 'Panoramica del tetto finito (600 mq)',
-                durata: '0:18',
+                durata: '0:13',
                 descrizione: 'Ripresa completa delle falde, del colmo e dei raccordi sigillati a intervento ultimato.',
             },
             {
