@@ -3,8 +3,10 @@ import { env } from 'cloudflare:workers';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CallToAction from '../components/CallToAction.astro';
+import BeforeAfterSlider from '../components/BeforeAfterSlider.astro';
+import { lavoriProgetti } from '../data/lavori';
 
-interface Lavoro {
+interface LavoroApi {
     id: number;
     titolo: string;
     descrizione: string;
@@ -13,7 +15,7 @@ interface Lavoro {
     data_creazione?: string;
 }
 
-let lavori: Lavoro[] = [];
+let lavoriApi: LavoroApi[] = [];
 try {
     const api = (env as unknown as { API?: { fetch: (req: Request) => Promise<Response> } })?.API;
     const reqUrl = new URL('/api/lavori', Astro.url.origin).toString();
@@ -22,33 +24,246 @@ try {
             ? await api.fetch(new Request(reqUrl, { method: 'GET' }))
             : await fetch(reqUrl);
     if (res.ok) {
-        const body = (await res.json()) as { dati?: Lavoro[] };
+        const body = (await res.json()) as { dati?: LavoroApi[] };
         if (Array.isArray(body?.dati)) {
-            lavori = body.dati;
+            lavoriApi = body.dati;
         }
     }
 } catch {
-    lavori = [];
+    lavoriApi = [];
 }
+
+const categorieDisponibili = Array.from(new Set(lavoriProgetti.map((p) => p.categoria)));
+const totaleSuperficie = lavoriProgetti.reduce((acc, p) => acc + p.superficieMq, 0);
 ---
 
 <SiteLayout
     title="Lavori e Cantieri a Genova e Liguria | Poliurea System"
-    description="Galleria dei lavori e cantieri di impermeabilizzazione in poliurea pura realizzati a Genova e in Liguria su terrazzi, coperture e fondazioni."
+    description="Interventi reali di impermeabilizzazione a Genova e in Liguria: confronto interattivo Prima e Dopo, schede tecniche, stratigrafie e video di cantiere."
     activePath="/lavori"
     breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Lavori', path: '/lavori' }]}
 >
     <PageIntro
-        eyebrow="LAVORI E INTERVENTI"
-        title="Ogni intervento"
-        highlight="parte da un’esigenza."
-        text="Una selezione di interventi realizzati a Genova, in Liguria e nel Nord Italia: superfici trattate, problemi risolti e soluzioni adottate."
+        eyebrow="LAVORI E INTERVENTI ESEGUITI"
+        title="Risultati concreti,"
+        highlight="documentati prima e dopo."
+        text="Esplora gli interventi reali eseguiti in cantiere: confronta lo stato iniziale e il risultato finale con lo slider interattivo, consulta la stratigrafia completa dei materiali e guarda i dettagli operativi."
     />
 
-    {lavori.length > 0 ? (
-        <section id="works-gallery" class="works-gallery wrap my-12" aria-label="Lavori realizzati">
+    <!-- BARRA FILTRI PER CATEGORIA (si attiva automaticamente quando sono presenti più categorie) -->
+    {categorieDisponibili.length > 1 && (
+        <section class="wrap mb-8" aria-label="Filtra gli interventi per categoria">
+            <div class="work-filter-bar" data-work-filters>
+                <button type="button" class="work-filter-btn is-active" data-work-filter="all">
+                    Tutti gli interventi <span>{lavoriProgetti.length}</span>
+                </button>
+                {categorieDisponibili.map((cat) => (
+                    <button type="button" class="work-filter-btn" data-work-filter={cat}>
+                        {cat} <span>{lavoriProgetti.filter((p) => p.categoria === cat).length}</span>
+                    </button>
+                ))}
+            </div>
+        </section>
+    )}
+
+    <!-- SCHEDE INTERVENTI CON SLIDER PRIMA/DOPO, GALLERIA, VIDEO E SCHEDA TECNICA -->
+    <section id="works-showcase" class="wrap pb-16 space-y-12" aria-label="Interventi documentati">
+        {lavoriProgetti.map((lavoro, index) => {
+            const galleryItems = lavoro.galleria ?? [];
+            const videoItems = lavoro.video ?? [];
+            const galleryJson = JSON.stringify(galleryItems);
+            return (
+                <article
+                    id={lavoro.id}
+                    class="work-case-card"
+                    data-work-card
+                    data-work-category={lavoro.categoria}
+                >
+                    <!-- Intestazione intervento -->
+                    <header class="work-case-head">
+                        <div class="work-case-meta">
+                            <span class="work-case-index">{String(index + 1).padStart(2, '0')}</span>
+                            <span class="work-case-category">{lavoro.categoria}</span>
+                            <span class="work-case-location">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                                    <circle cx="12" cy="10" r="3" />
+                                </svg>
+                                {lavoro.localita}
+                            </span>
+                        </div>
+                        <h2 class="work-case-title">{lavoro.titolo}</h2>
+                        <p class="work-case-summary">{lavoro.riepilogo}</p>
+                    </header>
+
+                    <!-- Griglia principale 2 colonne: Media interattivi + Scheda tecnica -->
+                    <div class="work-case-grid">
+                        <!-- COLONNA SINISTRA: Slider Prima/Dopo + Galleria aggiuntiva + Video -->
+                        <div class="work-media-col">
+                            <BeforeAfterSlider
+                                id={lavoro.id}
+                                prima={lavoro.prima}
+                                dopo={lavoro.dopo}
+                            />
+
+                            <!-- Galleria foto aggiuntive (se presenti) -->
+                            {galleryItems.length > 0 && (
+                                <div class="work-submedia-block">
+                                    <div class="work-submedia-head">
+                                        <span class="work-submedia-label">GALLERIA FOTOGRAFICA DEL CANTIERE</span>
+                                        <span class="work-submedia-count">{galleryItems.length} foto · Clicca per ingrandire</span>
+                                    </div>
+                                    <div class="work-thumbs-grid" data-gallery-group={lavoro.id} data-gallery-items={galleryJson}>
+                                        {galleryItems.map((foto, fotoIdx) => (
+                                            <button
+                                                type="button"
+                                                class="work-thumb-btn"
+                                                data-open-gallery={lavoro.id}
+                                                data-gallery-index={fotoIdx}
+                                                aria-label={`Apri foto ${fotoIdx + 1}: ${foto.didascalia || foto.alt}`}
+                                            >
+                                                <img
+                                                    src={foto.src}
+                                                    alt={foto.alt}
+                                                    width="480"
+                                                    height="300"
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                />
+                                                <span class="work-thumb-overlay" aria-hidden="true">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <circle cx="11" cy="11" r="7" />
+                                                        <path d="m21 21-4.3-4.3" />
+                                                        <path d="M11 8v6M8 11h6" />
+                                                    </svg>
+                                                </span>
+                                                {foto.didascalia && (
+                                                    <span class="work-thumb-caption">{foto.didascalia}</span>
+                                                )}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            <!-- Video opzionali (caricamento lazy on-demand solo al clic) -->
+                            {videoItems.length > 0 && (
+                                <div class="work-submedia-block">
+                                    <div class="work-submedia-head">
+                                        <span class="work-submedia-label">VIDEO OPERATIVO</span>
+                                        <span class="work-submedia-count">{videoItems.length} video · Caricamento rapido</span>
+                                    </div>
+                                    <div class="work-videos-grid">
+                                        {videoItems.map((vid) => (
+                                            <button
+                                                type="button"
+                                                class="work-video-card"
+                                                data-open-video
+                                                data-video-src={vid.src}
+                                                data-video-poster={vid.poster}
+                                                data-video-title={vid.titolo}
+                                                data-video-desc={vid.descrizione || ''}
+                                                aria-label={`Riproduci video: ${vid.titolo}`}
+                                            >
+                                                <div class="work-video-poster">
+                                                    <img
+                                                        src={vid.poster}
+                                                        alt={`Copertina video: ${vid.titolo}`}
+                                                        width="640"
+                                                        height="360"
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                    />
+                                                    <span class="work-video-scrim" aria-hidden="true"></span>
+                                                    <span class="work-video-play" aria-hidden="true">
+                                                        <svg viewBox="0 0 24 24" fill="currentColor">
+                                                            <path d="M8 5.14v14l11-7-11-7Z" />
+                                                        </svg>
+                                                    </span>
+                                                    {vid.durata && (
+                                                        <span class="work-video-duration">{vid.durata}</span>
+                                                    )}
+                                                </div>
+                                                <div class="work-video-info">
+                                                    <strong>{vid.titolo}</strong>
+                                                    {vid.descrizione && <span>{vid.descrizione}</span>}
+                                                </div>
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <!-- COLONNA DESTRA: Dati chiave + Scheda tecnica Stratigrafia -->
+                        <aside class="work-specs-col" aria-label={`Scheda tecnica: ${lavoro.titolo}`}>
+                            <!-- Badge dati chiave -->
+                            <div class="work-kpi-grid">
+                                <div class="work-kpi-card work-kpi-card--highlight">
+                                    <span class="work-kpi-label">Superficie trattata</span>
+                                    <strong class="work-kpi-value">{lavoro.superficieMq} mq</strong>
+                                </div>
+                                <div class="work-kpi-card">
+                                    <span class="work-kpi-label">Supporto esistente</span>
+                                    <strong class="work-kpi-value">{lavoro.supporto}</strong>
+                                </div>
+                                <div class="work-kpi-card">
+                                    <span class="work-kpi-label">Ciclo e sistema</span>
+                                    <strong class="work-kpi-value">{lavoro.cicloSistema}</strong>
+                                </div>
+                                <div class="work-kpi-card">
+                                    <span class="work-kpi-label">Armatura strutturale</span>
+                                    <strong class="work-kpi-value">{lavoro.armatura}</strong>
+                                </div>
+                            </div>
+
+                            <!-- Blocco Stratigrafia e Materiali -->
+                            <div class="work-stratigraphy-box">
+                                <div class="work-stratigraphy-head">
+                                    <span class="work-stratigraphy-kicker">SCHEDA TECNICA · STRATIGRAFIA</span>
+                                    <span class="work-stratigraphy-method">{lavoro.applicazione}</span>
+                                </div>
+                                <p class="work-stratigraphy-lead">{lavoro.stratigrafiaDescrizione}</p>
+
+                                <ol class="work-layer-list">
+                                    {lavoro.stratigrafiaFasi.map((step) => (
+                                        <li class="work-layer-item">
+                                            <span class="work-layer-num">{step.fase}</span>
+                                            <div class="work-layer-body">
+                                                <strong>{step.titolo}</strong>
+                                                <p>{step.dettaglio}</p>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ol>
+                            </div>
+
+                            <!-- Invito all'azione contestuale -->
+                            <div class="work-card-cta">
+                                <div>
+                                    <strong>Hai una superficie simile da proteggere?</strong>
+                                    <span>Sopralluogo diagnostico gratuito e ciclo studiato sul tuo supporto.</span>
+                                </div>
+                                <a class="ps-pill-btn ps-pill-btn--solid work-card-cta-btn" href="/preventivo">
+                                    Richiedi valutazione <span aria-hidden="true">↗</span>
+                                </a>
+                            </div>
+                        </aside>
+                    </div>
+                </article>
+            );
+        })}
+    </section>
+
+    <!-- EVENTUALI LAVORI AGGIUNTIVI CARICATI DAL PANNELLO ADMIN -->
+    {lavoriApi.length > 0 && (
+        <section id="works-gallery" class="works-gallery wrap mb-14" aria-label="Altri lavori realizzati">
+            <div class="mb-8">
+                <p class="eyebrow text-xs font-bold uppercase tracking-wider text-[#0071E3] mb-2">ARCHIVIO CANTIERI</p>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight">Altri interventi realizzati</h2>
+            </div>
             <div id="works-grid" class="works-grid grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {lavori.map((lavoro) => (
+                {lavoriApi.map((lavoro) => (
                     <article class="work-card rounded-3xl border border-[#D2D2D7] bg-[#F5F5F7] overflow-hidden transition-colors duration-200 hover:border-[#0071E3] flex flex-col">
                         <img
                             src={lavoro.immagine_url}
@@ -64,7 +279,7 @@ try {
                                     {lavoro.localita}
                                 </p>
                             )}
-                            <h2 class="text-xl font-bold text-[#1D1D1F] mb-2">{lavoro.titolo}</h2>
+                            <h3 class="text-xl font-bold text-[#1D1D1F] mb-2">{lavoro.titolo}</h3>
                             {lavoro.descrizione && (
                                 <p class="text-sm text-[#6E6E73] leading-relaxed">{lavoro.descrizione}</p>
                             )}
@@ -73,26 +288,304 @@ try {
                 ))}
             </div>
         </section>
-    ) : (
-        <section id="gallery-empty" class="gallery-empty wrap my-12 grid gap-8 lg:grid-cols-[1fr_1.4fr] items-center rounded-[28px] border border-[#D2D2D7] bg-[#F5F5F7] p-8 sm:p-12 transition-colors duration-200 hover:border-[#0071E3]">
-            <div class="gallery-empty-art rounded-2xl border border-[#2A344B] bg-[#161D2E] p-8 flex items-center justify-center min-h-[220px]">
-                <img src="/logo-poliurea-system.png" alt="Poliurea System - Galleria lavori in preparazione" class="max-w-[240px] w-full h-auto" width="240" height="41" />
-            </div>
-            <div class="gallery-empty-copy">
-                <p class="eyebrow text-xs font-bold uppercase tracking-wider text-[#0071E3] mb-2">GALLERIA IN PREPARAZIONE</p>
-                <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight leading-tight mb-4">Qui racconteremo<br /><span class="text-[#0071E3]">i lavori realizzati.</span></h2>
-                <p class="text-[#6E6E73] text-base leading-relaxed mb-6">Stiamo raccogliendo le fotografie e i dettagli dei progetti da condividere. Torna a trovarci per scoprire gli interventi, le superfici trattate e le soluzioni adottate.</p>
-                <a class="text-link inline-flex items-center gap-2 text-sm font-bold text-[#0071E3] hover:text-[#0064CC] transition-colors" href="/contatti">Hai un progetto da raccontare? <span aria-hidden="true">→</span></a>
-            </div>
-        </section>
     )}
 
+    <!-- FASCIA TRASPARENZA DOCUMENTAZIONE CANTIERI -->
     <section class="gallery-guidelines py-14 bg-[#F5F5F7] border-y border-[#D2D2D7]">
         <div class="wrap gallery-guidelines-inner grid gap-6 md:grid-cols-3">
-            <div class="rounded-2xl border border-[#D2D2D7] bg-white p-6 flex items-start gap-4 transition-colors duration-200 hover:border-[#0071E3]"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white font-mono text-sm font-bold">01</span><p class="text-sm"><strong class="block text-[#1D1D1F] font-bold mb-1">Il contesto</strong><small class="text-[#6E6E73] text-xs">Tipologia dell’edificio e area interessata</small></p></div>
-            <div class="rounded-2xl border border-[#D2D2D7] bg-white p-6 flex items-start gap-4 transition-colors duration-200 hover:border-[#0071E3]"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white font-mono text-sm font-bold">02</span><p class="text-sm"><strong class="block text-[#1D1D1F] font-bold mb-1">Il problema</strong><small class="text-[#6E6E73] text-xs">La situazione da cui è partito l’intervento</small></p></div>
-            <div class="rounded-2xl border border-[#D2D2D7] bg-white p-6 flex items-start gap-4 transition-colors duration-200 hover:border-[#0071E3]"><span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white font-mono text-sm font-bold">03</span><p class="text-sm"><strong class="block text-[#1D1D1F] font-bold mb-1">Il percorso</strong><small class="text-[#6E6E73] text-xs">Le fasi e le soluzioni effettivamente adottate</small></p></div>
+            <div class="rounded-2xl border border-[#D2D2D7] bg-white p-6 flex items-start gap-4 transition-colors duration-200 hover:border-[#0071E3]">
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white font-mono text-sm font-bold">01</span>
+                <p class="text-sm">
+                    <strong class="block text-[#1D1D1F] font-bold mb-1">Stato iniziale verificato</strong>
+                    <small class="text-[#6E6E73] text-xs">Rilievo del supporto, dei giunti e delle infiltrazioni prima della posa</small>
+                </p>
+            </div>
+            <div class="rounded-2xl border border-[#D2D2D7] bg-white p-6 flex items-start gap-4 transition-colors duration-200 hover:border-[#0071E3]">
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white font-mono text-sm font-bold">02</span>
+                <p class="text-sm">
+                    <strong class="block text-[#1D1D1F] font-bold mb-1">Ciclo e stratigrafia dichiarati</strong>
+                    <small class="text-[#6E6E73] text-xs">Materiali certificati, spessori controllati e armatura dove richiesta</small>
+                </p>
+            </div>
+            <div class="rounded-2xl border border-[#D2D2D7] bg-white p-6 flex items-start gap-4 transition-colors duration-200 hover:border-[#0071E3]">
+                <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white font-mono text-sm font-bold">03</span>
+                <p class="text-sm">
+                    <strong class="block text-[#1D1D1F] font-bold mb-1">Superfici protette ({totaleSuperficie}+ mq documentati)</strong>
+                    <small class="text-[#6E6E73] text-xs">Membrane continue senza giunzioni collaudate per durare nel tempo</small>
+                </p>
+            </div>
         </div>
     </section>
-    <CallToAction title="Hai un problema simile?" text="Raccontacelo: ogni valutazione comincia dalle caratteristiche del tuo edificio." />
+
+    <CallToAction
+        eyebrow="VALUTAZIONE TECNICA GRATUITA"
+        title="Hai un problema simile sul tuo edificio?"
+        text="Raccontaci la tua superficie: eseguiamo un sopralluogo diagnostico gratuito e definiamo il ciclo più idoneo senza demolizioni."
+        buttonText="Richiedi il Sopralluogo Gratuito"
+    />
+
+    <!-- MODALE LIGHTBOX GALLERIA FOTOGRAFICA -->
+    <div id="work-gallery-modal" class="work-modal" role="dialog" aria-modal="true" aria-labelledby="work-gallery-title" hidden>
+        <div class="work-modal-dialog work-modal-dialog--photo">
+            <div class="work-modal-header">
+                <div class="min-w-0">
+                    <span id="work-gallery-counter" class="work-modal-kicker">FOTO 1 DI 1</span>
+                    <h3 id="work-gallery-title" class="work-modal-title">Dettaglio cantiere</h3>
+                </div>
+                <button type="button" id="work-gallery-close" class="work-modal-close" aria-label="Chiudi galleria">Chiudi ✕</button>
+            </div>
+            <div class="work-modal-stage">
+                <button type="button" id="work-gallery-prev" class="work-modal-nav work-modal-nav--prev" aria-label="Foto precedente">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+                </button>
+                <img id="work-gallery-img" alt="Dettaglio fotografico intervento" class="work-modal-img" />
+                <button type="button" id="work-gallery-next" class="work-modal-nav work-modal-nav--next" aria-label="Foto successiva">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE LIGHTBOX VIDEO LAZY-LOADED -->
+    <div id="work-video-modal" class="work-modal" role="dialog" aria-modal="true" aria-labelledby="work-video-title" hidden>
+        <div class="work-modal-dialog work-modal-dialog--video">
+            <div class="work-modal-header">
+                <div class="min-w-0">
+                    <span class="work-modal-kicker">VIDEO DI CANTIERE</span>
+                    <h3 id="work-video-title" class="work-modal-title">Riproduzione video</h3>
+                </div>
+                <button type="button" id="work-video-close" class="work-modal-close" aria-label="Chiudi video">Chiudi ✕</button>
+            </div>
+            <div id="work-video-mount" class="work-modal-video-wrap"></div>
+            <p id="work-video-desc" class="work-modal-desc" hidden></p>
+        </div>
+    </div>
+
+    <script is:inline>
+        (() => {
+            /* 1. SLIDER PRIMA / DOPO INTERATTIVO (Pointer drag + Touch + Keyboard + Quick Jump) */
+            const sliders = Array.from(document.querySelectorAll('[data-ba-slider]'));
+
+            sliders.forEach((slider) => {
+                const range = slider.querySelector('[data-ba-range]');
+                const pillBefore = slider.querySelector('[data-ba-pill-before]');
+                const pillAfter = slider.querySelector('[data-ba-pill-after]');
+                const id = slider.getAttribute('data-ba-id') || '';
+                const quickBtns = Array.from(document.querySelectorAll(`[data-ba-target="${CSS.escape(id)}"]`));
+
+                const setPercent = (rawValue) => {
+                    const clamped = Math.max(0, Math.min(100, Number(rawValue)));
+                    slider.style.setProperty('--ba-pos', `${clamped}%`);
+                    if (range instanceof HTMLInputElement && Number(range.value) !== Math.round(clamped)) {
+                        range.value = String(Math.round(clamped));
+                    }
+                    if (pillBefore) pillBefore.style.opacity = clamped < 14 ? '0' : '1';
+                    if (pillAfter) pillAfter.style.opacity = clamped > 86 ? '0' : '1';
+                    quickBtns.forEach((btn) => {
+                        const target = Number(btn.getAttribute('data-ba-jump'));
+                        btn.classList.toggle('is-active', Math.abs(clamped - target) <= 2);
+                    });
+                };
+
+                const updateFromClientX = (clientX) => {
+                    const rect = slider.getBoundingClientRect();
+                    if (!rect.width) return;
+                    const pct = ((clientX - rect.left) / rect.width) * 100;
+                    setPercent(pct);
+                };
+
+                let dragging = false;
+                slider.addEventListener('pointerdown', (ev) => {
+                    if (ev.button !== undefined && ev.button !== 0 && ev.pointerType === 'mouse') return;
+                    dragging = true;
+                    slider.classList.add('is-dragging');
+                    try { slider.setPointerCapture(ev.pointerId); } catch {}
+                    updateFromClientX(ev.clientX);
+                });
+
+                slider.addEventListener('pointermove', (ev) => {
+                    if (!dragging) return;
+                    updateFromClientX(ev.clientX);
+                });
+
+                const endDrag = (ev) => {
+                    if (!dragging) return;
+                    dragging = false;
+                    slider.classList.remove('is-dragging');
+                    try { slider.releasePointerCapture(ev.pointerId); } catch {}
+                };
+
+                slider.addEventListener('pointerup', endDrag);
+                slider.addEventListener('pointercancel', endDrag);
+
+                if (range instanceof HTMLInputElement) {
+                    range.addEventListener('input', () => setPercent(range.value));
+                }
+
+                quickBtns.forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        slider.classList.add('is-snapping');
+                        setPercent(btn.getAttribute('data-ba-jump') || 50);
+                        window.setTimeout(() => slider.classList.remove('is-snapping'), 280);
+                    });
+                });
+
+                setPercent(range instanceof HTMLInputElement ? range.value : 50);
+            });
+
+            /* 2. FILTRI CATEGORIA */
+            const filterContainer = document.querySelector('[data-work-filters]');
+            if (filterContainer) {
+                const buttons = Array.from(filterContainer.querySelectorAll('[data-work-filter]'));
+                const cards = Array.from(document.querySelectorAll('[data-work-card]'));
+                buttons.forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        const selected = btn.getAttribute('data-work-filter') || 'all';
+                        buttons.forEach((b) => b.classList.toggle('is-active', b === btn));
+                        cards.forEach((card) => {
+                            const match = selected === 'all' || card.getAttribute('data-work-category') === selected;
+                            card.hidden = !match;
+                        });
+                    });
+                });
+            }
+
+            /* 3. MODALE GALLERIA FOTOGRAFICA */
+            const galleryModal = document.getElementById('work-gallery-modal');
+            const galleryImg = document.getElementById('work-gallery-img');
+            const galleryTitle = document.getElementById('work-gallery-title');
+            const galleryCounter = document.getElementById('work-gallery-counter');
+            const galleryClose = document.getElementById('work-gallery-close');
+            const galleryPrev = document.getElementById('work-gallery-prev');
+            const galleryNext = document.getElementById('work-gallery-next');
+
+            let activeGallery = [];
+            let activeGalleryIndex = 0;
+
+            const renderGalleryPhoto = () => {
+                if (!activeGallery.length || !galleryImg || !galleryTitle || !galleryCounter) return;
+                const current = activeGallery[activeGalleryIndex];
+                galleryImg.setAttribute('src', current.src || '');
+                galleryImg.setAttribute('alt', current.alt || current.didascalia || 'Foto cantiere');
+                galleryTitle.textContent = current.didascalia || current.alt || 'Dettaglio cantiere';
+                galleryCounter.textContent = `FOTO ${activeGalleryIndex + 1} DI ${activeGallery.length}`;
+                const multi = activeGallery.length > 1;
+                if (galleryPrev) galleryPrev.hidden = !multi;
+                if (galleryNext) galleryNext.hidden = !multi;
+            };
+
+            const closeGalleryModal = () => {
+                if (!galleryModal) return;
+                galleryModal.hidden = true;
+                if (galleryImg) galleryImg.removeAttribute('src');
+                document.body.style.overflow = '';
+            };
+
+            document.addEventListener('click', (ev) => {
+                const trigger = ev.target && ev.target.closest ? ev.target.closest('[data-open-gallery]') : null;
+                if (!trigger || !galleryModal) return;
+                const groupId = trigger.getAttribute('data-open-gallery') || '';
+                const startIndex = Number(trigger.getAttribute('data-gallery-index') || '0');
+                const groupEl = document.querySelector(`[data-gallery-group="${CSS.escape(groupId)}"]`);
+                if (!groupEl) return;
+                try {
+                    const parsed = JSON.parse(groupEl.getAttribute('data-gallery-items') || '[]');
+                    if (!Array.isArray(parsed) || !parsed.length) return;
+                    activeGallery = parsed;
+                    activeGalleryIndex = Math.max(0, Math.min(parsed.length - 1, startIndex));
+                    renderGalleryPhoto();
+                    galleryModal.hidden = false;
+                    document.body.style.overflow = 'hidden';
+                    galleryClose?.focus();
+                } catch {}
+            });
+
+            galleryPrev?.addEventListener('click', () => {
+                if (!activeGallery.length) return;
+                activeGalleryIndex = (activeGalleryIndex - 1 + activeGallery.length) % activeGallery.length;
+                renderGalleryPhoto();
+            });
+            galleryNext?.addEventListener('click', () => {
+                if (!activeGallery.length) return;
+                activeGalleryIndex = (activeGalleryIndex + 1) % activeGallery.length;
+                renderGalleryPhoto();
+            });
+            galleryClose?.addEventListener('click', closeGalleryModal);
+            galleryModal?.addEventListener('click', (ev) => {
+                if (ev.target === galleryModal) closeGalleryModal();
+            });
+
+            /* 4. MODALE VIDEO LAZY-LOADED (monta il player solo al clic e lo scarica alla chiusura) */
+            const videoModal = document.getElementById('work-video-modal');
+            const videoMount = document.getElementById('work-video-mount');
+            const videoTitle = document.getElementById('work-video-title');
+            const videoDesc = document.getElementById('work-video-desc');
+            const videoClose = document.getElementById('work-video-close');
+
+            const closeVideoModal = () => {
+                if (!videoModal || !videoMount) return;
+                const currentVideo = videoMount.querySelector('video');
+                if (currentVideo instanceof HTMLVideoElement) {
+                    currentVideo.pause();
+                    currentVideo.removeAttribute('src');
+                    currentVideo.load();
+                }
+                videoMount.replaceChildren();
+                videoModal.hidden = true;
+                document.body.style.overflow = '';
+            };
+
+            document.addEventListener('click', (ev) => {
+                const trigger = ev.target && ev.target.closest ? ev.target.closest('[data-open-video]') : null;
+                if (!trigger || !videoModal || !videoMount || !videoTitle) return;
+                const src = trigger.getAttribute('data-video-src') || '';
+                const poster = trigger.getAttribute('data-video-poster') || '';
+                const title = trigger.getAttribute('data-video-title') || 'Video di cantiere';
+                const desc = trigger.getAttribute('data-video-desc') || '';
+                if (!src) return;
+
+                videoTitle.textContent = title;
+                if (videoDesc) {
+                    videoDesc.textContent = desc;
+                    videoDesc.hidden = !desc;
+                }
+
+                const videoEl = document.createElement('video');
+                videoEl.className = 'work-modal-video';
+                videoEl.controls = true;
+                videoEl.autoplay = true;
+                videoEl.playsInline = true;
+                videoEl.setAttribute('playsinline', '');
+                videoEl.preload = 'metadata';
+                if (poster) videoEl.poster = poster;
+                videoEl.src = src;
+
+                videoMount.replaceChildren(videoEl);
+                videoModal.hidden = false;
+                document.body.style.overflow = 'hidden';
+                videoClose?.focus();
+            });
+
+            videoClose?.addEventListener('click', closeVideoModal);
+            videoModal?.addEventListener('click', (ev) => {
+                if (ev.target === videoModal) closeVideoModal();
+            });
+
+            document.addEventListener('keydown', (ev) => {
+                if (ev.key === 'Escape') {
+                    if (galleryModal && !galleryModal.hidden) closeGalleryModal();
+                    if (videoModal && !videoModal.hidden) closeVideoModal();
+                }
+                if (galleryModal && !galleryModal.hidden && activeGallery.length > 1) {
+                    if (ev.key === 'ArrowLeft') {
+                        activeGalleryIndex = (activeGalleryIndex - 1 + activeGallery.length) % activeGallery.length;
+                        renderGalleryPhoto();
+                    } else if (ev.key === 'ArrowRight') {
+                        activeGalleryIndex = (activeGalleryIndex + 1) % activeGallery.length;
+                        renderGalleryPhoto();
+                    }
+                }
+            });
+        })();
+    </script>
 </SiteLayout>

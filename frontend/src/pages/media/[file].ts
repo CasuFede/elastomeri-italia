@@ -3,8 +3,14 @@ import { env } from 'cloudflare:workers';
 
 export const prerender = false;
 
-async function handleVideoRequest(request: Request, url: URL): Promise<Response> {
-  const sourceUrl = new URL('/videos/hero-poliurea.mp4', url.origin).toString();
+const SAFE_VIDEO_NAME = /^[a-z0-9][a-z0-9._-]{0,120}\.(mp4|webm)$/i;
+
+async function handleVideoRequest(request: Request, url: URL, fileParam: string | undefined): Promise<Response> {
+  if (!fileParam || !SAFE_VIDEO_NAME.test(fileParam) || fileParam.includes('..')) {
+    return new Response('Video non valido', { status: 400 });
+  }
+
+  const sourceUrl = new URL(`/videos/${fileParam}`, url.origin).toString();
   const assets = (env as unknown as { ASSETS?: { fetch: (req: Request | string) => Promise<Response> } })?.ASSETS;
 
   const assetRes =
@@ -16,7 +22,8 @@ async function handleVideoRequest(request: Request, url: URL): Promise<Response>
     return new Response('Video non trovato', { status: assetRes.status });
   }
 
-  const contentType = assetRes.headers.get('content-type') || 'video/mp4';
+  const fallbackType = fileParam.toLowerCase().endsWith('.webm') ? 'video/webm' : 'video/mp4';
+  const contentType = assetRes.headers.get('content-type') || fallbackType;
   const etag = assetRes.headers.get('etag');
   const rangeHeader = request.headers.get('range');
   const isHead = request.method === 'HEAD';
@@ -103,5 +110,5 @@ async function handleVideoRequest(request: Request, url: URL): Promise<Response>
   });
 }
 
-export const GET: APIRoute = ({ request, url }) => handleVideoRequest(request, url);
-export const HEAD: APIRoute = ({ request, url }) => handleVideoRequest(request, url);
+export const GET: APIRoute = ({ request, url, params }) => handleVideoRequest(request, url, params.file);
+export const HEAD: APIRoute = ({ request, url, params }) => handleVideoRequest(request, url, params.file);
