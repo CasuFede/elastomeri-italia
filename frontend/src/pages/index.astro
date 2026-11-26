@@ -1,6 +1,5 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
-import CallToAction from '../components/CallToAction.astro';
 
 const faqStructuredData = [
     {
@@ -109,10 +108,6 @@ const faqStructuredData = [
                 </div>
             </div>
         </div>
-
-        <div class="hero-bottom wrap relative z-10 shrink-0 flex flex-wrap items-center justify-start sm:justify-center gap-x-4 gap-y-2 sm:gap-6 pr-16 sm:pr-0 text-xs font-mono font-bold tracking-widest text-white py-5 border-t border-white/20 [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]">
-            <span>DALLE FONDAZIONI</span><i class="h-1.5 w-1.5 rounded-full bg-[#2997FF] hidden sm:inline-block"></i><span>ALLE COPERTURE</span><i class="h-1.5 w-1.5 rounded-full bg-[#2997FF] hidden sm:inline-block"></i><span>FINO AI DETTAGLI</span>
-        </div>
     </section>
 
     <!-- TRUST BAR: 4 QUANTITATIVE METRICS -->
@@ -142,19 +137,6 @@ const faqStructuredData = [
             </div>
         </div>
     </section>
-
-    <!-- MENU RAPIDO STICKY DEGLI ARGOMENTI -->
-    <nav class="home-quick-nav" aria-label="Argomenti della home page">
-        <div class="wrap home-quick-nav-inner">
-            <span class="home-quick-nav-label">ARGOMENTI</span>
-            <a class="home-quick-link is-active" href="#interventi" data-band-link="interventi"><span>01</span> Dove interveniamo</a>
-            <a class="home-quick-link" href="#metodo" data-band-link="metodo"><span>02</span> Il metodo</a>
-            <a class="home-quick-link" href="#poliurea" data-band-link="poliurea"><span>03</span> Perché la poliurea</a>
-            <a class="home-quick-link" href="#clienti" data-band-link="clienti"><span>04</span> Privati &amp; Imprese</a>
-            <a class="home-quick-link" href="#preventivo-step" data-band-link="preventivo-step"><span>05</span> Preventivo</a>
-            <a class="home-quick-link" href="#faq" data-band-link="faq"><span>06</span> FAQ</a>
-        </div>
-    </nav>
 
     <!-- BARRA 01: DOVE POSSIAMO INTERVENIRE -->
     <section id="interventi" class="home-band" data-band="interventi">
@@ -533,14 +515,6 @@ const faqStructuredData = [
         </div>
     </section>
 
-    <!-- FINAL CALL TO ACTION -->
-    <CallToAction
-        eyebrow="STOP AI DANNI DA INFILTRAZIONE"
-        title="Proteggi il tuo immobile con una soluzione garantita."
-        text="Non rimandare finché l'acqua non rovina intonaci, solai e finiture. Richiedi subito il tuo sopralluogo diagnostico gratuito: verificheremo le superfici e ti indicheremo la soluzione definitiva senza impegno."
-        buttonText="Richiedi il Sopralluogo Gratuito"
-    />
-
     <script is:inline>
         (() => {
             // Avvio affidabile del video Hero su iOS Safari e Android (senza mai mostrare il tasto Play nativo)
@@ -610,37 +584,6 @@ const faqStructuredData = [
             };
             syncHeaderOffset();
             window.addEventListener('resize', syncHeaderOffset, { passive: true });
-
-            const links = Array.from(document.querySelectorAll('[data-band-link]'));
-            const bands = Array.from(document.querySelectorAll('section[data-band]'));
-            if (!links.length || !bands.length || !('IntersectionObserver' in window)) return;
-
-            const setActive = (id) => {
-                links.forEach((link) => {
-                    const active = link.getAttribute('data-band-link') === id;
-                    link.classList.toggle('is-active', active);
-                    if (active) {
-                        link.setAttribute('aria-current', 'true');
-                    } else {
-                        link.removeAttribute('aria-current');
-                    }
-                });
-            };
-
-            const observer = new IntersectionObserver(
-                (entries) => {
-                    const visible = entries
-                        .filter((e) => e.isIntersecting)
-                        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-                    if (visible.length > 0) {
-                        const id = visible[0].target.getAttribute('data-band');
-                        if (id) setActive(id);
-                    }
-                },
-                { rootMargin: '-150px 0px -55% 0px', threshold: 0.01 }
-            );
-
-            bands.forEach((band) => observer.observe(band));
         })();
     </script>
 </SiteLayout>

@@ -641,7 +641,7 @@
 .home-band.polyurea-section,
 .home-band.home-checklist,
 .home-band.faq-section {
-    scroll-margin-top: calc(var(--site-header-height, 85px) + 58px);
+    scroll-margin-top: var(--site-header-height, 85px);
     padding: 0;
     background: #FFFFFF;
     border-top: 0;
@@ -844,7 +844,7 @@
     .home-band.polyurea-section,
     .home-band.home-checklist,
     .home-band.faq-section {
-        scroll-margin-top: calc(var(--site-header-height, 71px) + 56px);
+        scroll-margin-top: var(--site-header-height, 71px);
     }
     .home-band-bar-inner {
         padding-block: 12px;
