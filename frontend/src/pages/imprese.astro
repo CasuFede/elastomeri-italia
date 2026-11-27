@@ -4,81 +4,173 @@ import PageIntro from '../components/PageIntro.astro';
 ---
 
 <SiteLayout
-    title="Imprese e Condomìni Genova e Liguria | Poliurea System"
-    description="Impermeabilizzazioni continue per condomìni e tetti industriali a Genova e in Liguria. Diagnosi tecnica, computi metrici e relazioni per delibere."
+    title="Chi Siamo e Condomìni a Genova e Liguria | Poliurea System"
+    description="Chi siamo: i tecnici diretti di Poliurea System a Genova e in Liguria per impermeabilizzazioni di terrazzi, condomìni e coperture industriali senza subappalti."
     activePath="/imprese"
-    breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Per imprese', path: '/imprese' }]}
+    breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Chi siamo & Condomìni', path: '/imprese' }]}
 >
     <PageIntro
-        eyebrow="B2B & CONDOMÌNI"
-        title="Documentazione certa,"
-        highlight="zero contenziosi."
-        text="Per amministratori di condominio, imprese e progettisti la conformità e la certezza dei tempi contano quanto il risultato finale. Offriamo rilievi strumentali, computi estimativi trasparenti e pose certificate senza demolizioni né fermi cantiere."
+        eyebrow="CHI SIAMO & CONDOMÌNI · GENOVA E LIGURIA"
+        title="Chi siamo:"
+        highlight="tecnici diretti, zero intermediari."
+        text="Siamo specializzati in impermeabilizzazioni continue a Genova, in Liguria e nelle regioni limitrofe. Chi viene a fare il sopralluogo è lo stesso team che prepara il supporto ed esegue la posa in cantiere."
     />
 
-    <!-- PROTOCOLLO OPERATIVO B2B -->
-    <section class="business-intro wrap my-12">
-        <div class="business-statement rounded-[28px] border border-[#D2D2D7] bg-[#F5F5F7] p-6 sm:p-10 transition-colors duration-200 hover:border-[#0071E3]">
-            <p class="eyebrow inline-block rounded-full border border-[#B5CCE4] bg-[#E8F2FC] px-3.5 py-1 font-mono text-xs font-bold uppercase tracking-wider text-[#0071E3] mb-4">PROTOCOLLO OPERATIVO B2B</p>
-            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#1D1D1F] tracking-tight leading-tight mb-4">Dal rilievo diagnostico<br />al <span class="text-[#0071E3]">fascicolo per l’assemblea.</span></h2>
-            <p class="text-[#6E6E73] text-sm sm:text-base leading-relaxed mb-6">Per chi gestisce immobili o firma progetti, la precisione documentale è fondamentale. Non ci limitiamo a un preventivo generico: forniamo diagnosi termo-igrometrica del supporto, stratigrafia esecutiva e schede prestazionali a norma per delibere assembleari e computi metrici estimativi.</p>
-            
-            <div class="space-y-3 pt-4 border-t border-[#D2D2D7]">
-                <div class="flex items-center gap-3 text-xs sm:text-sm text-[#1D1D1F] font-medium">
-                    <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#30A14E] text-white text-xs font-bold">✓</span>
-                    <span>Relazione tecnica e fascicolo fotografico preliminare entro 48h</span>
+    <!-- SEZIONE 1: CHI INTERVIENE SUL TUO CANTIERE -->
+    <section class="wrap mt-2 mb-16" aria-label="Il team e il metodo di lavoro">
+        <div class="grid gap-8 lg:grid-cols-[1.05fr_1.15fr] items-center rounded-[28px] border border-[#D2D2D7] bg-[#F5F5F7] p-6 sm:p-10">
+            <div class="relative overflow-hidden rounded-2xl border border-[#D2D2D7] bg-[#161D2E]">
+                <img
+                    src="/images/metodi/spruzzo-caldo.webp"
+                    alt="Tecnico Poliurea System durante l'impermeabilizzazione continua di una copertura piana"
+                    width="1280"
+                    height="800"
+                    loading="eager"
+                    decoding="async"
+                    class="w-full h-full aspect-[16/11] object-cover block"
+                />
+                <span class="absolute left-3.5 top-3.5 inline-flex items-center gap-2 rounded-full bg-[#161D2E]/90 border border-white/15 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-white">
+                    <span class="h-2 w-2 rounded-full bg-[#2997FF]" aria-hidden="true"></span>
+                    Genova &amp; Liguria · Posa diretta
+                </span>
+            </div>
+
+            <div class="grid gap-5">
+                <div>
+                    <p class="eyebrow">IL TEAM DI POLIUREA SYSTEM</p>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight leading-tight">
+                        Un unico referente tecnico <span class="text-[#0071E3]">dal sopralluogo alla consegna.</span>
+                    </h2>
                 </div>
-                <div class="flex items-center gap-3 text-xs sm:text-sm text-[#1D1D1F] font-medium">
-                    <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#30A14E] text-white text-xs font-bold">✓</span>
-                    <span>Capitolato prestazionale certificato ETAG 005 - W3 (durata 25 anni)</span>
-                </div>
-                <div class="flex items-center gap-3 text-xs sm:text-sm text-[#1D1D1F] font-medium">
-                    <span class="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#30A14E] text-white text-xs font-bold">✓</span>
-                    <span>Posa continua a caldo senza fiamme libere: zero costi e macerie di demolizione</span>
+
+                <p class="text-sm sm:text-[15.5px] leading-relaxed text-[#6E6E73]">
+                    Con noi non parli con call center o venditori esterni: ti confronti direttamente con <strong class="text-[#1D1D1F]">Luigi e Alessandro</strong>. Lavoriamo con attrezzature proprie — impianti bimixer ad alta pressione, pompe airless e sistemi armati in fibra di vetro — scegliendo ogni volta il ciclo realmente più efficace per la tua superficie.
+                </p>
+
+                <ul class="space-y-3 pt-4 border-t border-[#D2D2D7]">
+                    <li class="flex items-start gap-3 text-sm text-[#1D1D1F] font-medium">
+                        <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white text-[11px] font-bold">✓</span>
+                        <span><strong>Sopralluogo fatto da chi esegue il lavoro:</strong> verifichiamo pendenze, scarichi, risvolti e tenuta del supporto prima di formulare il preventivo.</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#1D1D1F] font-medium">
+                        <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white text-[11px] font-bold">✓</span>
+                        <span><strong>Tre tecnologie complementari:</strong> applicazione manuale di precisione, poliurea pura a caldo a spruzzo o prodotto bituminoso armato con fibra di vetro Remat.</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-[#1D1D1F] font-medium">
+                        <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#0071E3] text-white text-[11px] font-bold">✓</span>
+                        <span><strong>Zero subappalti e meno disagi:</strong> dove il fondo è ancorato interveniamo senza demolizioni, evitando macerie, polveri e lunghi fermi cantiere.</span>
+                    </li>
+                </ul>
+
+                <!-- Contatti diretti dei tecnici -->
+                <div class="grid gap-3 sm:grid-cols-2 pt-2">
+                    <a
+                        href="tel:+393441366523"
+                        class="flex items-center gap-3 rounded-2xl border border-[#D2D2D7] bg-white px-4 py-3 text-left no-underline transition-colors hover:border-[#0071E3]"
+                    >
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#E8F2FC] text-[#0071E3]" aria-hidden="true">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+                        </span>
+                        <span class="min-w-0">
+                            <span class="block text-[10px] font-bold uppercase tracking-wider text-[#6E6E73]">Luigi · Tecnico</span>
+                            <span class="block text-sm font-bold text-[#1D1D1F]">+39 344 136 6523</span>
+                        </span>
+                    </a>
+                    <a
+                        href="tel:+393484052908"
+                        class="flex items-center gap-3 rounded-2xl border border-[#D2D2D7] bg-white px-4 py-3 text-left no-underline transition-colors hover:border-[#0071E3]"
+                    >
+                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#E8F2FC] text-[#0071E3]" aria-hidden="true">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>
+                        </span>
+                        <span class="min-w-0">
+                            <span class="block text-[10px] font-bold uppercase tracking-wider text-[#6E6E73]">Alessandro · Tecnico</span>
+                            <span class="block text-sm font-bold text-[#1D1D1F]">+39 348 405 2908</span>
+                        </span>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- AUDIENCE TARGET CARDS -->
-    <section class="business-audience py-16 bg-[#F5F5F7] border-y border-[#D2D2D7]">
+    <!-- SEZIONE 2: CONDOMÌNI, AZIENDE E PROGETTISTI -->
+    <section class="py-16 bg-[#F5F5F7] border-y border-[#D2D2D7]" aria-label="Collaborazioni con condomìni, aziende e tecnici">
         <div class="wrap">
             <div class="section-heading mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
-                    <p class="eyebrow text-xs font-bold uppercase tracking-wider text-[#0071E3] mb-2">A CHI CI RIVOLGIAMO</p>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight leading-tight">Collaboriamo con<br /><span class="text-[#0071E3]">chi si prende cura degli edifici.</span></h2>
+                    <p class="eyebrow">CONDOMÌNI, AZIENDE &amp; STUDI TECNICI</p>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight leading-tight">
+                        Come supportiamo chi <span class="text-[#0071E3]">gestisce o progetta edifici.</span>
+                    </h2>
                 </div>
-                <p class="text-[#6E6E73] text-sm sm:text-base max-w-xl">Ogni interlocutore ha priorità specifiche: forniamo risposte mirate per azzerare contenziosi, velocizzare i cantieri e garantire la massima conformità tecnica.</p>
+                <p class="text-[#6E6E73] text-sm sm:text-base max-w-xl">
+                    Dalle delibere condominiali alle grandi coperture produttive: tempi certi, cicli documentati e nessuna improvvisazione in cantiere.
+                </p>
             </div>
-            <div class="audience-cards grid gap-6 md:grid-cols-3">
-                <article class="rounded-3xl border border-[#D2D2D7] bg-white p-7 hover:border-[#0071E3] hover:-translate-y-1 transition-all duration-200">
-                    <span class="text-xs font-mono font-bold text-white bg-[#0071E3] px-3 py-1 rounded-full inline-block mb-4">01</span>
-                    <h3 class="text-lg font-bold text-[#1D1D1F] mb-2">Amministratori di condominio</h3>
-                    <p class="text-sm text-[#6E6E73] leading-relaxed">Documentazione chiara per delibere assembleari approvate senza contestazioni: fascicolo fotografico dell'infiltrazione, diagnosi igrometrica e computo trasparente a costi bloccati.</p>
+
+            <div class="grid gap-6 md:grid-cols-3">
+                <article class="rounded-3xl border border-[#D2D2D7] bg-white p-7 transition-colors duration-200 hover:border-[#0071E3] flex flex-col gap-3">
+                    <span class="text-xs font-mono font-bold text-white bg-[#0071E3] px-3 py-1 rounded-full self-start">01</span>
+                    <h3 class="text-lg font-bold text-[#1D1D1F]">Amministratori di condominio</h3>
+                    <p class="text-sm text-[#6E6E73] leading-relaxed">
+                        Sopralluogo su lastrici solari, terrazzi e corselli box con foto chiare dei punti critici e preventivo trasparente pronto per l’assemblea. Riduciamo rumori, macerie e tempi di occupazione.
+                    </p>
                 </article>
-                <article class="rounded-3xl border border-[#D2D2D7] bg-white p-7 hover:border-[#0071E3] hover:-translate-y-1 transition-all duration-200">
-                    <span class="text-xs font-mono font-bold text-white bg-[#0071E3] px-3 py-1 rounded-full inline-block mb-4">02</span>
-                    <h3 class="text-lg font-bold text-[#1D1D1F] mb-2">Imprese e property manager</h3>
-                    <p class="text-sm text-[#6E6E73] leading-relaxed">Azzeramento fermi cantiere: polimerizzazione in pochi secondi, calpestabilità immediata in 60 minuti e capacità applicativa fino a 1.000 m² al giorno senza intralciare le attività.</p>
+
+                <article class="rounded-3xl border border-[#D2D2D7] bg-white p-7 transition-colors duration-200 hover:border-[#0071E3] flex flex-col gap-3">
+                    <span class="text-xs font-mono font-bold text-white bg-[#0071E3] px-3 py-1 rounded-full self-start">02</span>
+                    <h3 class="text-lg font-bold text-[#1D1D1F]">Aziende e capannoni</h3>
+                    <p class="text-sm text-[#6E6E73] leading-relaxed">
+                        Risanamento di coperture piane e vecchie guaine bituminose senza fiamma libera e senza fermare le attività interne: alta produttività a spruzzo oppure ciclo bituminoso armato con fibra di vetro Remat.
+                    </p>
                 </article>
-                <article class="rounded-3xl border border-[#D2D2D7] bg-white p-7 hover:border-[#0071E3] hover:-translate-y-1 transition-all duration-200">
-                    <span class="text-xs font-mono font-bold text-white bg-[#0071E3] px-3 py-1 rounded-full inline-block mb-4">03</span>
-                    <h3 class="text-lg font-bold text-[#1D1D1F] mb-2">Tecnici e progettisti</h3>
-                    <p class="text-sm text-[#6E6E73] leading-relaxed">Supporto qualificato per la stesura del capitolato speciale d'appalto: schede prestazionali ETAG 005 - W3, dettagli esecutivi di raccordo CAD e collaudo idraulico documentato.</p>
+
+                <article class="rounded-3xl border border-[#D2D2D7] bg-white p-7 transition-colors duration-200 hover:border-[#0071E3] flex flex-col gap-3">
+                    <span class="text-xs font-mono font-bold text-white bg-[#0071E3] px-3 py-1 rounded-full self-start">03</span>
+                    <h3 class="text-lg font-bold text-[#1D1D1F]">Imprese edili e progettisti</h3>
+                    <p class="text-sm text-[#6E6E73] leading-relaxed">
+                        Affiancamento nella scelta della stratigrafia corretta in base al supporto esistente, sigillatura continua di camini, lucernari, soglie e fondazioni con consegna puntuale.
+                    </p>
                 </article>
             </div>
         </div>
     </section>
 
-    <!-- CHECKLIST: COME PREPARARE IL PRIMO CONFRONTO -->
-    <section class="business-checklist wrap my-16 rounded-[28px] border border-[#D2D2D7] bg-[#F5F5F7] p-8 sm:p-12 transition-colors duration-200 hover:border-[#0071E3]">
-        <p class="eyebrow text-xs font-bold uppercase tracking-wider text-[#0071E3] mb-2">COME PREPARARE IL PRIMO CONFRONTO</p>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight leading-tight mb-8">Le informazioni utili<br /><span class="text-[#0071E3]">per iniziare subito bene.</span></h2>
-        <div class="checklist-grid grid gap-4 sm:grid-cols-2">
-            <p class="flex items-center gap-3 rounded-xl border border-[#D2D2D7] bg-white p-4 text-sm font-medium text-[#1D1D1F] transition-colors duration-200 hover:border-[#0071E3]"><span class="flex h-7 w-7 items-center justify-center rounded-full bg-[#0071E3] text-white font-bold shrink-0">✓</span> Indirizzo, tipologia e destinazione d'uso dell’immobile</p>
-            <p class="flex items-center gap-3 rounded-xl border border-[#D2D2D7] bg-white p-4 text-sm font-medium text-[#1D1D1F] transition-colors duration-200 hover:border-[#0071E3]"><span class="flex h-7 w-7 items-center justify-center rounded-full bg-[#0071E3] text-white font-bold shrink-0">✓</span> Superficie stimata e punti critici (soglie, scarichi, giunti)</p>
-            <p class="flex items-center gap-3 rounded-xl border border-[#D2D2D7] bg-white p-4 text-sm font-medium text-[#1D1D1F] transition-colors duration-200 hover:border-[#0071E3]"><span class="flex h-7 w-7 items-center justify-center rounded-full bg-[#0071E3] text-white font-bold shrink-0">✓</span> Cronistoria delle infiltrazioni ed eventuali interventi precedenti</p>
-            <p class="flex items-center gap-3 rounded-xl border border-[#D2D2D7] bg-white p-4 text-sm font-medium text-[#1D1D1F] transition-colors duration-200 hover:border-[#0071E3]"><span class="flex h-7 w-7 items-center justify-center rounded-full bg-[#0071E3] text-white font-bold shrink-0">✓</span> Foto del problema o planimetrie orientative</p>
+    <!-- SEZIONE 3: DOVE INTERVENIAMO E PASSO SUCCESSIVO -->
+    <section class="wrap py-16 pb-24" aria-label="Esplora cantieri e contatti">
+        <div class="grid gap-6 md:grid-cols-2">
+            <div class="rounded-[26px] border border-[#D2D2D7] bg-[#F5F5F7] p-7 sm:p-9 flex flex-col justify-between gap-5">
+                <div>
+                    <p class="eyebrow">PROVE SUL CAMPO</p>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-[#1D1D1F] tracking-tight">Guarda i nostri cantieri reali Prima e Dopo</h2>
+                    <p class="mt-2.5 text-sm text-[#6E6E73] leading-relaxed">
+                        Esplora le foto e i video reali dei nostri risanamenti su coperture e superfici in Liguria, completi di stratigrafia e materiali utilizzati.
+                    </p>
+                </div>
+                <div>
+                    <a class="ps-pill-btn ps-pill-btn--outline" href="/lavori">
+                        Vai alla galleria lavori <span aria-hidden="true">→</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="rounded-[26px] border border-[#0071E3]/30 bg-[#161D2E] p-7 sm:p-9 flex flex-col justify-between gap-5 text-white">
+                <div>
+                    <p class="eyebrow !text-[#2997FF]">SOPRALLUOGO GRATUITO</p>
+                    <h2 class="text-xl sm:text-2xl font-extrabold !text-white tracking-tight">Hai un condominio, un capannone o un terrazzo da verificare?</h2>
+                    <p class="mt-2.5 text-sm !text-[#A9B3C7] leading-relaxed">
+                        Inviaci i dettagli essenziali e qualche foto dal cellulare: ti ricontattiamo entro 24 ore per fissare il sopralluogo gratuito.
+                    </p>
+                </div>
+                <div class="flex flex-wrap items-center gap-3">
+                    <a class="ps-pill-btn ps-pill-btn--solid" href="/preventivo">
+                        Richiedi sopralluogo gratuito <span aria-hidden="true">↗</span>
+                    </a>
+                    <a class="text-sm font-semibold text-[#2997FF] hover:text-white transition-colors" href="/contatti">
+                        Tutti i recapiti →
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 </SiteLayout>

@@ -1,6 +1,80 @@
 ---
+import { env } from 'cloudflare:workers';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import { metodiOperativi } from '../data/metodi';
+
+interface HomeWorkPreview {
+    id: string;
+    titolo: string;
+    categoria: string;
+    localita: string;
+    superficieMq: number;
+    supporto: string;
+    cicloSistema: string;
+    armatura: string;
+    descrizione: string;
+    fotoPrimaUrl: string;
+    fotoPrimaAlt: string;
+    fotoDopoUrl: string;
+    fotoDopoAlt: string;
+    totFoto: number;
+    totVideo: number;
+}
+
+let cantieriInEvidenza: HomeWorkPreview[] = [];
+try {
+    const api = (env as unknown as { API?: { fetch: (req: Request) => Promise<Response> } })?.API;
+    const reqUrl = new URL('/api/lavori', Astro.url.origin).toString();
+    const res =
+        api && typeof api.fetch === 'function'
+            ? await api.fetch(new Request(reqUrl, { method: 'GET' }))
+            : await fetch(reqUrl);
+    if (res.ok) {
+        const body = (await res.json()) as {
+            dati?: Array<{
+                id: number;
+                titolo: string;
+                categoria?: string;
+                localita?: string;
+                superficie_mq?: number;
+                supporto?: string;
+                ciclo_sistema?: string;
+                armatura?: string;
+                descrizione?: string;
+                immagine_url?: string;
+                foto_prima?: Array<{ url: string; alt?: string }>;
+                foto_dopo?: Array<{ url: string; alt?: string }>;
+                video_dopo?: Array<{ id: number }>;
+            }>;
+        };
+        if (Array.isArray(body?.dati)) {
+            cantieriInEvidenza = body.dati.slice(0, 2).map((item) => {
+                const prima = item.foto_prima ?? [];
+                const dopo = item.foto_dopo ?? [];
+                const video = item.video_dopo ?? [];
+                return {
+                    id: `cantiere-${item.id}`,
+                    titolo: item.titolo,
+                    categoria: item.categoria || 'Impermeabilizzazioni',
+                    localita: item.localita || 'Genova e Liguria',
+                    superficieMq: Number(item.superficie_mq || 0),
+                    supporto: item.supporto || '',
+                    cicloSistema: item.ciclo_sistema || '',
+                    armatura: item.armatura || '',
+                    descrizione: item.descrizione || '',
+                    fotoPrimaUrl: prima[0]?.url || '',
+                    fotoPrimaAlt: prima[0]?.alt || `Prima dell'intervento: ${item.titolo}`,
+                    fotoDopoUrl: dopo[0]?.url || item.immagine_url || '',
+                    fotoDopoAlt: dopo[0]?.alt || `Risultato finale: ${item.titolo}`,
+                    totFoto: prima.length + dopo.length || (item.immagine_url ? 1 : 0),
+                    totVideo: video.length,
+                };
+            });
+        }
+    }
+} catch {
+    cantieriInEvidenza = [];
+}
 
 const vantaggiPoliurea = [
     {
@@ -144,27 +218,42 @@ const faqStructuredData = [
             class="hero-bg-video absolute inset-0 w-full h-full object-cover object-[78%_20%] sm:object-[68%_20%] lg:object-[center_20%] z-0 pointer-events-none opacity-0 transition-opacity duration-500 motion-reduce:hidden"
         ></video>
 
-        <!-- Velo scuro uniforme (nessuna sfumatura) per mantenere leggibile il testo sul video -->
-        <div class="absolute inset-0 bg-[#161D2E]/60 z-0 pointer-events-none"></div>
+        <!-- Scrim direzionale per massima leggibilità a sinistra lasciando luminoso il tecnico a destra -->
+        <div class="hero-scrim absolute inset-0 z-0 pointer-events-none"></div>
 
         <!-- Blocco testi con sfondo trasparente direttamente sopra al video -->
         <div class="hero-stage wrap relative z-10">
             <div class="hero-copy max-w-2xl w-full">
-                <h1 class="text-3xl sm:text-5xl lg:text-[3.4rem] font-extrabold tracking-tight text-white leading-[1.12] mb-5">
+                <p class="hero-geo-pill">
+                    <span class="hero-geo-dot" aria-hidden="true"></span>
+                    <span>Genova e Liguria · Impermeabilizzazioni terrazzi, tetti e coperture</span>
+                </p>
+                <h1 class="text-3xl sm:text-5xl lg:text-[3.4rem] font-extrabold tracking-tight text-white leading-[1.1] mb-4">
                     L’acqua trova la strada.<br />
                     <span class="text-[#2997FF]">Noi la soluzione definitiva.</span>
                 </h1>
-                <p class="hero-description text-base sm:text-lg text-white leading-relaxed max-w-xl font-medium">
-                    Basta infiltrazioni, continue riparazioni provvisorie e costose demolizioni di piastrelle. Applichiamo una membrana continua in pura poliurea a caldo: monolitica, elastica al 400% e calpestabile già dopo 60 minuti.
+                <p class="hero-description text-white/95 max-w-xl font-normal">
+                    Eliminiamo infiltrazioni su terrazzi, tetti e coperture senza demolire le piastrelle: poliurea pura a caldo, applicazioni manuali e sistemi bituminosi armati Remat. Calpestabile già dopo 60 minuti.
                 </p>
                 <div class="hero-actions">
                     <a
                         class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full bg-[#0071E3] hover:bg-[#0064CC] active:bg-[#005BB8] px-6 py-3.5 text-[15px] font-semibold text-white no-underline transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#161D2E]"
-                        href="/metodo"
+                        href="/preventivo"
                     >
-                        Scopri il nostro metodo <span aria-hidden="true">↗</span>
+                        Richiedi sopralluogo gratuito <span aria-hidden="true">↗</span>
+                    </a>
+                    <a
+                        class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-full border border-white/40 bg-[#161D2E]/55 hover:bg-[#161D2E]/85 hover:border-white px-6 py-3.5 text-[15px] font-semibold text-white no-underline transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                        href="/lavori"
+                    >
+                        Guarda i cantieri Prima/Dopo <span aria-hidden="true">→</span>
                     </a>
                 </div>
+                <ul class="hero-trust-strip" aria-label="Garanzie operative">
+                    <li><span class="hero-trust-check" aria-hidden="true">✓</span> Sopralluogo gratuito</li>
+                    <li><span class="hero-trust-check" aria-hidden="true">✓</span> Zero demolizioni</li>
+                    <li><span class="hero-trust-check" aria-hidden="true">✓</span> Risposta entro 24h</li>
+                </ul>
             </div>
         </div>
     </section>
@@ -197,6 +286,96 @@ const faqStructuredData = [
         </div>
     </section>
 
+    <!-- VETRINA CANTIERE REALE PRIMA & DOPO (DINAMICA DA ADMIN) -->
+    {cantieriInEvidenza.length > 0 && (
+        <section id="cantieri-reali" class="home-band home-real-works" data-band="cantieri">
+            <div class="wrap home-band-body">
+                <div class="section-heading mb-8 sm:mb-10 flex flex-col md:flex-row md:items-end justify-between gap-5">
+                    <div>
+                        <p class="eyebrow">CANTIERI DOCUMENTATI SUL CAMPO</p>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1D1D1F] leading-tight">
+                            Risultati reali, <span class="text-[#0071E3]">prima e dopo.</span>
+                        </h2>
+                    </div>
+                    <a class="ps-text-link shrink-0" href="/lavori">
+                        Esplora tutti i cantieri <span aria-hidden="true">→</span>
+                    </a>
+                </div>
+
+                <div class={`home-real-works-grid ${cantieriInEvidenza.length === 1 ? 'is-single' : ''}`}>
+                    {cantieriInEvidenza.map((cantiere) => {
+                        const specs = [cantiere.supporto, cantiere.cicloSistema, cantiere.armatura].filter(Boolean);
+                        return (
+                            <article class="home-featured-work">
+                                <a href={`/lavori#${cantiere.id}`} class="home-featured-work-media" aria-label={`Apri galleria Prima e Dopo: ${cantiere.titolo}`}>
+                                    {cantiere.fotoPrimaUrl && cantiere.fotoDopoUrl ? (
+                                        <div class="home-work-diptych">
+                                            <div class="home-work-half">
+                                                <img src={cantiere.fotoPrimaUrl} alt={cantiere.fotoPrimaAlt} width="640" height="440" loading="lazy" decoding="async" />
+                                                <span class="work-phase-pill work-phase-pill--before">PRIMA</span>
+                                            </div>
+                                            <div class="home-work-half">
+                                                <img src={cantiere.fotoDopoUrl} alt={cantiere.fotoDopoAlt} width="640" height="440" loading="lazy" decoding="async" />
+                                                <span class="work-phase-pill work-phase-pill--after">DOPO</span>
+                                            </div>
+                                            {(cantiere.totFoto > 0 || cantiere.totVideo > 0) && (
+                                                <span class="work-compact-media-count">
+                                                    {cantiere.totFoto} foto{cantiere.totVideo > 0 ? ` · ${cantiere.totVideo} video` : ''}
+                                                </span>
+                                            )}
+                                        </div>
+                                    ) : cantiere.fotoDopoUrl ? (
+                                        <div class="home-work-single">
+                                            <img src={cantiere.fotoDopoUrl} alt={cantiere.fotoDopoAlt} width="800" height="500" loading="lazy" decoding="async" />
+                                            <span class="work-phase-pill work-phase-pill--after">DOPO</span>
+                                        </div>
+                                    ) : null}
+                                </a>
+
+                                <div class="home-featured-work-body">
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <span class="work-case-category">{cantiere.categoria}</span>
+                                        {cantiere.superficieMq > 0 && (
+                                            <span class="work-compact-mq">{cantiere.superficieMq} mq</span>
+                                        )}
+                                        <span class="home-work-loc">{cantiere.localita}</span>
+                                    </div>
+
+                                    <h3 class="text-xl sm:text-2xl font-extrabold tracking-tight text-[#1D1D1F] leading-snug">
+                                        {cantiere.titolo}
+                                    </h3>
+
+                                    {cantiere.descrizione && (
+                                        <p class="text-sm sm:text-[15px] leading-relaxed text-[#6E6E73]">
+                                            {cantiere.descrizione}
+                                        </p>
+                                    )}
+
+                                    {specs.length > 0 && (
+                                        <div class="flex flex-wrap gap-2">
+                                            {specs.map((spec) => (
+                                                <span class="home-work-spec-chip">{spec}</span>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    <div class="pt-2 flex flex-wrap items-center gap-3">
+                                        <a class="ps-pill-btn ps-pill-btn--solid" href={`/lavori#${cantiere.id}`}>
+                                            Apri galleria foto e video <span aria-hidden="true">→</span>
+                                        </a>
+                                        <a class="ps-text-link" href="/preventivo">
+                                            Hai una superficie simile? <span aria-hidden="true">↗</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>
+                        );
+                    })}
+                </div>
+            </div>
+        </section>
+    )}
+
     <!-- SEZIONE 01: DOVE POSSIAMO INTERVENIRE -->
     <section id="interventi" class="home-band" data-band="interventi">
         <div class="wrap home-band-body">
@@ -214,7 +393,7 @@ const faqStructuredData = [
                         data-schema-src="/images/terrazzi-impermeabilizzazione.svg"
                         data-schema-title="Schema Tecnico — Terrazzi e lastrici solari"
                         data-schema-alt="Schema tecnico impermeabilizzazione terrazzi e lastrici solari senza demolizione"
-                        class="group/zoom w-full rounded-2xl border border-[#D2D2D7] hover:border-[#0071E3] bg-[#161D2E] p-2 mb-5 text-left cursor-zoom-in transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071E3]"
+                        class="group/zoom w-full rounded-2xl border border-[#D2D2D7] hover:border-[#0071E3] bg-white p-2 mb-5 text-left cursor-zoom-in transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071E3]"
                         aria-label="Ingrandisci schema tecnico terrazzi e lastrici solari"
                     >
                         <img
@@ -225,8 +404,8 @@ const faqStructuredData = [
                             height="500"
                             loading="lazy"
                         />
-                        <span class="mt-2 flex items-center justify-between gap-2 rounded-xl bg-white border border-[#D2D2D7] px-3 py-2 text-xs font-bold text-[#1D1D1F] group-hover/zoom:bg-[#0071E3] group-hover/zoom:border-[#0071E3] group-hover/zoom:text-white transition-colors">
-                            <span>Clicca per ingrandire lo schema</span>
+                        <span class="mt-2 flex items-center justify-between gap-2 rounded-xl bg-[#F5F5F7] px-3 py-2 text-xs font-semibold text-[#1D1D1F] group-hover/zoom:bg-[#0071E3] group-hover/zoom:text-white transition-colors">
+                            <span>Ingrandisci lo schema tecnico</span>
                             <span aria-hidden="true">⤢</span>
                         </span>
                     </button>
@@ -245,7 +424,7 @@ const faqStructuredData = [
                         data-schema-src="/images/coperture-impermeabilizzazione.svg"
                         data-schema-title="Schema Tecnico — Tetti e coperture industriali"
                         data-schema-alt="Schema tecnico impermeabilizzazione tetti e coperture industriali"
-                        class="group/zoom w-full rounded-2xl border border-[#D2D2D7] hover:border-[#0071E3] bg-[#161D2E] p-2 mb-5 text-left cursor-zoom-in transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071E3]"
+                        class="group/zoom w-full rounded-2xl border border-[#D2D2D7] hover:border-[#0071E3] bg-white p-2 mb-5 text-left cursor-zoom-in transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071E3]"
                         aria-label="Ingrandisci schema tecnico tetti e coperture industriali"
                     >
                         <img
@@ -256,8 +435,8 @@ const faqStructuredData = [
                             height="500"
                             loading="lazy"
                         />
-                        <span class="mt-2 flex items-center justify-between gap-2 rounded-xl bg-white border border-[#D2D2D7] px-3 py-2 text-xs font-bold text-[#1D1D1F] group-hover/zoom:bg-[#0071E3] group-hover/zoom:border-[#0071E3] group-hover/zoom:text-white transition-colors">
-                            <span>Clicca per ingrandire lo schema</span>
+                        <span class="mt-2 flex items-center justify-between gap-2 rounded-xl bg-[#F5F5F7] px-3 py-2 text-xs font-semibold text-[#1D1D1F] group-hover/zoom:bg-[#0071E3] group-hover/zoom:text-white transition-colors">
+                            <span>Ingrandisci lo schema tecnico</span>
                             <span aria-hidden="true">⤢</span>
                         </span>
                     </button>
@@ -276,7 +455,7 @@ const faqStructuredData = [
                         data-schema-src="/images/fondazioni-impermeabilizzazione.svg"
                         data-schema-title="Schema Tecnico — Fondazioni, corselli e cantine"
                         data-schema-alt="Schema tecnico impermeabilizzazione fondazioni e strutture interrate"
-                        class="group/zoom w-full rounded-2xl border border-[#D2D2D7] hover:border-[#0071E3] bg-[#161D2E] p-2 mb-5 text-left cursor-zoom-in transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071E3]"
+                        class="group/zoom w-full rounded-2xl border border-[#D2D2D7] hover:border-[#0071E3] bg-white p-2 mb-5 text-left cursor-zoom-in transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071E3]"
                         aria-label="Ingrandisci schema tecnico fondazioni, corselli e cantine"
                     >
                         <img
@@ -287,8 +466,8 @@ const faqStructuredData = [
                             height="500"
                             loading="lazy"
                         />
-                        <span class="mt-2 flex items-center justify-between gap-2 rounded-xl bg-white border border-[#D2D2D7] px-3 py-2 text-xs font-bold text-[#1D1D1F] group-hover/zoom:bg-[#0071E3] group-hover/zoom:border-[#0071E3] group-hover/zoom:text-white transition-colors">
-                            <span>Clicca per ingrandire lo schema</span>
+                        <span class="mt-2 flex items-center justify-between gap-2 rounded-xl bg-[#F5F5F7] px-3 py-2 text-xs font-semibold text-[#1D1D1F] group-hover/zoom:bg-[#0071E3] group-hover/zoom:text-white transition-colors">
+                            <span>Ingrandisci lo schema tecnico</span>
                             <span aria-hidden="true">⤢</span>
                         </span>
                     </button>
@@ -460,7 +639,7 @@ const faqStructuredData = [
                 </div>
 
                 <p class="mt-8">
-                    <a class="ps-text-link" href="/imprese">Scopri i servizi per imprese <span aria-hidden="true">→</span></a>
+                    <a class="ps-text-link" href="/imprese">Scopri chi siamo e come lavoriamo per condomìni e aziende <span aria-hidden="true">→</span></a>
                 </p>
             </div>
         </div>

@@ -23,7 +23,10 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             <div class="wizard-top">
                 <div class="progress-label">
                     <span id="step-label">Passo 1 di 5</span>
-                    <span class="time-label"><span aria-hidden="true">◷</span> Circa 1 minuto</span>
+                    <span class="time-label">
+                        <svg class="inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                        Circa 1 minuto
+                    </span>
                 </div>
                 <div class="progress-track" role="progressbar" aria-label="Avanzamento modulo" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1">
                     <span id="progress-fill"></span>
@@ -40,16 +43,25 @@ import SiteLayout from '../layouts/SiteLayout.astro';
                 <section class="wizard-step is-active" data-step="1" aria-labelledby="step-title-1">
                     <p class="step-kicker">PASSO 01 / DESTINAZIONE</p>
                     <h2 id="step-title-1" tabindex="-1">Che tipo di immobile dobbiamo proteggere?</h2>
-                    <p class="step-copy">Seleziona la tipologia per inquadrare il contesto strutturale e logistico.</p>
+                    <p class="step-copy">Seleziona la tipologia: passerai automaticamente al passo successivo.</p>
                     <div class="choice-grid choice-grid-3">
                         <button class="choice-card" type="button" data-choice="tipo_immobile" data-value="Condominio" aria-pressed="false">
-                            <span class="choice-icon" aria-hidden="true">▥</span><span class="choice-title">Condominio</span>
+                            <span class="choice-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" /><path d="M9 22v-4h6v4" /><path d="M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01" /></svg>
+                            </span>
+                            <span class="choice-text"><span class="choice-title">Condominio</span></span>
                         </button>
                         <button class="choice-card" type="button" data-choice="tipo_immobile" data-value="Casa indipendente" aria-pressed="false">
-                            <span class="choice-icon" aria-hidden="true">⌂</span><span class="choice-title">Casa indipendente</span>
+                            <span class="choice-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m3 10 9-7 9 7v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
+                            </span>
+                            <span class="choice-text"><span class="choice-title">Casa indipendente</span></span>
                         </button>
                         <button class="choice-card" type="button" data-choice="tipo_immobile" data-value="Capannone industriale" aria-pressed="false">
-                            <span class="choice-icon" aria-hidden="true">▤</span><span class="choice-title">Capannone industriale</span>
+                            <span class="choice-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" /><path d="M17 18h1M12 18h1M7 18h1" /></svg>
+                            </span>
+                            <span class="choice-text"><span class="choice-title">Capannone industriale</span></span>
                         </button>
                     </div>
                     <p class="field-error" id="choice-error-1" aria-live="polite"></p>
@@ -61,16 +73,28 @@ import SiteLayout from '../layouts/SiteLayout.astro';
                     <p class="step-copy">Indica l'area da cui si originano o si manifestano le infiltrazioni.</p>
                     <div class="choice-grid choice-grid-4">
                         <button class="choice-card" type="button" data-choice="area_intervento" data-value="Terrazzi / Balconi" aria-pressed="false">
-                            <span class="choice-icon" aria-hidden="true">▱</span><span class="choice-title">Terrazzi<br />e balconi</span>
+                            <span class="choice-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="13" width="18" height="8" rx="1.5" /><path d="M7 13V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v7" /><path d="M3 17h18" /></svg>
+                            </span>
+                            <span class="choice-text"><span class="choice-title">Terrazzi<br />e balconi</span></span>
                         </button>
                         <button class="choice-card" type="button" data-choice="area_intervento" data-value="Tetti / Sottotetto" aria-pressed="false">
-                            <span class="choice-icon" aria-hidden="true">⌂</span><span class="choice-title">Tetti<br />e sottotetto</span>
+                            <span class="choice-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12 12 4l10 8" /><path d="M5 10v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-9" /><path d="M9 20v-6h6v6" /></svg>
+                            </span>
+                            <span class="choice-text"><span class="choice-title">Tetti<br />e sottotetto</span></span>
                         </button>
                         <button class="choice-card" type="button" data-choice="area_intervento" data-value="Fondazioni / Cantine" aria-pressed="false">
-                            <span class="choice-icon" aria-hidden="true">▦</span><span class="choice-title">Fondazioni<br />e cantine</span>
+                            <span class="choice-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h20" /><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8" /><path d="M9 13h6M9 17h6" /></svg>
+                            </span>
+                            <span class="choice-text"><span class="choice-title">Fondazioni<br />e cantine</span></span>
                         </button>
                         <button class="choice-card" type="button" data-choice="area_intervento" data-value="Altro" aria-pressed="false">
-                            <span class="choice-icon" aria-hidden="true">＋</span><span class="choice-title">Altro</span>
+                            <span class="choice-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" /></svg>
+                            </span>
+                            <span class="choice-text"><span class="choice-title">Altro</span></span>
                         </button>
                     </div>
                     <p class="field-error" id="choice-error-2" aria-live="polite"></p>
@@ -82,13 +106,31 @@ import SiteLayout from '../layouts/SiteLayout.astro';
                     <p class="step-copy">Ci permette di dare massima priorità alle infiltrazioni in corso con gocciolamenti attivi.</p>
                     <div class="choice-grid choice-grid-3">
                         <button class="choice-card" type="button" data-choice="situazione" data-value="Infiltrazione attiva (emergenza)" aria-pressed="false">
-                            <span class="choice-icon" aria-hidden="true">⌁</span><span class="choice-title">Infiltrazione attiva</span><span class="choice-caption">Intervento urgente</span>
+                            <span class="choice-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z" /></svg>
+                            </span>
+                            <span class="choice-text">
+                                <span class="choice-title">Infiltrazione attiva</span>
+                                <span class="choice-caption">Intervento urgente</span>
+                            </span>
                         </button>
                         <button class="choice-card" type="button" data-choice="situazione" data-value="Manutenzione preventiva" aria-pressed="false">
-                            <span class="choice-icon" aria-hidden="true">⚒</span><span class="choice-title">Manutenzione preventiva</span><span class="choice-caption">Prevenire è meglio</span>
+                            <span class="choice-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="m9 12 2 2 4-4" /></svg>
+                            </span>
+                            <span class="choice-text">
+                                <span class="choice-title">Manutenzione preventiva</span>
+                                <span class="choice-caption">Prevenire è meglio</span>
+                            </span>
                         </button>
                         <button class="choice-card" type="button" data-choice="situazione" data-value="Nuova costruzione" aria-pressed="false">
-                            <span class="choice-icon" aria-hidden="true">＋</span><span class="choice-title">Nuova costruzione</span><span class="choice-caption">Un progetto da iniziare</span>
+                            <span class="choice-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" /></svg>
+                            </span>
+                            <span class="choice-text">
+                                <span class="choice-title">Nuova costruzione</span>
+                                <span class="choice-caption">Un progetto da iniziare</span>
+                            </span>
                         </button>
                     </div>
                     <p class="field-error" id="choice-error-3" aria-live="polite"></p>
@@ -97,7 +139,7 @@ import SiteLayout from '../layouts/SiteLayout.astro';
                 <section class="wizard-step" data-step="4" aria-labelledby="step-title-4" hidden>
                     <p class="step-kicker">PASSO 04 / METRATURA</p>
                     <h2 id="step-title-4" tabindex="-1">Qual è l'estensione indicativa dell'area?</h2>
-                    <p class="step-copy">Anche una stima approssimativa è utile per orientare le unità di spruzzatura.</p>
+                    <p class="step-copy">Anche una stima approssimativa è utile per orientare il ciclo e le attrezzature.</p>
                     <div class="choice-grid choice-grid-3 size-grid">
                         <button class="choice-card size-card" type="button" data-choice="metratura" data-value="&lt; 50 mq" aria-pressed="false">
                             <span class="choice-title">Meno di 50 m<sup>2</sup></span>
@@ -133,7 +175,7 @@ import SiteLayout from '../layouts/SiteLayout.astro';
                         </label>
                         <label class="form-field">
                             <span>Comune dell’intervento <b>*</b></span>
-                            <input id="comune" name="comune" autocomplete="address-level2" placeholder="Es. Milano" minlength="2" maxlength="100" required />
+                            <input id="comune" name="comune" autocomplete="address-level2" placeholder="Es. Genova" minlength="2" maxlength="100" required />
                         </label>
                         <label class="form-field full-field">
                             <span>Note <small>(facoltative)</small></span>
@@ -142,9 +184,14 @@ import SiteLayout from '../layouts/SiteLayout.astro';
                     </div>
 
                     <div class="upload-field">
-                        <div class="upload-heading"><span aria-hidden="true">▧</span> Foto del problema <small>(facoltative)</small></div>
+                        <div class="upload-heading">
+                            <svg class="inline-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></svg>
+                            Foto del problema <small>(facoltative)</small>
+                        </div>
                         <label class="upload-zone" for="foto">
-                            <span class="upload-symbol" aria-hidden="true">↑</span>
+                            <span class="upload-symbol" aria-hidden="true">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" x2="12" y1="3" y2="15" /></svg>
+                            </span>
                             <span><strong>Seleziona le foto</strong> oppure trascinale qui</span>
                             <small>JPG, PNG o WEBP · massimo 5 foto e 10 MB totali</small>
                             <input id="foto" name="files" type="file" accept="image/jpeg,image/png,image/webp" multiple />
@@ -212,29 +259,45 @@ import SiteLayout from '../layouts/SiteLayout.astro';
         </section>
 
         <!-- TRUST & GUARANTEE PILLARS -->
-        <div class="quote-trust-grid mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto w-full">
+        <div class="quote-trust-grid mt-8 grid grid-cols-2 md:grid-cols-4 gap-3.5 max-w-4xl mx-auto w-full">
             <div class="flex flex-col items-center text-center p-4 rounded-2xl border border-[#D2D2D7] bg-white">
-                <span class="text-xl mb-1.5" aria-hidden="true">⚡</span>
+                <span class="trust-pill-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
+                </span>
                 <strong class="text-xs sm:text-sm font-bold text-[#1D1D1F] mb-0.5">Risposta entro 24h</strong>
                 <p class="text-[11px] text-[#6E6E73]">Contatto diretto da un tecnico qualificato</p>
             </div>
             <div class="flex flex-col items-center text-center p-4 rounded-2xl border border-[#D2D2D7] bg-white">
-                <span class="text-xl mb-1.5" aria-hidden="true">🔍</span>
+                <span class="trust-pill-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" /><circle cx="12" cy="10" r="3" /></svg>
+                </span>
                 <strong class="text-xs sm:text-sm font-bold text-[#1D1D1F] mb-0.5">Diagnosi in loco</strong>
                 <p class="text-[11px] text-[#6E6E73]">Sopralluogo gratuito e senza alcun vincolo</p>
             </div>
             <div class="flex flex-col items-center text-center p-4 rounded-2xl border border-[#D2D2D7] bg-white">
-                <span class="text-xl mb-1.5" aria-hidden="true">🛡️</span>
+                <span class="trust-pill-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="m9 12 2 2 4-4" /></svg>
+                </span>
                 <strong class="text-xs sm:text-sm font-bold text-[#1D1D1F] mb-0.5">Costi trasparenti</strong>
                 <p class="text-[11px] text-[#6E6E73]">Preventivo chiaro a prezzo bloccato</p>
             </div>
             <div class="flex flex-col items-center text-center p-4 rounded-2xl border border-[#D2D2D7] bg-white">
-                <span class="text-xl mb-1.5" aria-hidden="true">🔒</span>
+                <span class="trust-pill-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                </span>
                 <strong class="text-xs sm:text-sm font-bold text-[#1D1D1F] mb-0.5">Privacy al 100%</strong>
                 <p class="text-[11px] text-[#6E6E73]">Dati protetti conformi al GDPR</p>
             </div>
         </div>
-        <p class="page-footnote mt-6"><span aria-hidden="true">✓</span> Sopralluogo diagnostico gratuito <span>·</span> Nessun impegno <span>·</span> Consulenza qualificata</p>
+        <div class="quote-direct-call mt-6 text-center text-xs text-[#6E6E73]">
+            <span>Hai un’emergenza o preferisci chiamarci subito?</span>
+            <span class="quote-direct-links">
+                <a href="tel:+393441366523">Luigi · +39 344 136 6523</a>
+                <span aria-hidden="true">·</span>
+                <a href="tel:+393484052908">Alessandro · +39 348 405 2908</a>
+            </span>
+        </div>
+        <p class="page-footnote mt-4"><span aria-hidden="true">✓</span> Sopralluogo diagnostico gratuito <span>·</span> Nessun impegno <span>·</span> Consulenza qualificata</p>
     </section>
 
     <script is:inline>
@@ -377,6 +440,8 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             }
         };
 
+        let autoAdvanceTimer = null;
+
         document.querySelectorAll('[data-choice]').forEach((button) => {
             button.addEventListener('click', () => {
                 const { choice, value } = button.dataset;
@@ -385,10 +450,25 @@ import SiteLayout from '../layouts/SiteLayout.astro';
                     option.setAttribute('aria-pressed', String(option === button));
                 });
                 document.querySelector(`#choice-error-${currentStep}`).textContent = '';
+
+                // Auto-avanzamento fluido sui passi a scelta singola (riduce i clic da 8 a 4)
+                if (currentStep < steps.length) {
+                    const targetStep = currentStep + 1;
+                    if (autoAdvanceTimer) window.clearTimeout(autoAdvanceTimer);
+                    autoAdvanceTimer = window.setTimeout(() => {
+                        if (currentStep === targetStep - 1) {
+                            mostraPasso(targetStep);
+                        }
+                    }, 220);
+                }
             });
         });
 
         nextBtn.addEventListener('click', () => {
+            if (autoAdvanceTimer) {
+                window.clearTimeout(autoAdvanceTimer);
+                autoAdvanceTimer = null;
+            }
             const field = ['tipo_immobile', 'area_intervento', 'situazione', 'metratura'][currentStep - 1];
             if (!document.querySelector(`#${field}`).value) {
                 document.querySelector(`#choice-error-${currentStep}`).textContent = 'Seleziona un’opzione per continuare.';
@@ -397,7 +477,13 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             mostraPasso(currentStep + 1);
         });
 
-        backBtn.addEventListener('click', () => mostraPasso(currentStep - 1));
+        backBtn.addEventListener('click', () => {
+            if (autoAdvanceTimer) {
+                window.clearTimeout(autoAdvanceTimer);
+                autoAdvanceTimer = null;
+            }
+            mostraPasso(currentStep - 1);
+        });
 
         // Gestione Upload con Anteprima Miniature e Rimozione Singola
         const syncFileInput = () => {
@@ -577,10 +663,55 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             min-height: 100vh;
             background: #F5F5F7;
             color: #1D1D1F;
-            padding-bottom: 3.5rem;
+            padding-bottom: 5.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+        .inline-icon {
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+            vertical-align: -2px;
+            margin-right: 4px;
+            color: #0071E3;
+            flex-shrink: 0;
+        }
+        .trust-pill-icon {
+            width: 36px;
+            height: 36px;
+            margin-bottom: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: #E8F2FC;
+            color: #0071E3;
+        }
+        .trust-pill-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+        .quote-direct-call {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .quote-direct-links {
+            display: inline-flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px 10px;
+            font-weight: 700;
+            color: #1D1D1F;
+        }
+        .quote-direct-links a {
+            color: #0071E3;
+            text-decoration: none;
+        }
+        .quote-direct-links a:hover {
+            text-decoration: underline;
         }
         .quote-header-note {
             display: inline-flex;
@@ -716,9 +847,28 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             background: #E8F2FC;
         }
         .choice-icon {
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: #E8F2FC;
             color: #0071E3;
-            font-size: 22px;
-            line-height: 1;
+            flex-shrink: 0;
+        }
+        .choice-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+        .choice-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .choice-card[aria-pressed="true"] .choice-icon {
+            background: #0071E3;
+            color: #FFFFFF;
         }
         .choice-title {
             color: #1D1D1F;
@@ -1067,16 +1217,29 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             .wizard-top { padding: 20px 20px 16px; }
             .wizard-step { padding: 24px 20px 12px; }
             .wizard-step h2, .success-panel h2 { font-size: 20px; }
-            .choice-grid-3, .choice-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-            .choice-card { min-height: 95px; padding: 12px; }
-            .size-grid { margin-top: 18px; }
-            .size-card { min-height: 70px; }
+            .choice-grid-3 { grid-template-columns: 1fr; }
+            .choice-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .choice-grid-3 .choice-card {
+                min-height: 64px;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 14px;
+                padding: 12px 14px;
+            }
+            .choice-grid-3 .size-card {
+                justify-content: center;
+                min-height: 58px;
+            }
+            .choice-grid-4 .choice-card { min-height: 102px; padding: 14px; }
+            .size-grid { margin-top: 16px; }
             .contact-grid { grid-template-columns: 1fr; gap: 14px; }
             .full-field { grid-column: auto; }
             .wizard-actions { min-height: 70px; padding: 12px 20px 20px; }
+            .page-footnote { flex-wrap: wrap; text-align: center; }
         }
         @media (max-width: 380px) {
-            .choice-grid-3, .choice-grid-4 { grid-template-columns: 1fr; }
+            .choice-grid-4 { grid-template-columns: 1fr; }
             .intro h1 { font-size: 22px; }
         }
     </style>
