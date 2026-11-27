@@ -1,7 +1,6 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
-import CallToAction from '../components/CallToAction.astro';
 ---
 
 <SiteLayout
@@ -17,7 +16,7 @@ import CallToAction from '../components/CallToAction.astro';
         text="Basta interventi tampone che cedono al primo inverno. Dalle superfici piastrellate a vista fino alle strutture controterra, applichiamo una corazza elastomerica monolitica continua, elastica al 400% e garantita."
     />
 
-    <section class="service-detail-list wrap my-10 space-y-10">
+    <section class="service-detail-list wrap mt-10 pb-16 space-y-10">
         <!-- 01: Terrazzi e Balconi (Primary Lead Driver) -->
         <article class="service-detail-card rounded-[28px] border border-[#D2D2D7] bg-[#F5F5F7] p-6 sm:p-10 transition-colors duration-200 hover:border-[#0071E3] grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center" id="terrazzi">
             <div class="detail-content">
@@ -182,12 +181,4 @@ import CallToAction from '../components/CallToAction.astro';
             </div>
         </article>
     </section>
-
-    <!-- FINAL CALL TO ACTION -->
-    <CallToAction 
-        eyebrow="RISOLVI IL TUO PROBLEMA"
-        title="Vuoi proteggere la tua superficie in modo definitivo?" 
-        text="Raccontaci la tua situazione o richiedi un sopralluogo diagnostico in loco. Verificheremo le condizioni del supporto e ti indicheremo la soluzione definitiva senza demolizioni." 
-        buttonText="Richiedi il Sopralluogo Gratuito"
-    />
 </SiteLayout>
