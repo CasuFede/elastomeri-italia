@@ -4,7 +4,7 @@ export interface MetodoMetrica {
 }
 
 export interface MetodoOperativo {
-    id: 'manuale' | 'spruzzo-caldo' | 'poliurea-freddo';
+    id: 'manuale' | 'spruzzo-caldo' | 'bituminoso-remat';
     numero: string;
     tag: string;
     titolo: string;
@@ -77,31 +77,31 @@ export const metodiOperativi: MetodoOperativo[] = [
         idealePer: ['Capannoni industriali', 'Grandi tetti condominiali', 'Fondazioni e muri', 'Vasche e piscine'],
     },
     {
-        id: 'poliurea-freddo',
+        id: 'bituminoso-remat',
         numero: '03',
-        tag: 'A FREDDO · AIRLESS O RULLO',
-        titolo: 'Poliurea a Freddo',
-        titoloBreve: 'Poliurea a freddo',
-        immagine: '/images/metodi/poliurea-freddo.webp',
-        immagineAlt: 'Applicazione di poliurea a freddo e ciclo poliaspartico direttamente su piastrelle di un terrazzo esistente',
+        tag: 'BITUMINOSO · STESURA REMAT FIBRA DI VETRO',
+        titolo: 'Prodotto Bituminoso Armato Remat',
+        titoloBreve: 'Bituminoso Remat',
+        immagine: '/images/metodi/bituminoso-remat.webp',
+        immagineAlt: 'Applicazione di prodotto bituminoso liquido elastomero con stesura di tessuto in fibra di vetro Remat su copertura piana',
         riepilogoHome:
-            'La chimica della poliurea applicata a temperatura ambiente con pompa airless, rullo o spatola: stabile ai ristagni, veloce da posare e ideale per terrazzi e coperture medie.',
+            'Prodotto bituminoso liquido elastomero armato con stesura di tessuto in fibra di vetro Remat: manto continuo corazzato senza fiamma, ideale per risanare vecchie guaine e coperture estese.',
         descrizione:
-            'Sistemi poliureici a freddo e poliaspartici posati a temperatura ambiente con pompa airless, rullo o spatola senza camion bimixer. Sovrapponibile su piastrelle e guaine, stabile ai ristagni e ai raggi UV.',
-        badgeHome: 'Stabile a ristagni e UV',
-        metricaHomeSinistra: 'Airless / Rullo a freddo',
-        metricaHomeDestra: 'Pedonabile 2–12 h',
+            'Sistema impermeabilizzante a base di prodotto bituminoso liquido elastomero armato a tutta superficie con stesura del tessuto in fibra di vetro Remat. Si posa a rullo o pompa airless senza fiamma libera, annegando la fibra tra due mani per creare una corazza monolitica ad alta resistenza meccanica.',
+        badgeHome: 'Armatura fibra di vetro Remat',
+        metricaHomeSinistra: 'Fibra di vetro Remat',
+        metricaHomeDestra: 'Zero fiamma libera',
         metriche: [
-            { etichetta: 'Posa a freddo', valore: 'Airless o rullo' },
-            { etichetta: 'Pedonabile', valore: '2 – 12 ore' },
-            { etichetta: 'Allungamento', valore: '300% – 400%' },
+            { etichetta: 'Armatura', valore: 'Fibra di vetro Remat' },
+            { etichetta: 'Applicazione', valore: 'Airless o rullo' },
+            { etichetta: 'Posa sicura', valore: 'Senza fiamma libera' },
         ],
         puntiChiave: [
-            'Nessun reattore riscaldato: perfetta per attici, condomini e interni',
-            'Non riemulsiona in presenza di ristagni d’acqua persistenti',
-            'Finiture alifatiche/poliaspartiche anti-UV pedonabili a vista',
+            'Stesura del tessuto in fibra di vetro Remat annegato fresco su fresco per massima resistenza a strappo e fessurazioni',
+            'Adesione diretta e piena compatibilità chimica nel recupero di vecchie guaine bituminose senza demolizioni',
+            'Manto elastico continuo senza giunzioni né fiamma libera, stabile ai ristagni d’acqua e agli sbalzi termici',
         ],
-        idealePer: ['Terrazzi su piastrelle', 'Coperture medie', 'Attici e condomini', 'Box e ambienti interni'],
+        idealePer: ['Guaine bituminose datate', 'Coperture industriali', 'Tetti piani condominiali', 'Risanamenti senza demolizioni'],
     },
 ];
 
@@ -109,7 +109,7 @@ export interface ConfrontoRiga {
     criterio: string;
     manuale: string;
     spruzzoCaldo: string;
-    poliureaFreddo: string;
+    bituminosoRemat: string;
 }
 
 export const confrontoMetodi: ConfrontoRiga[] = [
@@ -117,30 +117,30 @@ export const confrontoMetodi: ConfrontoRiga[] = [
         criterio: 'Attrezzatura',
         manuale: 'Rullo, spatola e pennello',
         spruzzoCaldo: 'Impianto bimixer alta pressione',
-        poliureaFreddo: 'Pompa airless, rullo o spatola',
+        bituminosoRemat: 'Pompa airless o rullo + stesura Remat',
     },
     {
         criterio: 'Temperatura posa',
         manuale: 'Ambiente',
         spruzzoCaldo: '65–80°C · 180–200 bar',
-        poliureaFreddo: 'Ambiente (senza bimixer)',
+        bituminosoRemat: 'Ambiente (senza fiamma libera)',
     },
     {
         criterio: 'Pedonabilità',
         manuale: '12 – 24 ore',
         spruzzoCaldo: '60 minuti',
-        poliureaFreddo: '2 – 12 ore',
+        bituminosoRemat: '12 – 24 ore',
     },
     {
         criterio: 'Spessore continuo',
         manuale: '1,5 – 2,2 mm (armabile)',
         spruzzoCaldo: '2,0 – 3,0 mm',
-        poliureaFreddo: '1,5 – 2,2 mm',
+        bituminosoRemat: '2,0 – 3,0 mm (armato Remat)',
     },
     {
         criterio: 'Ideale per',
         manuale: 'Balconi, dettagli, centri storici',
         spruzzoCaldo: 'Grandi tetti, capannoni, fondazioni',
-        poliureaFreddo: 'Terrazzi, attici, coperture medie',
+        bituminosoRemat: 'Vecchie guaine bituminose, tetti e capannoni',
     },
 ];

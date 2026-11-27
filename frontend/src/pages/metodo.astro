@@ -5,8 +5,8 @@ import { metodiOperativi, confrontoMetodi } from '../data/metodi';
 ---
 
 <SiteLayout
-    title="I 3 Metodi di Applicazione: Manuale, a Spruzzo e a Freddo | Poliurea System"
-    description="Come operiamo a Genova e in Liguria: applicazione manuale con fibra di vetro, poliurea a caldo a spruzzo bimixer e poliurea a freddo / poliaspartica."
+    title="I 3 Metodi di Applicazione: Manuale, Poliurea a Spruzzo e Bituminoso Remat | Poliurea System"
+    description="Come operiamo a Genova e in Liguria: applicazione manuale, poliurea a caldo a spruzzo bimixer e prodotto bituminoso armato con stesura di fibra di vetro Remat."
     activePath="/metodo"
     breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Metodo', path: '/metodo' }]}
 >
@@ -111,7 +111,7 @@ import { metodiOperativi, confrontoMetodi } from '../data/metodi';
                                 <span class="method-th-num">02</span> Spruzzo a Caldo
                             </th>
                             <th scope="col">
-                                <span class="method-th-num">03</span> Poliurea a Freddo
+                                <span class="method-th-num">03</span> Bituminoso Remat
                             </th>
                         </tr>
                     </thead>
@@ -121,7 +121,7 @@ import { metodiOperativi, confrontoMetodi } from '../data/metodi';
                                 <th scope="row">{riga.criterio}</th>
                                 <td>{riga.manuale}</td>
                                 <td class="is-featured">{riga.spruzzoCaldo}</td>
-                                <td>{riga.poliureaFreddo}</td>
+                                <td>{riga.bituminosoRemat}</td>
                             </tr>
                         ))}
                     </tbody>
