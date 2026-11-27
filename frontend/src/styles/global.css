@@ -1285,36 +1285,11 @@
 .ps-carousel-stage {
     position: relative;
     min-width: 0;
-}
-
-.ps-carousel-stage::before,
-.ps-carousel-stage::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 12px;
-    width: 48px;
-    pointer-events: none;
-    z-index: 2;
-    transition: opacity .25s ease;
-}
-
-.ps-carousel-stage::before {
-    left: 0;
-    background: linear-gradient(to right, #000000, rgba(0, 0, 0, 0));
-}
-
-.ps-carousel-stage::after {
-    right: 0;
-    background: linear-gradient(to left, #000000, rgba(0, 0, 0, 0));
-}
-
-.ps-carousel-stage.is-at-start::before,
-.ps-carousel-stage.is-at-end::after {
-    opacity: 0;
+    width: 100%;
 }
 
 .ps-carousel-track {
+    position: relative;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -1324,7 +1299,7 @@
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    padding: 4px 2px 12px;
+    padding: 4px 0 12px;
     cursor: grab;
     outline: none;
 }
@@ -1347,8 +1322,10 @@
 }
 
 .ps-card {
-    flex: 0 0 330px;
+    flex: 0 0 calc((100% - 40px) / 3);
     scroll-snap-align: start;
+    scroll-snap-stop: always;
+    box-sizing: border-box;
     background: #1D1D1F;
     border: 1px solid #2c2c2e;
     border-radius: 28px;
@@ -1356,7 +1333,13 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    transition: border-color .2s ease, transform .2s ease;
+    transition: border-color .2s ease;
+}
+
+@media (max-width: 959px) {
+    .ps-card {
+        flex: 0 0 calc((100% - 20px) / 2);
+    }
 }
 
 .ps-card:hover {
@@ -1814,15 +1797,13 @@
     .ps-carousel-wrap {
         margin-top: 36px;
     }
-    .ps-carousel-stage::before,
-    .ps-carousel-stage::after {
-        width: 24px;
-    }
     .ps-carousel-track {
-        gap: 14px;
+        gap: 16px;
     }
     .ps-card {
-        flex: 0 0 min(82vw, 306px);
+        flex: 0 0 100%;
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
         padding: 26px 22px;
         border-radius: 22px;
     }

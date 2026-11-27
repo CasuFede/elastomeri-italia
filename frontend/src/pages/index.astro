@@ -613,11 +613,11 @@ const faqStructuredData = [
                 let inView = false;
 
                 const getStep = () => {
-                    const first = cards[0];
-                    if (!first) return 350;
-                    const styles = window.getComputedStyle(track);
-                    const gap = parseFloat(styles.columnGap || styles.gap || '20') || 20;
-                    return first.getBoundingClientRect().width + gap;
+                    if (cards.length >= 2) {
+                        const diff = cards[1].offsetLeft - cards[0].offsetLeft;
+                        if (diff > 0) return diff;
+                    }
+                    return track.clientWidth || 350;
                 };
 
                 const syncCarouselUI = () => {
@@ -627,9 +627,16 @@ const faqStructuredData = [
                     stage.classList.toggle('is-at-end', sl >= maxScroll - 8);
 
                     if (!dots.length || !cards.length) return;
-                    const step = getStep();
-                    let activeIdx = Math.round(sl / step);
-                    if (sl >= maxScroll - 8) activeIdx = cards.length - 1;
+                    let activeIdx = 0;
+                    if (maxScroll > 0) {
+                        const step = getStep();
+                        const maxStepIdx = Math.max(1, Math.round(maxScroll / step));
+                        if (maxStepIdx === cards.length - 1) {
+                            activeIdx = Math.round(sl / step);
+                        } else {
+                            activeIdx = Math.round((sl / maxScroll) * (cards.length - 1));
+                        }
+                    }
                     activeIdx = Math.max(0, Math.min(cards.length - 1, activeIdx));
                     dots.forEach((dot, idx) => {
                         const isActive = idx === activeIdx;
@@ -641,19 +648,16 @@ const faqStructuredData = [
                 const scrollByCards = (dir) => {
                     const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
                     const step = getStep();
-                    if (dir > 0) {
-                        if (track.scrollLeft >= maxScroll - 12) {
-                            track.scrollTo({ left: 0, behavior: 'smooth' });
-                        } else {
-                            track.scrollTo({ left: Math.min(maxScroll, track.scrollLeft + step), behavior: 'smooth' });
-                        }
-                    } else {
-                        if (track.scrollLeft <= 12) {
-                            track.scrollTo({ left: maxScroll, behavior: 'smooth' });
-                        } else {
-                            track.scrollTo({ left: Math.max(0, track.scrollLeft - step), behavior: 'smooth' });
-                        }
-                    }
+                    const maxIdx = Math.max(0, Math.round(maxScroll / step));
+                    const currentIdx = Math.round(track.scrollLeft / step);
+                    let targetIdx = currentIdx + dir;
+                    if (targetIdx > maxIdx) targetIdx = 0;
+                    if (targetIdx < 0) targetIdx = maxIdx;
+                    const targetCard = cards[targetIdx];
+                    const targetLeft = targetCard
+                        ? Math.min(maxScroll, targetCard.offsetLeft)
+                        : Math.min(maxScroll, targetIdx * step);
+                    track.scrollTo({ left: targetLeft, behavior: 'smooth' });
                 };
 
                 const stopAuto = () => {
@@ -696,9 +700,10 @@ const faqStructuredData = [
                 dots.forEach((dot, idx) => {
                     dot.addEventListener('click', () => {
                         pauseTemporarily();
+                        const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
                         const target = cards[idx];
                         if (target) {
-                            track.scrollTo({ left: target.offsetLeft - track.offsetLeft, behavior: 'smooth' });
+                            track.scrollTo({ left: Math.min(maxScroll, target.offsetLeft), behavior: 'smooth' });
                         }
                     });
                 });
@@ -736,6 +741,14 @@ const faqStructuredData = [
                     if (!isDragging) return;
                     isDragging = false;
                     track.classList.remove('is-dragging');
+                    const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+                    const step = getStep();
+                    const maxIdx = Math.max(0, Math.round(maxScroll / step));
+                    const nearestIdx = Math.max(0, Math.min(maxIdx, Math.round(track.scrollLeft / step)));
+                    const targetCard = cards[nearestIdx];
+                    if (targetCard) {
+                        track.scrollTo({ left: Math.min(maxScroll, targetCard.offsetLeft), behavior: 'smooth' });
+                    }
                 };
                 track.addEventListener('pointerup', endDrag);
                 track.addEventListener('pointercancel', endDrag);
