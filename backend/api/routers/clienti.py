@@ -17,6 +17,7 @@ from core.security import (
     crea_token_sessione,
     genera_password_casuale,
     is_secure_request,
+    valida_complessita_password,
 )
 from core.storage import risposta_file
 from api.deps import verifica_cliente, verifica_credenziali
@@ -79,11 +80,10 @@ async def crea_cliente(
     password = (dati.password or "").strip()
     if not password:
         password = genera_password_casuale(14)
-    elif len(password) < 12:
-        raise HTTPException(
-            status_code=422,
-            detail="La password iniziale deve contenere almeno 12 caratteri.",
-        )
+    else:
+        errore_pwd = valida_complessita_password(password, lunghezza_minima=12)
+        if errore_pwd:
+            raise HTTPException(status_code=422, detail=errore_pwd)
     store = D1Store(services.database)
     if await store.one("SELECT id FROM clienti WHERE lower(email) = ? LIMIT 1", email):
         raise HTTPException(status_code=409, detail="Esiste già un account per questa email.")
@@ -114,7 +114,6 @@ async def crea_cliente(
         "email": email,
         "attivo": True,
         "primo_accesso": True,
-        "password": password,
     }
 
 
@@ -125,11 +124,10 @@ async def reimposta_password_cliente(
     username: str = Depends(verifica_credenziali),
     services: CloudflareServices = Depends(get_services),
 ):
-    if len(dati.password) < 12:
-        raise HTTPException(
-            status_code=422,
-            detail="La nuova password deve contenere almeno 12 caratteri.",
-        )
+    nuova_pwd = dati.password.strip()
+    errore_pwd = valida_complessita_password(nuova_pwd, lunghezza_minima=12)
+    if errore_pwd:
+        raise HTTPException(status_code=422, detail=errore_pwd)
     store = D1Store(services.database)
     cliente = await store.one(
         "SELECT id, email, nome FROM clienti WHERE id = ? LIMIT 1", cliente_id
@@ -137,7 +135,7 @@ async def reimposta_password_cliente(
     if not cliente:
         raise HTTPException(status_code=404, detail="Cliente non trovato.")
 
-    nuovo_hash = crea_hash_password(dati.password)
+    nuovo_hash = crea_hash_password(nuova_pwd)
     await store.run(
         "UPDATE clienti SET password_hash = ?, primo_accesso = 1 WHERE id = ?",
         nuovo_hash,
@@ -266,19 +264,9 @@ async def cambia_password_cliente(
     services: CloudflareServices = Depends(get_services),
 ):
     nuova_pwd = dati.password.strip()
-    if len(nuova_pwd) < 8:
-        raise HTTPException(
-            status_code=422,
-            detail="La nuova password deve contenere almeno 8 caratteri.",
-        )
-    ha_maiuscola = any(c.isupper() for c in nuova_pwd)
-    ha_minuscola = any(c.islower() for c in nuova_pwd)
-    ha_numero = any(c.isdigit() for c in nuova_pwd)
-    if not (ha_maiuscola and ha_minuscola and ha_numero):
-        raise HTTPException(
-            status_code=422,
-            detail="La password deve essere sicura: inserisci almeno una lettera maiuscola, una minuscola e un numero.",
-        )
+    errore_pwd = valida_complessita_password(nuova_pwd, lunghezza_minima=8)
+    if errore_pwd:
+        raise HTTPException(status_code=422, detail=errore_pwd)
 
     store = D1Store(services.database)
     nuovo_hash = crea_hash_password(nuova_pwd)
@@ -299,7 +287,7 @@ async def cambia_password_cliente(
             value=token,
             max_age=TOKEN_SESSIONE_DURATA,
             httponly=True,
-            samesite="lax",
+            samesite="strict",
             secure=is_secure,
             path="/",
         )

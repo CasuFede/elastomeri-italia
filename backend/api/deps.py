@@ -18,7 +18,12 @@ def verifica_credenziali(request: Request) -> str:
             status_code=503,
             detail="Configurare ADMIN_USERNAME e ADMIN_PASSWORD come secrets del Worker.",
         )
-    session_secret = get_session_secret(environment) or admin_pass
+    session_secret = get_session_secret(environment)
+    if not session_secret:
+        raise HTTPException(
+            status_code=503,
+            detail="Configurare SESSION_SECRET come secret del Worker.",
+        )
 
     # 1. Verifica tramite Cookie HttpOnly (browser)
     cookie_token = request.cookies.get("poliurea_admin_session")

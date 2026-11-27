@@ -19,6 +19,7 @@ from core.security import (
     crea_token_reset,
     crea_token_sessione,
     is_secure_request,
+    valida_complessita_password,
     valida_token_reset,
     verifica_hash_password,
 )
@@ -83,7 +84,12 @@ async def login_admin(
         raise HTTPException(status_code=401, detail="Nome utente o password non corretti.")
 
     await reset_failures_d1(store, "admin_login", ip)
-    session_secret = get_session_secret(environment) or admin_pass
+    session_secret = get_session_secret(environment)
+    if not session_secret:
+        raise HTTPException(
+            status_code=503,
+            detail="Configurare SESSION_SECRET come secret del Worker.",
+        )
     token = crea_token_sessione("admin", admin_user, session_secret)
     is_secure = is_secure_request(request, environment)
     response.set_cookie(
@@ -143,7 +149,7 @@ async def login_cliente(
         value=token,
         max_age=TOKEN_SESSIONE_DURATA,
         httponly=True,
-        samesite="lax",
+        samesite="strict",
         secure=is_secure,
         path="/",
     )
@@ -257,16 +263,9 @@ async def conferma_reset_password_cliente(
         )
 
     nuova_pwd = dati.password.strip()
-    if (
-        len(nuova_pwd) < 8
-        or not any(c.isupper() for c in nuova_pwd)
-        or not any(c.islower() for c in nuova_pwd)
-        or not any(c.isdigit() for c in nuova_pwd)
-    ):
-        raise HTTPException(
-            status_code=422,
-            detail="La password deve contenere almeno 8 caratteri, una maiuscola, una minuscola e un numero.",
-        )
+    errore_pwd = valida_complessita_password(nuova_pwd, lunghezza_minima=8)
+    if errore_pwd:
+        raise HTTPException(status_code=422, detail=errore_pwd)
 
     environment = get_environment(request)
     session_secret = get_session_secret(environment)
@@ -317,7 +316,7 @@ async def conferma_reset_password_cliente(
         value=session_token,
         max_age=TOKEN_SESSIONE_DURATA,
         httponly=True,
-        samesite="lax",
+        samesite="strict",
         secure=is_secure,
         path="/",
     )

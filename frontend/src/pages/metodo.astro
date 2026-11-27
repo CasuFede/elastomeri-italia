@@ -1,12 +1,17 @@
 ---
+export const prerender = true;
 import SiteLayout from '../layouts/SiteLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
 import { metodiOperativi, confrontoMetodi } from '../data/metodi';
 ---
 
 <SiteLayout
-    title="I 3 Metodi di Applicazione: Manuale, Poliurea a Spruzzo e Bituminoso Remat | Poliurea System"
-    description="Come operiamo a Genova e in Liguria: applicazione manuale, poliurea a caldo a spruzzo bimixer e prodotto bituminoso armato con stesura di fibra di vetro Remat."
+    title="I 3 Metodi di Impermeabilizzazione | Poliurea System"
+    description="Come operiamo a Genova e in Liguria: applicazione manuale, poliurea pura a caldo a spruzzo bimixer e prodotto bituminoso armato con stesura di fibra di vetro Remat."
+    ogImage="/images/metodi/spruzzo-caldo.webp"
+    ogImageWidth={1280}
+    ogImageHeight={800}
+    ogImageAlt="Spruzzatura a caldo di poliurea pura, applicazione manuale e ciclo bituminoso armato Remat"
     activePath="/metodo"
     breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Metodo', path: '/metodo' }]}
 >

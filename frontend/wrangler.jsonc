@@ -3,6 +3,9 @@
   "name": "elastomeri-italia-frontend",
   "compatibility_date": "2026-11-13",
   "workers_dev": false,
+  "assets": {
+    "html_handling": "drop-trailing-slash"
+  },
   "services": [
     {
       "binding": "API",

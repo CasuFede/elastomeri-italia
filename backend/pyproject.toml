@@ -4,9 +4,9 @@ version = "0.1.0"
 description = "FastAPI backend deployed as a Cloudflare Python Worker"
 requires-python = ">=3.13"
 dependencies = [
-    "fastapi",
-    "pydantic[email]",
-    "python-multipart",
+    "fastapi>=0.135.0",
+    "pydantic[email]>=2.11.0",
+    "python-multipart>=0.0.20",
 ]
 
 [dependency-groups]

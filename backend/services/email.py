@@ -1,8 +1,9 @@
 """Servizio per l'invio delle email di notifica, conferma preventivo e credenziali."""
 import json
+import logging
 from typing import Any
 
-from core.config import get_secret
+from core.config import get_secret, is_worker_runtime, maschera_email
 from schemas.preventivi import PreventivoRequest
 from services.email_templates import (
     build_chiarimenti_preventivo_email,
@@ -10,6 +11,8 @@ from services.email_templates import (
     build_credenziali_cliente_email,
     build_recupero_password_email,
 )
+
+logger = logging.getLogger("poliurea.email")
 
 
 async def esegui_http_post(
@@ -57,8 +60,33 @@ async def esegui_http_post(
                 res = await fetch(url, options)
                 return res.ok
     except Exception as exc:
-        print(f"Errore invio HTTP POST a {url}: {exc}")
+        logger.warning("Errore invio HTTP POST a %s: %s", url, type(exc).__name__)
         return False
+
+
+async def _invia_via_brevo(
+    brevo_key: str,
+    smtp_from_name: str,
+    smtp_from_email: str,
+    to_email: str,
+    to_nome: str,
+    subject: str,
+    html_content: str,
+    text_content: str,
+) -> bool:
+    payload = {
+        "sender": {"name": smtp_from_name, "email": smtp_from_email},
+        "to": [{"email": to_email, "name": to_nome}],
+        "subject": subject,
+        "htmlContent": html_content,
+        "textContent": text_content,
+    }
+    headers = {
+        "api-key": brevo_key,
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+    }
+    return await esegui_http_post("https://api.brevo.com/v3/smtp/email", headers, payload)
 
 
 async def invia_email(
@@ -69,69 +97,35 @@ async def invia_email(
     text_content: str,
     environment: Any,
 ) -> bool:
-    """Invia email tramite SMTP Bridge locale (Aruba SMTPS) o fallback su Brevo API."""
+    """Invia email tramite Brevo API (Cloudflare Workers) o SMTP diretto in ambiente locale."""
     smtp_server = get_secret(environment, "SMTP_SERVER")
     smtp_port_val = get_secret(environment, "SMTP_PORT") or "465"
     smtp_user = get_secret(environment, "SMTP_USER")
     smtp_password = get_secret(environment, "SMTP_PASSWORD")
     smtp_from_email = get_secret(environment, "SMTP_FROM_EMAIL") or "info@poliureasystem.it"
     smtp_from_name = get_secret(environment, "SMTP_FROM_NAME") or "Poliurea System"
+    destinatario_log = maschera_email(to_email)
 
-    import sys
-    is_worker_env = sys.platform == "emscripten" or "pyodide" in sys.modules
-
-    # 1. Se su Cloudflare Worker (Wasm/Pyodide), le socket TCP grezze non sono permesse:
-    # l'invio deve avvenire tramite API HTTP REST (Brevo API).
     brevo_key = get_secret(environment, "BREVO_API_KEY")
-    if is_worker_env:
-        if brevo_key:
-            payload = {
-                "sender": {"name": smtp_from_name, "email": smtp_from_email},
-                "to": [{"email": to_email, "name": to_nome}],
-                "subject": subject,
-                "htmlContent": html_content,
-                "textContent": text_content,
-            }
-            headers = {
-                "api-key": brevo_key,
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            }
-            ok_brevo = await esegui_http_post("https://api.brevo.com/v3/smtp/email", headers, payload)
-            if ok_brevo:
-                print(f"[BREVO EMAIL OK] Email inviata con successo via Brevo API a {to_email}")
-                return True
-        print(f"[EMAIL WARNING] Nessun provider email HTTP valido configurato per Cloudflare Workers (destinatario: {to_email})")
+
+    # 1. Su Cloudflare Workers (Wasm/Pyodide) usa Brevo REST API
+    if is_worker_runtime():
+        if brevo_key and await _invia_via_brevo(
+            brevo_key,
+            smtp_from_name,
+            smtp_from_email,
+            to_email,
+            to_nome,
+            subject,
+            html_content,
+            text_content,
+        ):
+            logger.info("[BREVO OK] Email inviata a %s", destinatario_log)
+            return True
+        logger.warning("[EMAIL WARNING] Provider email non configurato/fallito per %s", destinatario_log)
         return False
 
-    # 2. Bridge SMTP locale dedicato (solo in ambiente locale/container dove la porta 8025 è attiva)
-    if smtp_server and smtp_user and smtp_password:
-        bridge_payload = {
-            "to_email": to_email,
-            "to_nome": to_nome,
-            "subject": subject,
-            "html_content": html_content,
-            "text_content": text_content,
-            "smtp_server": smtp_server,
-            "smtp_port": int(smtp_port_val or 465),
-            "smtp_user": smtp_user,
-            "smtp_password": smtp_password,
-            "smtp_from_email": smtp_from_email,
-            "smtp_from_name": smtp_from_name,
-        }
-        try:
-            ok_bridge = await esegui_http_post(
-                "http://127.0.0.1:8025/send-email",
-                {"Content-Type": "application/json"},
-                bridge_payload,
-            )
-            if ok_bridge:
-                print(f"[ARUBA SMTP EMAIL OK] Email inviata con successo via Bridge Aruba a {to_email}")
-                return True
-        except Exception as bridge_err:
-            print(f"[ARUBA SMTP BRIDGE NOTE] Bridge 8025 non attivo: {bridge_err}")
-
-    # 3. Invio tramite SMTP diretto (se Python nativo con socket supportati)
+    # 2. Invio tramite SMTP diretto in ambiente Python locale
     if smtp_server and smtp_user and smtp_password:
         from email.header import Header
         from email.mime.multipart import MIMEMultipart
@@ -165,32 +159,26 @@ async def invia_email(
                         pass
                     s.login(smtp_user, smtp_password)
                     s.send_message(msg)
-            print(f"[SMTP DIRECT EMAIL OK] Email inviata con successo via Aruba SMTPS a {to_email}")
+            logger.info("[SMTP DIRECT OK] Email inviata a %s", destinatario_log)
             return True
         except Exception as smtp_exc:
-            print(f"[SMTP DIRECT FALLBACK] Invio SMTP diretto non riuscito ({smtp_exc}), tento fallback...")
+            logger.warning("[SMTP FALLBACK] Errore invio diretto (%s), tento Brevo", type(smtp_exc).__name__)
 
-    # 2. Fallback su Brevo API se configurato
-    brevo_key = get_secret(environment, "BREVO_API_KEY")
-    if brevo_key:
-        payload = {
-            "sender": {"name": smtp_from_name, "email": smtp_from_email},
-            "to": [{"email": to_email, "name": to_nome}],
-            "subject": subject,
-            "htmlContent": html_content,
-            "textContent": text_content,
-        }
-        headers = {
-            "api-key": brevo_key,
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-        }
-        ok_brevo = await esegui_http_post("https://api.brevo.com/v3/smtp/email", headers, payload)
-        if ok_brevo:
-            print(f"[BREVO EMAIL OK] Email inviata con successo via Brevo API a {to_email}")
-            return True
+    # 3. Fallback su Brevo API se configurato in locale
+    if brevo_key and await _invia_via_brevo(
+        brevo_key,
+        smtp_from_name,
+        smtp_from_email,
+        to_email,
+        to_nome,
+        subject,
+        html_content,
+        text_content,
+    ):
+        logger.info("[BREVO OK] Email inviata a %s", destinatario_log)
+        return True
 
-    print(f"[EMAIL WARNING] Nessun provider email disponibile o configurato per l'invio a {to_email}")
+    logger.warning("[EMAIL WARNING] Nessun provider email disponibile per %s", destinatario_log)
     return False
 
 

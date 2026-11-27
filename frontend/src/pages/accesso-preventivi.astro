@@ -1,7 +1,10 @@
 ---
+import '@fontsource-variable/inter';
 import '../styles/global.css';
+import '../styles/admin.css';
 ---
 
+<!doctype html>
 <html lang="it">
 <head>
     <meta charset="utf-8" />
@@ -22,7 +25,7 @@ import '../styles/global.css';
             <a class="admin-brand inline-flex items-center" href="/" aria-label="Poliurea System, home">
                 <picture>
                     <source srcset="/logo-poliurea-system.webp" type="image/webp" />
-                    <img src="/logo-poliurea-system.png" alt="Poliurea System" class="h-10 w-auto" width="180" height="40" />
+                    <img src="/logo-poliurea-system.png" alt="Poliurea System" class="h-10 w-auto" width="200" height="34" />
                 </picture>
             </a>
             <a class="admin-secure-label text-xs font-bold text-slate-100 hover:text-sky-400 border border-slate-600 bg-slate-800 px-3 py-1.5 rounded-lg transition" href="/">Torna al sito</a>
@@ -31,7 +34,7 @@ import '../styles/global.css';
         <main class="admin-login flex justify-center items-center py-8">
             <section class="admin-login-panel w-full max-w-md rounded-2xl border-2 border-slate-600 bg-slate-800 p-8 sm:p-10" aria-labelledby="login-title">
                 <p class="admin-kicker text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">ACCESSO SICURO</p>
-                <h2 id="login-title" class="text-2xl font-extrabold text-white tracking-tight mb-2">Accedi al tuo account</h2>
+                <h1 id="login-title" class="text-2xl font-extrabold text-white tracking-tight mb-2">Accedi al tuo account</h1>
                 <p class="admin-login-hint text-sm text-slate-200 mb-6">Inserisci le credenziali amministrative per continuare.</p>
                 <form id="login-form" class="grid gap-4">
                     <label for="username" class="grid gap-2 text-xs font-bold text-slate-100">Nome utente</label>

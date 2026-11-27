@@ -74,6 +74,22 @@ export const onRequest = defineMiddleware(async ({ request, url }, next) => {
   ].join('; ');
   headers.set('Content-Security-Policy', csp);
 
+  // Evita caching locale/condiviso su rotte riservate e API autenticate
+  const isPrivateRoute =
+    url.pathname === '/admin' ||
+    url.pathname.startsWith('/admin/') ||
+    url.pathname === '/area-clienti' ||
+    url.pathname.startsWith('/area-clienti/') ||
+    url.pathname === '/accesso-preventivi' ||
+    url.pathname.startsWith('/api/preventivi') ||
+    url.pathname.startsWith('/api/clienti') ||
+    url.pathname.startsWith('/api/area-clienti') ||
+    url.pathname.startsWith('/api/auth/');
+  if (isPrivateRoute) {
+    headers.set('Cache-Control', 'no-store, private');
+    headers.set('Pragma', 'no-cache');
+  }
+
   // Strict-Transport-Security (HSTS) se in HTTPS
   const isHttps = url.protocol === 'https:' || request.headers.get('x-forwarded-proto') === 'https';
   if (isHttps) {

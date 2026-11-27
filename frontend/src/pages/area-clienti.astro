@@ -1,7 +1,10 @@
 ---
+import '@fontsource-variable/inter';
 import '../styles/global.css';
+import '../styles/admin.css';
 ---
 
+<!doctype html>
 <html lang="it">
 <head>
     <meta charset="utf-8" />
@@ -22,7 +25,7 @@ import '../styles/global.css';
             <a href="/" class="customer-brand inline-flex items-center" aria-label="Poliurea System, home">
                 <picture>
                     <source srcset="/logo-poliurea-system.webp" type="image/webp" />
-                    <img src="/logo-poliurea-system.png" alt="Poliurea System" class="h-10 w-auto" width="180" height="40" />
+                    <img src="/logo-poliurea-system.png" alt="Poliurea System" class="h-10 w-auto" width="200" height="34" />
                 </picture>
             </a>
             <div class="flex flex-row items-center gap-4">
@@ -425,7 +428,10 @@ import '../styles/global.css';
                 const reqDate = document.createElement('p');
                 reqDate.className = 'text-xs text-zinc-400 mt-1 flex items-center gap-1.5';
                 const formattedDate = new Date(preventivo.data_richiesta).toLocaleDateString('it-IT', { day: '2-digit', month: 'long', year: 'numeric' });
-                reqDate.innerHTML = `<svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> <span>${formattedDate}</span>`;
+                reqDate.innerHTML = '<svg class="w-3.5 h-3.5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
+                const reqDateSpan = document.createElement('span');
+                reqDateSpan.textContent = formattedDate;
+                reqDate.appendChild(reqDateSpan);
                 
                 titleBlock.append(kicker, serviceTitle, reqDate);
 
@@ -441,7 +447,15 @@ import '../styles/global.css';
                 progressBox.className = 'w-full';
                 const progressLabelRow = document.createElement('div');
                 progressLabelRow.className = 'flex justify-between text-xs font-medium text-zinc-400 mb-1.5';
-                progressLabelRow.innerHTML = `<span>Avanzamento: <strong class="text-white font-semibold">${stato.label}</strong></span><span>${stato.progress}%</span>`;
+                const progressLeft = document.createElement('span');
+                progressLeft.append('Avanzamento: ');
+                const progressStrong = document.createElement('strong');
+                progressStrong.className = 'text-white font-semibold';
+                progressStrong.textContent = stato.label;
+                progressLeft.appendChild(progressStrong);
+                const progressRight = document.createElement('span');
+                progressRight.textContent = `${stato.progress}%`;
+                progressLabelRow.append(progressLeft, progressRight);
                 
                 const progressBar = document.createElement('div');
                 progressBar.className = 'h-2 w-full rounded-full bg-zinc-950 border border-zinc-800 overflow-hidden';
@@ -504,10 +518,10 @@ import '../styles/global.css';
                     
                     const allegatiTitle = document.createElement('p');
                     allegatiTitle.className = 'text-[11px] font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1.5';
-                    allegatiTitle.innerHTML = `
-                        <svg class="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <span>Foto allegate all'intervento (${preventivo.allegati.length})</span>
-                    `;
+                    allegatiTitle.innerHTML = '<svg class="w-3.5 h-3.5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>';
+                    const allegatiTitleSpan = document.createElement('span');
+                    allegatiTitleSpan.textContent = `Foto allegate all'intervento (${preventivo.allegati.length})`;
+                    allegatiTitle.appendChild(allegatiTitleSpan);
 
                     const allegatiHint = document.createElement('span');
                     allegatiHint.className = 'text-[11px] text-zinc-500 hidden sm:inline';

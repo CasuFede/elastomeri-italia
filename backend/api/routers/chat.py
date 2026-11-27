@@ -2,16 +2,28 @@
 from fastapi import APIRouter, HTTPException, Request
 
 from chat_knowledge import rispondi
-from core.rate_limit import get_client_ip, rate_limiter
+from core.database import D1Store, get_services
+from core.rate_limit import check_rate_limit_d1, get_client_ip
 from schemas.chat import ChatRequest
 
 router = APIRouter(tags=["Chatbot"])
 
 
+def _store_chat_opzionale(request: Request) -> D1Store | None:
+    try:
+        services = get_services(request)
+        if services.database is not None:
+            return D1Store(services.database)
+    except Exception:
+        pass
+    return None
+
+
 @router.post("/chat")
 async def chat_informativa(dati: ChatRequest, request: Request):
     ip = get_client_ip(request)
-    if not rate_limiter.check("chat", ip, max_requests=30, window_seconds=60):
+    store = _store_chat_opzionale(request)
+    if not await check_rate_limit_d1(store, "chat", ip, max_requests=30, window_seconds=60):
         raise HTTPException(
             status_code=429,
             detail="Stai inviando troppi messaggi in poco tempo. Attendi qualche istante prima di continuare.",

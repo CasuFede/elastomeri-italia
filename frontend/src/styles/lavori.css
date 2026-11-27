@@ -1,0 +1,1274 @@
+/* Stili specifici per la pagina /lavori (caricati solo su /lavori) */
+/* --- Lavori: Griglia Compatta Affiancata, Scheda Modale Prima/Dopo, Video & Specifiche --- */
+.work-filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.work-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    border-radius: 999px;
+    border: 1px solid #D2D2D7;
+    background: #F5F5F7;
+    color: #1D1D1F;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+}
+
+.work-filter-btn span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding-inline: 6px;
+    border-radius: 999px;
+    background: #FFFFFF;
+    color: #0071E3;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.work-filter-btn:hover {
+    border-color: #0071E3;
+    color: #0071E3;
+}
+
+.work-filter-btn.is-active {
+    border-color: #0071E3;
+    background: #0071E3;
+    color: #FFFFFF;
+}
+
+.work-filter-btn.is-active span {
+    background: #005BB8;
+    color: #FFFFFF;
+}
+
+/* Griglia adattiva dei lavori (featured full-width con 1 lavoro, 2 o 3 colonne con più cantieri) */
+.work-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+    align-items: stretch;
+}
+
+.work-cards-grid.is-two-col {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.work-cards-grid.is-single-featured {
+    grid-template-columns: 1fr;
+}
+
+.work-featured-summary {
+    margin: 0;
+    color: #6E6E73;
+    font-size: 14.5px;
+    line-height: 1.6;
+}
+
+@media (min-width: 900px) {
+    .work-cards-grid.is-single-featured .work-compact-trigger {
+        display: grid;
+        grid-template-columns: 1.25fr 1fr;
+        align-items: stretch;
+    }
+    .work-cards-grid.is-single-featured .work-compact-diptych,
+    .work-cards-grid.is-single-featured .work-compact-single {
+        height: 100%;
+        min-height: 360px;
+        aspect-ratio: auto;
+    }
+    .work-cards-grid.is-single-featured .work-compact-body {
+        padding: 32px 34px;
+        justify-content: center;
+        gap: 14px;
+    }
+    .work-cards-grid.is-single-featured .work-compact-title {
+        font-size: 26px;
+        line-height: 1.2;
+    }
+}
+
+.work-compact-card {
+    display: flex;
+    min-width: 0;
+}
+
+.work-compact-trigger {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    border: 1px solid #D2D2D7;
+    border-radius: 24px;
+    background: #FFFFFF;
+    overflow: hidden;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color .2s ease, transform .2s ease;
+}
+
+.work-compact-trigger:hover {
+    border-color: #0071E3;
+    transform: translateY(-3px);
+}
+
+.work-compact-trigger:focus-visible {
+    outline: 2.5px solid #0071E3;
+    outline-offset: 2px;
+}
+
+/* Anteprima statica Prima | Dopo affiancate (nessuno slider) */
+.work-compact-diptych {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    background: #FFFFFF;
+    overflow: hidden;
+}
+
+.work-compact-half {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #161D2E;
+}
+
+.work-compact-half img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .35s ease;
+}
+
+.work-compact-trigger:hover .work-compact-half img,
+.work-compact-trigger:hover .work-compact-single img {
+    transform: scale(1.04);
+}
+
+.work-compact-single {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: #161D2E;
+}
+
+.work-compact-single img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .35s ease;
+}
+
+.work-compact-single .work-phase-pill {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+}
+
+.work-compact-single--empty {
+    display: grid;
+    place-items: center;
+    color: #A9B3C7;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+.work-compact-half .work-phase-pill {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+}
+
+
+.work-compact-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+}
+
+.work-compact-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.work-case-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin-bottom: 8px;
+}
+
+
+.work-compact-title {
+    margin: 2px 0 0;
+    color: #1D1D1F;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -.025em;
+    line-height: 1.25;
+}
+
+.work-compact-trigger:hover .work-compact-title {
+    color: #0071E3;
+}
+
+.work-compact-specs {
+    margin: 0;
+    color: #6E6E73;
+    font-size: 13px;
+    line-height: 1.5;
+    flex: 1;
+}
+
+.work-compact-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+    padding-top: 14px;
+    border-top: 1px solid #E5E5EA;
+}
+
+.work-case-location {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #6E6E73;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+.work-case-location svg {
+    width: 14px;
+    height: 14px;
+    color: #0071E3;
+    flex-shrink: 0;
+}
+
+.work-compact-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #0071E3;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.work-compact-cta span {
+    transition: transform .18s ease;
+}
+
+.work-compact-trigger:hover .work-compact-cta span {
+    transform: translateX(3px);
+}
+
+/* --- Modale Scheda Completa Lavoro (aperto al clic sulla card) --- */
+.work-detail-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(22, 29, 46, 0.84);
+}
+
+.work-detail-modal[hidden] {
+    display: none;
+}
+
+.work-detail-dialog {
+    width: min(1120px, 100%);
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    border-radius: 28px;
+    border: 1px solid #D2D2D7;
+    background: #FFFFFF;
+    overflow: hidden;
+}
+
+.work-project-sheet {
+    display: flex;
+    flex-direction: column;
+    max-height: 92vh;
+    min-height: 0;
+}
+
+.work-project-sheet[hidden] {
+    display: none;
+}
+
+.work-detail-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 22px 28px;
+    background: #F5F5F7;
+    border-bottom: 1px solid #D2D2D7;
+    flex-shrink: 0;
+}
+
+.work-detail-header-info {
+    min-width: 0;
+}
+
+.work-detail-title {
+    margin: 0;
+    color: #1D1D1F;
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 800;
+    letter-spacing: -.03em;
+    line-height: 1.18;
+}
+
+.work-detail-close {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: 1px solid #D2D2D7;
+    background: #FFFFFF;
+    color: #1D1D1F;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color .16s ease, border-color .16s ease, color .16s ease;
+}
+
+.work-detail-close:hover {
+    background: #0071E3;
+    border-color: #0071E3;
+    color: #FFFFFF;
+}
+
+.work-detail-body {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 26px 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.work-detail-body > * {
+    flex-shrink: 0;
+}
+
+.work-detail-summary {
+    margin: 0;
+    color: #1D1D1F;
+    font-size: 15.5px;
+    line-height: 1.65;
+}
+
+/* KPI Dati Chiave nella modale */
+.work-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.work-kpi-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 15px 16px;
+    border-radius: 16px;
+    border: 1px solid #D2D2D7;
+    background: #F5F5F7;
+}
+
+.work-kpi-label {
+    color: #6E6E73;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.work-kpi-value {
+    color: #1D1D1F;
+    font-size: 14.5px;
+    font-weight: 800;
+    line-height: 1.3;
+}
+
+/* Filtri interni Galleria (Tutto / Prima / Dopo / Video) */
+.work-media-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: #F5F5F7;
+    border: 1px solid #D2D2D7;
+}
+
+.work-media-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 15px;
+    border-radius: 999px;
+    border: 1px solid #D2D2D7;
+    background: #FFFFFF;
+    color: #1D1D1F;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color .16s ease, border-color .16s ease, color .16s ease;
+}
+
+.work-media-tab span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding-inline: 6px;
+    border-radius: 999px;
+    background: #E8F2FC;
+    color: #0071E3;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.work-media-tab:hover {
+    border-color: #0071E3;
+    color: #0071E3;
+}
+
+.work-media-tab.is-active {
+    background: #0071E3;
+    border-color: #0071E3;
+    color: #FFFFFF;
+}
+
+.work-media-tab.is-active span {
+    background: #005BB8;
+    color: #FFFFFF;
+}
+
+/* Sezioni Galleria Prima / Dopo / Video */
+.work-gallery-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.work-gallery-section[hidden] {
+    display: none;
+}
+
+.work-gallery-section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 14px;
+}
+
+.work-gallery-badge-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.work-gallery-badge-group h3 {
+    margin: 0;
+    color: #1D1D1F;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+}
+
+.work-submedia-count {
+    color: #6E6E73;
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+.work-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.work-gallery-grid--after {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.work-thumb-btn {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    border: 1px solid #D2D2D7;
+    border-radius: 16px;
+    background: #FFFFFF;
+    overflow: hidden;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color .2s ease, transform .2s ease;
+}
+
+.work-thumb-btn:hover {
+    border-color: #0071E3;
+    transform: translateY(-2px);
+}
+
+.work-thumb-btn:focus-visible {
+    outline: 2px solid #0071E3;
+    outline-offset: 2px;
+}
+
+.work-thumb-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #EBEBF0;
+}
+
+.work-thumb-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .3s ease;
+}
+
+.work-thumb-btn:hover .work-thumb-media img {
+    transform: scale(1.04);
+}
+
+.work-thumb-overlay {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #161D2E;
+    color: #FFFFFF;
+    display: grid;
+    place-items: center;
+    opacity: 0.9;
+    transition: background-color .18s ease, transform .18s ease;
+}
+
+.work-thumb-overlay svg {
+    width: 15px;
+    height: 15px;
+}
+
+.work-thumb-btn:hover .work-thumb-overlay {
+    background: #0071E3;
+    transform: scale(1.08);
+    opacity: 1;
+}
+
+.work-thumb-caption {
+    margin: 9px 11px;
+    padding: 0;
+    color: #1D1D1F;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.38;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Video del Dopo (card a 2 colonne con poster lazy) */
+.work-videos-grid--cols {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.work-video-tile {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 18px;
+    border: 1px solid #D2D2D7;
+    background: #F5F5F7;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color .2s ease, transform .2s ease;
+}
+
+.work-video-tile:hover {
+    border-color: #0071E3;
+    transform: translateY(-2px);
+}
+
+.work-video-tile:focus-visible {
+    outline: 2px solid #0071E3;
+    outline-offset: 2px;
+}
+
+.work-video-poster {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #161D2E;
+}
+
+.work-video-poster img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.work-video-scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(22, 29, 46, 0.34);
+    transition: background-color .2s ease;
+}
+
+.work-video-tile:hover .work-video-scrim {
+    background: rgba(22, 29, 46, 0.18);
+}
+
+.work-video-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #0071E3;
+    border: 2px solid #FFFFFF;
+    color: #FFFFFF;
+    display: grid;
+    place-items: center;
+    transition: transform .2s ease, background-color .2s ease;
+}
+
+.work-video-play svg {
+    width: 20px;
+    height: 20px;
+    margin-left: 3px;
+}
+
+.work-video-tile:hover .work-video-play {
+    transform: translate(-50%, -50%) scale(1.08);
+    background: #0064CC;
+}
+
+.work-video-duration {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: #161D2E;
+    color: #FFFFFF;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.work-video-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 6px 4px;
+}
+
+.work-video-info strong {
+    color: #1D1D1F;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.work-video-tile:hover .work-video-info strong {
+    color: #0071E3;
+}
+
+.work-video-info span {
+    color: #6E6E73;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+/* Stratigrafia & CTA nella modale */
+.work-stratigraphy-box {
+    padding: 24px;
+    border-radius: 22px;
+    border: 1px solid #D2D2D7;
+    background: #F5F5F7;
+}
+
+.work-stratigraphy-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.work-stratigraphy-kicker {
+    color: #0071E3;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.work-stratigraphy-method {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 11px;
+    border-radius: 999px;
+    background: #FFFFFF;
+    border: 1px solid #D2D2D7;
+    color: #1D1D1F;
+    font-size: 11.5px;
+    font-weight: 700;
+}
+
+.work-stratigraphy-lead {
+    margin: 0 0 18px;
+    color: #1D1D1F;
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.work-layer-list--cols {
+    list-style: none;
+    margin: 0;
+    padding: 18px 0 0;
+    border-top: 1px solid #D2D2D7;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.work-layer-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 16px;
+    background: #FFFFFF;
+    border: 1px solid #E5E5EA;
+}
+
+.work-layer-num {
+    flex: 0 0 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #0071E3;
+    color: #FFFFFF;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+}
+
+.work-layer-body strong {
+    display: block;
+    color: #1D1D1F;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    line-height: 1.3;
+}
+
+.work-layer-body p {
+    margin: 0;
+    color: #6E6E73;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Modali Lightbox Foto & Video (z-index superiore alla modale scheda lavoro) */
+.work-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 130;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(11, 15, 23, 0.94);
+}
+
+.work-modal[hidden] {
+    display: none;
+}
+
+.work-modal-dialog {
+    width: min(1060px, 100%);
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 20px;
+    border: 2px solid #0071E3;
+    border-radius: 22px;
+    background: #161D2E;
+}
+
+.work-modal-dialog--video {
+    width: min(920px, 100%);
+}
+
+.work-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.work-modal-kicker {
+    display: block;
+    color: #2997FF;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+}
+
+.work-modal-title {
+    margin: 0;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.work-modal-close {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid #2A344B;
+    background: #1F2940;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color .16s ease, border-color .16s ease;
+}
+
+.work-modal-close:hover {
+    background: #0071E3;
+    border-color: #2997FF;
+}
+
+.work-modal-stage {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0B0F17;
+    border-radius: 14px;
+    overflow: hidden;
+    min-height: 240px;
+}
+
+.work-modal-img {
+    display: block;
+    max-width: 100%;
+    max-height: calc(92vh - 135px);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.work-modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(22, 29, 46, 0.85);
+    color: #FFFFFF;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: background-color .16s ease, border-color .16s ease;
+}
+
+.work-modal-nav svg {
+    width: 22px;
+    height: 22px;
+}
+
+.work-modal-nav:hover {
+    background: #0071E3;
+    border-color: #FFFFFF;
+}
+
+.work-modal-nav--prev { left: 12px; }
+.work-modal-nav--next { right: 12px; }
+
+.work-modal-video-wrap {
+    width: 100%;
+    max-height: calc(90vh - 155px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000000;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.work-modal-video {
+    display: block;
+    max-width: 100%;
+    max-height: calc(90vh - 155px);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    background: #000000;
+}
+
+.work-modal-desc {
+    margin: 0;
+    color: #A9B3C7;
+    font-size: 13.5px;
+    line-height: 1.5;
+}
+
+.work-modal-swipe-hint {
+    display: none;
+    margin: 0;
+    text-align: center;
+    color: #A9B3C7;
+    font-size: 11.5px;
+    font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+    .work-cards-grid:not(.is-single-featured) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .work-kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .work-gallery-grid--after {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .work-layer-list--cols {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    /* Card lavori compatte e subito chiare su smartphone */
+    .work-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .work-compact-trigger {
+        border-radius: 20px;
+    }
+    .work-compact-diptych,
+    .work-compact-single {
+        aspect-ratio: 16 / 9;
+    }
+    .work-compact-half .work-phase-pill,
+    .work-compact-single .work-phase-pill {
+        top: 8px;
+        left: 8px;
+        padding: 4px 8px;
+        font-size: 9.5px;
+    }
+    .work-compact-media-count {
+        right: 8px;
+        bottom: 8px;
+        padding: 4px 9px;
+        font-size: 10.5px;
+    }
+    .work-compact-body {
+        padding: 15px 16px 16px;
+        gap: 8px;
+    }
+    .work-compact-title {
+        font-size: 16.5px;
+    }
+    .work-compact-specs {
+        font-size: 12.5px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .work-compact-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin-top: 4px;
+        padding-top: 12px;
+    }
+    .work-compact-cta {
+        justify-content: center;
+        padding: 10px 14px;
+        border-radius: 12px;
+        background: #E8F2FC;
+        border: 1px solid #B5CCE4;
+        color: #0071E3;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    /* Scheda lavoro a schermo intero su mobile (stile app, massimo spazio a foto e video) */
+    .work-detail-modal {
+        padding: 0;
+        align-items: stretch;
+    }
+    .work-detail-dialog {
+        width: 100%;
+        height: 100dvh;
+        max-height: 100dvh;
+        border-radius: 0;
+        border: 0;
+    }
+    .work-project-sheet {
+        height: 100dvh;
+        max-height: 100dvh;
+    }
+    .work-detail-header {
+        padding: 12px 14px;
+        gap: 10px;
+        align-items: center;
+    }
+    .work-case-meta {
+        gap: 6px 8px;
+        margin-bottom: 4px;
+    }
+    .work-case-category {
+        padding: 3px 8px;
+        font-size: 9.5px;
+    }
+    .work-compact-mq {
+        padding: 3px 8px;
+        font-size: 10.5px;
+    }
+    .work-detail-title {
+        font-size: 16.5px;
+        line-height: 1.22;
+    }
+    .work-detail-close {
+        padding: 7px 12px;
+        font-size: 12px;
+        background: #161D2E;
+        border-color: #161D2E;
+        color: #FFFFFF;
+    }
+    .work-detail-body {
+        padding: 14px 14px 32px;
+        gap: 16px;
+    }
+    .work-detail-summary {
+        font-size: 13.5px;
+        line-height: 1.5;
+    }
+
+    /* Griglia KPI compatta 2x2 su mobile (dimezza lo scorrimento prima delle foto) */
+    .work-kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+    .work-kpi-card {
+        padding: 10px 12px;
+        border-radius: 12px;
+        gap: 2px;
+    }
+    .work-kpi-label {
+        font-size: 9.5px;
+    }
+    .work-kpi-value {
+        font-size: 13px;
+    }
+
+    /* Barra filtri in riga singola scorrevole col pollice */
+    .work-media-tabs {
+        flex-shrink: 0;
+        flex-wrap: nowrap;
+        align-items: center;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 6px;
+        gap: 6px;
+        border-radius: 14px;
+    }
+    .work-media-tabs::-webkit-scrollbar {
+        display: none;
+    }
+    .work-media-tab {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        padding: 7px 12px;
+        font-size: 12px;
+    }
+
+    /* Galleria fotografica stile app: quadrati puliti 2 colonne, didascalia solo nel lightbox */
+    .work-gallery-section {
+        gap: 10px;
+    }
+    .work-gallery-badge-group h3 {
+        font-size: 15px;
+    }
+    .work-submedia-count {
+        font-size: 11.5px;
+    }
+    .work-gallery-grid,
+    .work-gallery-grid--after {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+    .work-thumb-btn {
+        border-radius: 12px;
+    }
+    .work-thumb-media {
+        aspect-ratio: 1 / 1;
+    }
+    .work-thumb-overlay {
+        top: 6px;
+        right: 6px;
+        width: 26px;
+        height: 26px;
+    }
+    .work-thumb-overlay svg {
+        width: 13px;
+        height: 13px;
+    }
+    .work-thumb-caption {
+        display: none;
+    }
+
+    /* Video cards e stratigrafia compatte su mobile */
+    .work-videos-grid--cols {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .work-video-tile {
+        padding: 8px;
+        border-radius: 14px;
+    }
+    .work-video-info {
+        padding: 10px 4px 2px;
+    }
+    .work-video-info strong {
+        font-size: 14px;
+    }
+    .work-video-info span {
+        font-size: 12px;
+    }
+    .work-stratigraphy-box {
+        padding: 16px 14px;
+        border-radius: 16px;
+    }
+    .work-stratigraphy-lead {
+        font-size: 13.5px;
+        margin-bottom: 14px;
+    }
+    .work-layer-list--cols {
+        padding-top: 14px;
+        gap: 10px;
+    }
+    .work-layer-item {
+        padding: 12px;
+        border-radius: 12px;
+    }
+
+    /* Lightbox foto e video full-screen su telefono con supporto swipe */
+    .work-modal {
+        padding: 0;
+    }
+    .work-modal-dialog {
+        width: 100%;
+        height: 100dvh;
+        max-height: 100dvh;
+        padding: 14px 12px 18px;
+        border: 0;
+        border-radius: 0;
+        justify-content: space-between;
+    }
+    .work-modal-title {
+        font-size: 14px;
+    }
+    .work-modal-stage {
+        flex: 1;
+        min-height: 0;
+        border-radius: 12px;
+    }
+    .work-modal-img {
+        max-height: calc(100dvh - 150px);
+    }
+    .work-modal-nav {
+        width: 38px;
+        height: 38px;
+    }
+    .work-modal-nav--prev { left: 8px; }
+    .work-modal-nav--next { right: 8px; }
+    .work-modal-video-wrap {
+        flex: 1;
+        max-height: calc(100dvh - 150px);
+    }
+    .work-modal-video {
+        max-height: calc(100dvh - 150px);
+    }
+    .work-modal-swipe-hint {
+        display: block;
+    }
+}

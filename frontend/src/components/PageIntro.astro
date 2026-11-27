@@ -11,7 +11,7 @@ const { eyebrow, title, highlight, text } = Astro.props;
 
 <section class="page-intro wrap py-14 sm:py-16">
     {eyebrow && (
-        <p class="eyebrow inline-block rounded-full border border-[#B5CCE4] bg-[#E8F2FC] px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-[#0071E3]">{eyebrow}</p>
+        <p class="eyebrow inline-block rounded-full border border-[#B5CCE4] bg-[#E8F2FC] px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-[#0064CC]">{eyebrow}</p>
     )}
     <h1 class={`${eyebrow ? 'mt-3' : 'mt-0'} text-3xl font-extrabold tracking-tight text-[#1D1D1F] sm:text-5xl`}>{title}{highlight && <> <span class="text-[#0071E3]">{highlight}</span></>}</h1>
     <p class="intro-copy mt-4 max-w-2xl text-base leading-relaxed text-[#6E6E73]">{text}</p>

@@ -1,4 +1,5 @@
 ---
+export const prerender = true;
 import SiteLayout from '../layouts/SiteLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
 ---
@@ -6,6 +7,10 @@ import PageIntro from '../components/PageIntro.astro';
 <SiteLayout
     title="Chi Siamo e Condomìni a Genova e Liguria | Poliurea System"
     description="Chi siamo: i tecnici diretti di Poliurea System a Genova e in Liguria per impermeabilizzazioni di terrazzi, condomìni e coperture industriali senza subappalti."
+    ogImage="/images/metodi/spruzzo-caldo.webp"
+    ogImageWidth={1280}
+    ogImageHeight={800}
+    ogImageAlt="Il team Poliurea System durante un'impermeabilizzazione continua in Liguria"
     activePath="/imprese"
     breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Chi siamo & Condomìni', path: '/imprese' }]}
 >

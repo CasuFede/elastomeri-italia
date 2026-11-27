@@ -1,11 +1,12 @@
 ---
+export const prerender = true;
 import '../styles/global.css';
 import SiteLayout from '../layouts/SiteLayout.astro';
 ---
 
 <SiteLayout
     title="Preventivo Impermeabilizzazione Genova e Liguria | Poliurea"
-    description="Richiedi un sopralluogo diagnostico gratuito a Genova e in Liguria. Risposta garantita entro 24 ore per impermeabilizzazioni in poliurea pura."
+    description="Richiedi un sopralluogo diagnostico gratuito a Genova e in Liguria per terrazzi, tetti e coperture. Risposta garantita entro 24 ore per poliurea a caldo, cicli manuali e bituminosi Remat."
     activePath="/preventivo"
     breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Richiedi un preventivo', path: '/preventivo' }]}
 >
@@ -923,7 +924,7 @@ import SiteLayout from '../layouts/SiteLayout.astro';
             font-size: 11.5px;
             font-weight: 600;
         }
-        .form-field input::placeholder, .form-field textarea::placeholder { color: #8E8E93; }
+        .form-field input::placeholder, .form-field textarea::placeholder { color: #6E6E73; }
         .full-field { grid-column: 1 / -1; }
         .upload-field { margin-top: 24px; }
         .upload-heading { margin-bottom: 10px; color: #1D1D1F; font-size: 12.5px; font-weight: 700; }

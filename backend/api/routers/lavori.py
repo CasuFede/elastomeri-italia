@@ -4,7 +4,7 @@ import os
 import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
-from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Request, Response, UploadFile
 from pydantic import ValidationError
 
 from api.deps import verifica_credenziali
@@ -172,7 +172,11 @@ def _formatta_lavoro(lavoro: dict[str, Any], media_rows: list[dict[str, Any]]) -
 
 
 @router.get("/lavori")
-async def leggi_lavori(services: CloudflareServices = Depends(get_services)):
+async def leggi_lavori(
+    response: Response,
+    services: CloudflareServices = Depends(get_services),
+):
+    response.headers["Cache-Control"] = "public, max-age=30, stale-while-revalidate=120"
     store = D1Store(services.database)
     lavori = await store.all(
         "SELECT id, titolo, categoria, descrizione, localita, superficie_mq, "

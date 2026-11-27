@@ -93,9 +93,9 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "fastapi" },
-    { name = "pydantic", extras = ["email"] },
-    { name = "python-multipart" },
+    { name = "fastapi", specifier = ">=0.135.0" },
+    { name = "pydantic", extras = ["email"], specifier = ">=2.11.0" },
+    { name = "python-multipart", specifier = ">=0.0.20" },
 ]
 
 [package.metadata.requires-dev]

@@ -25,6 +25,22 @@ def pbkdf2_sha256_bytes(password: bytes, salt: bytes, iterations: int) -> bytes:
     return bytes(result)
 
 
+def valida_complessita_password(password: str, lunghezza_minima: int = 8) -> Optional[str]:
+    """Verifica i requisiti minimi di sicurezza password; restituisce il messaggio di errore o None."""
+    pulita = (password or "").strip()
+    if (
+        len(pulita) < lunghezza_minima
+        or not any(c.isupper() for c in pulita)
+        or not any(c.islower() for c in pulita)
+        or not any(c.isdigit() for c in pulita)
+    ):
+        return (
+            f"La password deve contenere almeno {lunghezza_minima} caratteri, "
+            "una lettera maiuscola, una minuscola e un numero."
+        )
+    return None
+
+
 def crea_hash_password(password: str) -> str:
     sale = secrets.token_bytes(16)
     digest = pbkdf2_sha256_bytes(

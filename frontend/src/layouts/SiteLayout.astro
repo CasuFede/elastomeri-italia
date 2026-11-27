@@ -1,4 +1,5 @@
 ---
+import '@fontsource-variable/inter';
 import '../styles/global.css';
 import ChatWidget from '../components/ChatWidget.astro';
 
@@ -13,6 +14,9 @@ interface Props {
     activePath?: string;
     noindex?: boolean;
     ogImage?: string;
+    ogImageAlt?: string;
+    ogImageWidth?: number;
+    ogImageHeight?: number;
     breadcrumbs?: BreadcrumbItem[];
     extraStructuredData?: Record<string, unknown>[];
 }
@@ -23,6 +27,9 @@ const {
     activePath = '',
     noindex = false,
     ogImage = '/images/hero-capannone-poliurea-bianca.jpg',
+    ogImageAlt = 'Poliurea System — Impermeabilizzazioni continue a Genova e in Liguria',
+    ogImageWidth = 1376,
+    ogImageHeight = 768,
     breadcrumbs,
     extraStructuredData = [],
 } = Astro.props;
@@ -96,8 +103,39 @@ const graph: Record<string, unknown>[] = [
             'Impermeabilizzazione in poliurea pura a spruzzo',
             'Impermeabilizzazione terrazzi e balconi senza demolizione',
             'Impermeabilizzazione tetti e coperture industriali',
+            'Prodotto bituminoso armato con fibra di vetro Remat',
             'Impermeabilizzazione fondazioni, platee e cantine',
         ],
+        hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: 'Metodi di impermeabilizzazione Poliurea System',
+            itemListElement: [
+                {
+                    '@type': 'Offer',
+                    itemOffered: {
+                        '@type': 'Service',
+                        name: 'Applicazione Manuale di Resine Elastomeriche',
+                        description: 'Stesura a rullo o spatola armabile con fibra di vetro per balconi, terrazzi, raccordi e centri storici.',
+                    },
+                },
+                {
+                    '@type': 'Offer',
+                    itemOffered: {
+                        '@type': 'Service',
+                        name: 'Poliurea Pura a Caldo a Spruzzo Bimixer',
+                        description: 'Membrana continua monolitica ad alta pressione (65-80°C, 200 bar), elastica oltre il 400% e pedonabile in 60 minuti.',
+                    },
+                },
+                {
+                    '@type': 'Offer',
+                    itemOffered: {
+                        '@type': 'Service',
+                        name: 'Prodotto Bituminoso Armato con Fibra di Vetro Remat',
+                        description: 'Sistema bituminoso liquido elastomero armato a tutta superficie con stesura di fibra di vetro Remat senza fiamma libera.',
+                    },
+                },
+            ],
+        },
     },
 ];
 
@@ -139,9 +177,9 @@ const structuredData = {
         <meta property="og:description" content={description} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:image" content={ogImageUrl} />
-        <meta property="og:image:width" content="1376" />
-        <meta property="og:image:height" content="768" />
-        <meta property="og:image:alt" content="Poliurea System — Impermeabilizzazioni in poliurea pura a Genova e Liguria" />
+        <meta property="og:image:width" content={String(ogImageWidth)} />
+        <meta property="og:image:height" content={String(ogImageHeight)} />
+        <meta property="og:image:alt" content={ogImageAlt} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
@@ -152,19 +190,17 @@ const structuredData = {
         <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png?v=4" />
         <link rel="shortcut icon" href="/favicon.ico?v=4" />
         <link rel="apple-touch-icon" href="/favicon-192x192.png?v=4" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
         <title>{title}</title>
         <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     </head>
     <body class="site-body bg-white text-[#1D1D1F] antialiased selection:bg-[#0071E3] selection:text-white">
+        <a class="skip-link" href="#main-content">Salta al contenuto principale</a>
         <header class="site-header sticky top-0 z-40 border-b border-[#2A344B] bg-[#161D2E]">
             <div class="header-inner">
                 <a class="brand" href="/" aria-label="Poliurea System Impermeabilizzazioni, home">
                     <picture>
                         <source srcset="/logo-poliurea-system.webp" type="image/webp" />
-                        <img src="/logo-poliurea-system.png" alt="Poliurea System - Impermeabilizzazioni" width="200" height="38" />
+                        <img src="/logo-poliurea-system.png" alt="Poliurea System - Impermeabilizzazioni" width="220" height="37" />
                     </picture>
                 </a>
                 <nav class="main-nav" aria-label="Navigazione principale">
@@ -196,7 +232,7 @@ const structuredData = {
                 <a class="mobile-menu-cta" href="/preventivo">Preventivo gratuito <span aria-hidden="true">↗</span></a>
             </nav>
         </header>
-        <main>
+        <main id="main-content" tabindex="-1">
             <slot />
         </main>
         <div id="schema-lightbox" class="schema-lightbox" role="dialog" aria-modal="true" aria-labelledby="schema-lightbox-title" hidden>
@@ -205,7 +241,7 @@ const structuredData = {
                     <h3 id="schema-lightbox-title" class="schema-lightbox-title">Schema tecnico</h3>
                     <button id="schema-lightbox-close" type="button" class="schema-lightbox-close" aria-label="Chiudi ingrandimento">Chiudi ✕</button>
                 </div>
-                <img id="schema-lightbox-img" alt="Schema tecnico ingrandito" class="schema-lightbox-img" />
+                <img id="schema-lightbox-img" alt="" class="schema-lightbox-img" />
             </div>
         </div>
         <ChatWidget />
@@ -215,7 +251,7 @@ const structuredData = {
                     <a class="brand footer-logo" href="/" aria-label="Poliurea System Impermeabilizzazioni, home">
                         <picture>
                             <source srcset="/logo-poliurea-system.webp" type="image/webp" />
-                            <img src="/logo-poliurea-system.png" alt="Poliurea System - Impermeabilizzazioni" width="200" height="38" />
+                            <img src="/logo-poliurea-system.png" alt="Poliurea System - Impermeabilizzazioni" width="220" height="37" />
                         </picture>
                     </a>
                     <p>Impermeabilizzazioni continue per terrazzi, tetti, coperture industriali e fondazioni.</p>
@@ -251,6 +287,26 @@ const structuredData = {
             </div>
         </footer>
         <script is:inline>
+            const FOCUSABLE_SELECTOR =
+                'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+            const trapTabWithin = (evento, container) => {
+                if (evento.key !== 'Tab' || !container) return;
+                const focusables = Array.from(container.querySelectorAll(FOCUSABLE_SELECTOR)).filter(
+                    (el) => el.offsetParent !== null
+                );
+                if (!focusables.length) return;
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+                if (evento.shiftKey && document.activeElement === first) {
+                    evento.preventDefault();
+                    last.focus();
+                } else if (!evento.shiftKey && document.activeElement === last) {
+                    evento.preventDefault();
+                    first.focus();
+                }
+            };
+
             const menuToggle = document.getElementById('mobile-menu-toggle');
             const mobileMenu = document.getElementById('mobile-menu');
             const chiudiMenu = () => {
@@ -259,6 +315,7 @@ const structuredData = {
                 menuToggle.setAttribute('aria-expanded', 'false');
                 menuToggle.setAttribute('aria-label', 'Apri il menu');
                 document.body.classList.remove('menu-open');
+                menuToggle.focus();
             };
 
             menuToggle.addEventListener('click', () => {
@@ -268,10 +325,17 @@ const structuredData = {
                 menuToggle.setAttribute('aria-expanded', String(aperto));
                 menuToggle.setAttribute('aria-label', aperto ? 'Chiudi il menu' : 'Apri il menu');
                 document.body.classList.toggle('menu-open', aperto);
+                if (aperto) {
+                    const firstLink = mobileMenu.querySelector('a');
+                    if (firstLink) firstLink.focus();
+                }
             });
             mobileMenu.querySelectorAll('a').forEach((link) => link.addEventListener('click', chiudiMenu));
             document.addEventListener('keydown', (evento) => {
-                if (evento.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') chiudiMenu();
+                if (menuToggle.getAttribute('aria-expanded') === 'true') {
+                    if (evento.key === 'Escape') chiudiMenu();
+                    else trapTabWithin(evento, mobileMenu);
+                }
             });
 
             // Lightbox globale per ingrandire gli schemi tecnici al clic
@@ -279,11 +343,16 @@ const structuredData = {
             const schemaLightboxImg = document.getElementById('schema-lightbox-img');
             const schemaLightboxTitle = document.getElementById('schema-lightbox-title');
             const schemaLightboxClose = document.getElementById('schema-lightbox-close');
+            let lastSchemaTrigger = null;
             if (schemaLightbox && schemaLightboxImg && schemaLightboxTitle && schemaLightboxClose) {
                 const closeLightbox = () => {
                     schemaLightbox.hidden = true;
                     schemaLightboxImg.removeAttribute('src');
+                    schemaLightboxImg.setAttribute('alt', '');
                     document.body.style.overflow = '';
+                    if (lastSchemaTrigger && typeof lastSchemaTrigger.focus === 'function') {
+                        lastSchemaTrigger.focus();
+                    }
                 };
                 document.addEventListener('click', (ev) => {
                     const trigger = ev.target && ev.target.closest ? ev.target.closest('[data-schema-zoom]') : null;
@@ -293,6 +362,7 @@ const structuredData = {
                     const title = trigger.getAttribute('data-schema-title') || 'Schema tecnico';
                     const alt = trigger.getAttribute('data-schema-alt') || title;
                     if (!src) return;
+                    lastSchemaTrigger = trigger;
                     schemaLightboxImg.setAttribute('src', src);
                     schemaLightboxImg.setAttribute('alt', alt);
                     schemaLightboxTitle.textContent = title;
@@ -305,7 +375,10 @@ const structuredData = {
                     if (ev.target === schemaLightbox) closeLightbox();
                 });
                 document.addEventListener('keydown', (ev) => {
-                    if (ev.key === 'Escape' && !schemaLightbox.hidden) closeLightbox();
+                    if (!schemaLightbox.hidden) {
+                        if (ev.key === 'Escape') closeLightbox();
+                        else trapTabWithin(ev, schemaLightbox);
+                    }
                 });
             }
         </script>

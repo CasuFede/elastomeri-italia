@@ -12,21 +12,34 @@ async function handleVideoRequest(request: Request, url: URL, fileParam: string 
 
   const sourceUrl = new URL(`/videos/${fileParam}`, url.origin).toString();
   const assets = (env as unknown as { ASSETS?: { fetch: (req: Request | string) => Promise<Response> } })?.ASSETS;
+  const rangeHeader = request.headers.get('range');
+  const isHead = request.method === 'HEAD';
+  const isHttps = url.protocol === 'https:' || request.headers.get('x-forwarded-proto') === 'https';
+
+  // Usiamo sempre GET verso ASSETS perché ASSETS.fetch su HEAD può omettere Content-Length e Range
+  const forwardHeaders = new Headers();
+  if (rangeHeader) {
+    forwardHeaders.set('Range', rangeHeader);
+  } else if (isHead) {
+    forwardHeaders.set('Range', 'bytes=0-0');
+  }
+  const upstreamReq = new Request(sourceUrl, {
+    method: 'GET',
+    headers: forwardHeaders,
+  });
 
   const assetRes =
     assets && typeof assets.fetch === 'function'
-      ? await assets.fetch(new Request(sourceUrl, { method: 'GET' }))
-      : await fetch(new Request(sourceUrl, { method: 'GET' }));
+      ? await assets.fetch(upstreamReq)
+      : await fetch(upstreamReq);
 
-  if (!assetRes.ok) {
+  if (!assetRes.ok && assetRes.status !== 206) {
     return new Response('Video non trovato', { status: assetRes.status });
   }
 
   const fallbackType = fileParam.toLowerCase().endsWith('.webm') ? 'video/webm' : 'video/mp4';
   const contentType = assetRes.headers.get('content-type') || fallbackType;
   const etag = assetRes.headers.get('etag');
-  const rangeHeader = request.headers.get('range');
-  const isHead = request.method === 'HEAD';
 
   const makeHeaders = (extra: Record<string, string>) => {
     const h = new Headers({
@@ -34,11 +47,38 @@ async function handleVideoRequest(request: Request, url: URL, fileParam: string 
       'Accept-Ranges': 'bytes',
       'Cache-Control': 'public, max-age=31536000, immutable',
       'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY',
+      'Referrer-Policy': 'strict-origin-when-cross-origin',
       ...extra,
     });
+    if (isHttps) {
+      h.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload');
+    }
     if (etag) h.set('ETag', etag);
     return h;
   };
+
+  // Percorso zero-copy: se ASSETS supporta nativamente 206 Partial Content, passa lo stream senza arrayBuffer()
+  if (assetRes.status === 206) {
+    const contentRange = assetRes.headers.get('content-range');
+    const contentLength = assetRes.headers.get('content-length');
+    if (isHead && !rangeHeader) {
+      if (assetRes.body) await assetRes.body.cancel();
+      const totalFromRange = contentRange?.match(/\/(\d+)$/)?.[1];
+      return new Response(null, {
+        status: 200,
+        headers: makeHeaders(totalFromRange ? { 'Content-Length': totalFromRange } : {}),
+      });
+    }
+    const extra: Record<string, string> = {};
+    if (contentRange) extra['Content-Range'] = contentRange;
+    if (contentLength) extra['Content-Length'] = contentLength;
+    if (isHead && assetRes.body) await assetRes.body.cancel();
+    return new Response(isHead ? null : assetRes.body, {
+      status: 206,
+      headers: makeHeaders(extra),
+    });
+  }
 
   const declaredSize = Number(assetRes.headers.get('content-length') || '0');
 

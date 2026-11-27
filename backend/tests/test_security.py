@@ -1,10 +1,11 @@
 """Test unitari per il modulo core.security e gestione token HMAC."""
 import time
-from core.config import get_session_secret
+from core.config import get_session_secret, maschera_email
 from core.security import (
     crea_hash_password,
     crea_token_sessione,
     pbkdf2_sha256_bytes,
+    valida_complessita_password,
     valida_token_sessione,
     verifica_hash_password,
 )
@@ -69,3 +70,14 @@ def test_session_secret_fallback():
 
     env_dedicated = DummyEnvDedicated()
     assert get_session_secret(env_dedicated) == "dedicated_jwt_secret"
+
+
+def test_password_complexity_and_email_masking():
+    assert valida_complessita_password("weak", 8) is not None
+    assert valida_complessita_password("nouppercase123", 8) is not None
+    assert valida_complessita_password("NOLOWERCASE123", 8) is not None
+    assert valida_complessita_password("NoDigitsHere", 8) is not None
+    assert valida_complessita_password("Sicura123", 8) is None
+    assert valida_complessita_password("Sicura123456", 12) is None
+    assert maschera_email("mario.rossi@example.it") == "m***@example.it"
+    assert maschera_email("invalid") == "***"

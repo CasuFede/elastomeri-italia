@@ -2,6 +2,7 @@
 import { env } from 'cloudflare:workers';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
+import '../styles/lavori.css';
 import {
     lavoriProgetti,
     type LavoroMediaFoto,
@@ -139,13 +140,56 @@ try {
 // Tutti i lavori unificati: prima i cantieri pubblicati da Admin (più recenti), poi i cantieri di vetrina
 const tuttiLavori: LavoroProgetto[] = [...lavoriApiMappati, ...lavoriProgetti];
 const categorieDisponibili = Array.from(new Set(tuttiLavori.map((p) => p.categoria)));
+
+const SITE_ORIGIN = 'https://poliureasystem.it';
+const primoLavoro = tuttiLavori[0];
+const lavoriOgImage =
+    primoLavoro?.fotoDopo[0]?.src ||
+    primoLavoro?.fotoPrima[0]?.src ||
+    '/images/hero-capannone-poliurea-bianca.jpg';
+const lavoriOgAlt = primoLavoro
+    ? `Cantiere Prima e Dopo: ${primoLavoro.titolo}`
+    : 'Galleria lavori e cantieri Poliurea System a Genova e in Liguria';
+
+const lavoriStructuredData: Record<string, unknown>[] = [];
+if (tuttiLavori.length > 0) {
+    lavoriStructuredData.push({
+        '@type': 'ImageGallery',
+        name: 'Cantieri di impermeabilizzazione Poliurea System',
+        url: `${SITE_ORIGIN}/lavori`,
+        image: tuttiLavori.flatMap((l) =>
+            [...l.fotoPrima, ...l.fotoDopo].slice(0, 6).map((f) => ({
+                '@type': 'ImageObject',
+                contentUrl: f.src.startsWith('http') ? f.src : `${SITE_ORIGIN}${f.src}`,
+                caption: f.alt,
+            }))
+        ),
+    });
+    for (const lavoro of tuttiLavori) {
+        for (const vid of lavoro.videoDopo ?? []) {
+            const contentUrl = vid.src.startsWith('http') ? vid.src : `${SITE_ORIGIN}${vid.src}`;
+            const thumbUrl = vid.poster.startsWith('http') ? vid.poster : `${SITE_ORIGIN}${vid.poster}`;
+            lavoriStructuredData.push({
+                '@type': 'VideoObject',
+                name: `${lavoro.titolo} — ${vid.titolo}`,
+                description: vid.descrizione || lavoro.riepilogo || lavoro.titolo,
+                thumbnailUrl: [thumbUrl],
+                contentUrl,
+                uploadDate: '2026-11-26T00:00:00+01:00',
+            });
+        }
+    }
+}
 ---
 
 <SiteLayout
     title="Lavori e Cantieri a Genova e Liguria | Poliurea System"
     description="Interventi reali di impermeabilizzazione a Genova e in Liguria: galleria fotografica Prima e Dopo, video del risultato finale, schede tecniche e stratigrafie."
     activePath="/lavori"
+    ogImage={lavoriOgImage}
+    ogImageAlt={lavoriOgAlt}
     breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Lavori', path: '/lavori' }]}
+    extraStructuredData={lavoriStructuredData}
 >
     <PageIntro
         title="I nostri cantieri,"
@@ -610,7 +654,7 @@ const categorieDisponibili = Array.from(new Set(tuttiLavori.map((p) => p.categor
                 <button type="button" id="work-gallery-prev" class="work-modal-nav work-modal-nav--prev" aria-label="Foto precedente">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>
                 </button>
-                <img id="work-gallery-img" alt="Dettaglio fotografico intervento" class="work-modal-img" />
+                <img id="work-gallery-img" alt="" class="work-modal-img" />
                 <button type="button" id="work-gallery-next" class="work-modal-nav work-modal-nav--next" aria-label="Foto successiva">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>
                 </button>
@@ -931,20 +975,43 @@ const categorieDisponibili = Array.from(new Set(tuttiLavori.map((p) => p.categor
         if (e.target === videoModal) closeVideo();
     });
 
-    // Gestione tastiera gerarchica (chiude sempre la modale in primo piano prima di quella sotto)
+    const FOCUSABLE_SEL =
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), video[controls], [tabindex]:not([tabindex="-1"])';
+
+    const trapFocusInModal = (e: KeyboardEvent, modalEl: HTMLElement) => {
+        if (e.key !== 'Tab') return;
+        const focusables = Array.from(modalEl.querySelectorAll<HTMLElement>(FOCUSABLE_SEL)).filter(
+            (el) => el.offsetParent !== null
+        );
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+        }
+    };
+
+    // Gestione tastiera gerarchica + focus trap (chiude sempre la modale in primo piano prima di quella sotto)
     document.addEventListener('keydown', (e) => {
         if (videoModal && !videoModal.hidden) {
             if (e.key === 'Escape') closeVideo();
+            else trapFocusInModal(e, videoModal);
             return;
         }
         if (galleryModal && !galleryModal.hidden) {
             if (e.key === 'Escape') closeGallery();
             else if (e.key === 'ArrowLeft') galleryPrev?.click();
             else if (e.key === 'ArrowRight') galleryNext?.click();
+            else trapFocusInModal(e, galleryModal);
             return;
         }
-        if (projectModal && !projectModal.hidden && e.key === 'Escape') {
-            closeProjectModal();
+        if (projectModal && !projectModal.hidden) {
+            if (e.key === 'Escape') closeProjectModal();
+            else trapFocusInModal(e, projectModal);
         }
     });
 </script>

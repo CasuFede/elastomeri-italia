@@ -335,17 +335,15 @@ async def aggiorna_stato_preventivo(
 
     if invia_notifica and preventivo.get("email"):
         environment = get_environment(request)
-        try:
-            await invia_email_chiarimenti_preventivo(
-                preventivo.get("nome") or "Cliente",
-                preventivo["email"],
-                preventivo_id,
-                preventivo.get("servizio") or "Intervento",
-                note_cliente,
-                environment,
-            )
-        except Exception as exc:
-            print(f"Errore invio email chiarimenti: {exc}")
+        background_tasks.add_task(
+            invia_email_chiarimenti_preventivo,
+            preventivo.get("nome") or "Cliente",
+            preventivo["email"],
+            preventivo_id,
+            preventivo.get("servizio") or "Intervento",
+            note_cliente,
+            environment,
+        )
 
     return {
         "id": preventivo_id,

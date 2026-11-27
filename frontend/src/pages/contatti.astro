@@ -1,4 +1,5 @@
 ---
+export const prerender = true;
 import SiteLayout from '../layouts/SiteLayout.astro';
 import PageIntro from '../components/PageIntro.astro';
 ---
@@ -19,7 +20,7 @@ import PageIntro from '../components/PageIntro.astro';
     <section class="contact-page wrap my-12 grid gap-8 lg:grid-cols-[1.2fr_1fr] items-center">
         <!-- Colonna Sinistra: Modulo Guidato -->
         <div class="contact-panel rounded-[28px] border border-[#D2D2D7] bg-[#F5F5F7] p-8 sm:p-10 transition-colors duration-200 hover:border-[#0071E3]">
-            <p class="eyebrow text-xs font-bold uppercase tracking-wider text-[#0071E3] mb-2">MODULO GUIDATO IN 1 MINUTO</p>
+            <p class="eyebrow text-xs font-bold uppercase tracking-wider text-[#0064CC] mb-2">MODULO GUIDATO IN 1 MINUTO</p>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight leading-tight mb-4">Richiedi il sopralluogo<br /><span class="text-[#0071E3]">diagnostico gratuito.</span></h2>
             <p class="text-[#6E6E73] text-sm sm:text-base leading-relaxed mb-8">Il modo più rapido e preciso per iniziare. Il modulo guidato raccoglie le informazioni essenziali, ti permette di allegare foto del problema e inoltra la richiesta al nostro ufficio tecnico per una presa in carico immediata.</p>
             <a class="button button-primary inline-flex items-center justify-center gap-3 rounded-full bg-[#0071E3] hover:bg-[#0064CC] px-6 py-3.5 text-sm sm:text-base font-semibold text-white transition-colors duration-200 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071E3]" href="/preventivo">
@@ -33,7 +34,7 @@ import PageIntro from '../components/PageIntro.astro';
 
         <!-- Colonna Destra: Recapiti Diretti -->
         <aside class="contact-details rounded-[28px] border border-[#D2D2D7] bg-[#F5F5F7] p-6 sm:p-10 transition-colors duration-200 hover:border-[#0071E3]">
-            <p class="eyebrow text-xs font-bold uppercase tracking-wider text-[#0071E3] mb-2">CANALI DIRETTI AZIENDALI</p>
+            <p class="eyebrow text-xs font-bold uppercase tracking-wider text-[#0064CC] mb-2">CANALI DIRETTI AZIENDALI</p>
             <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1D1D1F] tracking-tight leading-tight mb-4">Contattaci direttamente<br />per urgenze e chiarimenti.</h2>
             <p class="text-[#6E6E73] text-sm leading-relaxed mb-6">Siamo operativi per sopralluoghi tecnici in Liguria e regioni limitrofe. Per un contatto telefonico immediato o per l'invio di capitolati e documentazione:</p>
             
@@ -85,7 +86,7 @@ import PageIntro from '../components/PageIntro.astro';
     <section class="contact-bottom py-14 bg-[#F5F5F7] border-y border-[#D2D2D7]">
         <div class="wrap contact-bottom-inner flex flex-col sm:flex-row sm:items-center justify-between gap-6">
             <div>
-                <p class="eyebrow text-xs font-bold uppercase tracking-wider text-[#0071E3] mb-1">VUOI CAPIRE COME OPERIAMO?</p>
+                <p class="eyebrow text-xs font-bold uppercase tracking-wider text-[#0064CC] mb-1">VUOI CAPIRE COME OPERIAMO?</p>
                 <h2 class="text-xl sm:text-2xl font-bold text-[#1D1D1F]">Le nostre 3 modalità operative:<br /><span class="text-[#0071E3]">manuale, poliurea a caldo a spruzzo e bituminoso armato Remat.</span></h2>
             </div>
             <a class="text-link inline-flex items-center gap-2 text-sm font-bold text-[#0071E3] hover:text-[#0064CC] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071E3] rounded p-1" href="/metodo">

@@ -9,7 +9,6 @@ Architettura modulare:
 """
 import json
 import os
-import sys
 from typing import Any
 from urllib.parse import urlparse
 
@@ -17,15 +16,13 @@ from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 from api.routers import auth, chat, clienti, lavori, preventivi
+from core.config import is_worker_runtime
 
 # Re-export per compatibilità retroattiva con script o tooling di migrazione
 from core.security import crea_hash_password, verifica_hash_password  # noqa: F401
 
-_ENABLE_DOCS = (
-    os.environ.get("ENABLE_API_DOCS") == "1"
-    and sys.platform != "emscripten"
-    and "pyodide" not in sys.modules
-)
+_IS_WORKER = is_worker_runtime()
+_ENABLE_DOCS = os.environ.get("ENABLE_API_DOCS") == "1" and not _IS_WORKER
 
 app = FastAPI(
     title="Poliurea System API",
@@ -36,15 +33,22 @@ app = FastAPI(
     openapi_url="/openapi.json" if _ENABLE_DOCS else None,
 )
 
-# Configurazione CORS restrittiva ed esplicita
-ALLOWED_ORIGINS = [
+# Configurazione CORS restrittiva: origini localhost ammesse solo fuori dal Worker di produzione
+PRODUCTION_ORIGINS = [
+    "https://poliureasystem.it",
+    "https://www.poliureasystem.it",
+]
+DEV_ORIGINS = [
     "http://localhost:8080",
     "http://localhost:4321",
     "http://127.0.0.1:8080",
     "http://127.0.0.1:4321",
-    "https://poliureasystem.it",
-    "https://www.poliureasystem.it",
 ]
+ALLOWED_ORIGINS = (
+    PRODUCTION_ORIGINS
+    if (_IS_WORKER and os.environ.get("ALLOW_DEV_ORIGINS") != "1")
+    else PRODUCTION_ORIGINS + DEV_ORIGINS
+)
 ALLOWED_ORIGINS_SET = set(ALLOWED_ORIGINS)
 
 app.add_middleware(
@@ -52,7 +56,7 @@ app.add_middleware(
     allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allow_headers=["*"],
+    allow_headers=["Content-Type", "Authorization", "Accept", "X-Requested-With"],
 )
 
 
@@ -94,7 +98,7 @@ async def remove_api_prefix_and_security(request: Request, call_next: Any) -> Re
             referer_origin = _origin_da_referer((request.headers.get("referer") or "").strip())
             effective_origin = origin or referer_origin
             host = (request.headers.get("host") or "").strip().lower()
-            is_testclient = host == "testserver"
+            is_testclient = (not _IS_WORKER) and host == "testserver"
 
             if sec_fetch_site == "cross-site":
                 return Response(
