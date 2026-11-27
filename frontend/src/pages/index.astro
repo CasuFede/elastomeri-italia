@@ -2,6 +2,73 @@
 import SiteLayout from '../layouts/SiteLayout.astro';
 import { metodiOperativi } from '../data/metodi';
 
+const vantaggiPoliurea = [
+    {
+        numero: '01',
+        tag: 'Zero saldature',
+        titolo: 'Impermeabilità Continua',
+        testo: 'Niente teli prefabbricati né fiamme: la membrana nebulizzata a caldo aderisce molecolarmente formando un unico manto monolitico senza giunti deboli.',
+        sx: '0% Punti di perdita',
+        dx: '100% Monolitica',
+    },
+    {
+        numero: '02',
+        tag: 'Tempi record',
+        titolo: 'Pedonabile in 60 Minuti',
+        testo: 'Polimerizzazione immediata in pochi secondi dall’ugello: le superfici tornano subito praticabili, azzerando i disagi e i fermi prolungati di cantiere.',
+        sx: 'Gel-time 5–10 sec',
+        dx: '60 min calpestabile',
+    },
+    {
+        numero: '03',
+        tag: 'Crack-bridging',
+        titolo: 'Elasticità Superiore al 400%',
+        testo: 'Assorbe fessurazioni ed escursioni termiche estreme (-20°C / +80°C). Resiste stabilmente a ristagni d’acqua persistenti e all’irraggiamento UV.',
+        sx: 'Allungamento dinamico',
+        dx: '> 400% a rottura',
+    },
+    {
+        numero: '04',
+        tag: 'Senza demolizioni',
+        titolo: 'Sovrapponibile su Ogni Supporto',
+        testo: 'Si applica direttamente su piastrelle ancorate, vecchie guaine bituminose, calcestruzzo, lamiera e legno: zero macerie, polvere né costi di discarica.',
+        sx: 'Zero calcinacci',
+        dx: 'Adesione diretta',
+    },
+    {
+        numero: '05',
+        tag: 'Lunga durata',
+        titolo: 'Vita Utile Oltre 25 Anni',
+        testo: 'Corazza ad altissima resistenza meccanica e all’abrasione, progettata secondo la certificazione europea ETAG 005 – W3 per proteggere l’immobile per decenni.',
+        sx: 'Certificazione ETAG 005',
+        dx: 'Classe W3 · 25 anni',
+    },
+    {
+        numero: '06',
+        tag: 'Ristagni e clima',
+        titolo: 'Immunità a Ristagni, Gelo e Grandine',
+        testo: 'Non riemulsiona in acqua stagnante e non si fessura con i cicli gelo-disgelo: perfetta per terrazzi piani a bassa pendenza, vasche e tetti esposti.',
+        sx: 'Resistenza climatica',
+        dx: '-20°C / +80°C',
+    },
+    {
+        numero: '07',
+        tag: 'Sicurezza e dettagli',
+        titolo: 'Sigilla Ogni Geometria Senza Fiamma',
+        testo: 'Nebulizzata senza bruciatori a gas, avvolge senza colature pluviali, camini, lucernari, piedini fotovoltaici e risvolti verticali con precisione assoluta.',
+        sx: 'Zero fiamma libera',
+        dx: 'Raccordi perfetti',
+    },
+    {
+        numero: '08',
+        tag: 'Alta produttività',
+        titolo: 'Fino a 1.000 m² in una Giornata',
+        testo: 'Con impianto bimixer ad alta pressione (200 bar) completiamo grandi coperture condominiali e capannoni in tempi rapidissimi, riducendo l’impatto in cantiere.',
+        sx: 'Impianto bimixer',
+        dx: 'Fino a 1.000 m²/g',
+    },
+];
+
 const faqStructuredData = [
     {
         '@type': 'FAQPage',
@@ -281,36 +348,55 @@ const faqStructuredData = [
                 <h2 class="ps-h2">Perché la poliurea pura<br /><em>supera le guaine tradizionali.</em></h2>
                 <p class="ps-sub">Niente saldature a fiamma, zero giunti che si scollano dopo pochi inverni. Una corazza elastica a spruzzo che diventa un tutt’uno con l’edificio.</p>
 
-                <div class="ps-cols">
-                    <article class="ps-card">
-                        <div class="ps-card-tag">Zero saldature</div>
-                        <h3>Impermeabilità Continua</h3>
-                        <p>Niente teli prefabbricati né fiamme: la membrana nebulizzata a caldo aderisce molecolarmente formando un unico manto monolitico senza giunti deboli.</p>
-                        <div class="ps-card-ft">
-                            <span>0% Punti di perdita</span>
-                            <span>100% Monolitica</span>
+                <div class="ps-carousel-wrap" id="polyurea-carousel">
+                    <div class="ps-carousel-stage is-at-start" id="polyurea-stage">
+                        <div
+                            class="ps-carousel-track"
+                            id="polyurea-track"
+                            tabindex="0"
+                            role="region"
+                            aria-label="I vantaggi della poliurea pura in scorrimento orizzontale"
+                        >
+                            {vantaggiPoliurea.map((v) => (
+                                <article class="ps-card">
+                                    <div class="ps-card-top">
+                                        <span class="ps-card-tag">{v.tag}</span>
+                                        <span class="ps-card-num" aria-hidden="true">{v.numero} / 0{vantaggiPoliurea.length}</span>
+                                    </div>
+                                    <h3>{v.titolo}</h3>
+                                    <p>{v.testo}</p>
+                                    <div class="ps-card-ft">
+                                        <span>{v.sx}</span>
+                                        <span>{v.dx}</span>
+                                    </div>
+                                </article>
+                            ))}
                         </div>
-                    </article>
+                    </div>
 
-                    <article class="ps-card">
-                        <div class="ps-card-tag">Tempi record</div>
-                        <h3>Pedonabile in 60 Minuti</h3>
-                        <p>Polimerizzazione immediata in pochi secondi dall’ugello: le superfici tornano subito praticabili, azzerando i disagi e i fermi prolungati di cantiere.</p>
-                        <div class="ps-card-ft">
-                            <span>Gel-time immediato</span>
-                            <span>60 min calpestabile</span>
+                    <div class="ps-carousel-controls">
+                        <div class="ps-carousel-dots" id="polyurea-dots" role="tablist" aria-label="Scorri i vantaggi della poliurea">
+                            {vantaggiPoliurea.map((v, idx) => (
+                                <button
+                                    type="button"
+                                    class={`ps-carousel-dot ${idx === 0 ? 'is-active' : ''}`}
+                                    data-slide={idx}
+                                    aria-label={`Vai al vantaggio ${idx + 1}: ${v.titolo}`}
+                                    aria-selected={idx === 0 ? 'true' : 'false'}
+                                    role="tab"
+                                />
+                            ))}
                         </div>
-                    </article>
-
-                    <article class="ps-card">
-                        <div class="ps-card-tag">Crack-bridging</div>
-                        <h3>Elasticità Superiore al 400%</h3>
-                        <p>Assorbe fessurazioni ed escursioni termiche estreme (-20°C / +80°C). Resiste stabilmente a ristagni d’acqua persistenti e all’irraggiamento UV.</p>
-                        <div class="ps-card-ft">
-                            <span>Allungamento dinamico</span>
-                            <span>&gt; 400% a rottura</span>
+                        <div class="ps-carousel-nav">
+                            <span class="ps-carousel-hint">Scorri i {vantaggiPoliurea.length} vantaggi</span>
+                            <button type="button" class="ps-carousel-btn" id="polyurea-prev" aria-label="Vantaggio precedente">
+                                <span aria-hidden="true">←</span>
+                            </button>
+                            <button type="button" class="ps-carousel-btn" id="polyurea-next" aria-label="Vantaggio successivo">
+                                <span aria-hidden="true">→</span>
+                            </button>
                         </div>
-                    </article>
+                    </div>
                 </div>
 
                 <div class="ps-designer-band">
@@ -512,6 +598,177 @@ const faqStructuredData = [
             };
             syncHeaderOffset();
             window.addEventListener('resize', syncHeaderOffset, { passive: true });
+
+            // Carosello orizzontale vantaggi poliurea (frecce, pallini, trascinamento mouse, scorrimento automatico pausabile)
+            const track = document.getElementById('polyurea-track');
+            const stage = document.getElementById('polyurea-stage');
+            const prevBtn = document.getElementById('polyurea-prev');
+            const nextBtn = document.getElementById('polyurea-next');
+            const dots = Array.from(document.querySelectorAll('#polyurea-dots .ps-carousel-dot'));
+            if (track && stage) {
+                const cards = Array.from(track.querySelectorAll('.ps-card'));
+                const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                let autoTimer = null;
+                let userPaused = false;
+                let inView = false;
+
+                const getStep = () => {
+                    const first = cards[0];
+                    if (!first) return 350;
+                    const styles = window.getComputedStyle(track);
+                    const gap = parseFloat(styles.columnGap || styles.gap || '20') || 20;
+                    return first.getBoundingClientRect().width + gap;
+                };
+
+                const syncCarouselUI = () => {
+                    const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+                    const sl = track.scrollLeft;
+                    stage.classList.toggle('is-at-start', sl <= 8);
+                    stage.classList.toggle('is-at-end', sl >= maxScroll - 8);
+
+                    if (!dots.length || !cards.length) return;
+                    const step = getStep();
+                    let activeIdx = Math.round(sl / step);
+                    if (sl >= maxScroll - 8) activeIdx = cards.length - 1;
+                    activeIdx = Math.max(0, Math.min(cards.length - 1, activeIdx));
+                    dots.forEach((dot, idx) => {
+                        const isActive = idx === activeIdx;
+                        dot.classList.toggle('is-active', isActive);
+                        dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                    });
+                };
+
+                const scrollByCards = (dir) => {
+                    const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+                    const step = getStep();
+                    if (dir > 0) {
+                        if (track.scrollLeft >= maxScroll - 12) {
+                            track.scrollTo({ left: 0, behavior: 'smooth' });
+                        } else {
+                            track.scrollTo({ left: Math.min(maxScroll, track.scrollLeft + step), behavior: 'smooth' });
+                        }
+                    } else {
+                        if (track.scrollLeft <= 12) {
+                            track.scrollTo({ left: maxScroll, behavior: 'smooth' });
+                        } else {
+                            track.scrollTo({ left: Math.max(0, track.scrollLeft - step), behavior: 'smooth' });
+                        }
+                    }
+                };
+
+                const stopAuto = () => {
+                    if (autoTimer) {
+                        window.clearInterval(autoTimer);
+                        autoTimer = null;
+                    }
+                };
+
+                const startAuto = () => {
+                    stopAuto();
+                    if (reducedMotion || userPaused || !inView) return;
+                    autoTimer = window.setInterval(() => {
+                        if (!userPaused && inView && !document.hidden) {
+                            scrollByCards(1);
+                        }
+                    }, 4200);
+                };
+
+                let resumeTimeout = null;
+                const pauseTemporarily = (ms = 8000) => {
+                    userPaused = true;
+                    stopAuto();
+                    if (resumeTimeout) window.clearTimeout(resumeTimeout);
+                    resumeTimeout = window.setTimeout(() => {
+                        userPaused = false;
+                        startAuto();
+                    }, ms);
+                };
+
+                prevBtn?.addEventListener('click', () => {
+                    pauseTemporarily();
+                    scrollByCards(-1);
+                });
+                nextBtn?.addEventListener('click', () => {
+                    pauseTemporarily();
+                    scrollByCards(1);
+                });
+
+                dots.forEach((dot, idx) => {
+                    dot.addEventListener('click', () => {
+                        pauseTemporarily();
+                        const target = cards[idx];
+                        if (target) {
+                            track.scrollTo({ left: target.offsetLeft - track.offsetLeft, behavior: 'smooth' });
+                        }
+                    });
+                });
+
+                track.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowRight') {
+                        e.preventDefault();
+                        pauseTemporarily();
+                        scrollByCards(1);
+                    } else if (e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        pauseTemporarily();
+                        scrollByCards(-1);
+                    }
+                });
+
+                // Trascinamento fluido con mouse su desktop (lascia nativo il touch su mobile)
+                let isDragging = false;
+                let dragStartX = 0;
+                let dragStartScroll = 0;
+                track.addEventListener('pointerdown', (e) => {
+                    if (e.pointerType !== 'mouse' || e.button !== 0) return;
+                    isDragging = true;
+                    dragStartX = e.clientX;
+                    dragStartScroll = track.scrollLeft;
+                    track.classList.add('is-dragging');
+                    track.setPointerCapture(e.pointerId);
+                    pauseTemporarily(9000);
+                });
+                track.addEventListener('pointermove', (e) => {
+                    if (!isDragging) return;
+                    track.scrollLeft = dragStartScroll - (e.clientX - dragStartX);
+                });
+                const endDrag = () => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    track.classList.remove('is-dragging');
+                };
+                track.addEventListener('pointerup', endDrag);
+                track.addEventListener('pointercancel', endDrag);
+
+                track.addEventListener('mouseenter', () => {
+                    userPaused = true;
+                    stopAuto();
+                });
+                track.addEventListener('mouseleave', () => {
+                    userPaused = false;
+                    startAuto();
+                });
+                track.addEventListener('touchstart', () => pauseTemporarily(9000), { passive: true });
+                track.addEventListener('scroll', () => window.requestAnimationFrame(syncCarouselUI), { passive: true });
+                window.addEventListener('resize', syncCarouselUI, { passive: true });
+
+                if ('IntersectionObserver' in window) {
+                    const io = new IntersectionObserver(
+                        (entries) => {
+                            inView = Boolean(entries[0]?.isIntersecting);
+                            if (inView) startAuto();
+                            else stopAuto();
+                        },
+                        { threshold: 0.25 }
+                    );
+                    io.observe(stage);
+                } else {
+                    inView = true;
+                    startAuto();
+                }
+
+                syncCarouselUI();
+            }
         })();
     </script>
 </SiteLayout>
