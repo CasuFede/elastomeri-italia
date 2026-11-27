@@ -526,9 +526,9 @@
     .hero-scrim {
         background: linear-gradient(
             180deg,
-            rgba(11, 18, 33, 0.56) 0%,
-            rgba(11, 18, 33, 0.78) 56%,
-            rgba(11, 18, 33, 0.86) 100%
+            rgba(11, 18, 33, 0.34) 0%,
+            rgba(11, 18, 33, 0.56) 56%,
+            rgba(11, 18, 33, 0.72) 100%
         );
     }
 }
@@ -703,6 +703,14 @@
     height: 100%;
     overflow: hidden;
     background: #161D2E;
+}
+
+.home-work-half .work-phase-pill,
+.home-work-single .work-phase-pill {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
 }
 
 .home-work-half img,
