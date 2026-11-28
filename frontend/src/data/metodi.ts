@@ -79,25 +79,25 @@ export const metodiOperativi: MetodoOperativo[] = [
     {
         id: 'bituminoso-remat',
         numero: '03',
-        tag: 'BITUMINOSO · STESURA REMAT FIBRA DI VETRO',
+        tag: 'POMPA AIRLESS · REMAT FIBRA DI VETRO',
         titolo: 'Prodotto Bituminoso Armato Remat',
         titoloBreve: 'Bituminoso Remat',
-        immagine: '/images/metodi/bituminoso-remat.webp',
-        immagineAlt: 'Applicazione di prodotto bituminoso liquido elastomero con stesura di tessuto in fibra di vetro Remat su copertura piana',
+        immagine: '/images/metodi/bituminoso-remat.webp?v=3',
+        immagineAlt: 'Spruzzatura con pompa airless di prodotto bituminoso elastomero sopra tessuto in fibra di vetro Remat posato su copertura piana',
         riepilogoHome:
-            'Prodotto bituminoso liquido elastomero armato con stesura di tessuto in fibra di vetro Remat: manto continuo corazzato senza fiamma, ideale per risanare vecchie guaine e coperture estese.',
+            'Prodotto bituminoso liquido elastomero spruzzato con pompa airless e armato con tessuto in fibra di vetro Remat: manto continuo corazzato senza fiamma, ideale per risanare vecchie guaine e coperture estese.',
         descrizione:
-            'Sistema impermeabilizzante a base di prodotto bituminoso liquido elastomero armato a tutta superficie con stesura del tessuto in fibra di vetro Remat. Si posa a rullo o pompa airless senza fiamma libera, annegando la fibra tra due mani per creare una corazza monolitica ad alta resistenza meccanica.',
+            'Sistema impermeabilizzante a base di prodotto bituminoso liquido elastomero spruzzato con pompa airless e armato a tutta superficie con stesura del tessuto in fibra di vetro Remat. La fibra viene annegata tra la mano di base spruzzata e la mano di chiusura airless, creando una corazza monolitica continua senza fiamma libera.',
         badgeHome: 'Armatura fibra di vetro Remat',
-        metricaHomeSinistra: 'Fibra di vetro Remat',
+        metricaHomeSinistra: 'Pompa airless · Remat',
         metricaHomeDestra: 'Zero fiamma libera',
         metriche: [
             { etichetta: 'Armatura', valore: 'Fibra di vetro Remat' },
-            { etichetta: 'Applicazione', valore: 'Airless o rullo' },
+            { etichetta: 'Applicazione', valore: 'Pompa airless' },
             { etichetta: 'Posa sicura', valore: 'Senza fiamma libera' },
         ],
         puntiChiave: [
-            'Stesura del tessuto in fibra di vetro Remat annegato fresco su fresco per massima resistenza a strappo e fessurazioni',
+            'Spruzzatura airless del prodotto bituminoso con tessuto in fibra di vetro Remat annegato tra le due mani per massima resistenza a strappo e fessurazioni',
             'Adesione diretta e piena compatibilità chimica nel recupero di vecchie guaine bituminose senza demolizioni',
             'Manto elastico continuo senza giunzioni né fiamma libera, stabile ai ristagni d’acqua e agli sbalzi termici',
         ],
@@ -117,7 +117,7 @@ export const confrontoMetodi: ConfrontoRiga[] = [
         criterio: 'Attrezzatura',
         manuale: 'Rullo, spatola e pennello',
         spruzzoCaldo: 'Impianto bimixer alta pressione',
-        bituminosoRemat: 'Pompa airless o rullo + stesura Remat',
+        bituminosoRemat: 'Pompa airless + stesura fibra Remat',
     },
     {
         criterio: 'Temperatura posa',
