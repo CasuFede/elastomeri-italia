@@ -1,0 +1,861 @@
+---
+import '../styles/infiltration-showcase.css';
+
+const fasiTimeline = [
+    { id: 0, num: '01', label: 'Punti critici' },
+    { id: 1, num: '02', label: 'Danni' },
+    { id: 2, num: '03', label: 'Diagnosi' },
+    { id: 3, num: '04', label: 'Supporto' },
+    { id: 4, num: '05', label: 'Soluzione' },
+    { id: 5, num: '06', label: 'Risultato' },
+];
+---
+
+<section id="interventi" class="home-band inf-showcase-section" data-band="interventi" aria-labelledby="inf-heading">
+    <div class="wrap home-band-body">
+        <div class="inf-header">
+            <div class="inf-header-copy">
+                <p class="eyebrow">DIAGNOSI · SOLUZIONE · RISULTATO</p>
+                <h2 id="inf-heading" class="inf-header-title">
+                    Danni da infiltrazione?<br />
+                    <span>Guarda come li risolviamo alla radice.</span>
+                </h2>
+                <p class="inf-header-sub">
+                    Dalla prima goccia al collaudo finale: scopri tutti i punti vulnerabili dell'edificio, i danni che l'acqua provoca nel tempo e come il nostro sistema continuo li elimina definitivamente.
+                </p>
+            </div>
+
+            <div class="inf-controls-top" aria-label="Controlli animazione interattiva">
+                <button
+                    type="button"
+                    class="inf-ctrl-btn inf-ctrl-btn--icon"
+                    id="inf-prev-btn"
+                    aria-label="Fase precedente"
+                    title="Fase precedente"
+                >
+                    <span aria-hidden="true">←</span>
+                </button>
+                <button
+                    type="button"
+                    class="inf-ctrl-btn"
+                    id="inf-play-btn"
+                    aria-pressed="false"
+                >
+                    <span id="inf-play-icon" aria-hidden="true">❚❚</span>
+                    <span id="inf-play-label">Pausa</span>
+                </button>
+                <button
+                    type="button"
+                    class="inf-ctrl-btn inf-ctrl-btn--icon"
+                    id="inf-next-btn"
+                    aria-label="Fase successiva"
+                    title="Fase successiva"
+                >
+                    <span aria-hidden="true">→</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="inf-card" id="inf-showcase" data-phase="0">
+            <div class="inf-stage">
+                <!-- Colonna sinistra: storytelling delle 6 fasi -->
+                <div class="inf-copy-stack" aria-live="polite">
+                    <!-- FASE 0: STRUTTURA / PUNTI CRITICI -->
+                    <div class="inf-panel is-active" data-panel="0">
+                        <span class="inf-panel-kicker">01 · Un edificio, 5 punti vulnerabili</span>
+                        <h3 class="inf-panel-title">Dove c'è una crepa,<br /><em>l'acqua passa.</em></h3>
+                        <p class="inf-panel-desc">
+                            Ogni immobile ha zone esposte a sbalzi termici, pioggia battente e spinta del terreno: basta un giunto scollato o una guaina invecchiata per innescare un'infiltrazione.
+                        </p>
+                        <div class="inf-pills" aria-label="Zone vulnerabili dell'edificio">
+                            <span class="inf-pill"><span class="inf-pill-num">1</span> Tetti e coperture</span>
+                            <span class="inf-pill"><span class="inf-pill-num">2</span> Terrazzi e lastrici</span>
+                            <span class="inf-pill"><span class="inf-pill-num">3</span> Balconi e frontalini</span>
+                            <span class="inf-pill"><span class="inf-pill-num">4</span> Giunti e pareti</span>
+                            <span class="inf-pill"><span class="inf-pill-num">5</span> Fondazioni, box e cantine</span>
+                        </div>
+                    </div>
+
+                    <!-- FASE 1: TUTTI I POSSIBILI DANNI DA INFILTRAZIONE -->
+                    <div class="inf-panel" data-panel="1" aria-hidden="true">
+                        <span class="inf-panel-kicker inf-panel-kicker--danger">02 · I danni da infiltrazione</span>
+                        <h3 class="inf-panel-title">L'acqua trova<br /><em class="is-danger">sempre la strada.</em></h3>
+                        <p class="inf-panel-desc">
+                            Pioggia, ristagni e spinta idrostatica penetrano nei massetti e nei ferri d'armatura. Senza un blocco continuo, i danni si estendono a tutto l'edificio:
+                        </p>
+                        <div class="inf-pills" aria-label="Principali danni da infiltrazione">
+                            <span class="inf-pill inf-pill--damage">Macchie e gocciolamenti a soffitto</span>
+                            <span class="inf-pill inf-pill--damage">Muffa, salnitro e intonaco sfogliato</span>
+                            <span class="inf-pill inf-pill--damage">Ristagni e guaine rigonfie o crepate</span>
+                            <span class="inf-pill inf-pill--damage">Ferri ossidati e distacchi frontalini</span>
+                            <span class="inf-pill inf-pill--damage">Umidità di risalita e box allagati</span>
+                        </div>
+                    </div>
+
+                    <!-- FASE 2: DIAGNOSI STRUMENTALE -->
+                    <div class="inf-panel" data-panel="2" aria-hidden="true">
+                        <span class="inf-panel-kicker inf-panel-kicker--amber">03 · Diagnosi strumentale</span>
+                        <h3 class="inf-panel-title">Prima capire<br /><em>l'origine esatta.</em></h3>
+                        <p class="inf-panel-desc">
+                            Nel 70% dei casi la macchia visibile è lontana dal vero punto d'ingresso. Con termocamera e igrometro mappiamo l'umidità residua prima di progettare l'intervento.
+                        </p>
+                        <div class="inf-pills">
+                            <span class="inf-pill inf-pill--tech">Termocamera IR</span>
+                            <span class="inf-pill inf-pill--tech">Igrometro a carburo</span>
+                            <span class="inf-pill inf-pill--tech">Verifica pendenze e scarichi</span>
+                        </div>
+                    </div>
+
+                    <!-- FASE 3: PREPARAZIONE DEL SUPPORTO -->
+                    <div class="inf-panel" data-panel="3" aria-hidden="true">
+                        <span class="inf-panel-kicker">04 · Preparazione del supporto</span>
+                        <h3 class="inf-panel-title">Poi preparare<br /><em>senza demolire.</em></h3>
+                        <p class="inf-panel-desc">
+                            Levigatura meccanica diamantata, sigillatura elastica di crepe e raccordi e stesura del primer epossidico strutturale per un'adesione superiore a 2,5 MPa.
+                        </p>
+                        <div class="inf-pills">
+                            <span class="inf-pill inf-pill--tech">Levigatura diamantata</span>
+                            <span class="inf-pill inf-pill--tech">Sigillatura giunti e pluviali</span>
+                            <span class="inf-pill inf-pill--tech">Primer epossidico (&gt; 2,5 MPa)</span>
+                        </div>
+                    </div>
+
+                    <!-- FASE 4: SOLUZIONE CONTINUA -->
+                    <div class="inf-panel" data-panel="4" aria-hidden="true">
+                        <span class="inf-panel-kicker">05 · La nostra soluzione</span>
+                        <h3 class="inf-panel-title">Una sola corazza<br /><em>senza giunzioni.</em></h3>
+                        <p class="inf-panel-desc">
+                            Applichiamo il ciclo ideale per ogni supporto — poliurea pura a caldo (70°C, 200 bar), ciclo manuale di precisione o bituminoso armato Remat — avvolgendo ogni dettaglio.
+                        </p>
+                        <div class="inf-pills">
+                            <span class="inf-pill inf-pill--tech">Poliurea a caldo · 70°C / 200 bar</span>
+                            <span class="inf-pill inf-pill--tech">Elasticità &gt; 400%</span>
+                            <span class="inf-pill inf-pill--tech">0 giunti · 0 saldature a fiamma</span>
+                        </div>
+                    </div>
+
+                    <!-- FASE 5: RISULTATO DEFINITIVO -->
+                    <div class="inf-panel" data-panel="5" aria-hidden="true">
+                        <span class="inf-panel-kicker inf-panel-kicker--success">06 · Il risultato finale</span>
+                        <h3 class="inf-panel-title">Asciutto per sempre.<br /><em class="is-success">Pedonabile in 60 minuti.</em></h3>
+                        <p class="inf-panel-desc">
+                            Pioggia intensa, ristagni e spinta di falda scivolano via sullo scudo continuo. Nessuna demolizione, zero macerie e superfici subito fruibili con tenuta certificata.
+                        </p>
+                        <div class="inf-pills">
+                            <span class="inf-pill inf-pill--success">0% Infiltrazioni</span>
+                            <span class="inf-pill inf-pill--success">Calpestabile in 60 min</span>
+                            <span class="inf-pill inf-pill--success">Zero demolizioni</span>
+                        </div>
+                        <div class="inf-panel-actions">
+                            <a class="ps-pill-btn ps-pill-btn--solid" href="/fondazioni">
+                                Scopri tutti i servizi <span aria-hidden="true">→</span>
+                            </a>
+                            <a class="ps-text-link" href="/preventivo">
+                                Richiedi sopralluogo gratuito <span aria-hidden="true">↗</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Colonna destra: Sezione architettonica SVG animata -->
+                <div class="inf-visual">
+                    <svg
+                        class="inf-svg"
+                        viewBox="0 0 800 500"
+                        role="img"
+                        aria-label="Animazione tecnica dell'edificio: punti vulnerabili alle infiltrazioni, danni da acqua e umidità, diagnosi termografica, preparazione del supporto, applicazione della membrana impermeabile continua e risultato finale asciutto"
+                    >
+                        <defs>
+                            <!-- Griglia architettonica leggera -->
+                            <pattern id="inf-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+                                <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#E2E8F0" stroke-width="0.65" opacity="0.55" />
+                            </pattern>
+
+                            <!-- Tratteggio diagonale terreno -->
+                            <pattern id="inf-soil-hatch" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+                                <rect width="14" height="14" fill="#ECEAE2" />
+                                <line x1="0" y1="0" x2="0" y2="14" stroke="#DCD8CC" stroke-width="2" />
+                            </pattern>
+
+                            <!-- Gradiente umidità / macchia infiltrazione -->
+                            <radialGradient id="inf-damp-grad" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.42" />
+                                <stop offset="55%" stop-color="#64748B" stop-opacity="0.28" />
+                                <stop offset="100%" stop-color="#94A3B8" stop-opacity="0" />
+                            </radialGradient>
+
+                            <!-- Gradiente muffa / salnitro -->
+                            <radialGradient id="inf-mold-grad" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#475569" stop-opacity="0.52" />
+                                <stop offset="60%" stop-color="#64748B" stop-opacity="0.22" />
+                                <stop offset="100%" stop-color="#64748B" stop-opacity="0" />
+                            </radialGradient>
+
+                            <!-- Gradiente hotspot termografico IR -->
+                            <radialGradient id="inf-ir-hot" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" stop-color="#EF4444" stop-opacity="0.88" />
+                                <stop offset="45%" stop-color="#F97316" stop-opacity="0.58" />
+                                <stop offset="78%" stop-color="#FACC15" stop-opacity="0.26" />
+                                <stop offset="100%" stop-color="#FACC15" stop-opacity="0" />
+                            </radialGradient>
+
+                            <!-- Gradiente fascio scanner IR -->
+                            <linearGradient id="inf-scan-fill" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.06" />
+                                <stop offset="50%" stop-color="#F59E0B" stop-opacity="0.16" />
+                                <stop offset="100%" stop-color="#F59E0B" stop-opacity="0.06" />
+                            </linearGradient>
+
+                            <!-- Gradiente arco igrometro -->
+                            <linearGradient id="inf-hygro-arc" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0%" stop-color="#22C55E" />
+                                <stop offset="50%" stop-color="#FACC15" />
+                                <stop offset="100%" stop-color="#EF4444" />
+                            </linearGradient>
+
+                            <!-- Gradiente cono spruzzo poliurea -->
+                            <linearGradient id="inf-spray-grad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#0071E3" stop-opacity="0.78" />
+                                <stop offset="100%" stop-color="#38BDF8" stop-opacity="0.05" />
+                            </linearGradient>
+
+                            <!-- Clip circolare lente stratigrafia -->
+                            <clipPath id="inf-loupe-clip">
+                                <circle cx="144" cy="116" r="56" />
+                            </clipPath>
+
+                            <!-- Ombra morbida per card floating -->
+                            <filter id="inf-card-shadow" x="-15%" y="-15%" width="130%" height="135%">
+                                <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#0F172A" flood-opacity="0.12" />
+                            </filter>
+                        </defs>
+
+                        <!-- Sfondo tecnico leggero -->
+                        <rect x="0" y="0" width="800" height="500" fill="url(#inf-grid)" />
+
+                        <!-- ===================================================
+                             STRATO BASE: TERRENO + EDIFICIO IN SEZIONE
+                             =================================================== -->
+                        <g class="layer-building">
+                            <!-- Terreno e falda -->
+                            <rect x="76" y="336" width="668" height="134" rx="10" fill="url(#inf-soil-hatch)" />
+                            <!-- Linea di campagna -->
+                            <line x1="76" y1="336" x2="744" y2="336" stroke="#334155" stroke-width="2" stroke-linecap="round" />
+
+                            <!-- Corpo interno dell'edificio (piani abitabili + mansarda + interrato) -->
+                            <!-- Mansarda / sottotetto -->
+                            <polygon points="300,165 435,88 570,165" fill="#F1F5F9" />
+                            <!-- Piani fuori terra (corpo principale) -->
+                            <rect x="298" y="165" width="274" height="171" fill="#FFFFFF" />
+                            <!-- Corpo sinistro sotto terrazzo (lastrico solare) -->
+                            <rect x="174" y="256" width="124" height="80" fill="#FFFFFF" />
+                            <!-- Piano interrato / cantina / box -->
+                            <rect x="298" y="336" width="274" height="98" fill="#F8FAFC" />
+
+                            <!-- Dettagli interni puliti (finestre, porta, capriata, box) -->
+                            <!-- Finestra circolare sottotetto -->
+                            <circle cx="435" cy="136" r="14" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.5" />
+                            <line x1="421" y1="136" x2="449" y2="136" stroke="#93C5FD" stroke-width="1" />
+                            <line x1="435" y1="122" x2="435" y2="150" stroke="#93C5FD" stroke-width="1" />
+
+                            <!-- Primo piano: due finestre -->
+                            <rect x="332" y="186" width="48" height="42" rx="4" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.5" />
+                            <line x1="356" y1="186" x2="356" y2="228" stroke="#93C5FD" stroke-width="1.2" />
+                            <rect x="490" y="186" width="48" height="42" rx="4" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.5" />
+                            <line x1="514" y1="186" x2="514" y2="228" stroke="#93C5FD" stroke-width="1.2" />
+
+                            <!-- Piano terra: finestra sinistra (sotto terrazzo), finestra centrale, porta -->
+                            <rect x="208" y="274" width="54" height="38" rx="4" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.5" />
+                            <line x1="235" y1="274" x2="235" y2="312" stroke="#93C5FD" stroke-width="1.2" />
+                            <rect x="332" y="272" width="48" height="40" rx="4" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.5" />
+                            <line x1="356" y1="272" x2="356" y2="312" stroke="#93C5FD" stroke-width="1.2" />
+                            <rect x="498" y="272" width="38" height="62" rx="3" fill="#CBD5E1" />
+                            <circle cx="529" cy="304" r="2.2" fill="#64748B" />
+
+                            <!-- Piano interrato: silhouette garage/box e scaffalature -->
+                            <rect x="478" y="366" width="66" height="64" rx="4" fill="#E2E8F0" opacity="0.65" />
+                            <line x1="484" y1="380" x2="538" y2="380" stroke="#CBD5E1" stroke-width="2" />
+                            <line x1="484" y1="396" x2="538" y2="396" stroke="#CBD5E1" stroke-width="2" />
+                            <line x1="484" y1="412" x2="538" y2="412" stroke="#CBD5E1" stroke-width="2" />
+                            <!-- Profilo stilizzato auto nel box -->
+                            <path d="M 366 420 L 372 404 Q 380 396 402 396 L 424 396 Q 438 396 446 406 L 456 409 Q 462 411 462 420 Z" fill="#E2E8F0" opacity="0.85" />
+                            <circle cx="386" cy="422" r="8" fill="#CBD5E1" />
+                            <circle cx="442" cy="422" r="8" fill="#CBD5E1" />
+
+                            <!-- Struttura portante (muri perimetrali, solai, fondazioni, terrazzo, balcone) -->
+                            <!-- Muro esterno sinistro (corpo principale) -->
+                            <rect x="290" y="165" width="12" height="270" fill="#7C8594" />
+                            <!-- Muro esterno destro -->
+                            <rect x="568" y="165" width="12" height="270" fill="#7C8594" />
+                            <!-- Muro esterno corpo terrazzo -->
+                            <rect x="166" y="218" width="12" height="118" fill="#7C8594" />
+                            <!-- Copertina parapetto terrazzo -->
+                            <rect x="163" y="214" width="18" height="5" rx="1.5" fill="#475569" />
+
+                            <!-- Solaio lastrico solare / terrazzo sinistro -->
+                            <rect x="166" y="248" width="136" height="12" fill="#8B94A3" />
+                            <!-- Solaio primo piano -->
+                            <rect x="290" y="248" width="290" height="10" fill="#8B94A3" />
+                            <!-- Solaio piano terra -->
+                            <rect x="166" y="330" width="414" height="10" fill="#8B94A3" />
+                            <!-- Platea di fondazione -->
+                            <rect x="274" y="432" width="322" height="14" rx="2" fill="#64748B" />
+
+                            <!-- Balcone aggettante a destra -->
+                            <rect x="580" y="248" width="106" height="13" rx="1.5" fill="#8B94A3" />
+                            <!-- Ringhiera moderna balcone -->
+                            <g stroke="#64748B" stroke-width="2.2" fill="none">
+                                <line x1="580" y1="212" x2="684" y2="212" />
+                                <line x1="580" y1="229" x2="684" y2="229" stroke-width="1.3" opacity="0.7" />
+                                <line x1="612" y1="212" x2="612" y2="248" stroke-width="1.6" />
+                                <line x1="648" y1="212" x2="648" y2="248" stroke-width="1.6" />
+                                <line x1="683" y1="212" x2="683" y2="248" stroke-width="2.2" />
+                            </g>
+
+                            <!-- Comignolo -->
+                            <rect x="492" y="80" width="20" height="44" fill="#525B6B" />
+                            <rect x="488" y="77" width="28" height="5" rx="1.5" fill="#334155" />
+
+                            <!-- Falde del tetto -->
+                            <polygon points="266,170 435,76 604,170 598,179 435,89 272,179" fill="#525B6B" />
+                        </g>
+
+                        <!-- ===================================================
+                             FASE 0 & 1: HOTSPOT CRITERI + CREPE VISIBILI
+                             =================================================== -->
+                        <g class="inf-layer layer-hotspots">
+                            <!-- 1. Crepa tetto -->
+                            <g transform="translate(376, 110)">
+                                <circle r="13" fill="none" stroke="#DC2626" stroke-width="1.8" class="inf-pulse-ring" />
+                                <circle r="7" fill="#DC2626" fill-opacity="0.22" />
+                                <path d="M -5 -4 L 0 0 L -3 5 M 0 0 L 5 4" stroke="#DC2626" stroke-width="2.4" fill="none" stroke-linecap="round" />
+                            </g>
+                            <!-- 2. Crepa lastrico / terrazzo -->
+                            <g transform="translate(222, 248)">
+                                <circle r="13" fill="none" stroke="#DC2626" stroke-width="1.8" class="inf-pulse-ring inf-pulse-ring--2" />
+                                <circle r="7" fill="#DC2626" fill-opacity="0.22" />
+                                <path d="M -5 -2 L 0 2 L 4 -3 M 0 2 L 1 7" stroke="#DC2626" stroke-width="2.4" fill="none" stroke-linecap="round" />
+                            </g>
+                            <!-- 3. Crepa balcone / frontalino -->
+                            <g transform="translate(640, 254)">
+                                <circle r="13" fill="none" stroke="#DC2626" stroke-width="1.8" class="inf-pulse-ring inf-pulse-ring--3" />
+                                <circle r="7" fill="#DC2626" fill-opacity="0.22" />
+                                <path d="M -4 -5 L 1 0 L -2 6 M 1 0 L 5 3" stroke="#DC2626" stroke-width="2.4" fill="none" stroke-linecap="round" />
+                            </g>
+                            <!-- 4. Giunto parete esposta -->
+                            <g transform="translate(574, 296)">
+                                <circle r="13" fill="none" stroke="#DC2626" stroke-width="1.8" class="inf-pulse-ring inf-pulse-ring--4" />
+                                <circle r="7" fill="#DC2626" fill-opacity="0.22" />
+                                <path d="M -3 -5 L 2 0 L -3 5" stroke="#DC2626" stroke-width="2.4" fill="none" stroke-linecap="round" />
+                            </g>
+                            <!-- 5. Fondazione controterra -->
+                            <g transform="translate(294, 386)">
+                                <circle r="13" fill="none" stroke="#DC2626" stroke-width="1.8" class="inf-pulse-ring inf-pulse-ring--5" />
+                                <circle r="7" fill="#DC2626" fill-opacity="0.22" />
+                                <path d="M -4 -6 L 2 0 L -4 6 M 2 0 L 6 0" stroke="#DC2626" stroke-width="2.4" fill="none" stroke-linecap="round" />
+                            </g>
+                        </g>
+
+                        <!-- Callout etichettati (visibili in Fase 0) -->
+                        <g class="inf-layer layer-callouts" font-family="Inter Variable, Inter, sans-serif">
+                            <!-- 1 Tetti e coperture -->
+                            <line x1="286" y1="68" x2="368" y2="106" stroke="#DC2626" stroke-width="1.4" stroke-dasharray="3 2" />
+                            <g filter="url(#inf-card-shadow)">
+                                <rect x="116" y="53" width="172" height="30" rx="15" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.3" />
+                                <circle cx="132" cy="68" r="9" fill="#DC2626" />
+                                <text x="132" y="72" text-anchor="middle" fill="#FFFFFF" font-size="10.5" font-weight="800">1</text>
+                                <text x="148" y="72" fill="#1D1D1F" font-size="12" font-weight="700">Tetti e coperture</text>
+                            </g>
+
+                            <!-- 2 Terrazzi e lastrici -->
+                            <line x1="184" y1="180" x2="218" y2="239" stroke="#DC2626" stroke-width="1.4" stroke-dasharray="3 2" />
+                            <g filter="url(#inf-card-shadow)">
+                                <rect x="18" y="158" width="178" height="30" rx="15" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.3" />
+                                <circle cx="34" cy="173" r="9" fill="#DC2626" />
+                                <text x="34" y="177" text-anchor="middle" fill="#FFFFFF" font-size="10.5" font-weight="800">2</text>
+                                <text x="50" y="177" fill="#1D1D1F" font-size="12" font-weight="700">Terrazzi e lastrici</text>
+                            </g>
+
+                            <!-- 3 Balconi e frontalini -->
+                            <line x1="668" y1="164" x2="643" y2="244" stroke="#DC2626" stroke-width="1.4" stroke-dasharray="3 2" />
+                            <g filter="url(#inf-card-shadow)">
+                                <rect x="598" y="134" width="184" height="30" rx="15" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.3" />
+                                <circle cx="614" cy="149" r="9" fill="#DC2626" />
+                                <text x="614" y="153" text-anchor="middle" fill="#FFFFFF" font-size="10.5" font-weight="800">3</text>
+                                <text x="630" y="153" fill="#1D1D1F" font-size="12" font-weight="700">Balconi e frontalini</text>
+                            </g>
+
+                            <!-- 4 Giunti e pareti -->
+                            <line x1="612" y1="306" x2="583" y2="298" stroke="#DC2626" stroke-width="1.4" stroke-dasharray="3 2" />
+                            <g filter="url(#inf-card-shadow)">
+                                <rect x="612" y="291" width="166" height="30" rx="15" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.3" />
+                                <circle cx="628" cy="306" r="9" fill="#DC2626" />
+                                <text x="628" y="310" text-anchor="middle" fill="#FFFFFF" font-size="10.5" font-weight="800">4</text>
+                                <text x="644" y="310" fill="#1D1D1F" font-size="12" font-weight="700">Giunti e pareti</text>
+                            </g>
+
+                            <!-- 5 Fondazioni e box -->
+                            <line x1="194" y1="398" x2="284" y2="387" stroke="#DC2626" stroke-width="1.4" stroke-dasharray="3 2" />
+                            <g filter="url(#inf-card-shadow)">
+                                <rect x="18" y="383" width="176" height="30" rx="15" fill="#FFFFFF" stroke="#FCA5A5" stroke-width="1.3" />
+                                <circle cx="34" cy="398" r="9" fill="#DC2626" />
+                                <text x="34" y="402" text-anchor="middle" fill="#FFFFFF" font-size="10.5" font-weight="800">5</text>
+                                <text x="50" y="402" fill="#1D1D1F" font-size="12" font-weight="700">Fondazioni e box</text>
+                            </g>
+                        </g>
+
+                        <!-- ===================================================
+                             FASE 1: PIOGGIA + TUTTI I DANNI DA INFILTRAZIONE
+                             =================================================== -->
+                        <g class="inf-layer layer-rain-problem" stroke="#3B82F6" stroke-width="1.7" stroke-linecap="round">
+                            <line x1="146" y1="54" x2="142" y2="70" class="inf-rain-drop" />
+                            <line x1="198" y1="92" x2="194" y2="108" class="inf-rain-drop inf-rain-drop--b" />
+                            <line x1="242" y1="44" x2="238" y2="60" class="inf-rain-drop inf-rain-drop--c" />
+                            <line x1="304" y1="36" x2="300" y2="52" class="inf-rain-drop inf-rain-drop--b" />
+                            <line x1="358" y1="26" x2="354" y2="42" class="inf-rain-drop" />
+                            <line x1="412" y1="18" x2="408" y2="34" class="inf-rain-drop inf-rain-drop--c" />
+                            <line x1="472" y1="24" x2="468" y2="40" class="inf-rain-drop" />
+                            <line x1="534" y1="36" x2="530" y2="52" class="inf-rain-drop inf-rain-drop--b" />
+                            <line x1="594" y1="54" x2="590" y2="70" class="inf-rain-drop inf-rain-drop--c" />
+                            <line x1="646" y1="84" x2="642" y2="100" class="inf-rain-drop" />
+                            <line x1="696" y1="62" x2="692" y2="78" class="inf-rain-drop inf-rain-drop--b" />
+                            <line x1="216" y1="158" x2="212" y2="174" class="inf-rain-drop inf-rain-drop--c" />
+                            <line x1="624" y1="156" x2="620" y2="172" class="inf-rain-drop inf-rain-drop--b" />
+
+                            <!-- Badge alert infiltrazioni attive -->
+                            <g stroke="none" filter="url(#inf-card-shadow)" font-family="Inter Variable, Inter, sans-serif">
+                                <rect x="34" y="34" width="218" height="32" rx="16" fill="#FEF2F2" stroke="#FCA5A5" stroke-width="1.2" />
+                                <circle cx="52" cy="50" r="4.5" fill="#DC2626" />
+                                <text x="64" y="54" fill="#991B1B" font-size="11.5" font-weight="800">INFILTRAZIONI ATTIVE · 5 ZONE</text>
+                            </g>
+                        </g>
+
+                        <!-- Danni visibili all'interno dell'edificio (gocce, macchie, muffa, ristagni, distacchi, allagamento) -->
+                        <g class="inf-layer layer-damages">
+                            <!-- 1. Tetto -> gocciolamento e macchia soffitto + colatura parete -->
+                            <line x1="376" y1="116" x2="376" y2="174" stroke="#2563EB" stroke-width="2.4" class="inf-seep-line" />
+                            <ellipse cx="376" cy="176" rx="34" ry="12" fill="url(#inf-damp-grad)" />
+                            <ellipse cx="376" cy="174" rx="18" ry="6" fill="url(#inf-mold-grad)" />
+                            <rect x="371" y="178" width="10" height="58" rx="5" fill="#60A5FA" opacity="0.34" />
+                            <circle cx="376" cy="186" r="3" fill="#2563EB" class="inf-drip-dot" />
+                            <circle cx="376" cy="192" r="2.5" fill="#3B82F6" class="inf-drip-dot inf-drip-dot--2" />
+
+                            <!-- 2. Lastrico / Terrazzo -> ristagno d'acqua + infiltrazione soffitto inferiore + muffa -->
+                            <rect x="180" y="241" width="104" height="7" rx="3.5" fill="#3B82F6" opacity="0.62" />
+                            <line x1="222" y1="250" x2="222" y2="278" stroke="#2563EB" stroke-width="2.2" class="inf-seep-line" />
+                            <ellipse cx="222" cy="268" rx="28" ry="12" fill="url(#inf-damp-grad)" />
+                            <ellipse cx="222" cy="266" rx="14" ry="7" fill="url(#inf-mold-grad)" />
+                            <circle cx="222" cy="274" r="2.8" fill="#2563EB" class="inf-drip-dot inf-drip-dot--3" />
+
+                            <!-- 3. Balcone -> ristagno + percolazione frontalino + distacco intonaco -->
+                            <rect x="586" y="242" width="88" height="6" rx="3" fill="#3B82F6" opacity="0.58" />
+                            <line x1="640" y1="256" x2="640" y2="288" stroke="#2563EB" stroke-width="2.2" class="inf-seep-line" />
+                            <circle cx="640" cy="264" r="2.8" fill="#2563EB" class="inf-drip-dot inf-drip-dot--2" />
+                            <!-- Macchia umidità giunto interno parete/balcone -->
+                            <ellipse cx="560" cy="268" rx="18" ry="26" fill="url(#inf-damp-grad)" />
+                            <ellipse cx="564" cy="268" rx="9" ry="14" fill="url(#inf-mold-grad)" />
+
+                            <!-- 4. Giunto parete esposta -> salnitro / intonaco sfogliato -->
+                            <ellipse cx="562" cy="298" rx="14" ry="20" fill="url(#inf-mold-grad)" />
+
+                            <!-- 5. Piano interrato / box -> umidità di risalita + pozzanghera sul pavimento -->
+                            <ellipse cx="312" cy="390" rx="20" ry="38" fill="url(#inf-damp-grad)" />
+                            <ellipse cx="307" cy="392" rx="10" ry="24" fill="url(#inf-mold-grad)" />
+                            <rect x="302" y="424" width="114" height="8" rx="4" fill="#2563EB" opacity="0.48" />
+                        </g>
+
+                        <!-- Frecce spinta idrostatica di falda contro la fondazione (Fasi 1-4) -->
+                        <g class="inf-layer layer-groundwater-in" stroke="#2563EB" stroke-width="2.2" fill="#2563EB" stroke-linecap="round">
+                            <g class="inf-gw-arrow">
+                                <line x1="158" y1="364" x2="274" y2="364" />
+                                <polygon points="274,359 284,364 274,369" stroke="none" />
+                            </g>
+                            <g class="inf-gw-arrow inf-gw-arrow--2">
+                                <line x1="146" y1="386" x2="274" y2="386" />
+                                <polygon points="274,381 284,386 274,391" stroke="none" />
+                            </g>
+                            <g class="inf-gw-arrow inf-gw-arrow--3">
+                                <line x1="158" y1="408" x2="274" y2="408" />
+                                <polygon points="274,403 284,408 274,413" stroke="none" />
+                            </g>
+                        </g>
+
+                        <!-- ===================================================
+                             FASE 2: DIAGNOSI TERMOGRAFICA IR + IGROMETRO
+                             =================================================== -->
+                        <g class="inf-layer layer-diagnosis">
+                            <!-- Hotspot termici rilevati dalla termocamera -->
+                            <circle cx="376" cy="148" r="34" fill="url(#inf-ir-hot)" class="inf-thermal-spot" />
+                            <circle cx="222" cy="264" r="30" fill="url(#inf-ir-hot)" class="inf-thermal-spot" />
+                            <circle cx="634" cy="258" r="24" fill="url(#inf-ir-hot)" class="inf-thermal-spot" />
+                            <circle cx="564" cy="288" r="28" fill="url(#inf-ir-hot)" class="inf-thermal-spot" />
+                            <circle cx="308" cy="390" r="36" fill="url(#inf-ir-hot)" class="inf-thermal-spot" />
+
+                            <!-- Cornice Scanner Termocamera IR che scansiona dall'alto al basso (mai sovrapposta all'igrometro) -->
+                            <g class="inf-ir-scanner">
+                                <rect x="154" y="118" width="554" height="118" rx="14" fill="url(#inf-scan-fill)" stroke="#F59E0B" stroke-width="1.6" />
+                                <!-- Linea laser di scansione centrale -->
+                                <line x1="160" y1="177" x2="702" y2="177" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="6 4" opacity="0.85" />
+                                <!-- Angoli mirino scuri -->
+                                <path d="M 154 140 L 154 118 L 176 118 M 686 118 L 708 118 L 708 140 M 154 214 L 154 236 L 176 236 M 686 236 L 708 236 L 708 214" fill="none" stroke="#1D1D1F" stroke-width="3" stroke-linecap="round" />
+                                <!-- Etichetta IR posizionata in alto a destra per zero collisioni -->
+                                <rect x="582" y="128" width="112" height="24" rx="12" fill="#161D2E" />
+                                <circle cx="595" cy="140" r="3.5" fill="#F59E0B" />
+                                <text x="605" y="144" fill="#FFFFFF" font-family="Inter Variable, Inter, sans-serif" font-size="10.5" font-weight="800" letter-spacing="0.06em">IR · TERMO</text>
+                            </g>
+
+                            <!-- Card floating Igrometro Digitale (in alto a sinistra, completamente separata dallo scanner) -->
+                            <g filter="url(#inf-card-shadow)" font-family="Inter Variable, Inter, sans-serif">
+                                <rect x="24" y="18" width="170" height="92" rx="16" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.2" />
+                                <!-- Arco verde-giallo-rosso -->
+                                <path d="M 66 84 A 43 43 0 0 1 152 84" fill="none" stroke="#E5E7EB" stroke-width="8.5" stroke-linecap="round" />
+                                <path d="M 66 84 A 43 43 0 0 1 152 84" fill="none" stroke="url(#inf-hygro-arc)" stroke-width="8.5" stroke-linecap="round" />
+                                <!-- Ago animato -->
+                                <g class="inf-hygro-needle">
+                                    <line x1="109" y1="84" x2="109" y2="49" stroke="#1D1D1F" stroke-width="2.8" stroke-linecap="round" />
+                                </g>
+                                <circle cx="109" cy="84" r="4.8" fill="#1D1D1F" />
+                                <text x="109" y="101" text-anchor="middle" fill="#991B1B" font-size="10.5" font-weight="800">IGROMETRO · 78% UR</text>
+                            </g>
+                        </g>
+
+                        <!-- ===================================================
+                             FASE 3: PREPARAZIONE SUPPORTO + PRIMER EPOSSIDICO
+                             =================================================== -->
+                        <!-- Strato Primer azzurro traslucido lungo tutto l'involucro -->
+                        <g class="inf-layer layer-primer" fill="none" stroke="#7DD3FC" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" opacity="0.88">
+                            <!-- Tetto + comignolo -->
+                            <path class="inf-primer-path" d="M 262 172 L 435 74 L 492 106 L 492 79 L 512 79 L 512 117 L 608 172" />
+                            <!-- Terrazzo + parapetto -->
+                            <path class="inf-primer-path" d="M 176 218 L 176 248 L 290 248" />
+                            <!-- Balcone + risvolto + giunto parete -->
+                            <path class="inf-primer-path" d="M 580 218 L 580 248 L 688 248 L 688 263 L 580 263 L 580 335" />
+                            <!-- Fondazioni controterra -->
+                            <path class="inf-primer-path" d="M 288 336 L 288 434 L 272 434 L 272 448 L 598 448 L 598 434 L 582 434 L 582 336" />
+                        </g>
+
+                        <!-- Elementi esclusivi Fase 3: levigatrice diamantata + badge adesione -->
+                        <g class="inf-layer layer-prep">
+                            <!-- Levigatrice meccanica animata sul terrazzo (wrapper statico per preservare il translate SVG) -->
+                            <g transform="translate(188, 206)">
+                                <g class="inf-grinder">
+                                    <line x1="16" y1="0" x2="16" y2="20" stroke="#1D1D1F" stroke-width="3.5" stroke-linecap="round" />
+                                    <circle cx="16" cy="24" r="11" fill="#FFFFFF" stroke="#1D1D1F" stroke-width="2.8" />
+                                    <circle cx="16" cy="24" r="4" fill="#0071E3" />
+                                    <!-- Scintille diamantate -->
+                                    <g stroke="#F59E0B" stroke-width="2" stroke-linecap="round" class="inf-spark">
+                                        <line x1="6" y1="36" x2="1" y2="39" />
+                                        <line x1="16" y1="37" x2="16" y2="41" />
+                                        <line x1="26" y1="36" x2="31" y2="39" />
+                                    </g>
+                                </g>
+                            </g>
+
+                            <!-- Badge tecnico Primer -->
+                            <g filter="url(#inf-card-shadow)" font-family="Inter Variable, Inter, sans-serif">
+                                <rect x="34" y="34" width="228" height="58" rx="14" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1.3" />
+                                <text x="50" y="57" fill="#0064CC" font-size="10.5" font-weight="800" letter-spacing="0.08em">PRIMER EPOSSIDICO</text>
+                                <text x="50" y="77" fill="#1D1D1F" font-size="13.5" font-weight="800">Adesione &gt; 2,5 MPa</text>
+                            </g>
+                        </g>
+
+                        <!-- ===================================================
+                             FASE 4 & 5: MEMBRANA MONOLITICA CONTINUA (#0071E3)
+                             =================================================== -->
+                        <g class="inf-layer layer-membrane" fill="none" stroke="#0071E3" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Tetto + comignolo sigillato senza giunti -->
+                            <path class="inf-membrane-path" d="M 262 172 L 435 74 L 492 106 L 492 79 L 512 79 L 512 117 L 608 172" />
+                            <!-- Terrazzo + risvolto verticale parapetto -->
+                            <path class="inf-membrane-path" d="M 176 218 L 176 248 L 290 248" />
+                            <!-- Balcone + gocciolatoio + giunto parete -->
+                            <path class="inf-membrane-path" d="M 580 218 L 580 248 L 688 248 L 688 263 L 580 263 L 580 335" />
+                            <!-- Guscio continuo fondazioni controterra -->
+                            <path class="inf-membrane-path" d="M 288 336 L 288 434 L 272 434 L 272 448 L 598 448 L 598 434 L 582 434 L 582 336" />
+                        </g>
+
+                        <!-- Pistola a spruzzo alta pressione (Fase 4 — wrapper statico centrato sulla falda) -->
+                        <g class="inf-layer layer-spray">
+                            <g transform="translate(388, 66)">
+                                <g class="inf-spray-rig">
+                                    <!-- Cono di nebulizzazione -->
+                                    <polygon points="10,16 -10,48 30,48" fill="url(#inf-spray-grad)" class="inf-spray-cone" />
+                                    <!-- Pistola bimixer -->
+                                    <path d="M 4 -8 L 18 -8 L 15 12 L 7 12 Z" fill="#161D2E" />
+                                    <rect x="13" y="-2" width="12" height="5" rx="2" fill="#0071E3" />
+                                    <circle cx="11" cy="14" r="2.8" fill="#38BDF8" />
+                                </g>
+                            </g>
+                        </g>
+
+                        <!-- Lente d'ingrandimento Stratigrafia (Fase 4) -->
+                        <g class="inf-layer layer-loupe" font-family="Inter Variable, Inter, sans-serif">
+                            <line x1="196" y1="136" x2="362" y2="114" stroke="#0071E3" stroke-width="1.5" stroke-dasharray="4 3" />
+                            <g filter="url(#inf-card-shadow)">
+                                <circle cx="144" cy="116" r="60" fill="#FFFFFF" stroke="#161D2E" stroke-width="3" />
+                                <g clip-path="url(#inf-loupe-clip)">
+                                    <!-- Cielo -->
+                                    <rect x="84" y="56" width="120" height="36" fill="#F8FAFC" />
+                                    <!-- Strato 1: Membrana continua 2 mm -->
+                                    <rect x="84" y="92" width="120" height="20" fill="#0071E3" />
+                                    <!-- Strato 2: Primer epossidico -->
+                                    <rect x="84" y="112" width="120" height="9" fill="#7DD3FC" />
+                                    <!-- Strato 3: Supporto esistente -->
+                                    <rect x="84" y="121" width="120" height="58" fill="#94A3B8" />
+                                    <text x="144" y="106" text-anchor="middle" fill="#FFFFFF" font-size="10.5" font-weight="800">Membrana 2 mm</text>
+                                    <text x="144" y="144" text-anchor="middle" fill="#FFFFFF" font-size="10.5" font-weight="700">Supporto</text>
+                                </g>
+                                <circle cx="144" cy="116" r="56" fill="none" stroke="#0071E3" stroke-width="1.5" opacity="0.4" />
+                            </g>
+                            <text x="144" y="192" text-anchor="middle" fill="#1D1D1F" font-size="11" font-weight="800">STRATIGRAFIA · 400% ELASTICA</text>
+                        </g>
+
+                        <!-- ===================================================
+                             FASE 5: RISULTATO — ACQUA RESPINTA + INTERNI ASCIUTTI + 60 MIN
+                             =================================================== -->
+                        <g class="inf-layer layer-result">
+                            <!-- Pioggia esterna che rimbalza / scivola via dallo scudo blu -->
+                            <g stroke="#3B82F6" stroke-width="1.7" stroke-linecap="round">
+                                <line x1="306" y1="38" x2="302" y2="54" class="inf-rain-drop" />
+                                <line x1="376" y1="24" x2="372" y2="40" class="inf-rain-drop inf-rain-drop--b" />
+                                <line x1="452" y1="22" x2="448" y2="38" class="inf-rain-drop inf-rain-drop--c" />
+                                <line x1="538" y1="36" x2="534" y2="52" class="inf-rain-drop" />
+                                <line x1="636" y1="96" x2="632" y2="112" class="inf-rain-drop inf-rain-drop--b" />
+                                <line x1="216" y1="158" x2="212" y2="174" class="inf-rain-drop inf-rain-drop--c" />
+                            </g>
+
+                            <!-- Gocce che rimbalzano via dal tetto, terrazzo e balcone -->
+                            <g fill="#0071E3">
+                                <circle cx="352" cy="116" r="3" class="inf-bounce-drop" />
+                                <circle cx="226" cy="240" r="3" class="inf-bounce-drop inf-bounce-drop--2" />
+                                <circle cx="526" cy="116" r="3" class="inf-bounce-drop--right" />
+                                <circle cx="640" cy="240" r="3" class="inf-bounce-drop--right" />
+                            </g>
+
+                            <!-- Frecce di falda deviate verso il basso dallo scudo sulle fondazioni -->
+                            <g fill="none" stroke="#0071E3" stroke-width="2.2" stroke-linecap="round">
+                                <path d="M 154 366 L 266 366 Q 278 366 278 378 L 278 386" />
+                                <path d="M 154 398 L 266 398 Q 278 398 278 410 L 278 422" />
+                                <polygon points="274,420 278,429 282,420" fill="#0071E3" stroke="none" />
+                            </g>
+
+                            <!-- Badge interno: Ambienti completamente asciutti -->
+                            <g filter="url(#inf-card-shadow)" font-family="Inter Variable, Inter, sans-serif">
+                                <rect x="358" y="346" width="154" height="28" rx="14" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1.2" />
+                                <text x="435" y="364" text-anchor="middle" fill="#166534" font-size="11" font-weight="800">✓ 0% INFILTRAZIONI</text>
+                            </g>
+
+                            <!-- Card floating verde 60 min Calpestabile -->
+                            <g filter="url(#inf-card-shadow)" font-family="Inter Variable, Inter, sans-serif">
+                                <rect x="36" y="34" width="174" height="146" rx="20" fill="#FFFFFF" stroke="#BBF7D0" stroke-width="1.4" />
+                                <circle cx="123" cy="96" r="36" fill="none" stroke="#E5E7EB" stroke-width="6" />
+                                <circle
+                                    cx="123"
+                                    cy="96"
+                                    r="36"
+                                    fill="none"
+                                    stroke="#16A34A"
+                                    stroke-width="6"
+                                    stroke-linecap="round"
+                                    transform="rotate(-90 123 96)"
+                                    class="inf-ring-progress"
+                                />
+                                <text x="123" y="96" text-anchor="middle" fill="#1D1D1F" font-size="22" font-weight="800">60</text>
+                                <text x="123" y="112" text-anchor="middle" fill="#52525B" font-size="10.5" font-weight="700">minuti</text>
+                                <text x="123" y="156" text-anchor="middle" fill="#166534" font-size="11.5" font-weight="800" letter-spacing="0.04em">CALPESTABILE</text>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Barra timeline interattiva a 6 fasi -->
+            <div class="inf-timeline" role="tablist" aria-label="Fasi dell'animazione impermeabilizzazione">
+                {fasiTimeline.map((fase, idx) => (
+                    <button
+                        type="button"
+                        role="tab"
+                        class={`inf-step-btn ${idx === 0 ? 'is-active' : ''}`}
+                        data-step-btn={fase.id}
+                        aria-selected={idx === 0 ? 'true' : 'false'}
+                    >
+                        <span class="inf-step-bar" aria-hidden="true">
+                            <span class="inf-step-fill"></span>
+                        </span>
+                        <span class="inf-step-meta">
+                            <span class="inf-step-num">{fase.num}</span>
+                            <span class="inf-step-label">{fase.label}</span>
+                        </span>
+                    </button>
+                ))}
+            </div>
+        </div>
+
+        <!-- Fascia link sempre visibile verso la pagina Servizi (/fondazioni) -->
+        <div class="inf-cta-strip">
+            <div class="inf-cta-strip-copy">
+                <strong>Vuoi vedere nel dettaglio tutte le aree di intervento e gli schemi tecnici?</strong>
+                <p>Terrazzi e lastrici solari, tetti e coperture industriali, balconi, fondazioni, box auto e cantine senza demolizioni.</p>
+            </div>
+            <div class="inf-cta-strip-actions">
+                <a class="ps-pill-btn ps-pill-btn--solid" href="/fondazioni">
+                    Vai alla pagina Servizi <span aria-hidden="true">→</span>
+                </a>
+                <a class="ps-text-link" href="/preventivo">
+                    Richiedi sopralluogo gratuito <span aria-hidden="true">↗</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    const card = document.getElementById('inf-showcase');
+    if (card) {
+        const panels = Array.from(card.querySelectorAll<HTMLElement>('[data-panel]'));
+        const stepButtons = Array.from(card.querySelectorAll<HTMLButtonElement>('[data-step-btn]'));
+        const prevBtn = document.getElementById('inf-prev-btn');
+        const nextBtn = document.getElementById('inf-next-btn');
+        const playBtn = document.getElementById('inf-play-btn');
+        const playIcon = document.getElementById('inf-play-icon');
+        const playLabel = document.getElementById('inf-play-label');
+
+        // Durata in ms per ogni fase (più respiro su Danni e Risultato)
+        const PHASE_DURATIONS = [4400, 5400, 4400, 4400, 4800, 5800];
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        let currentPhase = prefersReducedMotion ? 1 : 0;
+        let isPlaying = !prefersReducedMotion;
+        let isInView = false;
+        let phaseElapsed = 0;
+        let lastFrameTime = 0;
+        let rafId = 0;
+
+        const syncPlayButton = () => {
+            if (!playBtn || !playIcon || !playLabel) return;
+            playBtn.setAttribute('aria-pressed', String(!isPlaying));
+            playIcon.textContent = isPlaying ? '❚❚' : '▶';
+            playLabel.textContent = isPlaying ? 'Pausa' : 'Riproduci';
+        };
+
+        const renderProgress = () => {
+            const duration = PHASE_DURATIONS[currentPhase] || 4600;
+            const ratio = isPlaying ? Math.min(1, phaseElapsed / duration) : 1;
+            stepButtons.forEach((btn, idx) => {
+                btn.classList.toggle('is-active', idx === currentPhase);
+                btn.classList.toggle('is-done', idx < currentPhase);
+                btn.setAttribute('aria-selected', String(idx === currentPhase));
+                if (idx === currentPhase) {
+                    btn.style.setProperty('--step-progress', ratio.toFixed(4));
+                } else {
+                    btn.style.removeProperty('--step-progress');
+                }
+            });
+        };
+
+        const setPhase = (index: number, resetElapsed = true) => {
+            const total = panels.length;
+            currentPhase = ((index % total) + total) % total;
+            if (resetElapsed) phaseElapsed = 0;
+            card.setAttribute('data-phase', String(currentPhase));
+            panels.forEach((panel, idx) => {
+                const active = idx === currentPhase;
+                panel.classList.toggle('is-active', active);
+                panel.setAttribute('aria-hidden', String(!active));
+            });
+            renderProgress();
+        };
+
+        const tick = (now: number) => {
+            if (!isPlaying || !isInView) {
+                lastFrameTime = 0;
+                rafId = 0;
+                return;
+            }
+            if (lastFrameTime > 0) {
+                phaseElapsed += Math.min(100, now - lastFrameTime);
+            }
+            lastFrameTime = now;
+
+            const duration = PHASE_DURATIONS[currentPhase] || 4600;
+            if (phaseElapsed >= duration) {
+                setPhase(currentPhase + 1, true);
+            } else {
+                renderProgress();
+            }
+            rafId = window.requestAnimationFrame(tick);
+        };
+
+        const ensureLoop = () => {
+            if (isPlaying && isInView && !rafId) {
+                lastFrameTime = 0;
+                rafId = window.requestAnimationFrame(tick);
+            }
+        };
+
+        stepButtons.forEach((btn, idx) => {
+            btn.addEventListener('click', () => {
+                setPhase(idx, true);
+                ensureLoop();
+            });
+            btn.addEventListener('keydown', (ev) => {
+                if (ev.key === 'ArrowRight') {
+                    ev.preventDefault();
+                    const nextIdx = (idx + 1) % panels.length;
+                    setPhase(nextIdx, true);
+                    stepButtons[nextIdx]?.focus();
+                } else if (ev.key === 'ArrowLeft') {
+                    ev.preventDefault();
+                    const prevIdx = (idx - 1 + panels.length) % panels.length;
+                    setPhase(prevIdx, true);
+                    stepButtons[prevIdx]?.focus();
+                }
+            });
+        });
+
+        prevBtn?.addEventListener('click', () => {
+            setPhase(currentPhase - 1, true);
+            ensureLoop();
+        });
+
+        nextBtn?.addEventListener('click', () => {
+            setPhase(currentPhase + 1, true);
+            ensureLoop();
+        });
+
+        playBtn?.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            if (isPlaying && phaseElapsed >= (PHASE_DURATIONS[currentPhase] || 4600)) {
+                phaseElapsed = 0;
+            }
+            syncPlayButton();
+            renderProgress();
+            ensureLoop();
+        });
+
+        // Pausa automaticamente quando fuori viewport per zero spreco CPU
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        isInView = entry.isIntersecting;
+                        if (isInView) {
+                            ensureLoop();
+                        } else if (rafId) {
+                            window.cancelAnimationFrame(rafId);
+                            rafId = 0;
+                            lastFrameTime = 0;
+                        }
+                    });
+                },
+                { threshold: 0.2 }
+            );
+            observer.observe(card);
+        } else {
+            isInView = true;
+            ensureLoop();
+        }
+
+        syncPlayButton();
+        setPhase(currentPhase, true);
+    }
+</script>

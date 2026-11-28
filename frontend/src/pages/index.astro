@@ -1,6 +1,7 @@
 ---
 import { env } from 'cloudflare:workers';
 import SiteLayout from '../layouts/SiteLayout.astro';
+import InfiltrationShowcase from '../components/InfiltrationShowcase.astro';
 import { metodiOperativi } from '../data/metodi';
 
 interface HomeWorkPreview {
@@ -376,111 +377,8 @@ const faqStructuredData = [
         </section>
     )}
 
-    <!-- SEZIONE 01: DOVE POSSIAMO INTERVENIRE -->
-    <section id="interventi" class="home-band" data-band="interventi">
-        <div class="wrap home-band-body">
-            <div class="section-heading mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
-                <div>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1D1D1F] leading-tight">Danni da infiltrazione?<br /><span class="text-[#0071E3]">Ecco dove interveniamo alla radice.</span></h2>
-                </div>
-                <p class="text-base text-[#6E6E73] leading-relaxed max-w-md">Umidità, guaine fessurate e ristagni d'acqua: clicca su ogni schema tecnico per ingrandirlo e leggere nel dettaglio la stratigrafia dell'intervento.</p>
-            </div>
-            <div class="service-grid">
-                <article class="service-card rounded-[24px] border border-[#D2D2D7] bg-[#F5F5F7] p-5 sm:p-6 transition-colors duration-200 hover:border-[#0071E3] flex flex-col">
-                    <button
-                        type="button"
-                        data-schema-zoom
-                        data-schema-src="/images/terrazzi-impermeabilizzazione.svg"
-                        data-schema-title="Schema Tecnico — Terrazzi e lastrici solari"
-                        data-schema-alt="Schema tecnico impermeabilizzazione terrazzi e lastrici solari senza demolizione"
-                        class="group/zoom w-full rounded-2xl border border-[#D2D2D7] hover:border-[#0071E3] bg-white p-2 mb-5 text-left cursor-zoom-in transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071E3]"
-                        aria-label="Ingrandisci schema tecnico terrazzi e lastrici solari"
-                    >
-                        <img
-                            src="/images/terrazzi-impermeabilizzazione.svg"
-                            alt="Schema tecnico impermeabilizzazione terrazzi e lastrici solari senza demolizione"
-                            class="w-full aspect-[16/10] rounded-xl object-contain bg-[#0f172a]"
-                            width="800"
-                            height="500"
-                            loading="lazy"
-                        />
-                        <span class="mt-2 flex items-center justify-between gap-2 rounded-xl bg-[#F5F5F7] px-3 py-2 text-xs font-semibold text-[#1D1D1F] group-hover/zoom:bg-[#0071E3] group-hover/zoom:text-white transition-colors">
-                            <span>Ingrandisci lo schema tecnico</span>
-                            <span aria-hidden="true">⤢</span>
-                        </span>
-                    </button>
-                    <span class="card-index text-xs font-extrabold uppercase tracking-wider text-[#0071E3]">01 / TERRAZZI E BALCONI</span>
-                    <h3 class="mt-2 text-lg font-bold text-[#1D1D1F]">
-                        <a href="/fondazioni#terrazzi" class="text-[#1D1D1F] hover:text-[#0071E3] transition-colors">Terrazzi e lastrici solari</a>
-                    </h3>
-                    <p class="mt-2 text-sm leading-relaxed text-[#6E6E73]">Stop definitivo alle infiltrazioni ai piani sottostanti senza demolire la pavimentazione esistente. Calpestabile in 60 minuti.</p>
-                    <a href="/fondazioni#terrazzi" class="card-link mt-auto pt-4 text-xs font-bold text-[#0071E3] hover:text-[#0064CC] flex items-center gap-1 transition-colors">Approfondisci terrazzi <span aria-hidden="true">↗</span></a>
-                </article>
-
-                <article class="service-card rounded-[24px] border border-[#D2D2D7] bg-[#F5F5F7] p-5 sm:p-6 transition-colors duration-200 hover:border-[#0071E3] flex flex-col">
-                    <button
-                        type="button"
-                        data-schema-zoom
-                        data-schema-src="/images/coperture-impermeabilizzazione.svg"
-                        data-schema-title="Schema Tecnico — Tetti e coperture industriali"
-                        data-schema-alt="Schema tecnico impermeabilizzazione tetti e coperture industriali"
-                        class="group/zoom w-full rounded-2xl border border-[#D2D2D7] hover:border-[#0071E3] bg-white p-2 mb-5 text-left cursor-zoom-in transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071E3]"
-                        aria-label="Ingrandisci schema tecnico tetti e coperture industriali"
-                    >
-                        <img
-                            src="/images/coperture-impermeabilizzazione.svg"
-                            alt="Schema tecnico impermeabilizzazione tetti e coperture industriali"
-                            class="w-full aspect-[16/10] rounded-xl object-contain bg-[#0f172a]"
-                            width="800"
-                            height="500"
-                            loading="lazy"
-                        />
-                        <span class="mt-2 flex items-center justify-between gap-2 rounded-xl bg-[#F5F5F7] px-3 py-2 text-xs font-semibold text-[#1D1D1F] group-hover/zoom:bg-[#0071E3] group-hover/zoom:text-white transition-colors">
-                            <span>Ingrandisci lo schema tecnico</span>
-                            <span aria-hidden="true">⤢</span>
-                        </span>
-                    </button>
-                    <span class="card-index text-xs font-extrabold uppercase tracking-wider text-[#0071E3]">02 / TETTI E COPERTURE</span>
-                    <h3 class="mt-2 text-lg font-bold text-[#1D1D1F]">
-                        <a href="/fondazioni#coperture" class="text-[#1D1D1F] hover:text-[#0071E3] transition-colors">Tetti e coperture industriali</a>
-                    </h3>
-                    <p class="mt-2 text-sm leading-relaxed text-[#6E6E73]">Scudo protettivo continuo per coperture piane, guaine ammalorate e lamiere. Sigillatura ermetica di lucernari e raccordi.</p>
-                    <a href="/fondazioni#coperture" class="card-link mt-auto pt-4 text-xs font-bold text-[#0071E3] hover:text-[#0064CC] flex items-center gap-1 transition-colors">Approfondisci coperture <span aria-hidden="true">↗</span></a>
-                </article>
-
-                <article class="service-card rounded-[24px] border border-[#D2D2D7] bg-[#F5F5F7] p-5 sm:p-6 transition-colors duration-200 hover:border-[#0071E3] flex flex-col">
-                    <button
-                        type="button"
-                        data-schema-zoom
-                        data-schema-src="/images/fondazioni-impermeabilizzazione.svg"
-                        data-schema-title="Schema Tecnico — Fondazioni, corselli e cantine"
-                        data-schema-alt="Schema tecnico impermeabilizzazione fondazioni e strutture interrate"
-                        class="group/zoom w-full rounded-2xl border border-[#D2D2D7] hover:border-[#0071E3] bg-white p-2 mb-5 text-left cursor-zoom-in transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071E3]"
-                        aria-label="Ingrandisci schema tecnico fondazioni, corselli e cantine"
-                    >
-                        <img
-                            src="/images/fondazioni-impermeabilizzazione.svg"
-                            alt="Schema tecnico impermeabilizzazione fondazioni e strutture interrate"
-                            class="w-full aspect-[16/10] rounded-xl object-contain bg-[#0f172a]"
-                            width="800"
-                            height="500"
-                            loading="lazy"
-                        />
-                        <span class="mt-2 flex items-center justify-between gap-2 rounded-xl bg-[#F5F5F7] px-3 py-2 text-xs font-semibold text-[#1D1D1F] group-hover/zoom:bg-[#0071E3] group-hover/zoom:text-white transition-colors">
-                            <span>Ingrandisci lo schema tecnico</span>
-                            <span aria-hidden="true">⤢</span>
-                        </span>
-                    </button>
-                    <span class="card-index text-xs font-extrabold uppercase tracking-wider text-[#0071E3]">03 / STRUTTURE INTERRATE</span>
-                    <h3 class="mt-2 text-lg font-bold text-[#1D1D1F]">
-                        <a href="/fondazioni#fondazioni" class="text-[#1D1D1F] hover:text-[#0071E3] transition-colors">Fondazioni, corselli e cantine</a>
-                    </h3>
-                    <p class="mt-2 text-sm leading-relaxed text-[#6E6E73]">Barriera continua contro la spinta idrostatica e l'umidità di risalita su muri controterra, fosse ascensore e vasche.</p>
-                    <a href="/fondazioni#fondazioni" class="card-link mt-auto pt-4 text-xs font-bold text-[#0071E3] hover:text-[#0064CC] flex items-center gap-1 transition-colors">Approfondisci fondazioni <span aria-hidden="true">↗</span></a>
-                </article>
-            </div>
-        </div>
-    </section>
+    <!-- SEZIONE 01: ANIMAZIONE INTERATTIVA DANNI DA INFILTRAZIONE -> SOLUZIONE -> RISULTATO -->
+    <InfiltrationShowcase />
 
     <!-- SEZIONE 02: LE 3 MODALITÀ OPERATIVE -->
     <section id="metodo" class="home-band home-band--alt method-preview" data-band="metodo">
