@@ -1,5 +1,6 @@
 /* ============================================================================
-   Sezione Interattiva Homepage: Danni da Infiltrazione -> Soluzione -> Risultato
+   Sezione Interattiva Homepage: 3 Scenari in Scorrimento Orizzontale
+   (1. Tetto e Balconi · 2. Capannone Industriale · 3. Pavimento Palestra)
    Palette poliureasystem-sito-chiaro (#FFFFFF / #F5F5F7 / #1D1D1F / #0071E3)
    ============================================================================ */
 
@@ -13,11 +14,11 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: 20px 32px;
-    margin-bottom: 28px;
+    margin-bottom: 22px;
 }
 
 .inf-header-copy {
-    max-width: 660px;
+    max-width: 680px;
 }
 
 .inf-header-title {
@@ -40,7 +41,70 @@
     color: #52525B;
 }
 
-.inf-controls-top {
+/* Barra superiore di cambio scenario + controllo Play/Pausa */
+.inf-scenario-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 16px;
+    margin-bottom: 16px;
+}
+
+.inf-scenario-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.inf-scenario-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 1px solid #D2D2D7;
+    background: #F5F5F7;
+    color: #52525B;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+}
+
+.inf-scenario-tab:hover {
+    border-color: #0071E3;
+    color: #0064CC;
+    background: #E8F2FC;
+}
+
+.inf-scenario-tab.is-active {
+    border-color: #0071E3;
+    background: #0071E3;
+    color: #FFFFFF;
+}
+
+.inf-scenario-tab-num {
+    font-size: 11px;
+    font-weight: 800;
+    opacity: .75;
+    font-variant-numeric: tabular-nums;
+}
+
+.inf-scenario-tab.is-active .inf-scenario-tab-num {
+    opacity: .95;
+}
+
+.inf-scenario-tab:focus-visible,
+.inf-ctrl-btn:focus-visible,
+.inf-slide-arrow:focus-visible {
+    outline: 2px solid #0071E3;
+    outline-offset: 2px;
+}
+
+.inf-controls-right {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -70,19 +134,21 @@
     color: #0064CC;
 }
 
-.inf-ctrl-btn:focus-visible {
-    outline: 2px solid #0071E3;
-    outline-offset: 2px;
+.inf-ctrl-btn--next-example {
+    border-color: #B5CCE4;
+    background: #E8F2FC;
+    color: #0064CC;
 }
 
-.inf-ctrl-btn--icon {
-    width: 40px;
-    padding: 0;
-    font-size: 15px;
+.inf-ctrl-btn--next-example:hover {
+    border-color: #0071E3;
+    background: #0071E3;
+    color: #FFFFFF;
 }
 
 /* Main Interactive Cinema Card */
 .inf-card {
+    position: relative;
     border: 1px solid #D2D2D7;
     border-radius: 28px;
     background: #F5F5F7;
@@ -90,12 +156,73 @@
     box-shadow: 0 12px 36px -22px rgba(22, 29, 46, 0.18);
 }
 
+/* Carousel Viewport & Horizontal Sliding Track */
+.inf-carousel-wrap {
+    position: relative;
+}
+
+.inf-carousel-viewport {
+    overflow: hidden;
+    width: 100%;
+}
+
+.inf-carousel-track {
+    display: flex;
+    width: 100%;
+    transform: translateX(0%);
+    transition: transform .62s cubic-bezier(.22, 1, .36, 1);
+    will-change: transform;
+}
+
+.inf-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 100%;
+}
+
+/* Frecce laterali di scorrimento scenari */
+.inf-slide-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 8;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid #D2D2D7;
+    background: rgba(255, 255, 255, 0.94);
+    color: #1D1D1F;
+    font-size: 18px;
+    font-weight: 800;
+    display: inline-grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(22, 29, 46, 0.12);
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+}
+
+.inf-slide-arrow:hover {
+    background: #0071E3;
+    border-color: #0071E3;
+    color: #FFFFFF;
+    transform: translateY(-50%) scale(1.06);
+}
+
+.inf-slide-arrow--prev {
+    left: 12px;
+}
+
+.inf-slide-arrow--next {
+    right: 12px;
+}
+
+/* Stage interno di ciascuno scenario */
 .inf-stage {
     display: grid;
-    grid-template-columns: minmax(320px, 0.88fr) minmax(0, 1.32fr);
+    grid-template-columns: minmax(310px, 0.88fr) minmax(0, 1.32fr);
     align-items: center;
     gap: 24px;
-    padding: 34px 36px 26px;
+    padding: 34px 66px 26px;
     background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
 }
 
@@ -157,7 +284,7 @@
 
 .inf-panel-title {
     margin: 0;
-    font-size: clamp(26px, 3vw, 38px);
+    font-size: clamp(25px, 2.9vw, 36px);
     font-weight: 800;
     letter-spacing: -.035em;
     line-height: 1.08;
@@ -189,7 +316,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 20px;
+    margin-top: 18px;
 }
 
 .inf-pill {
@@ -257,7 +384,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 10px;
-    margin-top: 22px;
+    margin-top: 20px;
 }
 
 /* Right Column: Architectural SVG Stage */
@@ -292,19 +419,13 @@
 .inf-card[data-phase="0"] .layer-hotspots,
 .inf-card[data-phase="1"] .layer-hotspots { opacity: 1; }
 
-/* Phase 1: Active Rain & Infiltration Damages */
+/* Phase 1: Active Rain/Water & Infiltration Damages */
 .inf-card[data-phase="1"] .layer-rain-problem { opacity: 1; }
 .inf-card[data-phase="1"] .layer-damages,
 .inf-card[data-phase="2"] .layer-damages { opacity: 1; }
-.inf-card[data-phase="3"] .layer-damages { opacity: 0.38; }
-.inf-card[data-phase="4"] .layer-damages { opacity: 0.12; }
+.inf-card[data-phase="3"] .layer-damages { opacity: 0.34; }
+.inf-card[data-phase="4"] .layer-damages { opacity: 0.1; }
 .inf-card[data-phase="5"] .layer-damages { opacity: 0; }
-
-/* Groundwater arrows push in phases 1, 2, 3, 4; deflected in phase 5 */
-.inf-card[data-phase="1"] .layer-groundwater-in,
-.inf-card[data-phase="2"] .layer-groundwater-in,
-.inf-card[data-phase="3"] .layer-groundwater-in,
-.inf-card[data-phase="4"] .layer-groundwater-in { opacity: 1; }
 
 /* Phase 2: IR Thermal Diagnosis & Hygrometer */
 .inf-card[data-phase="2"] .layer-diagnosis { opacity: 1; }
@@ -320,28 +441,25 @@
 .inf-card[data-phase="4"] .layer-membrane,
 .inf-card[data-phase="5"] .layer-membrane { opacity: 1; }
 
-/* Phase 5: Result — Bouncing Rain, Deflected Groundwater, Dry Interiors & 60m Ring */
+/* Phase 5: Result — Bouncing Rain/Water, Dry Interiors & 60m Ring */
 .inf-card[data-phase="5"] .layer-result { opacity: 1; }
 
 /* --- Animated SVG Micro-Choreography --- */
 
-/* Pulsing vulnerability rings */
 .inf-pulse-ring {
     transform-box: fill-box;
     transform-origin: center;
     animation: infPulse 2.1s ease-out infinite;
 }
-.inf-pulse-ring--2 { animation-delay: .35s; }
-.inf-pulse-ring--3 { animation-delay: .7s; }
-.inf-pulse-ring--4 { animation-delay: 1.05s; }
-.inf-pulse-ring--5 { animation-delay: 1.4s; }
+.inf-pulse-ring--2 { animation-delay: .38s; }
+.inf-pulse-ring--3 { animation-delay: .76s; }
+.inf-pulse-ring--4 { animation-delay: 1.14s; }
 
 @keyframes infPulse {
     0% { transform: scale(.65); opacity: .85; }
     100% { transform: scale(2.05); opacity: 0; }
 }
 
-/* Rain fall animation */
 .inf-rain-drop {
     animation: infRainFall 1.05s linear infinite;
 }
@@ -355,7 +473,6 @@
     100% { transform: translateY(44px); opacity: 0; }
 }
 
-/* Infiltrating water trickle & ceiling drip */
 .inf-seep-line {
     stroke-dasharray: 6 6;
     animation: infSeepFlow 1.1s linear infinite;
@@ -368,26 +485,14 @@
 .inf-drip-dot {
     animation: infDripFall 1.45s ease-in infinite;
 }
-.inf-drip-dot--2 { animation-delay: .55s; }
-.inf-drip-dot--3 { animation-delay: .95s; }
+.inf-drip-dot--2 { animation-delay: .52s; }
+.inf-drip-dot--3 { animation-delay: .94s; }
 
 @keyframes infDripFall {
     0% { transform: translateY(0); opacity: 0; }
     15% { opacity: 1; }
     85% { opacity: 1; }
-    100% { transform: translateY(34px); opacity: 0; }
-}
-
-/* Hydrostatic arrows pushing into basement */
-.inf-gw-arrow {
-    animation: infGwPush 1.6s ease-in-out infinite;
-}
-.inf-gw-arrow--2 { animation-delay: .28s; }
-.inf-gw-arrow--3 { animation-delay: .56s; }
-
-@keyframes infGwPush {
-    0%, 100% { transform: translateX(0); opacity: .65; }
-    50% { transform: translateX(8px); opacity: 1; }
+    100% { transform: translateY(36px); opacity: 0; }
 }
 
 /* IR Thermal Scanner vertical sweep */
@@ -397,7 +502,17 @@
 
 @keyframes infIrSweep {
     0% { transform: translateY(0); }
-    50% { transform: translateY(196px); }
+    50% { transform: translateY(152px); }
+    100% { transform: translateY(0); }
+}
+
+.inf-ir-scanner--low {
+    animation: infIrSweepLow 3.2s ease-in-out infinite;
+}
+
+@keyframes infIrSweepLow {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(108px); }
     100% { transform: translateY(0); }
 }
 
@@ -423,14 +538,23 @@
     transform: rotate(52deg);
 }
 
-/* Diamond grinder motion & sparks in phase 3 */
+/* Diamond grinder motions & sparks in phase 3 */
 .inf-grinder {
     animation: infGrindMove 2.2s ease-in-out infinite;
 }
 
 @keyframes infGrindMove {
     0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(64px); }
+    50% { transform: translateX(74px); }
+}
+
+.inf-grinder--wide {
+    animation: infGrindMoveWide 2.6s ease-in-out infinite;
+}
+
+@keyframes infGrindMoveWide {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(220px); }
 }
 
 .inf-spark {
@@ -444,8 +568,8 @@
 
 /* Primer & Monolithic Membrane Draw-On Paths */
 .inf-primer-path {
-    stroke-dasharray: 1400;
-    stroke-dashoffset: 1400;
+    stroke-dasharray: 1600;
+    stroke-dashoffset: 1600;
     transition: stroke-dashoffset 1.35s cubic-bezier(.22, 1, .36, 1);
 }
 
@@ -456,8 +580,8 @@
 }
 
 .inf-membrane-path {
-    stroke-dasharray: 1650;
-    stroke-dashoffset: 1650;
+    stroke-dasharray: 1850;
+    stroke-dashoffset: 1850;
     transition: stroke-dashoffset 1.65s cubic-bezier(.22, 1, .36, 1);
 }
 
@@ -466,15 +590,26 @@
     stroke-dashoffset: 0;
 }
 
-/* Spray gun tracing roof slope in phase 4 */
+/* Spray gun tracing roof slope (Casa) */
 .inf-spray-rig {
     animation: infSprayPass 2.6s ease-in-out infinite;
 }
 
 @keyframes infSprayPass {
-    0% { transform: translate(-76px, 42px); }
+    0% { transform: translate(-76px, 44px); }
     50% { transform: translate(38px, -18px); }
-    100% { transform: translate(-76px, 42px); }
+    100% { transform: translate(-76px, 44px); }
+}
+
+/* Spray gun tracing flat surface (Capannone & Palestra) */
+.inf-spray-rig--flat {
+    animation: infSprayFlat 2.8s ease-in-out infinite;
+}
+
+@keyframes infSprayFlat {
+    0% { transform: translate(-110px, 0); }
+    50% { transform: translate(115px, 0); }
+    100% { transform: translate(-110px, 0); }
 }
 
 .inf-spray-cone {
@@ -486,7 +621,7 @@
     100% { opacity: .78; }
 }
 
-/* Result bouncing drops & deflected groundwater in phase 5 */
+/* Result bouncing drops in phase 5 */
 .inf-bounce-drop {
     animation: infDropBounce 1.15s ease-out infinite;
 }
@@ -657,7 +792,7 @@
 }
 
 /* --- Responsive Breakpoints --- */
-@media (max-width: 980px) {
+@media (max-width: 1040px) {
     .inf-stage {
         grid-template-columns: 1fr;
         gap: 20px;
@@ -669,6 +804,16 @@
         padding: 4px;
     }
 
+    .inf-slide-arrow {
+        top: 132px;
+        width: 36px;
+        height: 36px;
+        font-size: 15px;
+    }
+
+    .inf-slide-arrow--prev { left: 8px; }
+    .inf-slide-arrow--next { right: 8px; }
+
     .inf-timeline {
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 8px 12px;
@@ -678,12 +823,36 @@
 
 @media (max-width: 640px) {
     .inf-header {
-        margin-bottom: 20px;
+        margin-bottom: 16px;
     }
 
-    .inf-controls-top {
+    .inf-scenario-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .inf-scenario-tabs {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+    }
+
+    .inf-scenario-tab {
+        padding: 6px 8px;
+        min-height: 38px;
+        font-size: 11px;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .inf-scenario-tab-num {
+        display: none;
+    }
+
+    .inf-controls-right {
+        justify-content: space-between;
         width: 100%;
-        justify-content: flex-start;
     }
 
     .inf-card {
@@ -691,12 +860,16 @@
     }
 
     .inf-stage {
-        padding: 16px 14px 16px;
-        gap: 16px;
+        padding: 14px 14px 16px;
+        gap: 14px;
+    }
+
+    .inf-slide-arrow {
+        display: none;
     }
 
     .inf-panel-title {
-        font-size: 24px;
+        font-size: 23px;
     }
 
     .inf-panel-desc {
@@ -739,18 +912,21 @@
     .inf-rain-drop,
     .inf-seep-line,
     .inf-drip-dot,
-    .inf-gw-arrow,
     .inf-ir-scanner,
+    .inf-ir-scanner--low,
     .inf-thermal-spot,
     .inf-grinder,
+    .inf-grinder--wide,
     .inf-spark,
     .inf-spray-rig,
+    .inf-spray-rig--flat,
     .inf-spray-cone,
     .inf-bounce-drop,
     .inf-bounce-drop--right {
         animation: none !important;
     }
 
+    .inf-carousel-track,
     .inf-panel,
     .inf-layer,
     .inf-primer-path,
