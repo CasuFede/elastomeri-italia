@@ -1,60 +1,124 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" fill="none">
     <defs>
-        <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
-            <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#1e293b" stroke-width="1" />
+        <pattern id="fGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+            <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#E2E8F0" stroke-width="0.7" opacity="0.65" />
         </pattern>
+        <pattern id="fSoil" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(38)">
+            <rect width="14" height="14" fill="#ECEAE2" />
+            <line x1="0" y1="0" x2="0" y2="14" stroke="#DCD8CC" stroke-width="2" />
+        </pattern>
+        <pattern id="fConcrete" width="16" height="16" patternUnits="userSpaceOnUse">
+            <rect width="16" height="16" fill="#E2E8F0" />
+            <circle cx="4" cy="4" r="1" fill="#94A3B8" />
+            <circle cx="12" cy="11" r="1" fill="#94A3B8" />
+            <circle cx="11" cy="3" r="0.7" fill="#CBD5E1" />
+        </pattern>
+        <radialGradient id="fBgGlow" cx="62%" cy="46%" r="52%">
+            <stop offset="0%" stop-color="#0071E3" stop-opacity="0.055" />
+            <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+        </radialGradient>
+        <filter id="fShadow" x="-14%" y="-14%" width="128%" height="134%">
+            <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0F172A" flood-opacity="0.10" />
+        </filter>
     </defs>
 
-    <!-- Sfondo solido ad alto contrasto -->
-    <rect width="800" height="450" fill="#0f172a" />
-    <rect width="800" height="450" fill="url(#grid)" />
+    <!-- Sfondo bianco puro + griglia tecnica -->
+    <rect width="800" height="500" fill="#FFFFFF" />
+    <rect width="800" height="500" fill="url(#fBgGlow)" />
+    <rect width="800" height="500" fill="url(#fGrid)" />
 
-    <!-- Terreno / Ground cut -->
-    <path d="M 0 210 L 470 210 L 470 450 L 0 450 Z" fill="#1e293b" />
-    <line x1="0" y1="210" x2="470" y2="210" stroke="#94a3b8" stroke-width="2.5" stroke-dasharray="8 5" />
-    <text x="36" y="196" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="15" font-weight="700">Livello terreno esterno</text>
+    <!-- =================================================================
+         SEZIONE ARCHITETTONICA: FONDAZIONI, PLATEE E MURI CONTROTERRA
+         ================================================================= -->
+    <g>
+        <!-- Terreno esterno a sinistra -->
+        <rect x="28" y="218" width="414" height="254" rx="10" fill="url(#fSoil)" />
+        <!-- Striscia superficie erbosa / piano campagna -->
+        <rect x="28" y="210" width="414" height="10" rx="4" fill="#BBF7D0" />
+        <line x1="28" y1="218" x2="442" y2="218" stroke="#334155" stroke-width="2" stroke-linecap="round" />
+        <text x="44" y="198" fill="#475569" font-family="Inter, system-ui, sans-serif" font-size="12.5" font-weight="700">Livello terreno esterno</text>
 
-    <!-- Fondazione: Muro controterra in calcestruzzo armato -->
-    <rect x="476" y="140" width="136" height="230" fill="#334155" stroke="#94a3b8" stroke-width="2" />
-    <text x="544" y="255" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="15" font-weight="700">Muro</text>
-    <text x="544" y="276" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="15" font-weight="700">Controterra</text>
+        <!-- Locale interno asciutto a destra -->
+        <rect x="536" y="160" width="236" height="236" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.2" />
 
-    <!-- Platea di fondazione -->
-    <rect x="414" y="370" width="330" height="58" fill="#334155" stroke="#94a3b8" stroke-width="2" />
-    <text x="579" y="405" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="16" font-weight="700">Platea di fondazione</text>
+        <!-- Muro controterra in calcestruzzo armato -->
+        <rect x="448" y="156" width="94" height="240" fill="url(#fConcrete)" stroke="#64748B" stroke-width="1.8" />
+        <!-- Ferri armatura verticali stilizzati -->
+        <g stroke="#64748B" stroke-width="1.2" stroke-dasharray="6 4" opacity="0.55">
+            <line x1="466" y1="168" x2="466" y2="394" />
+            <line x1="524" y1="168" x2="524" y2="394" />
+        </g>
+        <text x="495" y="272" text-anchor="middle" fill="#1D1D1F" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="800">Muro</text>
+        <text x="495" y="290" text-anchor="middle" fill="#1D1D1F" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="800">Controterra</text>
+        <text x="495" y="308" text-anchor="middle" fill="#52525B" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600">(c.a.)</text>
 
-    <!-- Membrana continua in Poliurea (solida, zero glow) -->
-    <path d="M 468 135 L 468 370 L 408 370 L 408 428" fill="none" stroke="#0284c7" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M 468 135 L 468 370 L 408 370 L 408 428" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+        <!-- Platea di fondazione in calcestruzzo -->
+        <rect x="386" y="396" width="386" height="62" rx="3" fill="#CBD5E1" stroke="#64748B" stroke-width="1.8" />
+        <text x="579" y="432" text-anchor="middle" fill="#1D1D1F" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="800" letter-spacing="0.03em">PLATEA DI FONDAZIONE IN CALCESTRUZZO</text>
 
-    <!-- Frecce di pressione idrostatica bloccate -->
-    <g stroke="#38bdf8" stroke-width="3" fill="#38bdf8">
-        <line x1="290" y1="250" x2="446" y2="250" />
-        <polygon points="456,250 442,242 442,258" />
-        <line x1="290" y1="305" x2="446" y2="305" />
-        <polygon points="456,305 442,297 442,313" />
-        <line x1="290" y1="360" x2="386" y2="360" />
-        <polygon points="396,360 382,352 382,368" />
+        <!-- Tubo drenante al piede (drenaggio acque deviate) -->
+        <circle cx="350" cy="436" r="18" fill="#EFF6FF" stroke="#0071E3" stroke-width="2.2" />
+        <circle cx="350" cy="436" r="10" fill="#DBEAFE" stroke="#60A5FA" stroke-width="1.5" stroke-dasharray="3 2" />
+
+        <!-- =================================================================
+             STRATIGRAFIA IMPERMEABILE: PRIMER + BARRIERA MONOLITICA 2,5 mm
+             ================================================================= -->
+        <!-- Primer epossidico strutturale -->
+        <path d="M 443 160 L 443 394 L 382 394 L 382 458" fill="none" stroke="#7DD3FC" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" />
+        <!-- Membrana monolitica Poliurea Pura 2,5 mm -->
+        <path d="M 443 160 L 443 394 L 382 394 L 382 458" fill="none" stroke="#0071E3" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" />
+
+        <!-- Frecce di spinta idrostatica DEVIATE verso il drenaggio senza entrare nel muro -->
+        <g stroke="#0071E3" stroke-width="2.4" fill="none" stroke-linecap="round">
+            <path d="M 278 262 L 414 262 Q 428 262 428 276 L 428 292" />
+            <path d="M 278 314 L 414 314 Q 428 314 428 328 L 428 344" />
+            <path d="M 278 366 L 360 366 Q 370 366 370 378 L 370 404" />
+            <polygon points="364,400 370,412 376,400" fill="#0071E3" stroke="none" />
+        </g>
     </g>
 
-    <rect x="36" y="276" width="234" height="62" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="2" />
-    <text x="153" y="302" text-anchor="middle" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="14" font-weight="800">SPINTA IDROSTATICA</text>
-    <text x="153" y="324" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="14" font-weight="700">Bloccata all'esterno</text>
+    <!-- =================================================================
+         CALLOUT & BADGE TECNICI (STILE BIANCO APPLE)
+         ================================================================= -->
+    <g font-family="Inter, system-ui, sans-serif">
+        <!-- Box Spinta idrostatica bloccata -->
+        <g transform="translate(44, 274)" filter="url(#fShadow)">
+            <rect width="216" height="78" rx="14" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1.4" />
+            <text x="108" y="30" text-anchor="middle" fill="#0064CC" font-size="11" font-weight="800" letter-spacing="0.06em">SPINTA IDROSTATICA</text>
+            <text x="108" y="52" text-anchor="middle" fill="#1D1D1F" font-size="14" font-weight="800">Bloccata all'esterno</text>
+            <text x="108" y="68" text-anchor="middle" fill="#52525B" font-size="11" font-weight="600">Nessun sottoscorrimento</text>
+        </g>
 
-    <!-- Callout Card Tecnica -->
-    <g transform="translate(28, 22)">
-        <rect width="380" height="96" rx="10" fill="#1e293b" stroke="#475569" stroke-width="2" />
-        <rect x="16" y="16" width="10" height="10" rx="2" fill="#38bdf8" />
-        <text x="34" y="26" fill="#38bdf8" font-family="monospace" font-size="13" font-weight="bold" letter-spacing="1">FONDAZIONI E PLATEE</text>
-        <text x="16" y="56" fill="#ffffff" font-family="system-ui, sans-serif" font-size="20" font-weight="800">Barriera Monolitica Continua</text>
-        <text x="16" y="80" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Poliurea pura applicata a spruzzo 2,5 mm</text>
-    </g>
+        <!-- Etichetta Giunto di ripresa sigillato -->
+        <line x1="256" y1="436" x2="328" y2="436" stroke="#0071E3" stroke-width="1.4" stroke-dasharray="3 2" />
+        <g filter="url(#fShadow)">
+            <rect x="86" y="418" width="172" height="36" rx="10" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1.2" />
+            <text x="172" y="440" text-anchor="middle" fill="#1D1D1F" font-size="11.5" font-weight="700">Drenaggio al piede</text>
+        </g>
 
-    <!-- Badge Specifiche Tecniche -->
-    <g transform="translate(428, 22)">
-        <rect width="344" height="96" rx="10" fill="#1e293b" stroke="#0284c7" stroke-width="2" />
-        <text x="16" y="26" fill="#38bdf8" font-family="monospace" font-size="13" font-weight="bold">TENUTA IDRAULICA TOTALE</text>
-        <text x="16" y="56" fill="#ffffff" font-family="system-ui, sans-serif" font-size="19" font-weight="800">Zero infiltrazioni controterra</text>
-        <text x="16" y="80" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Elasticità &gt; 400% anti-fessurazione</text>
+        <!-- Badge interno protetto (destra) -->
+        <g transform="translate(562, 232)" filter="url(#fShadow)">
+            <rect width="192" height="106" rx="16" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1.4" />
+            <text x="96" y="34" text-anchor="middle" fill="#166534" font-size="10.5" font-weight="800" letter-spacing="0.06em">STRUTTURA PROTETTA</text>
+            <text x="96" y="64" text-anchor="middle" fill="#15803D" font-size="20" font-weight="800">✓ Asciutto</text>
+            <text x="96" y="88" text-anchor="middle" fill="#166534" font-size="11.5" font-weight="600">Giunti e ferri al sicuro</text>
+        </g>
+
+        <!-- Header Card Principale -->
+        <g transform="translate(28, 22)" filter="url(#fShadow)">
+            <rect width="424" height="104" rx="16" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.3" />
+            <rect x="18" y="16" width="180" height="22" rx="11" fill="#E8F2FC" />
+            <text x="108" y="31" text-anchor="middle" fill="#0064CC" font-size="10.5" font-weight="800" letter-spacing="0.08em">03 · FONDAZIONI E PLATEE</text>
+            <text x="18" y="65" fill="#1D1D1F" font-size="20" font-weight="800">Barriera Monolitica Continua</text>
+            <text x="18" y="88" fill="#52525B" font-size="13" font-weight="600">Poliurea pura a spruzzo 2,5 mm · Adesione chimica</text>
+        </g>
+
+        <!-- Badge Elasticità -->
+        <g transform="translate(470, 22)" filter="url(#fShadow)">
+            <rect width="302" height="104" rx="16" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1.3" />
+            <text x="20" y="34" fill="#0064CC" font-size="10.5" font-weight="800" letter-spacing="0.08em">CRACK-BRIDGING DINAMICO</text>
+            <text x="20" y="66" fill="#1D1D1F" font-size="20" font-weight="800">Elasticità &gt; 400%</text>
+            <text x="20" y="88" fill="#52525B" font-size="12.5" font-weight="600">Assorbe assestamenti e microlesioni</text>
+        </g>
     </g>
 </svg>

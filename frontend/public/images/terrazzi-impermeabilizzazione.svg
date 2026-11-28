@@ -1,70 +1,182 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" fill="none">
     <defs>
-        <pattern id="terrazzoGrid" width="32" height="32" patternUnits="userSpaceOnUse">
-            <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#1e293b" stroke-width="1" />
+        <!-- Griglia architettonica bianca ultra-leggera -->
+        <pattern id="tGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+            <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#E2E8F0" stroke-width="0.7" opacity="0.65" />
         </pattern>
+        <!-- Texture calcestruzzo / massetto -->
+        <pattern id="tConcrete" width="14" height="14" patternUnits="userSpaceOnUse">
+            <rect width="14" height="14" fill="#E2E8F0" />
+            <circle cx="3" cy="4" r="0.9" fill="#94A3B8" />
+            <circle cx="10" cy="10" r="1" fill="#94A3B8" />
+            <circle cx="11" cy="3" r="0.7" fill="#CBD5E1" />
+        </pattern>
+        <!-- Texture muratura laterizio -->
+        <pattern id="tWall" width="18" height="12" patternUnits="userSpaceOnUse">
+            <rect width="18" height="12" fill="#F1F5F9" />
+            <path d="M 0 6 H 18 M 9 0 V 6 M 0 6 V 12" stroke="#CBD5E1" stroke-width="0.8" />
+        </pattern>
+        <!-- Radiale morbida di sfondo -->
+        <radialGradient id="tBgGlow" cx="56%" cy="48%" r="54%">
+            <stop offset="0%" stop-color="#0071E3" stop-opacity="0.055" />
+            <stop offset="100%" stop-color="#FFFFFF" stop-opacity="0" />
+        </radialGradient>
+        <!-- Clip lente stratigrafia -->
+        <clipPath id="tLoupeClip">
+            <circle cx="662" cy="126" r="56" />
+        </clipPath>
+        <!-- Ombra morbida Apple per card floating -->
+        <filter id="tShadow" x="-14%" y="-14%" width="128%" height="134%">
+            <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0F172A" flood-opacity="0.10" />
+        </filter>
     </defs>
 
-    <!-- Sfondo solido ad alto contrasto -->
-    <rect width="800" height="450" fill="#0f172a" />
-    <rect width="800" height="450" fill="url(#terrazzoGrid)" />
+    <!-- Sfondo bianco puro + griglia tecnica -->
+    <rect width="800" height="500" fill="#FFFFFF" />
+    <rect width="800" height="500" fill="url(#tBgGlow)" />
+    <rect width="800" height="500" fill="url(#tGrid)" />
 
-    <!-- Struttura Terrazzo / Sezione Balcone -->
-    <!-- Muro portante dell'edificio a sinistra -->
-    <rect x="60" y="135" width="150" height="275" fill="#334155" stroke="#94a3b8" stroke-width="2" />
-    <rect x="120" y="155" width="90" height="125" fill="#0f172a" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6 3" />
-    <text x="165" y="212" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="14" font-weight="700">Soglia</text>
-    <text x="165" y="232" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="14" font-weight="700">Porta</text>
+    <!-- =================================================================
+         SEZIONE ARCHITETTONICA: TERRAZZO / LASTRICO SOLARE SENZA DEMOLIZIONI
+         ================================================================= -->
+    <g>
+        <!-- Interno appartamento (sinistra) -->
+        <rect x="42" y="156" width="126" height="202" fill="#F8FAFC" />
+        <!-- Muro portante dell'edificio -->
+        <rect x="168" y="156" width="40" height="304" fill="url(#tWall)" stroke="#64748B" stroke-width="1.8" />
 
-    <!-- Soletta a sbalzo / Massetto pendenza terrazzo -->
-    <path d="M 210 295 L 690 320 L 690 410 L 210 410 Z" fill="#334155" stroke="#94a3b8" stroke-width="2" />
-    <text x="415" y="372" text-anchor="middle" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="15" font-weight="700">Massetto / Pavimentazione esistente</text>
+        <!-- Portafinestra + Soglia -->
+        <rect x="174" y="182" width="28" height="126" rx="2" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.8" />
+        <line x1="188" y1="182" x2="188" y2="308" stroke="#60A5FA" stroke-width="1.2" />
+        <!-- Davanzale / soglia pietra -->
+        <rect x="164" y="308" width="54" height="10" rx="2" fill="#94A3B8" stroke="#475569" stroke-width="1.4" />
 
-    <!-- Parapetto perimetrale terrazzo a destra -->
-    <rect x="650" y="195" width="40" height="125" fill="#334155" stroke="#94a3b8" stroke-width="2" />
+        <!-- Solaio strutturale portante (sotto il terrazzo) -->
+        <rect x="42" y="394" width="664" height="66" rx="3" fill="#CBD5E1" stroke="#64748B" stroke-width="1.8" />
+        <!-- Tondini armatura stilizzati nel solaio -->
+        <g fill="#64748B" opacity="0.55">
+            <circle cx="240" cy="438" r="3" />
+            <circle cx="310" cy="438" r="3" />
+            <circle cx="380" cy="438" r="3" />
+            <circle cx="450" cy="438" r="3" />
+            <circle cx="520" cy="438" r="3" />
+            <circle cx="590" cy="438" r="3" />
+        </g>
+        <text x="415" y="424" text-anchor="middle" fill="#334155" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" letter-spacing="0.04em">SOLAIO ARMATO E AMBIENTI SOTTOSTANTI PROTETTI</text>
 
-    <!-- Bocchettone di scarico / pluviale -->
-    <rect x="605" y="315" width="30" height="95" fill="#0b0f17" stroke="#38bdf8" stroke-width="2" />
-    <line x1="620" y1="322" x2="620" y2="404" stroke="#38bdf8" stroke-width="4" stroke-dasharray="7 5" />
+        <!-- Massetto di pendenza (1,5% verso lo scarico) -->
+        <path d="M 208 326 L 622 346 L 622 394 L 208 394 Z" fill="url(#tConcrete)" stroke="#64748B" stroke-width="1.6" />
+        <text x="394" y="374" text-anchor="middle" fill="#475569" font-family="Inter, system-ui, sans-serif" font-size="12.5" font-weight="700">Massetto di pendenza esistente (1,5%)</text>
 
-    <!-- Membrana continua in Poliurea pura (solida, nitida, senza glow) -->
-    <path d="M 204 205 L 204 291 L 605 312 L 605 335 M 635 314 L 644 314 L 644 225" fill="none" stroke="#0284c7" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M 204 205 L 204 291 L 605 312 L 605 335 M 635 314 L 644 314 L 644 225" fill="none" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+        <!-- Vecchie piastrelle mantenute in opera (zero demolizioni) -->
+        <path d="M 208 316 L 622 336 L 622 346 L 208 326 Z" fill="#CBD5E1" stroke="#64748B" stroke-width="1.4" />
+        <!-- Giunti piastrelle -->
+        <g stroke="#64748B" stroke-width="1.1">
+            <line x1="274" y1="319" x2="274" y2="329" />
+            <line x1="344" y1="322" x2="344" y2="332" />
+            <line x1="414" y1="326" x2="414" y2="336" />
+            <line x1="484" y1="329" x2="484" y2="339" />
+            <line x1="554" y1="333" x2="554" y2="343" />
+        </g>
 
-    <!-- Deflusso acqua piovana -->
-    <g stroke="#38bdf8" stroke-width="2.5">
-        <path d="M 285 270 L 355 274" stroke-dasharray="6 4" />
-        <path d="M 395 277 L 465 281" stroke-dasharray="6 4" />
-        <path d="M 505 284 L 580 289" stroke-dasharray="6 4" />
-        <polygon points="592,290 578,283 578,296" fill="#38bdf8" />
+        <!-- Parapetto perimetrale + copertina metallica (destra) -->
+        <rect x="664" y="232" width="42" height="162" fill="url(#tWall)" stroke="#64748B" stroke-width="1.8" />
+        <rect x="658" y="224" width="54" height="10" rx="2.5" fill="#475569" />
+
+        <!-- Ringhiera leggera sopra il parapetto -->
+        <g stroke="#94A3B8" stroke-width="1.8">
+            <line x1="685" y1="196" x2="685" y2="224" />
+            <line x1="666" y1="196" x2="704" y2="196" stroke-width="2.4" stroke-linecap="round" />
+        </g>
+
+        <!-- Bocchettone pluviale / scarico acque -->
+        <rect x="622" y="336" width="42" height="124" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1.8" />
+        <rect x="614" y="334" width="58" height="6" rx="2" fill="#0071E3" />
+        <!-- Flusso acqua nel pluviale -->
+        <line x1="643" y1="348" x2="643" y2="444" stroke="#0071E3" stroke-width="3" stroke-dasharray="7 5" stroke-linecap="round" />
+        <polygon points="637,438 643,450 649,438" fill="#0071E3" />
+
+        <!-- =================================================================
+             STRATIGRAFIA IMPERMEABILE: PRIMER + POLIUREA CONTINUA 2–3 mm
+             ================================================================= -->
+        <!-- Strato Primer epossidico (#7DD3FC) -->
+        <path d="M 211 268 L 211 314 L 622 334 L 622 356 M 661 335 L 661 248" fill="none" stroke="#7DD3FC" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+        <!-- Membrana monolitica Poliurea Pura (#0071E3) -->
+        <path d="M 211 268 L 211 312 L 622 332 L 622 356 M 661 333 L 661 248" fill="none" stroke="#0071E3" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" />
+        <!-- Linea finitura UV protettiva -->
+        <path d="M 211 268 L 211 309.5 L 622 329.5" fill="none" stroke="#38BDF8" stroke-width="1.8" stroke-linecap="round" />
+
+        <!-- Deflusso pioggia verso il pluviale -->
+        <g stroke="#0071E3" stroke-width="2" stroke-linecap="round">
+            <line x1="274" y1="210" x2="266" y2="230" opacity="0.65" />
+            <line x1="354" y1="202" x2="346" y2="222" opacity="0.65" />
+            <line x1="436" y1="212" x2="428" y2="232" opacity="0.65" />
+            <line x1="518" y1="204" x2="510" y2="224" opacity="0.65" />
+            <!-- Frecce scorrimento superficiale -->
+            <path d="M 264 298 L 348 302" stroke-dasharray="6 4" />
+            <path d="M 382 304 L 466 308" stroke-dasharray="6 4" />
+            <path d="M 500 310 L 588 315" stroke-dasharray="6 4" />
+            <polygon points="602,316 586,309 586,322" fill="#0071E3" stroke="none" />
+        </g>
     </g>
 
-    <!-- Pioggia -->
-    <g stroke="#38bdf8" stroke-width="2">
-        <line x1="310" y1="155" x2="298" y2="188" />
-        <line x1="395" y1="168" x2="383" y2="201" />
-        <line x1="480" y1="155" x2="468" y2="188" />
-        <line x1="560" y1="168" x2="548" y2="201" />
-    </g>
+    <!-- =================================================================
+         CALLOUT PULITI SU BIANCO + LENTE STRATIGRAFICA
+         ================================================================= -->
+    <!-- Etichetta Soglia sigillata -->
+    <g font-family="Inter, system-ui, sans-serif">
+        <line x1="150" y1="262" x2="206" y2="276" stroke="#0071E3" stroke-width="1.4" stroke-dasharray="3 2" />
+        <g filter="url(#tShadow)">
+            <rect x="44" y="236" width="114" height="44" rx="10" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1.2" />
+            <text x="101" y="255" text-anchor="middle" fill="#0064CC" font-size="10" font-weight="800">RISVOLTO 90°</text>
+            <text x="101" y="271" text-anchor="middle" fill="#1D1D1F" font-size="11.5" font-weight="700">Soglia sigillata</text>
+        </g>
 
-    <!-- Etichetta membrana -->
-    <rect x="295" y="216" width="235" height="34" rx="6" fill="#0284c7" />
-    <text x="412" y="238" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="14" font-weight="800">POLIUREA CONTINUA 2-3 mm</text>
+        <!-- Pill centrale membrana -->
+        <g filter="url(#tShadow)">
+            <rect x="296" y="252" width="240" height="32" rx="16" fill="#0071E3" />
+            <text x="416" y="272" text-anchor="middle" fill="#FFFFFF" font-size="12" font-weight="800" letter-spacing="0.03em">POLIUREA CONTINUA 2–3 mm</text>
+        </g>
 
-    <!-- Header Box Scheda Tecnica -->
-    <g transform="translate(28, 22)">
-        <rect width="415" height="96" rx="10" fill="#1e293b" stroke="#475569" stroke-width="2" />
-        <rect x="16" y="16" width="10" height="10" rx="2" fill="#38bdf8" />
-        <text x="34" y="26" fill="#38bdf8" font-family="monospace" font-size="13" font-weight="bold" letter-spacing="1">TERRAZZI E BALCONI</text>
-        <text x="16" y="56" fill="#ffffff" font-family="system-ui, sans-serif" font-size="20" font-weight="800">Impermeabilizzazione Continua</text>
-        <text x="16" y="80" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Applicabile senza demolire le piastrelle esistenti</text>
-    </g>
+        <!-- Pill Scarico -->
+        <g filter="url(#tShadow)">
+            <rect x="668" y="348" width="110" height="42" rx="10" fill="#FFFFFF" stroke="#BFDBFE" stroke-width="1.2" />
+            <text x="723" y="366" text-anchor="middle" fill="#0064CC" font-size="9.5" font-weight="800">PLUVIALE</text>
+            <text x="723" y="381" text-anchor="middle" fill="#1D1D1F" font-size="11" font-weight="700">Flangia continua</text>
+        </g>
 
-    <!-- Badge Prestazioni UV e Calpestabilità -->
-    <g transform="translate(462, 22)">
-        <rect width="310" height="96" rx="10" fill="#1e293b" stroke="#0284c7" stroke-width="2" />
-        <text x="16" y="26" fill="#38bdf8" font-family="monospace" font-size="13" font-weight="bold">FINITURA UV ANTISCIVOLO</text>
-        <text x="16" y="56" fill="#ffffff" font-family="system-ui, sans-serif" font-size="19" font-weight="800">Calpestabile in 60 minuti</text>
-        <text x="16" y="80" fill="#e2e8f0" font-family="system-ui, sans-serif" font-size="14" font-weight="600">Raccordi ermetici su soglie e scarichi</text>
+        <!-- Lente Stratigrafia (in alto a destra) -->
+        <line x1="612" y1="154" x2="496" y2="322" stroke="#0071E3" stroke-width="1.5" stroke-dasharray="4 3" />
+        <g filter="url(#tShadow)">
+            <circle cx="662" cy="126" r="60" fill="#FFFFFF" stroke="#161D2E" stroke-width="2.8" />
+            <g clip-path="url(#tLoupeClip)">
+                <rect x="602" y="66" width="120" height="28" fill="#F8FAFC" />
+                <rect x="602" y="94" width="120" height="8" fill="#38BDF8" />
+                <rect x="602" y="102" width="120" height="22" fill="#0071E3" />
+                <rect x="602" y="124" width="120" height="11" fill="#7DD3FC" />
+                <rect x="602" y="135" width="120" height="52" fill="#94A3B8" />
+                <text x="662" y="117" text-anchor="middle" fill="#FFFFFF" font-size="10.5" font-weight="800">Poliurea + UV</text>
+                <text x="662" y="156" text-anchor="middle" fill="#FFFFFF" font-size="10" font-weight="700">Piastrelle esistenti</text>
+            </g>
+            <circle cx="662" cy="126" r="56" fill="none" stroke="#0071E3" stroke-width="1.4" opacity="0.35" />
+        </g>
+        <text x="662" y="202" text-anchor="middle" fill="#1D1D1F" font-size="10.5" font-weight="800">ZERO DEMOLIZIONI</text>
+
+        <!-- Card Header Principale (stile Apple bianco) -->
+        <g transform="translate(28, 22)" filter="url(#tShadow)">
+            <rect width="388" height="104" rx="16" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.3" />
+            <rect x="18" y="16" width="176" height="22" rx="11" fill="#E8F2FC" />
+            <text x="106" y="31" text-anchor="middle" fill="#0064CC" font-size="10.5" font-weight="800" letter-spacing="0.08em">01 · TERRAZZI E BALCONI</text>
+            <text x="18" y="65" fill="#1D1D1F" font-size="20" font-weight="800">Impermeabilizzazione Continua</text>
+            <text x="18" y="88" fill="#52525B" font-size="13" font-weight="600">Direttamente sopra le piastrelle, senza macerie</text>
+        </g>
+
+        <!-- Badge verde Prestazioni -->
+        <g transform="translate(432, 22)" filter="url(#tShadow)">
+            <rect width="152" height="104" rx="16" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="1.3" />
+            <text x="76" y="42" text-anchor="middle" fill="#166534" font-size="10.5" font-weight="800" letter-spacing="0.06em">PEDONABILE</text>
+            <text x="76" y="74" text-anchor="middle" fill="#15803D" font-size="24" font-weight="800">60 min</text>
+            <text x="76" y="93" text-anchor="middle" fill="#166534" font-size="11" font-weight="700">✓ Antiscivolo UV</text>
+        </g>
     </g>
 </svg>
